@@ -1,0 +1,26 @@
+NO TYPE VALIDATION
+
+
+fields: [key:{cond: user: 'admin'}, key, key: [k,k,k]]
+
+
+def build_validator(schema)
+  schema.reduce({}) do |h, e|
+    if e.is_a?(String) || e.is_a?(Symbol)
+      h[e] = {}
+    elsif e.is_a?(Hash)
+      key = e.keys[0]
+      value = e.values[0]
+      if value.is_a?(Array)
+        h.merge!(key => build_validator(value))
+      elsif value.is_a?(Hash)
+        h.merge!(e)
+      end
+    end
+    h
+  end
+end
+
+h = build_validator(d)
+
+def validator()

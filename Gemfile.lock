@@ -1,0 +1,80 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (6.0.0)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+      zeitwerk (~> 2.1, >= 2.1.8)
+    bcrypt (3.1.13)
+    byebug (11.0.1)
+    concurrent-ruby (1.1.5)
+    ecma-re-validator (0.2.0)
+      regexp_parser (~> 1.2)
+    ffi (1.11.1)
+    hana (1.3.5)
+    i18n (1.7.0)
+      concurrent-ruby (~> 1.0)
+    json_schemer (0.2.11)
+      ecma-re-validator (~> 0.2)
+      hana (~> 1.3)
+      regexp_parser (~> 1.5)
+      uri_template (~> 0.7)
+    jwt (2.2.1)
+    listen (3.2.0)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
+    minitest (5.13.0)
+    nio4r (2.5.2)
+    oj (3.9.2)
+    pg (1.1.4)
+    puma (4.3.1)
+      nio4r (~> 2.0)
+    rack (2.2.2)
+    rack-test (1.1.0)
+      rack (>= 1.0, < 3)
+    racksh (1.0.0)
+      rack (>= 1.0)
+      rack-test (>= 0.5)
+    rb-fsevent (0.10.3)
+    rb-inotify (0.10.0)
+      ffi (~> 1.0)
+    regexp_parser (1.7.0)
+    roda (3.28.0)
+      rack
+    sequel (5.25.0)
+    sequel_pg (1.12.2)
+      pg (>= 0.18.0)
+      sequel (>= 4.38.0)
+    sqlite3 (1.4.2)
+    thor (1.0.1)
+    thread_safe (0.3.6)
+    tzinfo (1.2.5)
+      thread_safe (~> 0.1)
+    uri_template (0.7.0)
+    zeitwerk (2.2.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activesupport
+  bcrypt
+  byebug
+  json_schemer
+  jwt
+  listen
+  oj
+  pg
+  puma
+  rack
+  racksh
+  roda
+  sequel
+  sequel_pg
+  sqlite3
+  thor
+
+BUNDLED WITH
+   2.1.2
