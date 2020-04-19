@@ -53,7 +53,7 @@ export default function() {
   return(
 
     <Container>
-      <CreateMenu />
+      <CreateMenu space='Formulation Space' />
       <Workspace>
         <div className='header'>
           <Links data={WorkspaceLinks} prefix='formulation' />

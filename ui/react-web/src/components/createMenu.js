@@ -3,11 +3,12 @@ import styled from 'styled-components'
 
 
 export default function(props) {
+  const { space } = props
   return(
     <Menu>
       <Header>
         <div className='content'>
-          <div className='title'> Formulation Space </div>
+          <div className='title'> { space } </div>
           <div className='status'>
             <span className='label'> Policy Family: </span>
             <span className='value'> Taxation </span>

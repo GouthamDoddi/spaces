@@ -7,7 +7,7 @@ export default function() {
   return(
 
     <Container>
-      <CreateMenu />
+      <CreateMenu space='Collaboration Space'/>
       <Workspace>
         <div className='header'>
         </div>

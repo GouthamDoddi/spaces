@@ -9,7 +9,7 @@ export default {
   },
   cs: {
     color: '#42d7b6',
-    icon: ''
+    icon: '#72d7b1'
   },
   as: {
     color: '#fec900',
@@ -17,6 +17,10 @@ export default {
   },
   gs: {
     color: '#0190ff',
-    icon: ''
+    icon: '#6190ff'
+  },
+  cps: {
+    color: '#f44e76',
+    icon: '#fee5eb'
   }
 }

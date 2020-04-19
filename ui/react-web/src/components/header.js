@@ -31,11 +31,14 @@ export default function header() {
           <Link color={cs.cs.color} to='/collaboration'>
             <div> Collaboration Spaces </div>
           </Link>
-          <Link color={cs.as.color} to='/activation'>
+          {/* <Link color={cs.as.color} to='/activation'>
             <div> Activation Spaces </div>
-          </Link>
+          </Link> */}
           <Link color={cs.gs.color} to='/governance'>
             <div> Governance </div>
+          </Link>
+          <Link color={cs.cps.color} to='/compliance'>
+            <div> Compliance Spaces </div>
           </Link>
           <Link to='/policies'>
             <div> Policies </div>
