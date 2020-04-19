@@ -71,11 +71,6 @@ export default function() {
           <Route path={rTo('dependency-map')}> {elem('dependency-map')} </Route>
           <Route path={rTo('backlog')}> {elem('backlog')} </Route>
           <Route path={rTo('petition')}> {elem('petition')} </Route>
-          {/* <Route path="/dashboard"> <TP theme={cs.home}> <Dashboard /> </TP> </Route>
-          <Route path="/formulation"> <TP theme={cs.fs}> <Formulation /> </TP> </Route>
-          <Route path="/collaboration"> <TP theme={cs.cs}> <Collaboration /> </TP> </Route>
-          <Route path="/activation"> <TP theme={cs.as}> <Activation /> </TP> </Route>
-          <Route path="/governance"> <TP theme={cs.gs}> <Governance /> </TP> </Route> */}
         </Switch>
       </Workspace>
     </Container>
