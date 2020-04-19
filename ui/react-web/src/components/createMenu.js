@@ -57,7 +57,7 @@ const Header = styled.div`
   width: 309px;
   height: 130px;
   border-radius: 3px;
-  background-color: #fd7635;
+  background-color: ${props => props.theme.color};
   position: relative;
   .content {
     position: absolute;
@@ -106,7 +106,7 @@ const Icon = styled.div`
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background-color: #ffefe2;
+  background-color: ${props => props.theme.icon};
 `
 const Name = styled.div`
   margin-left: 18px;

@@ -14,6 +14,10 @@ import Governance from './components/governance'
 
 import Header from './components/header'
 
+import { ThemeProvider as TP } from 'styled-components'
+
+import cs from './utils/colors'
+
 // import CreateMenu from './components/createMenu'
 
 function App() {
@@ -21,12 +25,12 @@ function App() {
     <Router>
       <Header />
       <Switch>
-        <Route exact path="/"> <Home /> </Route>
-        <Route exact path="/dashboard"> <Dashboard /> </Route>
-        <Route exact path="/formulation"> <Formulation /> </Route>
-        <Route exact path="/collaboration"> <Collaboration /> </Route>
-        <Route exact path="/activation"> <Activation /> </Route>
-        <Route exact path="/governance"> <Governance /> </Route>
+        <Route path="/dashboard"> <TP theme={cs.home}> <Dashboard /> </TP> </Route>
+        <Route path="/formulation"> <TP theme={cs.fs}> <Formulation /> </TP> </Route>
+        <Route path="/collaboration"> <TP theme={cs.cs}> <Collaboration /> </TP> </Route>
+        <Route path="/activation"> <TP theme={cs.as}> <Activation /> </TP> </Route>
+        <Route path="/governance"> <TP theme={cs.gs}> <Governance /> </TP> </Route>
+        <Route exact path="/"> <TP theme={cs.home}> <Home /> </TP></Route>
       </Switch>
       {/* <CreateMenu /> */}
     </Router>

@@ -22,19 +22,19 @@ export default function header() {
       <div className='header-content'>
         <div className='title'>MOTC</div>
         <div className='menu'>
-          <Link color={cs.home} to='/dashboard'>
+          <Link color={cs.home.color} to='/dashboard'>
             <div> Home </div>
           </Link>
-          <Link color={cs.fs} to='/formulation'>
+          <Link color={cs.fs.color} to='/formulation'>
             <div> Formulation Spaces </div>
           </Link>
-          <Link color={cs.cs} to='/collaboration'>
+          <Link color={cs.cs.color} to='/collaboration'>
             <div> Collaboration Spaces </div>
           </Link>
-          <Link color={cs.as} to='/activation'>
+          <Link color={cs.as.color} to='/activation'>
             <div> Activation Spaces </div>
           </Link>
-          <Link color={cs.gov} to='/governance'>
+          <Link color={cs.gs.color} to='/governance'>
             <div> Governance </div>
           </Link>
           <Link to='/policies'>
@@ -42,9 +42,9 @@ export default function header() {
           </Link>
         </div>
         <div className='user-actions'>
-          <div className='msg'> <img src="/msg.svg" /> </div>
+          <div className='msg'> <img src="/img/msg.svg" alt='msg'/> </div>
           <div className='notifications'>
-            <img src="/bell.svg" />
+            <img src="/img/bell.svg" alt='bell'/>
           </div>
           <div className='user-icon'></div>
           <div className='username'> Sampson Totton</div>
