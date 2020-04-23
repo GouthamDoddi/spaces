@@ -4,7 +4,7 @@ Sequel.migration do
       primary_key :id
 
       String :title, size: 100
-      TrueClass :status, :default => true
+      TrueClass :active, :default => true
       Fixnum :version
       String :owner_email, size: 60
       Date :validity_dt

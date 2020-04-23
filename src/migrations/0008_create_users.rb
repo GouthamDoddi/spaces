@@ -1,13 +1,15 @@
 Sequel.migration do
   change do
-    create_table(:beneficiaries) do
+    create_table(:users) do
       primary_key :id
 
-      foreign_key :beneficiary_segment_id, :beneficiary_segments
-      foreign_key :beneficiary_sub_segment_id, :beneficiary_segments
-      foreign_key :beneficiary_impact_id, :policy_constants
-      foreign_key :policy_id, :policies
+      String :first_name, size: 50
+      String :last_name, size: 50
+      String :email, size: 100
+      String :encoded_password, size: 20
+      String :username, size: 25
 
+      Integer :role
       TrueClass :active, :default => true
 
       Integer :created_by

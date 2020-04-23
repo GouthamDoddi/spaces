@@ -3,6 +3,7 @@ class App::Routes < Roda
   include App::Router::AllPlugins
 
   def do_crud(klass, r)
+    r.post { klass[r].create }
     r.get(Integer) {|id| klass[e, id: id].get}
     r.get { klass[r].list }
     r.put(Integer) {|id| klass[r, id: id].update }
@@ -26,6 +27,10 @@ class App::Routes < Roda
 
       r.get('user-info') { Users[r].basic_info }
 
+      r.on 'notes' do
+        do_crud(Notes, r)
+      end
+      r.on('tasks') { do_crud(Tasks, r) }
 
       r.on 'categories' do
         do_crud(Categories, r)
@@ -47,7 +52,8 @@ class App::Routes < Roda
   end
 
   after do |res|
-    App.logger.info("→ [#{Time.now - @time} seconds] - #{request.path}")
+    rtype = request.request_method
+    App.logger.info("→ [#{Time.now - @time} seconds] - [#{rtype}]#{request.path}")
   end
 
   def auth_required!

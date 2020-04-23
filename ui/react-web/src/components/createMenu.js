@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+// import { Modal } from '@fluentui/react';
+// import { useId, useBoolean } from '@uifabric/react-hooks';
+
+// import TaskForm from './menu-actions/task'
+// import NoteForm from './menu-actions/note'
+
 
 
 export default function(props) {
+  // const [open, setOpen] = useState(true);
+  // const [modalType, setModalType] = useState('');
   const { space } = props
+
+  const openModal = (type) => {
+    // setModalType(type)
+    // setOpen(true)
+  }
+
   return(
     <Menu>
       <Header>
@@ -19,23 +33,23 @@ export default function(props) {
         </div>
       </Header>
       <Items>
-        <Item>
+        <Item onClick={() => openModal('task')}>
           <Icon />
           <Name>Create Task</Name>
         </Item>
-        <Item>
+        <Item onClick={() => openModal('survey')}>
           <Icon />
           <Name>Create Survey</Name>
         </Item>
-        <Item>
+        <Item onClick={() => openModal('note')}>
           <Icon />
           <Name>Create Note</Name>
         </Item>
-        <Item>
+        <Item onClick={() => openModal('space')}>
           <Icon />
           <Name>Invite to space</Name>
         </Item>
-        <Item>
+        <Item onClick={() => openModal('meeting')}>
           <Icon />
           <Name>Call for Meeting</Name>
         </Item>

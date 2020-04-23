@@ -1,12 +1,12 @@
 Sequel.migration do
   change do
-    create_table(:beneficiaries) do
+    create_table(:notes) do
       primary_key :id
 
-      foreign_key :beneficiary_segment_id, :beneficiary_segments
-      foreign_key :beneficiary_sub_segment_id, :beneficiary_segments
-      foreign_key :beneficiary_impact_id, :policy_constants
+      String :title, size: '100'
+      String :data, text: true
       foreign_key :policy_id, :policies
+      String :space, size: 20
 
       TrueClass :active, :default => true
 

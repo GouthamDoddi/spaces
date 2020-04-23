@@ -2,7 +2,8 @@ import React from 'react';
 import {
   HashRouter as Router,
   Switch,
-  Route
+  Route,
+  useLocation
 } from 'react-router-dom';
 
 import Home from './components/home'
@@ -19,12 +20,17 @@ import { ThemeProvider as TP } from 'styled-components'
 
 import cs from './utils/colors'
 
-// import CreateMenu from './components/createMenu'
 
-function App() {
+// import { Task, Note, Survey, Meeting, Space } from './components/menu-actions'
+
+function Routes() {
+  // const location = useLocation();
+  // const background = location.state && location.state.background
+  // console.log(background)
   return (
-    <Router>
+    <>
       <Header />
+      {/* <Switch location={ background || location }> */}
       <Switch>
         <Route path="/dashboard"> <TP theme={cs.home}> <Dashboard /> </TP> </Route>
         <Route path="/formulation"> <TP theme={cs.fs}> <Formulation /> </TP> </Route>
@@ -34,7 +40,23 @@ function App() {
         <Route path="/compliance"> <TP theme={cs.cps}> <Compliance /> </TP> </Route>
         <Route exact path="/"> <TP theme={cs.home}> <Home /> </TP></Route>
       </Switch>
-      {/* <CreateMenu /> */}
+
+      {/* {
+        <Switch>
+          <Route path='/task/:action'>    <Task />    </Route>
+          <Route path='/note/:action'>    <Note />    </Route>
+          <Route path='/survey/:action'>  <Survey />  </Route>
+          <Route path='/meeting/:action'> <Meeting /> </Route>
+          <Route path='/space/:action'>   <Space />   </Route>
+        </Switch>
+      } */}
+    </>
+  )
+}
+function App() {
+  return (
+    <Router>
+      <Routes />
     </Router>
   );
 }

@@ -5,7 +5,7 @@ Sequel.migration do
 
       String :name, size: 100
       String :description
-      TrueClass :status, :default => true
+      TrueClass :active, :default => true
       String :type, size: 30
 
       Integer :created_by

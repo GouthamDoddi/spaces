@@ -6,7 +6,7 @@ class App::Models::Policy < Sequel::Model
   nested_attributes :risks
   def validate
     super
-    # validates_presence [:name, :date]
+    validates_presence [:title, :owner]
     # validates_unique :email
     # validates_includes ROLES, :role
   end
