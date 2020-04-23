@@ -6,7 +6,7 @@ Sequel.migration do
       String :statement, text: true
       String :additional_notes, text: true
       String :mitigation_measures, text: true
-      TrueClass :status, :default => true
+      TrueClass :active, :default => true
       foreign_key :policy_category_id, :policy_constants
       foreign_key :policy_id, :policies
 
