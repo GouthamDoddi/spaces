@@ -65,9 +65,15 @@ export default styled.div`
   .form-space {
     min-width: 693px;
     flex: 1;
-    height: 465px;
+    height: 466px;
     border-radius: 3px;
     box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
     background-color: #ffffff;
+  }
+  .widgets {
+    width: 309px;
+    height: 466px;
+    min-width: 309px;
+    margin-left: 25px;
   }
 `

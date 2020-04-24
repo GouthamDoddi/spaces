@@ -3,14 +3,14 @@ import React from 'react'
 import styled from 'styled-components'
 
 import {
-  Switch,
-  Route,
+  // Switch,
+  // Route,
   useLocation,
-  useRouteMatch,
-  Link
+  // useRouteMatch,
+  // Link
 } from 'react-router-dom';
 
-import { Task, Note, Survey, Meeting, Space } from './menu-actions'
+// import { Task, Note, Survey, Meeting, Space } from './menu-actions'
 
 // function rTo(path) {
 //   return `/formulation/${path}`
@@ -22,22 +22,22 @@ function useQuery() {
 }
 
 
-function MenuModal({ name, id }) {
-  switch(name) {
-    case 'task':
-      return <Task id={id || 'new'} />
-    case 'note':
-      return <Note id={id || 'new'} />
-    case 'meeting':
-      return <Meeting id={id || 'new'} />
-    case 'survey':
-      return <Survey id={id || 'new'} />
-    case 'space':
-      return <Space id={id || 'new'} />
-    default:
-      return null
-  }
-}
+// function MenuModal({ name, id }) {
+//   switch(name) {
+//     case 'task':
+//       return <Task id={id || 'new'} />
+//     case 'note':
+//       return <Note id={id || 'new'} />
+//     case 'meeting':
+//       return <Meeting id={id || 'new'} />
+//     case 'survey':
+//       return <Survey id={id || 'new'} />
+//     case 'space':
+//       return <Space id={id || 'new'} />
+//     default:
+//       return null
+//   }
+// }
 
 function Container(props) {
   const {className, children} = props
@@ -49,7 +49,7 @@ function Container(props) {
     <div className={className}>
       { children }
 
-      <MenuModal name={name} id={id} />
+      {/* <MenuModal name={name} id={id} /> */}
     </div>
 
   )
