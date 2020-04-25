@@ -2,24 +2,23 @@ import React from 'react'
 
 import styled from 'styled-components'
 
-import {
-  // Switch,
-  // Route,
-  useLocation,
-  // useRouteMatch,
-  // Link
-} from 'react-router-dom';
+// import {
+//   // Switch,
+//   // Route,
+//   useLocation,
+//   // useRouteMatch,
+//   // Link
+// } from 'react-router-dom';
 
-// import { Task, Note, Survey, Meeting, Space } from './menu-actions'
 
 // function rTo(path) {
 //   return `/formulation/${path}`
 // }
 
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
+// function useQuery() {
+//   return new URLSearchParams(useLocation().search);
+// }
 
 
 // function MenuModal({ name, id }) {
@@ -41,15 +40,16 @@ function useQuery() {
 
 function Container(props) {
   const {className, children} = props
-  let query = useQuery();
+  // let query = useQuery();
 
-  const name = query.get('menu-action')
-  const id = query.get('id')
+  // const name = query.get('menu-action')
+  // const id = query.get('id')
   return (
     <div className={className}>
       { children }
 
       {/* <MenuModal name={name} id={id} /> */}
+
     </div>
 
   )

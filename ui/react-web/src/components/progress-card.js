@@ -35,7 +35,7 @@ function ProgressCard(props) {
 }
 
 export default styled(ProgressCard)`
-  margin-left: 23px;
+  // margin-left: 23px;
   width: 306px;
   height: 140px;
   border-radius: 3px;

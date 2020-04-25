@@ -7,9 +7,12 @@ import {
   Switch,
   Route,
   useRouteMatch,
+  Redirect
 } from 'react-router-dom';
 
 import Canvas from './canvas'
+import Bill from './bill'
+import Committees from './committees'
 
 const WorkspaceLinks = [
   { name: 'Policy Canvas', path: 'canvas'},
@@ -62,8 +65,8 @@ export default function() {
         </div>
         <Switch>
           <Route path={rTo('canvas')}> <Canvas /> </Route>
-          <Route path={rTo('bill')}> {elem('bill')} </Route>
-          <Route path={rTo('committees')}> {elem('committees')} </Route>
+          <Route path={rTo('bill')}> <Bill /> </Route>
+          <Route path={rTo('committees')}> <Committees /> </Route>
           <Route path={rTo('plan')}> {elem('plan')} </Route>
           <Route path={rTo('frameworks')}> {elem('frameworks')} </Route>
           <Route path={rTo('beneficiary')}> {elem('beneficiary')} </Route>
@@ -73,6 +76,7 @@ export default function() {
           <Route path={rTo('dependency-map')}> {elem('dependency-map')} </Route>
           <Route path={rTo('backlog')}> {elem('backlog')} </Route>
           <Route path={rTo('petition')}> {elem('petition')} </Route>
+          <Route exact path=''> <Redirect to={rTo('canvas')} /> </Route>
         </Switch>
       </Workspace>
     </Container>

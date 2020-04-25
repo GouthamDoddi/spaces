@@ -3,33 +3,18 @@ import styled from 'styled-components'
 import {
   Switch,
   Route,
-  useRouteMatch,
   NavLink,
   Redirect
 } from 'react-router-dom';
 
 import Metadata from './metadata'
-
+import Context from './context'
+import Risk from './risk'
+import Objectives from './objectives'
+import ImpactArea from './objectives'
 
 function rTo(path) {
   return `/formulation/canvas/${path}`
-}
-
-
-function Context(){
-  return (null)
-}
-
-function Risk(){
-  return(<div> Risk </div>)
-}
-
-function Objectives(){
-  return(<div> Objectives </div>)
-}
-
-function ImpactArea(){
-  return(<div> Impact Area </div>)
 }
 
 function Link({to, className, children}) {
@@ -50,6 +35,7 @@ export default function Element(props) {
           <Route path={rTo('risk')}> <Risk /> </Route>
           <Route path={rTo('objectives')}> <Objectives /> </Route>
           <Route path={rTo('impact-area')}> <ImpactArea /> </Route>
+          <Route exact path=''> <Redirect to={rTo('metadata')} /> </Route>
         </Switch>
       </div>
       <div className='widgets'>
