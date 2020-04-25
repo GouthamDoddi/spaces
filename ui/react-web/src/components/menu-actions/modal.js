@@ -40,7 +40,7 @@ const Create = styled.button`
   width: 160px;
   height: 38px;
   border-radius: 2px;
-  background-color: #fd7635;
+  background-color: ${p => p.theme.color};
   color: #ffffff;
   font-size: 14px;
   z-index: 4;

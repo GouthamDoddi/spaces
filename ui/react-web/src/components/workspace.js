@@ -53,6 +53,7 @@ export default styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  min-width: 1027px;
   .header {
     flex: 1;
     min-width: 1027px;
