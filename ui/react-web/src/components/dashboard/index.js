@@ -148,6 +148,9 @@ const Container = styled.div`
       margin: 23px 0;
       .progress-cards {
         display: flex;
+        > div {
+          margin-left: 23px;
+        }
       }
       .panel-cards {
         display: flex;
