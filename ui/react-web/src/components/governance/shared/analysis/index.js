@@ -52,7 +52,7 @@ import { elementOptions } from '../../../../store/governance'
 
 
 function Chart({type, data, item}) {
-  console.log(item)
+
   if(item.graph === 'pie'){
     return(
       <PieChart

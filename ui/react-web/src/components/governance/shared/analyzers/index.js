@@ -13,7 +13,7 @@ import Dropdown from '../../../dropdown'
 
 
 function Chart({type, data, item}) {
-  console.log(item)
+
   if(item.graph === 'pie'){
     return(
       <PieChart

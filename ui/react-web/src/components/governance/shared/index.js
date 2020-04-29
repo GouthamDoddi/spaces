@@ -27,7 +27,7 @@ function Link({to, className, children}) {
 
 export default function Element(props) {
   const loc = useLocation();
-  console.log(loc)
+
   const klass = loc.pathname.includes("snapshot") ? 'no-background' : ''
   return (
     <>
