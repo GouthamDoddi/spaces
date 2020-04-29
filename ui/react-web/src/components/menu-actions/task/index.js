@@ -15,12 +15,10 @@ export default function(props) {
         <Content>
           <form>
             <div className='main'>
-              <Input label='Lorem Ipsum' />
-              <Input label='Lorem Ipsum' />
-              <Input label='Lorem Ipsum' />
-              <Input label='Lorem Ipsum' />
-              <Input label='Lorem Ipsum' />
-              <Input className='test' label='Lorem Ipsum' type='text' />
+              <Input label='Title' />
+              <Input label='Status' />
+              <Input label='Start Date' type='date' />
+              <Input label='End Date' type='date' />
             </div>
           </form>
         </Content>

@@ -9,6 +9,8 @@ import { useParams, useRouteMatch } from 'react-router-dom'
 
 import { elementOptions } from '../../../../store/governance'
 
+import Dropdown from '../../../dropdown'
+
 
 function Chart({type, data, item}) {
   console.log(item)
@@ -47,7 +49,14 @@ export default function(props) {
   return(
     <Container>
       <Main>
-        <div className='title'> Analyzers - {item.name} - {item.graph} graph</div>
+        <div className='title'> {item.name} </div>
+        <div className='filters'>
+          {
+            item.filters.map(
+              (filter, i) => <Dropdown key={i} title={`Filter ${i+1}`} name={`filter${i+1}`} list={filter} />
+            )
+          }
+        </div>
         <div className='chart'>
           <div className={`chart-container ${item.graph}`}>
             <Chart type={type} item={item} />
@@ -62,7 +71,17 @@ export default function(props) {
 const Main = styled.div`
   display: flex;
   flex-flow: column;
-  .title {
+  position: relative;
+  top: 0;
+  left: 0;
+  .filters {
+    position: absolute;
+    top: 12px;
+    right: 40px;
+    color: #000000;
+    display: flex;
+  }
+  >.title {
     margin-top: 20px;
     margin-left: 34px;
     font-size: 15px;
