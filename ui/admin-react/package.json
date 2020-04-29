@@ -1,19 +1,16 @@
 {
-  "name": "react-web",
+  "name": "admin-react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.9.11",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "effector": "^20.14.0",
-    "effector-react": "^20.6.3",
+    "effector-react": "^20.7.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "reaviz": "^8.1.2",
     "styled-components": "^5.1.0"
   },
   "scripts": {

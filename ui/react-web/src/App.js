@@ -39,16 +39,6 @@ function Routes() {
         <Route path="/compliance"> <TP theme={cs.cps}> <Compliance /> </TP> </Route>
         <Route exact path="/"> <TP theme={cs.home}> <Home /> </TP></Route>
       </Switch>
-
-      {/* {
-        <Switch>
-          <Route path='/task/:action'>    <Task />    </Route>
-          <Route path='/note/:action'>    <Note />    </Route>
-          <Route path='/survey/:action'>  <Survey />  </Route>
-          <Route path='/meeting/:action'> <Meeting /> </Route>
-          <Route path='/space/:action'>   <Space />   </Route>
-        </Switch>
-      } */}
     </>
   )
 }

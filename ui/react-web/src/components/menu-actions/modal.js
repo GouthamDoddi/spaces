@@ -19,9 +19,9 @@ function Modal({className, children, title}) {
           return `${loc.pathname}?${query.toString()}`
         }}>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-            <g fill="none" fill-rule="evenodd">
+            <g fill="none" fillRule="evenodd">
               <path d="M0 0L24 0 24 24 0 24z" transform="translate(-5 -5)"/>
-              <path fill="#000" fill-rule="nonzero" d="M12 10.586L16.95 5.636 18.364 7.05 13.414 12 18.364 16.95 16.95 18.364 12 13.414 7.05 18.364 5.636 16.95 10.586 12 5.636 7.05 7.05 5.636z" transform="translate(-5 -5)"/>
+              <path fill="#000" fillRule="nonzero" d="M12 10.586L16.95 5.636 18.364 7.05 13.414 12 18.364 16.95 16.95 18.364 12 13.414 7.05 18.364 5.636 16.95 10.586 12 5.636 7.05 7.05 5.636z" transform="translate(-5 -5)"/>
             </g>
           </svg>
         </Close>

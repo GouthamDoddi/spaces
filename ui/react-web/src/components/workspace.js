@@ -70,6 +70,11 @@ export default styled.div`
     border-radius: 3px;
     box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
     background-color: #ffffff;
+    &.no-background {
+      border: none;
+      box-shadow: none;
+      background-color: transparent;
+    }
   }
   .widgets {
     width: 309px;

@@ -2,12 +2,17 @@ import styled from 'styled-components'
 
 import React from 'react'
 
-function ShowPerc({ progress }) {
+function d3t(v) {
+  return ('000' + v).substr(-3)
+}
+
+function ShowPerc({ progress, max=100, sym='%' }) {
+
   return (
     <>
-      <progress value={progress} max="100"> {progress}% </progress>
-      <div className='pending'> {100 - progress}% Pending </div>
-      <div className='progress-value'> {progress}% </div>
+      <progress value={progress} max={max}> {d3t(`${progress}${sym}`)} </progress>
+      <div className='pending'> {max - progress}{sym} Pending </div>
+      <div className='progress-value'> {d3t(`${progress}${sym}`)} </div>
     </>
   )
 }
@@ -24,19 +29,18 @@ function ShowDays({ days, date}) {
 }
 
 function ProgressCard(props) {
-  const { className, title, subtitle, progress, days, date } = props
+  const { className, title, subtitle, progress, days, date, max, sym } = props
   return (
     <div className={className}>
       <div className='title'>{title}</div>
       <div className='subtitle'>{subtitle}</div>
-      { progress ? <ShowPerc progress={progress} /> : <ShowDays days={days} date={date}/> }
+      { progress ? <ShowPerc progress={progress} max={max} sym={sym} /> : <ShowDays days={days} date={date}/> }
     </div>
   )
 }
 
 export default styled(ProgressCard)`
-  // margin-left: 23px;
-  width: 306px;
+  width: ${p => p.width || '306px'};
   height: 140px;
   border-radius: 3px;
   box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
@@ -81,7 +85,7 @@ export default styled(ProgressCard)`
     top: 64.3%;
     left: 6.5%;
     -webkit-appearance: none;
-    width: 259px;
+    width: 84.3%;
     height: 4px;
     color: ${p => p.color};;
   }

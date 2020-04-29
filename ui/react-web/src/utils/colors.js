@@ -16,8 +16,8 @@ export default {
     icon: ''
   },
   gs: {
-    color: '#0190ff',
-    icon: '#6190ff'
+    color: '#008eff',
+    icon: '#d9efff'
   },
   cps: {
     color: '#f44e76',

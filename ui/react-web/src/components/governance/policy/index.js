@@ -4,17 +4,17 @@ import {
   Switch,
   Route,
   NavLink,
-  Redirect
+  Redirect,
+  useLocation
 } from 'react-router-dom';
 
-import Metadata from './metadata'
-import Context from './context'
-import Risk from './risk'
-import Objectives from './objectives'
-import ImpactArea from './objectives'
+import Snapshot from './snapshot'
+import Analysis from './analysis'
+import Analyzer from './analyzers'
+import ControlPanel from './control-panel'
 
 function rTo(path) {
-  return `/formulation/canvas/${path}`
+  return `/governance/policy/${path}`
 }
 
 function Link({to, className, children}) {
@@ -26,47 +26,51 @@ function Link({to, className, children}) {
 }
 
 export default function Element(props) {
+  const loc = useLocation();
+  console.log(loc)
+  const klass = loc.pathname.includes("snapshot") ? 'no-background' : ''
   return (
     <>
-      <div className='form-space'>
+      <div className={`form-space ${klass}`}>
         <Switch>
-          <Route path={rTo('metadata')}> <Metadata /> </Route>
-          <Route path={rTo('context')}> <Context /> </Route>
-          <Route path={rTo('risk')}> <Risk /> </Route>
-          <Route path={rTo('objectives')}> <Objectives /> </Route>
-          <Route path={rTo('impact-area')}> <ImpactArea /> </Route>
-          <Route exact path=''> <Redirect to={rTo('metadata')} /> </Route>
+          <Route path={rTo('snapshot')}> <Snapshot /> </Route>
+          <Route path={rTo('analysis1')}> <Analysis /> </Route>
+          <Route path={rTo('analysis2')}> <Analysis /> </Route>
+          <Route path={rTo('analyzer1')}> <Analyzer type='pie' /> </Route>
+          <Route path={rTo('analyzer2')}> <Analyzer type='bar' /> </Route>
+          <Route path={rTo('control-panel')}> <ControlPanel /> </Route>
+          <Route exact path=''> <Redirect to={rTo('snapshot')} /> </Route>
         </Switch>
       </div>
       <div className='widgets'>
         <Widget>
           <div className='title'> Elements </div>
-          <Link to='metadata' className='menu'>
-            <div className='title'> Metadata </div>
+          <Link to='snapshot' className='menu'>
+            <div className='title'> Snapshot </div>
             <div className='desc'>
               The parametric data about the policy to identify, qualify, and manage across the lifecycle
             </div>
           </Link>
-          <Link to='context' className='menu'>
-            <div className='title'> Context </div>
+          <Link to='analysis1' className='menu'>
+            <div className='title'> Analysis </div>
             <div className='desc'>
               The contextual information required for policy formulation
             </div>
           </Link>
-          <Link to='risk' className='menu'>
-            <div className='title'> Risk </div>
+          <Link to='analysis2' className='menu'>
+            <div className='title'> Analysis </div>
             <div className='desc'>
                The identified risks in policy making, propagation, and implementations
             </div>
           </Link>
-          <Link to='objectives' className='menu'>
-            <div className='title'> Objectives </div>
+          <Link to='analyzer1' className='menu'>
+            <div className='title'> Analyzer </div>
             <div className='desc'>
                The purpose of the policy and what it is trying to achieve
             </div>
           </Link>
-          <Link to='impact-area' className='menu'>
-            <div className='title'> Impact Area </div>
+          <Link to='analyzer2' className='menu'>
+            <div className='title'> Analyzer </div>
             <div className='desc'>
               The areas and the impact the policy has in the intended domains
             </div>

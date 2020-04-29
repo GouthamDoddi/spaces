@@ -1,7 +1,31 @@
 import React from 'react';
 import Container from '../container';
-import Workspace from '../workspace';
+import Workspace, { Links } from '../workspace';
 import CreateMenu from '../createMenu';
+
+import {
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom';
+
+import Policy from './policy'
+import CaseManagement from './case-management'
+import Landscape from './landscape'
+import ObjOut from './obj-out'
+import ComplianceProjects from './compl-projects'
+
+const WorkspaceLinks = [
+  { name: 'Landscape', path: 'landscape'},
+  { name: 'Policy', path: 'policy'},
+  { name: 'Compliance Projects', path: 'compl-projects'},
+  { name: 'Case Management', path: 'case-management'},
+  { name: 'Objectives & Outcomes', path: 'obj-outcomes'},
+]
+
+function rTo(path) {
+  return `/governance/${path}`
+}
 
 export default function() {
   return(
@@ -10,9 +34,16 @@ export default function() {
       <CreateMenu space='Governance Space'/>
       <Workspace>
         <div className='header'>
+          <Links data={WorkspaceLinks} prefix='governance' />
         </div>
-        <div className='form-space' />
-        <div className='widgets' />
+        <Switch>
+          <Route path={rTo('landscape')}> <Landscape /> </Route>
+          <Route path={rTo('policy')}> <Policy /> </Route>
+          <Route path={rTo('compl-projects')}> <ComplianceProjects /> </Route>
+          <Route path={rTo('case-management')}> <CaseManagement /> </Route>
+          <Route path={rTo('obj-outcomes')}> <ObjOut /> </Route>
+          <Route exact path=''> <Redirect to={rTo('policy')} /> </Route>
+        </Switch>
       </Workspace>
     </Container>
   )
