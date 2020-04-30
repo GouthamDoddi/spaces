@@ -53,13 +53,49 @@ export default {
   },
   policy: {
     1: {
-      title: 'Policy renewal backlog',
-      subtitle: 'Policies to expire in next 6 months',
+      title: 'Backlog count',
+      subtitle: 'Count of qualfied Policy backlog entries',
       space: 'fs',
       type: 'value',
-      progress: 14,
-      max: 101
+      progress: 9,
+      max: 100,
     },
+    2: {
+      title: 'Petitions',
+      subtitle: 'Count of qualfied Policy Petition ',
+      space: 'fs',
+      type: 'value',
+      progress: 5,
+      max: 100,
+
+    },
+    3: {
+      title: 'Backlog count',
+      subtitle: 'Count of qualfied Knowledge backlog entries',
+      space: 'fs',
+      type: 'percentage',
+      progress: 10,
+      max: 30,
+
+    },
+    4: {
+      title: 'Policy Stage',
+      subtitle: 'Current Stage of Policy and days to next milestone',
+      space: 'gs',
+      type: 'date',
+      progress: 60,
+      max: 80,
+	    date:'18 May 2020'
+
+    },
+    5: {
+      title: 'Budget Consumption',
+      subtitle: 'Budget Utilized by Complaince Projects',
+      space: 'fs',
+      type: 'value',
+      progress: 30,
+      max: 100,
+    }
   },
   'case-management': {
     1: {

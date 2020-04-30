@@ -109,10 +109,8 @@ export const elementOptions = {
       1: {name: 'Backlog count', id: 1},
       2: {name: 'Petitions', id: 2},
       3: {name: 'Expiry Date', id: 3},
-      4: {name: 'Next Review', id: 4},
+      4: {name: 'Policy Stage', id: 4},
       5: {name: 'Budget Consumption', id: 5},
-      6: {name: 'Coverage Score', id: 6},
-
     },
 
     analysis: {
