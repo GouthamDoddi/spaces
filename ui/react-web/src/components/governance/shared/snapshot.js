@@ -22,7 +22,12 @@ export default function(props) {
   const store = useStore(allElements[params.asset].store)
   const ids = store.snapshots
   const testData = snapshotData[params.asset]
-  if(!testData){ return(<Container> </Container>)}
+  if(!testData){
+    return(
+      <Container> <Main className='no-snaps'>
+        <div> Please select snapshots from control panel.</div>
+      </Main></Container>
+  )}
   const selected = Object.assign({}, ...ids.map(k => ({[k]: testData[k]})))
 
   return(
@@ -55,27 +60,6 @@ export default function(props) {
             return null
           })
         }
-        {/* <ProgressCard title='Backlog Count'
-          subtitle='Backlog count of Policy Dashboard'
-          progress={152} width='336px' max={255} sym='' color='#ffa163' />
-        <ProgressCard title='Petetions'
-          subtitle='Petitions of Policy Dashboard'
-          progress={98} width='336px' max={134} sym='' color='#44d7b6' />
-        <ProgressCard title='Expiry Date'
-          subtitle='Expiry Date of Policy Dashboard'
-          days={23} color='#7b79ff' width='336px' date='13 April 2020' />
-        <ProgressCard title='Next Review'
-          subtitle='Expiry Date of Policy Dashboard'
-          days={23} color='#ff79c4' width='336px' date='13 April 2020' />
-        <ProgressCard title='Expiry Date'
-          subtitle='Expiry Date of Policy Dashboard'
-          days={23} color='#7b79ff' width='336px' date='13 April 2020' />
-        <ProgressCard title='Expiry Date'
-          subtitle='Expiry Date of Policy Dashboard'
-          days={23} color='#7b79ff' width='336px' date='13 April 2020' />
-        <ProgressCard title='Expiry Date'
-          subtitle='Expiry Date of Policy Dashboard'
-          days={23} color='#7b79ff' width='336px' date='13 April 2020' /> */}
       </Main>
     </Container>
   )
@@ -89,4 +73,12 @@ const Main = styled.div`
   grid-template-columns: repeat(auto-fit, 337px);
   grid-auto-rows: 140px;
   grid-gap: 23px 19px;
+
+  &.no-snaps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    > div { margin-top: -30px;}
+  }
 `
