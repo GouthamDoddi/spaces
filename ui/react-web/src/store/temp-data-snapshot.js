@@ -110,5 +110,66 @@ export default {
       progress: 8,
       max: 34,
     }
+  },
+  'compl-projects': {
+    1: {
+      title: 'Open Projects',
+      subtitle: 'Compliance Projects Started',
+      space: 'cps',
+      type: 'value',
+      progress: 75,
+      max: 100,
+    },
+    2: {
+	    title: 'Submited Projects',
+	    subtitle: 'Compliance Projects Started',
+      space: 'cps',
+      type: 'value',
+      progress: 30,
+      max: 75,
+    },
+    3: {
+
+	    title: 'Approved',
+	    subtitle: 'Compliance Projects Approved by Committee',
+      space: 'cps',
+      type: 'value',
+      progress: 18,
+      max: 75,
+    },
+    4: {
+	    title: 'Successful Audited',
+	    subtitle: 'Compliance Projects Audited by Auditors',
+      space: 'cps',
+      type: 'value',
+      progress: 9,
+      max: 45
+    },
+    5: {
+	    title: 'Failed Project',
+	    subtitle: 'Compliance Projects that did not meet minimum compliance requirements',
+      space: 'cps',
+      type: 'value',
+      progress: 0,
+      max: 75
+    }
+  },
+  'obj-outcomes': {
+    1: {
+      title: 'Objective Review',
+      subtitle: 'Objective reviews done for completed Compliance Projects',
+      space: 'gs',
+      type: 'value',
+      progress: 9,
+      max: 18,
+    },
+    2: {
+      title: 'Impact Review',
+      subtitle: 'Impact reviews done for completed Compliance Projects',
+      space: 'gs',
+      type: 'value',
+      progress: 3,
+      max: 9,
+    }
   }
 }

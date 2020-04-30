@@ -96,11 +96,11 @@ export const elementOptions = {
     analyzers: {
       1: {
             name: 'Compliance competitive index',  desc: 'Policy parameter count by benificiary',
-            graph: 'bar', filters: [[{name: 'All'}, {name: 'Policy Family'}]], id: 1
+            graph: 'stacked-bar', filters: [[{name: 'All'}, {name: 'Policy Family'}]], id: 1
         },
       2: {
             name: 'Compliance overheads index',  desc: 'Policy parameter count by Project Object',
-            graph: 'bar', filters: [[{name: 'All'}, {name: 'Policy Family'}]], id: 2
+            graph: 'stacked-bar', filters: [[{name: 'All'}, {name: 'Policy Family'}]], id: 2
         },
     }
   },
@@ -137,9 +137,12 @@ export const elementOptions = {
   },
   'compl-projects': {
     snapshot: {
-      1: {name: 'Uninitiated / Open Projects', id: 1},
-      2: {name: 'Submitted / Approved', id: 2},
-      3: {name: 'Successful Audited', id: 3},
+      1: {name: 'Open Projects', id: 1},
+      2: {name: 'Submited Projects', id: 2},
+      3: {name: 'Approved', id: 3},
+      4: {name: 'Successfully Audited', id: 4},
+      5: {name: 'Failed Project', id: 5},
+
     },
     analysis: {
       1: { name: 'Compliance aging by TAT', desc: 'Compliance aging by TAT', graph: 'bar', id: 1},
@@ -175,6 +178,9 @@ export const elementOptions = {
   },
   'obj-outcomes': {
     snapshot: {
+      1: {name: 'Objective Review', id: 1},
+      2: {name: 'Impact Review', id: 2},
+
     },
     analysis: {
       1: { name: 'Objectives Survey participants', desc: 'Objectives Survey participants by beneficiary type', graph: 'bar', id: 1},

@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Container from '../container'
 
-import { PieChart, BarChart } from 'reaviz';
+import { PieChart, BarChart, BarSeries } from 'reaviz';
 
 import { useParams, useRouteMatch } from 'react-router-dom'
 
@@ -11,39 +11,43 @@ import { elementOptions } from '../../../../store/governance'
 
 import Dropdown from '../../../dropdown'
 
+import analyzersData from '../../../../store/temp-data-analyzers'
 
-function Chart({type, data, item}) {
-
-  if(item.graph === 'pie'){
-    return(
-      <PieChart
+function Chart({type, item}) {
+  return (
+      <BarChart
+        // series={
+        //   <BarSeries
+        //     type="grouped"
+        //   />
+        // }
+        // data={[
+        //   {key: 'one', data: [{key: 'a', data: 2}]},
+        //   {key: 'two', data: [{key: 'a', data: 2}]}
+        // ]}
         data={[
           { key: 'One', data: 13 },
-          { key: 'two', data: 27 },
-        ]}
+          { key: 'two', data: 27 },]}
       />
     )
-  } else if(item.graph === 'bar') {
-    return(
-      <BarChart
-        height={300}
-        width={300}
-        data={[
-          { key: 'Policy 1', data: 13 },
-          { key: 'Policy 2', data: 6 },
-        ]}
-      />
-    );
-  } else {
-    return(<div> Requested other than Pie, Bar </div>)
-  }
 }
 
 export default function(props) {
   const { name } = useParams()
-  let match = useRouteMatch("/governance/:asset/analyzers/:id");
+  let {params} = useRouteMatch("/governance/:asset/analyzers/:id") || {};
   // const x = elementOptions
-  const item = elementOptions[match.params.asset]['analyzers'][name]
+  const item = elementOptions[params.asset]['analyzers'][name]
+
+  const info = analyzersData[params.asset][name]
+
+  if(!info) {
+    return(
+      <Container>
+        <div> NO DATA </div>
+      </Container>
+    )
+  }
+  console.log(info.data)
 
   const { type } = props
   return(
@@ -59,7 +63,7 @@ export default function(props) {
         </div>
         <div className='chart'>
           <div className={`chart-container ${item.graph}`}>
-            <Chart type={type} item={item} />
+            <Chart type={type} item={item} data={[]} />
           </div>
         </div>
       </Main>
@@ -97,8 +101,8 @@ const Main = styled.div`
       width: 518px;
       height: 518px;
       &.bar {
-        height: 400px;
-        width: 300px;
+        height: 300px;
+        width: 450px;
         margin-top: 100px;
       }
     }
