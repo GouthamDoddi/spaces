@@ -53,12 +53,159 @@ export default {
   },
   policy: {
     1: {
-      title: 'Policy renewal backlog',
-      subtitle: 'Policies to expire in next 6 months',
+      title: 'Backlog count',
+      subtitle: 'Count of qualfied Policy backlog entries',
       space: 'fs',
       type: 'value',
-      progress: 14,
-      max: 101
+      progress: 9,
+      max: 100,
     },
+    2: {
+      title: 'Petitions',
+      subtitle: 'Count of qualfied Policy Petition ',
+      space: 'fs',
+      type: 'value',
+      progress: 5,
+      max: 100,
+
+    },
+    3: {
+      title: 'Backlog count',
+      subtitle: 'Count of qualfied Knowledge backlog entries',
+      space: 'fs',
+      type: 'percentage',
+      progress: 10,
+      max: 30,
+
+    },
+    4: {
+      title: 'Policy Stage',
+      subtitle: 'Current Stage of Policy and days to next milestone',
+      space: 'gs',
+      type: 'date',
+      progress: 60,
+      max: 80,
+	    date:'18 May 2020'
+
+    },
+    5: {
+      title: 'Budget Consumption',
+      subtitle: 'Budget Utilized by Complaince Projects',
+      space: 'fs',
+      type: 'value',
+      progress: 30,
+      max: 100,
+    }
+  },
+  'case-management': {
+    1: {
+      title: 'Clarification',
+	    subtitle: 'Count of clarification cases attended',
+      space: 'cps',
+      type: 'value',
+      progress: 14,
+      max: 16,
+    },
+    2: {
+      title: 'Support',
+	    subtitle: 'Count of clarification cases attended',
+      space: 'cps',
+      type: 'value',
+      progress: 13,
+      max: 18,
+    },
+    3: {
+  	  title: 'Suggestion',
+	    subtitle: 'Count of clarification cases attended',
+      space: 'cps',
+      type: 'value',
+      progress: 10,
+      max: 20,
+    },
+    4: {
+      title: 'Exemption',
+	    subtitle: 'Count of clarification cases attended',
+      space: 'Compliance',
+      type: 'value',
+      progress: 8,
+      max: 14,
+    },
+    5: {
+	    title: 'Policy Backlog',
+	    subtitle: 'Count of cases converted into policy backlog',
+      space: 'Compliance',
+      type: 'value',
+      progress: 5,
+      max: 20,
+    },
+    6: {
+	    title: 'Knowledge Backlog',
+	    subtitle: 'Count of cases converted into knowledge backlog',
+      space: 'Compliance',
+      type: 'value',
+      progress: 8,
+      max: 34,
+    }
+  },
+  'compl-projects': {
+    1: {
+      title: 'Open Projects',
+      subtitle: 'Compliance Projects Started',
+      space: 'cps',
+      type: 'value',
+      progress: 75,
+      max: 100,
+    },
+    2: {
+	    title: 'Submited Projects',
+	    subtitle: 'Compliance Projects Started',
+      space: 'cps',
+      type: 'value',
+      progress: 30,
+      max: 75,
+    },
+    3: {
+
+	    title: 'Approved',
+	    subtitle: 'Compliance Projects Approved by Committee',
+      space: 'cps',
+      type: 'value',
+      progress: 18,
+      max: 75,
+    },
+    4: {
+	    title: 'Successful Audited',
+	    subtitle: 'Compliance Projects Audited by Auditors',
+      space: 'cps',
+      type: 'value',
+      progress: 9,
+      max: 45
+    },
+    5: {
+	    title: 'Failed Project',
+	    subtitle: 'Compliance Projects that did not meet minimum compliance requirements',
+      space: 'cps',
+      type: 'value',
+      progress: 0,
+      max: 75
+    }
+  },
+  'obj-outcomes': {
+    1: {
+      title: 'Objective Review',
+      subtitle: 'Objective reviews done for completed Compliance Projects',
+      space: 'gs',
+      type: 'value',
+      progress: 9,
+      max: 18,
+    },
+    2: {
+      title: 'Impact Review',
+      subtitle: 'Impact reviews done for completed Compliance Projects',
+      space: 'gs',
+      type: 'value',
+      progress: 3,
+      max: 9,
+    }
   }
 }

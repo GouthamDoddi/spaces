@@ -4,28 +4,6 @@ import {createStore, createEvent} from 'effector'
 import connectLocalStorage from "effector-localstorage/sync";
 
 
-// export const elements = createStore({})
-// export const snapshots = createStore()
-
-// export const analysis = createStore([])
-
-// export const analyzers = createStore([])
-
-
-// export const elements = createStore()
-
-
-// elements.on(add, (state, { bucket, id }) => {
-//   const data = {}
-//   data[bucket] = [...state[bucket], id]
-//   return {...state, ...data}
-// }).on(remove, (state, { bucket, id }) => {
-//   const data = { [bucket]: state[bucket].filter((i) => i != id) }
-//   return {...state, ...data}
-// }).on(storageUpdated, (state, value) => value)
-
-// elements.watch(counterLocalStorage)
-
 
 function makeStore(type) {
   const add = createEvent('add')
@@ -96,11 +74,11 @@ export const elementOptions = {
     analyzers: {
       1: {
             name: 'Compliance competitive index',  desc: 'Policy parameter count by benificiary',
-            graph: 'bar', filters: [[{name: 'All'}, {name: 'Policy Family'}]], id: 1
+            graph: 'stacked-bar', filters: [[{name: 'All'}, {name: 'Policy Family'}]], id: 1
         },
       2: {
             name: 'Compliance overheads index',  desc: 'Policy parameter count by Project Object',
-            graph: 'bar', filters: [[{name: 'All'}, {name: 'Policy Family'}]], id: 2
+            graph: 'stacked-bar', filters: [[{name: 'All'}, {name: 'Policy Family'}]], id: 2
         },
     }
   },
@@ -109,10 +87,8 @@ export const elementOptions = {
       1: {name: 'Backlog count', id: 1},
       2: {name: 'Petitions', id: 2},
       3: {name: 'Expiry Date', id: 3},
-      4: {name: 'Next Review', id: 4},
+      4: {name: 'Policy Stage', id: 4},
       5: {name: 'Budget Consumption', id: 5},
-      6: {name: 'Coverage Score', id: 6},
-
     },
 
     analysis: {
@@ -137,9 +113,12 @@ export const elementOptions = {
   },
   'compl-projects': {
     snapshot: {
-      1: {name: 'Uninitiated / Open Projects', id: 1},
-      2: {name: 'Submitted / Approved', id: 2},
-      3: {name: 'Successful Audited', id: 3},
+      1: {name: 'Open Projects', id: 1},
+      2: {name: 'Submited Projects', id: 2},
+      3: {name: 'Approved', id: 3},
+      4: {name: 'Successfully Audited', id: 4},
+      5: {name: 'Failed Project', id: 5},
+
     },
     analysis: {
       1: { name: 'Compliance aging by TAT', desc: 'Compliance aging by TAT', graph: 'bar', id: 1},
@@ -155,9 +134,11 @@ export const elementOptions = {
   'case-management': {
     snapshot: {
       1: {name: 'Clarifications', id: 1},
-      2: {name: 'Exceptions', id: 2},
-      3: {name: 'Support', id: 3},
-      4: {name: 'Relief', id: 4},
+      2: {name: 'Support', id: 2},
+      3: {name: 'Suggestions', id: 3},
+      4: {name: 'Exemption', id: 4},
+      5: {name: 'Policy Backlog', id: 5},
+      6: {name: 'Knowledge Backlog', id: 6}
     },
     analysis: {
       1: { name: 'Case aging by SLA by Type', desc: 'Case aging by SLA by Type', graph: 'stacked-bar', id: 1},
@@ -173,6 +154,9 @@ export const elementOptions = {
   },
   'obj-outcomes': {
     snapshot: {
+      1: {name: 'Objective Review', id: 1},
+      2: {name: 'Impact Review', id: 2},
+
     },
     analysis: {
       1: { name: 'Objectives Survey participants', desc: 'Objectives Survey participants by beneficiary type', graph: 'bar', id: 1},

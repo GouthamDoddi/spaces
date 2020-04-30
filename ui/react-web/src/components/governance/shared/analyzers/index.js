@@ -3,53 +3,100 @@ import React from 'react'
 import styled from 'styled-components'
 import Container from '../container'
 
-import { PieChart, BarChart } from 'reaviz';
+import { PieChart, BarChart, Bar, BarSeries } from 'reaviz';
 
 import { useParams, useRouteMatch } from 'react-router-dom'
 
 import { elementOptions } from '../../../../store/governance'
 
-import Dropdown from '../../../dropdown'
 
+import analyzersData from '../../../../store/temp-data-analyzers'
+
+import Dropdown from '../../../dropdown'
 
 function Chart({type, data, item}) {
 
   if(item.graph === 'pie'){
     return(
       <PieChart
-        data={[
-          { key: 'One', data: 13 },
-          { key: 'two', data: 27 },
-        ]}
+        data={data}
       />
     )
   } else if(item.graph === 'bar') {
     return(
       <BarChart
-        height={300}
-        width={300}
-        data={[
-          { key: 'Policy 1', data: 13 },
-          { key: 'Policy 2', data: 6 },
-        ]}
+
+        series={
+          <BarSeries
+            bar={
+              <Bar
+                gradient={null}
+                rounded={false}
+                style={data => {
+                  // console.log('Style callback...', data);
+                  return {
+                    fill: data.metadata
+                  };
+                }}
+              />
+            }
+          />
+        }
+        data={data}
       />
     );
-  } else {
+  } else if( item.graph === 'stacked-bar') {
+    return (
+
+      <BarChart
+        height={300}
+        width={300}
+        data={data}
+        series={
+          <BarSeries
+            type="grouped"
+            bar={
+              <Bar
+                rounded={false}
+                gradient={null}
+              />
+            }
+            padding={0.8}
+          />
+        }
+      />
+    )
+  }
+
+   else {
     return(<div> Requested other than Pie, Bar </div>)
   }
 }
 
 export default function(props) {
   const { name } = useParams()
-  let match = useRouteMatch("/governance/:asset/analyzers/:id");
+  let {params} = useRouteMatch("/governance/:asset/analyzers/:id") || {};
   // const x = elementOptions
-  const item = elementOptions[match.params.asset]['analyzers'][name]
+  const item = elementOptions[params.asset]['analyzers'][name]
+
+
+
+  const info = analyzersData[params.asset][name]
+
+  if(!info) {
+    return(
+      <Container>
+        <div> NO DATA </div>
+      </Container>
+    )
+  }
+  console.log(info.data)
 
   const { type } = props
   return(
     <Container>
       <Main>
-        <div className='title'> {item.name} </div>
+        <div className='title'> Analysis - {item.name} - {item.graph} graph</div>
         <div className='filters'>
           {
             item.filters.map(
@@ -59,7 +106,7 @@ export default function(props) {
         </div>
         <div className='chart'>
           <div className={`chart-container ${item.graph}`}>
-            <Chart type={type} item={item} />
+            <Chart type={type} item={item} data={info.data} />
           </div>
         </div>
       </Main>
@@ -71,9 +118,6 @@ export default function(props) {
 const Main = styled.div`
   display: flex;
   flex-flow: column;
-  position: relative;
-  top: 0;
-  left: 0;
   .filters {
     position: absolute;
     top: 12px;
@@ -81,7 +125,7 @@ const Main = styled.div`
     color: #000000;
     display: flex;
   }
-  >.title {
+  > .title {
     margin-top: 20px;
     margin-left: 34px;
     font-size: 15px;
@@ -97,8 +141,13 @@ const Main = styled.div`
       width: 518px;
       height: 518px;
       &.bar {
-        height: 400px;
-        width: 300px;
+        height: 300px;
+        width: 450px;
+        margin-top: 100px;
+      }
+      &.stacked-bar {
+        height: 300px;
+        width: 450px;
         margin-top: 100px;
       }
     }
