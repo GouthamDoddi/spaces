@@ -9,9 +9,9 @@ import { useParams, useRouteMatch } from 'react-router-dom'
 
 import { elementOptions } from '../../../../store/governance'
 
-import { allElements } from '../../../../store/governance'
+
 import analysisData from '../../../../store/temp-data-analysis'
-import { useStore } from 'effector-react'
+
 
 
 function Chart({type, data, item}) {
