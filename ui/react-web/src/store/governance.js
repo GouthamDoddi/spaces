@@ -89,9 +89,9 @@ export const elementOptions = {
       6: {name: 'Irrelevant policies', id: 6},
     },
     analysis: {
-      1: { name: 'Expiry Chart (Policy Count)', desc: 'Policy count by Expiry', graph: 'bar', id: 1},
+      1: { name: 'Policy Expiry Chart', desc: 'Policy count by Expiry', graph: 'bar', id: 1},
       2: { name: 'Policy Impact Area Chart', desc: 'Policy count by Impact Area', graph: 'bar', id: 2},
-      3: { name: 'Expiry Chart (Risk vs P. Family', desc: 'Risk count by Policy Family', graph: 'bar', id: 3 }
+      3: { name: 'Policy Risk Chart', desc: 'Risk count by Policy Family', graph: 'bar', id: 3 }
     },
     analyzers: {
       1: {
