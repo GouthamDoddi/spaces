@@ -70,10 +70,23 @@ export const caseElements = makeStore('case')
 
 export const objElements =  makeStore('obj')
 
+export const allElements = {
+  policy: policyElements,
+  landscape: landscapeElements,
+  'compl-projects': complienceElements,
+  'case-management': caseElements,
+  'obj-outcomes': objElements,
+}
+
 export const elementOptions = {
   landscape: {
     snapshot: {
-      1: {name: 'Policies To Expire', id: 1}
+      1: {name: 'Policy expiry: 6 months', id: 1},
+      2: {name: 'Compliance for business', id: 2},
+      3: {name: 'Compliance percentage', id: 3},
+      4: {name: 'Next policy to expire', id: 4},
+      5: {name: 'Policy refresh: 6 months', id: 5},
+      6: {name: 'Irrelevant policies', id: 6},
     },
     analysis: {
       1: { name: 'Expiry Chart (Policy Count)', desc: 'Policy count by Expiry', graph: 'bar', id: 1},
