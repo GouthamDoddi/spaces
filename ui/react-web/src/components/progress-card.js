@@ -17,12 +17,12 @@ function ShowPerc({ progress, max=100, sym='%' }) {
   )
 }
 
-function ShowDays({ days, date}) {
+function ShowDays({ days, date, max=30}) {
   return (
     <>
-      <progress value={days} max="30"> {days} </progress>
+      <progress value={days} max={max}> {days} </progress>
       <div className='pending days'> Due date is on {date} </div>
-      <div className='progress-value'> {30 - days < 10 ? `0${30 - days}` : (30 - days)} </div>
+      <div className='progress-value'> {max - days < 10 ? `0${max - days}` : (max - days)} </div>
       <div className='snippet'>Days Left</div>
     </>
   )
@@ -34,7 +34,7 @@ function ProgressCard(props) {
     <div className={className}>
       <div className='title'>{title}</div>
       <div className='subtitle'>{subtitle}</div>
-      { progress ? <ShowPerc progress={progress} max={max} sym={sym} /> : <ShowDays days={days} date={date}/> }
+      { progress ? <ShowPerc progress={progress} max={max} sym={sym} /> : <ShowDays max={max} days={days} date={date}/> }
     </div>
   )
 }
@@ -61,6 +61,7 @@ export default styled(ProgressCard)`
     left: 6.5%;
     font-size: 10px;
     color: #8fa8bf;
+    max-width: 210px;
   }
 
   progress::-webkit-progress-bar { background-color: #e5eff8; }

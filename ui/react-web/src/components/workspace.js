@@ -81,5 +81,6 @@ export default styled.div`
     height: 466px;
     min-width: 309px;
     margin-left: 25px;
+    overflow: auto;
   }
 `

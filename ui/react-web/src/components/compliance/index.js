@@ -44,9 +44,8 @@ function Test({ val }) {
   )
 }
 export default function() {
-  let { path, url } = useRouteMatch();
+  let { url } = useRouteMatch();
 
-  console.log(path)
   let elem = (e) =>  <Element formSpace={<Test val={[url, e]} />} />
   return(
 
