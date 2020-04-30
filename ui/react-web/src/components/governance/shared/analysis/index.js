@@ -35,7 +35,7 @@ function Chart({type, data, item}) {
                 gradient={null}
                 rounded={false}
                 style={data => {
-                  console.log('Style callback...', data);
+                  // console.log('Style callback...', data);
                   return {
                     fill: data.metadata
                   };

@@ -7,27 +7,33 @@ export default {
           "data": [
             {
               "key": "Security",
-              "data": 45
+              "data": 45,
+              matadata: '#63D4CE'
             },
             {
               "key": "Digitization",
-              "data": 33
+              "data": 33,
+              matadata: '#91DAFD'
             },
             {
               "key": "IOT",
-              "data": 29
+              "data": 29,
+              matadata: '#CEF873'
             },
             {
               "key": "Data governance",
-              "data": 27
+              "data": 27,
+              matadata: '#FF7F7E'
             },
             {
               "key": "Technology landscape",
-              "data": 42
+              "data": 42,
+              matadata: '#6C848F'
             },
             {
               "key": "Process compliance",
-              "data": 34
+              "data": 34,
+              matadata: '#179EFF'
             }
           ]
         },
@@ -36,11 +42,14 @@ export default {
           "data": [
             {
               "key": "Security",
-              "data": 29
+              "data": 29,
+              matadata: '#63D4CE'
             },
             {
               "key": "Digitization",
-              "data": 23
+              "data": 23,
+              matadata: '#91DAFD'
+
             },
             {
               "key": "IOT",
