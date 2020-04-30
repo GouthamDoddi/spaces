@@ -155,9 +155,11 @@ export const elementOptions = {
   'case-management': {
     snapshot: {
       1: {name: 'Clarifications', id: 1},
-      2: {name: 'Exceptions', id: 2},
-      3: {name: 'Support', id: 3},
-      4: {name: 'Relief', id: 4},
+      2: {name: 'Support', id: 2},
+      3: {name: 'Suggestions', id: 3},
+      4: {name: 'Exemption', id: 4},
+      5: {name: 'Policy Backlog', id: 5},
+      6: {name: 'Knowledge Backlog', id: 6}
     },
     analysis: {
       1: { name: 'Case aging by SLA by Type', desc: 'Case aging by SLA by Type', graph: 'stacked-bar', id: 1},

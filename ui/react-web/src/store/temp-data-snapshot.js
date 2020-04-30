@@ -60,5 +60,55 @@ export default {
       progress: 14,
       max: 101
     },
+  },
+  'case-management': {
+    1: {
+      title: 'Clarification',
+	    subtitle: 'Count of clarification cases attended',
+      space: 'cps',
+      type: 'value',
+      progress: 14,
+      max: 16,
+    },
+    2: {
+      title: 'Support',
+	    subtitle: 'Count of clarification cases attended',
+      space: 'cps',
+      type: 'value',
+      progress: 13,
+      max: 18,
+    },
+    3: {
+  	  title: 'Suggestion',
+	    subtitle: 'Count of clarification cases attended',
+      space: 'cps',
+      type: 'value',
+      progress: 10,
+      max: 20,
+    },
+    4: {
+      title: 'Exemption',
+	    subtitle: 'Count of clarification cases attended',
+      space: 'Compliance',
+      type: 'value',
+      progress: 8,
+      max: 14,
+    },
+    5: {
+	    title: 'Policy Backlog',
+	    subtitle: 'Count of cases converted into policy backlog',
+      space: 'Compliance',
+      type: 'value',
+      progress: 5,
+      max: 20,
+    },
+    6: {
+	    title: 'Knowledge Backlog',
+	    subtitle: 'Count of cases converted into knowledge backlog',
+      space: 'Compliance',
+      type: 'value',
+      progress: 8,
+      max: 34,
+    }
   }
 }
