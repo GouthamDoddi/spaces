@@ -8,6 +8,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "effector": "^20.14.0",
+    "effector-localstorage": "^0.5.3",
     "effector-react": "^20.6.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
