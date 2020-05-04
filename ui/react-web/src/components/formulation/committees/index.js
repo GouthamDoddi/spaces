@@ -63,9 +63,10 @@ const Widget = styled.div`
   box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
   background-color: #ffffff;
   width: 100%;
-  height: 100%;
+  height: 466px;
   display: flex;
   flex-flow: column;
+
   .title {
     margin-top: 22px;
     margin-left: 21px;
