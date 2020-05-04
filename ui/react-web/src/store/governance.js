@@ -43,6 +43,7 @@ export const policyElements = makeStore('policy')
 export const landscapeElements = makeStore('landscape')
 
 export const complienceElements = makeStore('compl')
+export const complienceRecElements = makeStore('complrec')
 
 export const caseElements = makeStore('case')
 

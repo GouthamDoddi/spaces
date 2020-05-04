@@ -1,6 +1,6 @@
 import React from 'react'
 
-import styled from 'styled-components'
+import styled, { withTheme } from 'styled-components'
 
 // import {
 //   // Switch,
@@ -39,14 +39,15 @@ import styled from 'styled-components'
 // }
 
 function Container(props) {
-  const {className, children} = props
+  const {className, children, theme} = props
   // let query = useQuery();
 
   // const name = query.get('menu-action')
   // const id = query.get('id')
   return (
     <div className={className}>
-      { children }
+
+      { theme.fixed ? <div className='sized'> { children } </div> : children }
 
       {/* <MenuModal name={name} id={id} /> */}
 
@@ -55,9 +56,19 @@ function Container(props) {
   )
 }
 
-export default styled(Container)`
+export default withTheme(styled(Container)`
   position: relative;
-  margin-left: 42px;
+  margin: 0 42px;
   top: 24px;
   display: flex;
-`
+  justify-content: center;
+  min-width: 1440px;
+  .sized {
+    display: flex;
+
+    min-width: 1440px;
+    width: 1440px;
+  }
+`)
+
+// export

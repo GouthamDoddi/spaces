@@ -8,8 +8,9 @@ export default {
     icon: '#ffefe2'
   },
   cs: {
-    color: '#42d7b6',
-    icon: '#72d7b1'
+    color: '#44d7b6',
+    icon: '#dcfff7',
+    fixed: true
   },
   as: {
     color: '#fec900',

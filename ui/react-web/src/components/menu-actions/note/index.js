@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Modal from '../modal'
 
 import Input from '../../form/input'
+import Attachment from '../../form/attachment'
 
 export default function(props) {
   const { id } = props
@@ -15,12 +16,11 @@ export default function(props) {
         <Content>
           <form>
             <div className='main'>
-              <Input label='Lorem Ipsum' />
-              <Input label='Lorem Ipsum' />
-              <Input label='Lorem Ipsum' />
-              <Input label='Lorem Ipsum' />
-              <Input label='Lorem Ipsum' />
-              <Input className='test' label='Lorem Ipsum' type='text' />
+              <Input label='Creation Date' type='date' />
+              <Input label='Last Update Date' type='date' />
+              <Input label='Title' />
+              <Input label='Notes' />
+              <Attachment label='Attachment' btn='Browse'/>
             </div>
           </form>
         </Content>

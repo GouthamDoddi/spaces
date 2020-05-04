@@ -48,23 +48,24 @@ const Link = styled(NormalLink)`
 `
 
 export default styled.div`
-  margin: 0 0px 30px 20px;
-  display: grid;
+  margin-left: 20px;
+  margin-right: 42px;
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
   min-width: 1027px;
-  grid-template-columns: auto 309px;
-  grid-template-rows: 97px auto;
-  grid-gap: 25px;
   .header {
-    grid-column: 1 / -1;
+    flex: 1;
     min-width: 1027px;
     height: 97px;
     border-radius: 3px;
     box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
     background-color: #ffffff;
+    margin-bottom: 25px;
   }
   .form-space {
     min-width: 693px;
+    flex: 1;
     height: 466px;
     border-radius: 3px;
     box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
@@ -74,14 +75,12 @@ export default styled.div`
       box-shadow: none;
       background-color: transparent;
     }
-    &.full-height {
-      height: auto;
-    }
   }
   .widgets {
     width: 309px;
-    min-height: 466px;
+    height: 466px;
     min-width: 309px;
+    margin-left: 25px;
     overflow: auto;
   }
 `
