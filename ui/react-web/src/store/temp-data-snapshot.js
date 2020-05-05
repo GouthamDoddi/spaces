@@ -207,5 +207,50 @@ export default {
       progress: 3,
       max: 9,
     }
+  },
+  'compl-records': {
+    1: {
+      title: 'Mandatory',
+      subtitle: 'Mandate Level M1: Mandatory without exception',
+      space: 'fs',
+      type: 'percentage',
+      progress: 100,
+      max: 100
+    },
+    2: {
+      title: 'Mandatory(Exceptions allowed)',
+      subtitle: 'Mandate Level M2: Mandatory with exception',
+      space: 'fs',
+      type: 'percentage',
+      progress: 91,
+      max: 100
+    },
+
+    3: {
+      title: 'Guidelines',
+      subtitle: 'Mandate Level M3: Optional compliance',
+      space: 'fs',
+      type: 'percentage',
+      progress: 45,
+      max: 100
+    },
+
+    4: {
+      title: 'Next compliance date',
+      subtitle: 'Due date for next compliance record submission',
+      space: 'as',
+      type: 'date',
+      progress: 300,
+      max: 375,
+      date: '18 May 2021'
+    },
+    5: {
+      title: 'Approved',
+      subtitle: 'Policy compliance approved and audited',
+      space: 'fs',
+      type: 'value',
+      progress: 7,
+      max: 13,
+    },
   }
 }

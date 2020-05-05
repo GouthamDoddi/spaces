@@ -14,6 +14,7 @@ import CaseManagement from './case-management'
 import Landscape from './landscape'
 import ObjOut from './obj-out'
 import ComplianceProjects from './compl-projects'
+import ComplianceRecords from './compl-records'
 
 const WorkspaceLinks = [
   { name: 'Landscape', path: 'landscape'},
@@ -21,6 +22,7 @@ const WorkspaceLinks = [
   { name: 'Compliance Projects', path: 'compl-projects'},
   { name: 'Case Management', path: 'case-management'},
   { name: 'Objectives & Outcomes', path: 'obj-outcomes'},
+  { name: 'Compliance Records', path: 'compl-records'},
 ]
 
 function rTo(path) {
@@ -42,6 +44,7 @@ export default function() {
           <Route path={rTo('compl-projects')}> <ComplianceProjects /> </Route>
           <Route path={rTo('case-management')}> <CaseManagement /> </Route>
           <Route path={rTo('obj-outcomes')}> <ObjOut /> </Route>
+          <Route path={rTo('compl-records')}> <ComplianceRecords /> </Route>
           <Route exact path=''> <Redirect to={rTo('policy')} /> </Route>
         </Switch>
       </Workspace>

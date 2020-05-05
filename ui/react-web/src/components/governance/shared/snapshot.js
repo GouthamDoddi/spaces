@@ -22,6 +22,7 @@ export default function(props) {
   const store = useStore(allElements[params.asset].store)
   const ids = store.snapshots
   const testData = snapshotData[params.asset]
+
   if(!testData){
     return(
       <Container> <Main className='no-snaps'>

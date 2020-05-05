@@ -53,6 +53,7 @@ export const allElements = {
   policy: policyElements,
   landscape: landscapeElements,
   'compl-projects': complienceElements,
+  'compl-records': complienceRecElements,
   'case-management': caseElements,
   'obj-outcomes': objElements,
 }
@@ -157,6 +158,27 @@ export const elementOptions = {
     snapshot: {
       1: {name: 'Objective Review', id: 1},
       2: {name: 'Impact Review', id: 2},
+
+    },
+    analysis: {
+      1: { name: 'Objectives Survey participants', desc: 'Objectives Survey participants by beneficiary type', graph: 'bar', id: 1},
+      2: { name: 'Impact Survey participants', desc: 'Impact Survey participants by beneficiary type:', graph: 'bar', id: 2},
+    },
+    analyzers: {
+      1: {
+            name: 'Compliance overheads index',  desc: 'Policy parameter count by Project Object',
+            graph: 'bar', filters: [[{name: 'All'}, {name: 'Policy Family'}]], id: 1
+        },
+    }
+  },
+
+  'compl-records': {
+    snapshot: {
+      1: {name: 'Mandatory', id: 1},
+      2: {name: 'Mandatory(Exceptions allowed)', id: 2},
+      3: {name: 'Guidelines', id: 3},
+      4: {name: 'Next compliance date', id: 4},
+      5: {name: 'Approved', id: 5},
 
     },
     analysis: {
