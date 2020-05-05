@@ -55,7 +55,7 @@ export default function Element(props) {
 
   const state = useStore(elements)
 
-  console.log(state)
+  // console.log(state)
   const klass = loc.pathname.includes("snapshot") ? 'no-background' : ''
 
   return (

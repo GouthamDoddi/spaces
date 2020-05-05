@@ -15,7 +15,7 @@ import analysisData from '../../../../store/temp-data-analysis'
 
 
 function Chart({type, data, item}) {
-
+  const fullData = data;
   if(item.graph === 'pie'){
     return(
       <PieChart
@@ -23,10 +23,11 @@ function Chart({type, data, item}) {
       />
     )
   } else if(item.graph === 'bar') {
+    // console.log("IN BAR")
     return(
       <BarChart
-        // height={300}
-        // width={300}
+        height={350}
+        width={500}
 
         series={
           <BarSeries
@@ -35,6 +36,7 @@ function Chart({type, data, item}) {
                 gradient={null}
                 rounded={false}
                 style={data => {
+                  // console.log(data)
                   // console.log('Style callback...', data);
                   return {
                     fill: data.metadata
@@ -47,6 +49,35 @@ function Chart({type, data, item}) {
         data={data}
       />
     );
+  }  else if( item.graph === 'stacked-bar') {
+    return (
+
+      <BarChart
+        height={350}
+        width={500}
+        data={data}
+        series={
+          <BarSeries
+            type="grouped"
+            bar={
+              <Bar
+                rounded={false}
+                gradient={null}
+                style={(data, i) => {
+                  const main = fullData.find(d => d.key == data.key) || {}
+                  const obj = main.data?.find(h => h.key === data.x) || {}
+                  const color = obj['matadata']
+                  return {
+                    fill: color
+                  };
+                }}
+              />
+            }
+            padding={0.8}
+          />
+        }
+      />
+    )
   } else {
     return(<div> Requested other than Pie, Bar </div>)
   }
@@ -55,10 +86,7 @@ function Chart({type, data, item}) {
 export default function(props) {
   const { name } = useParams()
   let {params} = useRouteMatch("/governance/:asset/analysis/:id") || {};
-  // const x = elementOptions
   const item = elementOptions[params.asset]['analysis'][name]
-
-
 
   const info = analysisData[params.asset][name]
 
@@ -69,7 +97,6 @@ export default function(props) {
       </Container>
     )
   }
-  console.log(info.data)
 
   const { type } = props
   return(
@@ -106,8 +133,13 @@ const Main = styled.div`
       width: 518px;
       height: 518px;
       &.bar {
-        height: 300px;
-        width: 450px;
+        height: 350px;
+        width: 500px;
+        margin-top: 100px;
+      }
+      &.stacked-bar {
+        height: 350px;
+        width: 500px;
         margin-top: 100px;
       }
     }

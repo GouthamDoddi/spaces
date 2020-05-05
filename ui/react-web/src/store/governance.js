@@ -94,10 +94,14 @@ export const elementOptions = {
     },
 
     analysis: {
-      1: { name: 'Ageing Chart', desc: 'Propagation  Projects/Tasks* by TAT and Feedback', graph: 'bar', id: 1},
-      2: { name: 'Compliance Projects by sections', desc: 'Compliance Projects by sections', graph: 'bar', id: 2},
-      3: { name: 'Budget Allocated & Utlized Chart', desc: 'Budget Allocated & Utlized Chart', graph: 'pie', id: 3 },
-      4: { name: 'Collaboration Chart', desc: 'Collaboration Chart', graph: 'bar', id: 4 },
+      // 1: { name: 'Ageing Chart', desc: 'Propagation  Projects/Tasks* by TAT and Feedback', graph: 'bar', id: 1},
+      // 2: { name: 'Compliance Projects by sections', desc: 'Compliance Projects by sections', graph: 'bar', id: 2},
+      // 3: { name: 'Budget Allocated & Utlized Chart', desc: 'Budget Allocated & Utlized Chart', graph: 'pie', id: 3 },
+      // 4: { name: 'Collaboration Chart', desc: 'Collaboration Chart', graph: 'bar', id: 4 },
+      1: { name: 'Pending projects by Stage', desc: 'Pending projects by Stage', graph: 'bar', id: 1},
+      2: { name: 'Pending Learning by Section', desc: 'Pending Learning by Section', graph: 'stacked-bar', id: 2},
+
+
     },
 
     analyzers: {
@@ -162,7 +166,7 @@ export const elementOptions = {
     },
     analysis: {
       1: { name: 'Objectives Survey participants', desc: 'Objectives Survey participants by beneficiary type', graph: 'bar', id: 1},
-      2: { name: 'Impact Survey participants', desc: 'Impact Survey participants by beneficiary type:', graph: 'bar', id: 2},
+      2: { name: 'Impact Survey participants', desc: 'Impact Survey participants by beneficiary type:', graph: 'stacked-bar', id: 2},
     },
     analyzers: {
       1: {
@@ -182,8 +186,7 @@ export const elementOptions = {
 
     },
     analysis: {
-      1: { name: 'Objectives Survey participants', desc: 'Objectives Survey participants by beneficiary type', graph: 'bar', id: 1},
-      2: { name: 'Impact Survey participants', desc: 'Impact Survey participants by beneficiary type:', graph: 'bar', id: 2},
+      1: { name: 'Compliance Scores', desc: 'Compliance Scores', graph: 'bar', id: 1},
     },
     analyzers: {
       1: {
