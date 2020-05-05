@@ -7,7 +7,7 @@ import Input from './input'
 function Element(props) {
   const { className, btn, ...others } = props
 
-  let [selectedFile, setFile ] = useState('t')
+  let [selectedFile, setFile ] = useState('')
 
 
   return(

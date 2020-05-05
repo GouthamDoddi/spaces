@@ -4,9 +4,10 @@ import { complienceRecElements as elements, elementOptions } from '../../store/g
 import GovWorkspace from './shared/gov-workspace'
 
 export default function(props) {
-  const options = elementOptions['compl-record']
+  const options = elementOptions['compl-records']
+  debugger
   return(
-    <GovWorkspace elements={elements} selectOptions={options} asset='compl-record' />
+    <GovWorkspace elements={elements} selectOptions={options} asset='compl-records' />
   )
 }
 
