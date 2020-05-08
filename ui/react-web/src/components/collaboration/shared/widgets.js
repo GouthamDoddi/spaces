@@ -1,6 +1,22 @@
 import React from 'react';
 import styled from 'styled-components'
+import Link from './clink'
 
+const topics = [
+  'Policy families',
+  'Digitization',
+  'Internet of Things',
+  'Data governance',
+  'Portal',
+  'Identity Mgmt'
+]
+
+const tags = [
+  'ImplementationDomain', 'CustomSubject',
+  'Payment', 'UserData', 'eServices', 'UserExperience',
+  'Development', 'Architecture', 'MEANStack',
+  'MVVM'
+]
 export default function Element(props) {
   return (
     <>
@@ -8,9 +24,9 @@ export default function Element(props) {
         <div className='title'> Top Topics </div>
         <div className='content'>
         {
-          [1,2,3,4,5,6,7,8].map((i) => (
-            <div className='menu'>
-              <div className='title'> Topic {i} </div>
+          topics.map((topic, i) => (
+            <div className='menu' key={i}>
+              <Link to='' className='title'> {topic} </Link>
             </div>
           ))
         }
@@ -22,8 +38,8 @@ export default function Element(props) {
         <div className='content'>
           <div className='tags'>
             {
-              [1,2,3,4,5,6,7,8].map((i) => (
-                <div className='tag'> #Tag {i} </div>
+              tags.map((tag, i) => (
+                <div className='tag' key={i}> #{tag} </div>
               ))
             }
           </div>
@@ -67,7 +83,7 @@ const Widget = styled.div`
       display: flex;
       align-items: center;
       padding-left: 14px;
-      // padding-top: 18px;
+      padding-top: 25px;
 
       &:last-child {
         margin-bottom: 10px;

@@ -14,9 +14,13 @@ import Widgets from '../shared/widgets'
 import CreateMsg from '../shared/create-msg'
 import BigCard from '../shared/big-card'
 
+import forums from '../../../store/temp-data-forums'
+
 function rTo(path) {
   return `/collaboration/forums/${path}`
 }
+
+
 
 
 export default function Element({ elements, selectOptions, asset }) {
@@ -57,29 +61,3 @@ const Container = styled.div`
     margin-bottom: 14px;
   }
 `
-const forums = [
-  {
-    user_icon: '',
-    name: 'Jaclynn Bradley',
-    time: 'October 9 at 9:10pm  ',
-    msg: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam',
-    tags: [ { name: 'Portal', space: 'cs'}, { name: 'Payment', space: 'cs'}, { name: 'Digitization', space: 'fs'},
-      { name: 'IdentityMgmt', space: 'fs'}, { name: 'GovernamentAgency', space: 'gs'} ],
-    like_count: 435,
-    comment_count: 4,
-    share_count: 25,
-    img: '/img/forum/sneeze.jpg'
-  },
-  {
-    user_icon: '',
-    name: 'Sampson Totton',
-    time: 'October 9 at 9:10pm  ',
-    msg: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam',
-    tags: [ { name: 'Portal', space: 'cs'}, { name: 'Payment', space: 'cs'}, { name: 'Digitization', space: 'fs'},
-      { name: 'IdentityMgmt', space: 'fs'}, { name: 'GovernamentAgency', space: 'gs'} ],
-    like_count: 435,
-    comment_count: 4,
-    share_count: 25,
-    img: '/img/forum/covid.jpg'
-  }
-]

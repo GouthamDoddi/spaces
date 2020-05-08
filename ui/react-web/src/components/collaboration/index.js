@@ -6,7 +6,9 @@ import CreateMenu from '../createMenu';
 import {
   Switch,
   Route,
-  Redirect
+  Redirect,
+  useLocation,
+  matchPath
 } from 'react-router-dom';
 
 import styled from 'styled-components';
@@ -14,10 +16,9 @@ import styled from 'styled-components';
 import Forum from './forum'
 import Blog from './blog'
 import Announcements from './announcements'
-// import CaseManagement from './case-management'
-// import Landscape from './landscape'
-// import ObjOut from './obj-out'
-// import ComplianceProjects from './compl-projects'
+import Kb from './kb'
+import Survey from './sp'
+
 
 const WorkspaceLinks = [
   { name: 'My Forums', path: 'forums'},
@@ -28,11 +29,40 @@ const WorkspaceLinks = [
   { name: 'Surveys and Petitions', path: 'sp'}
 ]
 
+const channels = [
+  'Portal',
+  'MobileApp',
+  'Kiosk',
+  'Enterprise Resource Planning',
+  'Business Intelligence',
+  'Customer Relationship'
+]
+
 function rTo(path) {
   return `/collaboration/${path}`
 }
 
+function Channels(props) {
+  return (
+    <div className='channels'>
+      <div className='title'> Channels </div>
+      <div className='content'>
+        {
+          channels.map((channel, i) => (
+            <div className='channel' key={i}>
+              { channel }
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+  )
+}
 export default function() {
+  const location = useLocation();
+  const { params } = matchPath(location.pathname, {path: '/collaboration/:asset'}) || {}
+  console.log(params)
   return(
 
     <Container>
@@ -51,18 +81,10 @@ export default function() {
             <input name='search' placeholder='Search' />
           </Menu>
         </CreateMenu>
-        <div className='channels'>
-          <div className='title'> Channels </div>
-          <div className='content'>
-            {
-              [1,2,3,4,5,6].map((i) => (
-                <div className='channel'>
-                  Channel { i }
-                </div>
-              ))
-            }
-          </div>
-        </div>
+        {
+          params && params.asset === 'sp' ? '' : <Channels />
+        }
+
       </LeftPanel>
 
 
@@ -74,9 +96,9 @@ export default function() {
           <Route path={rTo('forums')}> <Forum /> </Route>
           <Route path={rTo('blogs')}> <Blog /> </Route>
           <Route path={rTo('announcements')}> <Announcements /> </Route>
-          <Route path={rTo('kb')}> <div /> </Route>
+          <Route path={rTo('kb')}> <Kb /> </Route>
           <Route path={rTo('la')}> <div /> </Route>
-          <Route path={rTo('sp')}> <div /> </Route>
+          <Route path={rTo('sp')}> <Survey /> </Route>
           <Route exact path=''> <Redirect to={rTo('forums')} /> </Route>
         </Switch>
       </Workspace>
@@ -154,7 +176,6 @@ const LeftPanel = styled.div`
     margin-top: 20px;
     width: 309px;
     min-height: 413px;
-    margin-bottom: 50px;
     border-radius: 3px;
     box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
     background-color: #ffffff;
@@ -184,6 +205,7 @@ const LeftPanel = styled.div`
       margin: 0 14px;
       padding-top: 25px;
       padding-left: 15px;
+      font-size: 15px;
       &:last-child {
         border: none;
       }
