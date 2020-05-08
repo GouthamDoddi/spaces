@@ -64,7 +64,7 @@ function Chart({type, data, item}) {
                 rounded={false}
                 gradient={null}
                 style={(data, i) => {
-                  const main = fullData.find(d => d.key == data.key) || {}
+                  const main = fullData.find(d => d.key === data.key) || {}
                   const obj = main.data?.find(h => h.key === data.x) || {}
                   const color = obj['matadata']
                   return {

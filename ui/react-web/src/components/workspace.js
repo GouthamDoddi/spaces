@@ -48,7 +48,7 @@ const Link = styled(NormalLink)`
 `
 
 export default styled.div`
-  margin: 0 0px 30px 20px;
+  margin: 0 0px 0px 20px;
   display: grid;
   width: 100%;
   min-width: 1027px;

@@ -58,7 +58,8 @@ function Container(props) {
 
 export default withTheme(styled(Container)`
   position: relative;
-  margin: 0 42px;
+  margin: 0 42px 40px 42px;
+
   top: 24px;
   display: flex;
   justify-content: center;
