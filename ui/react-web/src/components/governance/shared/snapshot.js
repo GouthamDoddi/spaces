@@ -13,7 +13,7 @@ import snapshotData from '../../../store/temp-data-snapshot'
 import { useStore } from 'effector-react'
 
 export default function(props) {
-  const { params } = useRouteMatch('/governance/:asset/snapshot') || {}
+  const { params } = useRouteMatch('/:space/:asset/snapshot') || {}
 
   if(params === null) {
     return(<div> SOME ERROR OCCURED. Please Refresh </div>)

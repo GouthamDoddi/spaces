@@ -7,6 +7,7 @@ import {
   Redirect,
   useLocation,
   // useRouteMatch
+  matchPath,
 } from 'react-router-dom';
 
 import Snapshot from './snapshot'
@@ -17,13 +18,17 @@ import ControlPanel from './control-panel'
 import { useStore } from 'effector-react'
 
 
-function rTo(asset, path) {
-  return `/governance/${asset}/${path}`
+
+function useTo(asset, path) {
+  const { pathname } = useLocation()
+  const { params } = matchPath(pathname, {path: '/:space/:asset/'}) || {}
+  const { space } = params || { space: 'governance'}  
+  return `/${space}/${asset}/${path}`
 }
 
 function Link({to, className, children, asset}) {
   return (
-    <NavLink to={rTo(asset, to)} className='menu' activeClassName='selected'>
+    <NavLink to={useTo(asset, to)} className='menu' activeClassName='selected'>
       {children}
     </NavLink>
   )
@@ -64,11 +69,11 @@ export default function Element({ elements, selectOptions, asset }) {
     <>
       <div className={`form-space ${klass}`}>
         <Switch>
-          <Route path={rTo(asset, 'snapshot')}> <Snapshot /> </Route>
-          <Route path={rTo(asset, 'analysis/:name')}> <Analysis /> </Route>
-          <Route path={rTo(asset, 'analyzers/:name')}> <Analyzer /> </Route>
-          <Route path={rTo(asset, 'control-panel')}> <ControlPanel options={selectOptions} elements={elements} /> </Route>
-          <Route exact path=''> <Redirect to={rTo(asset, 'snapshot')} /> </Route>
+          <Route path={useTo(asset, 'snapshot')}> <Snapshot /> </Route>
+          <Route path={useTo(asset, 'analysis/:name')}> <Analysis /> </Route>
+          <Route path={useTo(asset, 'analyzers/:name')}> <Analyzer /> </Route>
+          <Route path={useTo(asset, 'control-panel')}> <ControlPanel options={selectOptions} elements={elements} /> </Route>
+          <Route exact path=''> <Redirect to={useTo(asset, 'snapshot')} /> </Route>
         </Switch>
 
       </div>
