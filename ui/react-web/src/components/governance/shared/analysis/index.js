@@ -85,7 +85,7 @@ function Chart({type, data, item}) {
 
 export default function(props) {
   const { name } = useParams()
-  let {params} = useRouteMatch("/governance/:asset/analysis/:id") || {};
+  let {params} = useRouteMatch("/:space/:asset/analysis/:id") || {};
   const item = elementOptions[params.asset]['analysis'][name]
 
   const info = analysisData[params.asset][name]

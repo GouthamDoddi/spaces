@@ -13,7 +13,7 @@ function Element(props) {
   return(
     <div className={className}>
       <Input {...others} disabled value={selectedFile} />
-      <label>
+      <label className='button'>
         <span> { btn } </span>
         <input type='file' onChange={(f) => setFile(f.target.files[0]?.name || '')} />
       </label>

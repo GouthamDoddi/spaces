@@ -7,7 +7,7 @@ function Element(props) {
   return(
     <div className={className}>
       <label> {label} </label>
-      <input {...others} />
+      <textarea {...others} />
     </div>
   )
 }
@@ -23,7 +23,7 @@ export default styled(Element)`
   }
   textarea {
     outline: none;
-    min-width: 285px;
+    min-width: 265px;
     height: 83px;
     border-radius: 2px;
     border: solid 1px #dedede;

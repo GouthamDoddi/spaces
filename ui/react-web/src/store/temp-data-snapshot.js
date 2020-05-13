@@ -125,7 +125,7 @@ export default {
     4: {
       title: 'Exemption',
 	    subtitle: 'Count of clarification cases attended',
-      space: 'Compliance',
+      space: 'cps',
       type: 'value',
       progress: 8,
       max: 14,
@@ -133,7 +133,7 @@ export default {
     5: {
 	    title: 'Policy Backlog',
 	    subtitle: 'Count of cases converted into policy backlog',
-      space: 'Compliance',
+      space: 'cps',
       type: 'value',
       progress: 5,
       max: 20,
@@ -141,7 +141,7 @@ export default {
     6: {
 	    title: 'Knowledge Backlog',
 	    subtitle: 'Count of cases converted into knowledge backlog',
-      space: 'Compliance',
+      space: 'cps',
       type: 'value',
       progress: 8,
       max: 34,
