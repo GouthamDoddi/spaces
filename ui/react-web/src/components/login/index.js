@@ -8,7 +8,9 @@ export default function ({ options, elements }) {
       <div className="sideView"></div>
       <div className="loginPage">
         <div className="loginTitle">
-          <div>logo1</div>
+          <div>
+            <img src="/img/login/logo1.png" />
+          </div>
           <div>logo2</div>
         </div>
         <div className="login">
@@ -41,23 +43,27 @@ const Main = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 100%;
+  width: 1440px;
+  height: 1024px;
+  background-color: #f7fafd;
   display: grid;
-  grid-template-columns: 70% 30%;
-  grid-template-rows: 95%;
+  grid-template-columns: 792px 648px;
+  grid-template-rows: 962px;
   grid-template-areas:
     'sidebar main'
     'footer footer';
-  background-color: #f7fafd;
   .sideView {
     background-color: #625cbc;
+    background-image: url('/img/login/login_side_BG.png');
+    background-repeat: no-repeat;
+    background-position: center;
   }
   .footer {
     grid-area: footer;
     background-color: #ffffff;
     .footerText {
-      margin: 8px 5%;
+      margin-top: 21px;
+      margin-left: 103px;
       font-family: Muli;
       font-size: 15px;
       color: #506679;
@@ -65,7 +71,7 @@ const Main = styled.div`
   }
   .loginPage {
     display: grid;
-    grid-template-rows: 10% 60% 30%;
+    grid-template-rows: 134px 556px 272px;
     .loginTitle {
       display: flex;
       justify-content: space-evenly;
@@ -73,36 +79,52 @@ const Main = styled.div`
     }
     .masks {
       .mask {
-        width: 75%;
-        height: 80%;
+        width: 482px;
+        height: 216px;
+        opacity: 0.59;
         border-radius: 12px;
         background-color: #564fc1;
-        margin: 5% 10%;
+        margin: 28px 45px 10%;
         color: #ffffff;
         font-family: Muli;
         .text {
-          font-size: 15px;
+          width: 412px;
+          height: 77px;
+          font-family: Muli;
+          font-size: 20px;
           font-weight: bold;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
           text-align: center;
-          padding: 3% 10%;
+          color: #ffffff;
+          display: inline-flex;
+          margin: 41px 37px 21px 33px;
         }
         .headerText {
-          font-size: 25px;
+          font-family: Muli;
+          font-size: 30px;
           font-weight: 900;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
           text-align: center;
-          padding: 5%;
+          color: #ffffff;
         }
       }
     }
   }
   .login {
-    margin: 0px 10%;
-    width: 80%;
+    width: 551px;
     border-radius: 37px;
     box-shadow: 0 6px 4px 0 rgba(0, 0, 0, 0.06);
     background-color: #ffffff;
+    margin-right: 52px;
+    margin-left: 45px;
     .content {
-      margin: 10% 15%;
+      margin: 35px 72px 68px 89px;
       .header {
         font-size: 20px;
         font-weight: 800;
@@ -113,7 +135,7 @@ const Main = styled.div`
         font-size: 9px;
         font-weight: 500;
         color: #687c9d;
-        margin-top: 3%;
+        margin-top: 14px;
       }
       .newRegisterText {
         font-size: 10px;
@@ -126,17 +148,22 @@ const Main = styled.div`
         }
       }
       .inputWrapper {
-        margin-top: 30px;
+        margin-top: 49px;
+      }
+      input {
+        width: 390px;
+        height: 45px;
       }
       button {
         height: 38px;
         align-self: flex-end;
-        margin: 20px 5%;
+        margin: 20px 75px 40px 75px;
         border: none;
         border-radius: 2px;
         background-color: #fec900;
         color: #fff;
         width: 240px;
+        height: 45px;
       }
     }
   }
