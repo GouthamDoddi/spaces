@@ -12,6 +12,7 @@ import Collaboration from './components/collaboration'
 import Activation from './components/activation'
 import Governance from './components/governance'
 import Compliance from './components/compliance'
+import Login from './components/login'
 
 import Header from './components/header'
 
@@ -28,6 +29,9 @@ function Routes() {
   // console.log(background)
   return (
     <>
+    <Switch>
+    <Route exact path="/Login"> <TP theme={cs.home}> <Login /> </TP></Route>
+    <Route path="/"> 
       <Header />
       {/* <Switch location={ background || location }> */}
       <Switch>
@@ -38,6 +42,8 @@ function Routes() {
         <Route path="/governance"> <TP theme={cs.gs}> <Governance /> </TP> </Route>
         <Route path="/compliance"> <TP theme={cs.cps}> <Compliance /> </TP> </Route>
         <Route exact path="/"> <TP theme={cs.home}> <Home /> </TP></Route>
+      </Switch>
+      </Route>
       </Switch>
     </>
   )
