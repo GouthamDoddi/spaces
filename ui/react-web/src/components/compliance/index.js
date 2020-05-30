@@ -1,13 +1,16 @@
 import React from 'react';
+import styled from 'styled-components'
 import Container from '../container';
 import Workspace, { Links } from '../workspace';
 import CreateMenu from '../createMenu';
+import List from './list'
 
 import {
   Switch,
   Route,
   useRouteMatch,
-  Redirect
+  Redirect,
+  useParams,
 } from 'react-router-dom';
 
 import CaseManagement from './case-management'
@@ -21,6 +24,8 @@ import Kb from './kb'
 import Sections from './sections'
 import Scores from '../governance/compl-projects'
 import Management from './compl-management'
+
+import { useTo } from './util'
 
 const WorkspaceLinks = [
   { name: 'Project Profile', path: 'profile'},
@@ -36,6 +41,14 @@ const WorkspaceLinks = [
   { name: 'My Announcements', path: 'my-announce'},
 ]
 
+const WorkspaceListLinks = [
+  { name: 'Project Profile', path: 'profile'},
+  { name: 'Checklist', path: 'checklist'},
+  { name: 'Stakeholder Map', path: 'stakeholder-map'},
+  { name: 'Compliance Plan', path: 'plan'},
+]
+
+
 function Element(props) {
   return (
     <>
@@ -47,43 +60,89 @@ function Element(props) {
   )
 }
 
-
-function rTo(path) {
-  return `/compliance/${path}`
-}
-
 function Test({ val }) {
   return (
     <div> {val.join(' - ') }</div>
   )
 }
+
+function Specific(props) {
+  const { id } = useParams()
+  const only = id === 'new' ? ['profile'] : null
+  console.log(useTo('profile'))
+  return(      
+    <Workspace>
+      <div className='header'>
+        <Links data={WorkspaceLinks} prefix='compliance' only={only} />
+      </div>
+      <Switch>
+        <Route path={useTo('profile')}> <Profile /> </Route>
+        <Route path={useTo('framework')}> <Framework /> </Route>
+        <Route path={useTo('compl-sections')}> <Sections /> </Route>
+        <Route path={useTo('plan')}> <Plan /> </Route>
+        <Route path={useTo('kb')}> <Kb /> </Route>
+        <Route path={useTo('record')}> <Record /> </Route>
+        <Route path={useTo('compl-management')}> <Management /> </Route>
+        <Route path={useTo('mycases')}> <MyCases /> </Route>
+        <Route path={useTo('case-management')}> <CaseManagement /> </Route>
+        <Route path={useTo('compl-projects')}> <Scores /> </Route>
+        <Route path={useTo('my-announce')}> <Announcements /> </Route>
+        <Route exact path={useTo('')}> <Redirect to={useTo('profile', true)} /> </Route>
+      </Switch>
+    </Workspace>
+  )
+}
+
+function SpecificWithProfile(props) {
+  return(      
+    <Workspace>
+      <div className='header'>
+        <Links data={WorkspaceLinks} prefix='compliance' only={['profile']} />
+      </div>
+      <Switch>
+        <Route path='/compliance/profile/new'> <Profile /> </Route>
+      </Switch>
+    </Workspace>
+  )
+}
+
+function ListView() {
+  return(
+    <CustomWorkspace>
+      <div className='header'>
+        <Links data={WorkspaceListLinks} prefix='compliance' />
+      </div>
+      <Switch>
+        <Route path='/compliance/profile'> <List /> </Route>
+        <Route path='checklist'> <div> CHECKLIST </div> </Route>
+        <Route path='stakeholder-map'> <div> STAKEHOLDERS MAP</div> </Route>
+        <Route path='plan'> <div> PLAN </div> </Route>
+        <Route exact path='/compliance'> <Redirect to='/compliance/profile' /> </Route>
+      </Switch>
+    </CustomWorkspace>
+  )
+}
+
 export default function() {
   let { url } = useRouteMatch();
 
   let elem = (e) =>  <Element formSpace={<Test val={[url, e]} />} />
   return(
-
     <Container>
       <CreateMenu space='Compliance Space' items={['task', 'petition', 'note', 'space', 'kb']} />
-      <Workspace>
-        <div className='header'>
-          <Links data={WorkspaceLinks} prefix='compliance' />
-        </div>
-        <Switch>
-          <Route path={rTo('profile')}> <Profile /> </Route>
-          <Route path={rTo('framework')}> <Framework /> </Route>
-          <Route path={rTo('compl-sections')}> <Sections /> </Route>
-          <Route path={rTo('plan')}> <Plan /> </Route>
-          <Route path={rTo('kb')}> <Kb /> </Route>
-          <Route path={rTo('record')}> <Record /> </Route>
-          <Route path={rTo('compl-management')}> <Management /> </Route>
-          <Route path={rTo('mycases')}> <MyCases /> </Route>
-          <Route path={rTo('case-management')}> <CaseManagement /> </Route>
-          <Route path={rTo('compl-projects')}> <Scores /> </Route>
-          <Route path={rTo('my-announce')}> <Announcements /> </Route>
-          <Route exact path={rTo('')}> <Redirect to={rTo('profile')} /> </Route>
-        </Switch>
-      </Workspace>
+      <Switch>
+        <Route path='/compliance/:id(\d+|new)'> <Specific disable/> </Route>
+        <Route path='/compliance'> <ListView /> </Route>
+        <Route path=''> <div> NOT FOUND </div></Route>
+      </Switch>      
     </Container>
+
+
   )
 }
+
+const CustomWorkspace = styled(Workspace)`
+  .header {
+    width: 1027px;
+  }
+`

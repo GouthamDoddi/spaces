@@ -3,6 +3,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 
+import { useParams } from 'react-router-dom'
+
 function NormalLink(props) {
   const { to, className, children } = props;
   return (
@@ -13,16 +15,31 @@ function NormalLink(props) {
 }
 
 function NormalLinks(props) {
-  const { prefix, data, className } = props
+  const { prefix, data, className, only } = props
+  const { id } = useParams()
+  const to = (obj) => (id ? `/${prefix}/${id}/${obj.path}` : `/${prefix}/${obj.path}`)
   return(
     <div className={className}>
       {
-        data.map((obj) => <Link to={`/${prefix}/${obj.path}`} key={obj.path}> {obj.name} </Link>)
+        data.map((obj, i) => (
+          (!only || only.includes(obj.path)) ? 
+            <Link to={to(obj)} key={obj.path}> {obj.name} </Link> : <Disabled key={i}>{obj.name} </Disabled>
+          )
+        )
       }
     </div>
   )
 }
 
+export const Disabled = styled.div`
+  padding: 8px 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #687c9d;
+  text-align: center;
+  flex: 1;
+  margin-right: 6px;
+`
 export const Links = styled(NormalLinks)`
   display: flex;
   margin-left: 15px;
@@ -65,6 +82,9 @@ export default styled.div`
   }
   .form-space {
     min-width: 693px;
+    position: relative;
+    left: 0;
+    top: 0;
     height: 466px;
     border-radius: 3px;
     box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);

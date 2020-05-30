@@ -2,8 +2,11 @@ import React from 'react';
 import {
   HashRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from 'react-router-dom';
+
+import { loggedIn } from './store/user'
 
 import Home from './components/home'
 import Dashboard from './components/dashboard'
@@ -29,9 +32,6 @@ function Routes() {
   // console.log(background)
   return (
     <>
-    <Switch>
-    <Route exact path="/Login"> <TP theme={cs.home}> <Login /> </TP></Route>
-    <Route path="/"> 
       <Header />
       {/* <Switch location={ background || location }> */}
       <Switch>
@@ -43,15 +43,29 @@ function Routes() {
         <Route path="/compliance"> <TP theme={cs.cps}> <Compliance /> </TP> </Route>
         <Route exact path="/"> <TP theme={cs.home}> <Home /> </TP></Route>
       </Switch>
-      </Route>
-      </Switch>
     </>
   )
 }
 function App() {
   return (
     <Router>
-      <Routes />
+      <Switch>
+        <Route path='/login'><Login /></Route>
+        <Route path='/'
+                render={({ location }) =>
+                loggedIn() ? (
+                  <Routes />
+                ) : (
+                  <Redirect
+                    to={{
+                      pathname: "/login",
+                      state: { from: location }
+                    }}
+                  />
+                )
+              }
+        />
+      </Switch>
     </Router>
   );
 }

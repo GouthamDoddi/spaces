@@ -2,7 +2,7 @@ import React from 'react'
 
 import styled from 'styled-components'
 
-import Select, { components } from 'react-select';
+// import Select, { components } from 'react-select';
 
 import { Link } from 'react-router-dom'
 

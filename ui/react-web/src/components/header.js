@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom';
 
 import styled from 'styled-components'
 import cs from '../utils/colors.js'
+import userStore from '../store/user'
+import { useStore } from 'effector-react'
 
 
 function NormalLink(props) {
@@ -16,7 +18,9 @@ function NormalLink(props) {
   )
 }
 
-export default function header() {
+export default function(props) {
+  const store = useStore(userStore)
+
   return (
     <StyledHeader>
       <div className='header-content'>
@@ -50,7 +54,7 @@ export default function header() {
             <img src="/img/bell.svg" alt='bell'/>
           </div>
           <div className='user-icon'></div>
-          <div className='username'> Sampson Totton</div>
+          <div className='username'> {store.info.first_name} {store.info.last_name} </div>
         </div>
       </div>
     </StyledHeader>

@@ -1,23 +1,28 @@
 import React from 'react'
 import styled from 'styled-components'
 import ProgressCard from '../progress-card'
+import ProfileCard from '../project-profile-card'
+import { Search, Select }from '../form'
 
 export default function() {
+  // useEffect(() => {
+  //   console.log("Route Loaded")
+  // })
   return(
     <Container>
-      <div class='left-actions'>
-          <div class='act-1'> <img src='/img/time-line.svg' alt=''/> </div>
-          <div class='act-2'> <img src='/img/notes.svg' alt=''/> </div>
-          <div class='act-3'> <img src='/img/chat.svg' alt=''/> </div>
+      <div className='left-actions'>
+          <div className='act-1'> <img src='/img/time-line.svg' alt=''/> </div>
+          <div className='act-2'> <img src='/img/notes.svg' alt=''/> </div>
+          <div className='act-3'> <img src='/img/chat.svg' alt=''/> </div>
       </div>
 
-      <div class='right-panel'>
-        <div class='hero'>
-          <div class='policy'>
-            <div class='policy-content'>
-              <div class='title-box'>
-                <div class='welcome'> Welcome </div>
-                <div class='name'>Steering Committee</div>
+      <div className='right-panel'>
+        <div className='hero'>
+          <div className='policy'>
+            <div className='policy-content'>
+              <div className='title-box'>
+                <div className='welcome'> Welcome </div>
+                <div className='name'>Steering Committee</div>
               </div>
               <form>
                 <input type='text' name='title' placeholder="Title" />
@@ -28,8 +33,8 @@ export default function() {
             </div>
           </div>
         </div>
-        <div class='stage'>
-          <div class='progress-cards'>
+        <div className='stage'>
+          <div className='progress-cards'>
             <ProgressCard title='Propogation'
               subtitle='Completion of selected policy'
               progress={64} color='#564fc1' />
@@ -43,8 +48,20 @@ export default function() {
               subtitle='Completion of selected policy'
               days={23} color='red' date='13 April 2020' />
           </div>
-          <div class='panel-cards'>
-
+          <ProfileCards>
+            <div className='top'>
+              <div className='title'> Project Profile </div>
+              <div className='right'>
+                <Search className='search'/>
+              </div>
+            </div>
+            <div className='cards'>
+              { profileData.map((p, i) => <ProfileCard i={i} {...p} key={i} />)}
+              
+            </div>
+          </ProfileCards>
+          <div className='panel-cards'>
+            <Select />
           </div>
         </div>
       </div>
@@ -156,8 +173,65 @@ const Container = styled.div`
         display: flex;
         margin: 23px 0;
         flex-wrap: wrap;
+        margin-left: 27px;
       }
     }
   }
 
 `
+
+const ProfileCards = styled.div`
+  margin: 20px 0 0 23px;
+  
+  > .top {
+    height: 35px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 18px 4px;
+
+    > .title {
+      display: flex;
+      align-self: flex-end;
+      font-size: 15px;
+      font-weight: bold;
+      color: #000000;
+    }
+    > .right {
+      display: flex;
+      margin-right: 46px;
+      > .search {
+        input {
+          width: 319px;
+          height: 35px;
+          border: solid 1px #dedede;
+          background-color: #efefef;
+          padding-left: 32px;
+          font-size: 10px;
+          color: #7e9ab3;
+        }
+        i {
+          background-size: 14px;
+          left: 10px;
+          top: 11px;
+        }
+      }
+    }
+  }
+
+  > .cards {
+    display: flex;
+    overflow-y: auto;
+  }
+`
+
+const profileData = [
+  {
+    title: 'My Income Tax',
+    section_count: 14,
+    attribute_count: 47,
+    parameter_count: 89,
+    due_date: '14 January 2021',
+    score: '70%',
+    tickets: 'Created'
+  }
+]

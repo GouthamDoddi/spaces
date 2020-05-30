@@ -2,7 +2,9 @@ import React from 'react';
 import styled from 'styled-components'
 import Modal from '../modal'
 
-import Input from '../../form/input'
+import Form, { Input } from '../../form'
+
+
 
 export default function(props) {
   const { id } = props
@@ -15,10 +17,12 @@ export default function(props) {
         <Content>
           <form>
             <div className='main'>
-              <Input label='Title' />
-              <Input label='Status' />
-              <Input label='Start Date' type='date' />
-              <Input label='End Date' type='date' />
+              <Form>
+                <Input label='Title' />
+                <Input label='Status' />
+                <Input label='Start Date' type='date' />
+                <Input label='End Date' type='date' />
+              </Form>
             </div>
           </form>
         </Content>

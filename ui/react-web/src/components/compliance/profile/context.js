@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Input from '../../form/input'
-import Checkbox from '../../form/checkbox'
+import Checkbox from '../../form/checkbox2'
 
 import styled from 'styled-components'
 

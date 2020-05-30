@@ -21,7 +21,7 @@ function rTo(path) {
 function ElementWidget(props) {
   const color = props.type === 'survey' ? cs.gs.color : cs.fs.color
   return(
-    <Menu to={rTo(`${props.id}/1`)} key={props.key} color={color}>
+    <Menu to={rTo(`${props.id}/1`)} color={color}>
       <div className='title'> { props.name } </div>
       <div className='desc'>
         <span> Number Of People Attempted:  </span>

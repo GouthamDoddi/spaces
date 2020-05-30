@@ -1,12 +1,18 @@
 Sequel.migration do
   change do
-    create_table(:beneficiaries) do
+    create_table(:projects) do
       primary_key :id
 
-      foreign_key :beneficiary_segment_id, :beneficiary_segments
-      foreign_key :beneficiary_sub_segment_id, :beneficiary_segments
-      foreign_key :beneficiary_impact_id, :policy_constants
-      foreign_key :policy_id, :policies
+      String :name, size: 50
+      String :sponsor, size: 50
+      String :description, text: true
+      Integer :owner_id
+      Integer :type_id
+
+      Date :start_date
+      Date :end_date
+      
+      column :section_ids, 'numeric[]'
 
       TrueClass :active, :default => true
 

@@ -3,7 +3,8 @@ class App::Models::User < Sequel::Model
 
   # Steering commitee
   # Admin
-  ROLES = [0, 1]
+  ROLES = [0, 1, 2, 3]
+  ROLE_MAPPER = ['Admin', 'Steering Commitee', 'Employee', 'Beneficiary']
 
   def validate
     super
@@ -23,6 +24,14 @@ class App::Models::User < Sequel::Model
 
   def name
     "#{first}"
+  end
+
+  def role_name; ROLE_MAPPER[role]; end
+
+  def basic_info
+    data = as_json(only: [:email, :first_name, :last_name, :role])
+    data[:role_name] = role_name
+    data
   end
 
 end
