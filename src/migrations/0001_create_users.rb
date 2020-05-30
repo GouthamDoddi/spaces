@@ -1,13 +1,15 @@
 Sequel.migration do
   change do
-    create_table(:notes) do
+    create_table(:users) do
       primary_key :id
 
-      String :title, size: '100'
-      String :data, text: true
-      foreign_key :policy_id, :policies
-      String :space, size: 20
+      String :first_name, size: 50
+      String :last_name, size: 50
+      String :email, size: 100
+      String :encoded_password, size: 200
+      String :username, size: 25
 
+      Integer :role
       TrueClass :active, :default => true
 
       Integer :created_by

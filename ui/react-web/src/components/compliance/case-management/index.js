@@ -8,15 +8,15 @@ import ConvList from './conv-list'
 
 import AboutTicket from './about-ticket'
 
-import Link from '../shared/link'
+// import Link from '../shared/link'
 import Tabs from '../shared/tabs'
 // import Select from 'react-select'
 import ticketData from '../../../store/temp-data-tickets'
 import TextArea from '../../form/text'
 
-import { priorityOptions } from './status-card'
+// import { priorityOptions } from './status-card'
 
-import { Switch, Route, Redirect, useLocation, matchPath } from 'react-router-dom'
+import { Switch, Route, useLocation, matchPath } from 'react-router-dom'
 
 import CaseCatCards from './case-cat-cards'
 

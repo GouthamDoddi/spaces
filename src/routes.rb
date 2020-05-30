@@ -2,13 +2,12 @@
 class App::Routes < Roda
   include App::Router::AllPlugins
 
-  def do_crud(klass, r)
-    r.post { klass[r].create }
-    r.get(Integer) {|id| klass[e, id: id].get}
-    r.get { klass[r].list }
-    r.put(Integer) {|id| klass[r, id: id].update }
-    r.delete(Integer) {|id| klass[r, id: id].delete }
-    r.post { klass[r].create }
+  def do_crud(klass, r, only='CRUDL')
+    r.post { klass[r].create } if only.include?('C')
+    r.get(Integer) {|id| klass[r, id: id].get} if only.include?('R')
+    r.get { klass[r].list } if only.include?('L')
+    r.put(Integer) {|id| klass[r, id: id].update } if only.include?('U')
+    r.delete(Integer) {|id| klass[r, id: id].delete } if only.include?('D')
   end
 
   route do |r|
@@ -23,9 +22,13 @@ class App::Routes < Roda
       r.response['Content-Type'] = 'application/json'
       r.post('login') { Session[r].login }
 
-      # auth_required!
+      auth_required!
 
-      r.get('user-info') { Users[r].basic_info }
+      r.on 'compliance' do
+        r.on 'projects' do
+          do_crud(Compliance::Projects, r, 'CRUL')
+        end
+      end
 
       r.on 'notes' do
         do_crud(Notes, r)
@@ -34,11 +37,6 @@ class App::Routes < Roda
 
       r.on 'categories' do
         do_crud(Categories, r)
-        # r.get(Integer) { |id| Kitchens[r, id: id].get }
-        # r.get { Kitchens[r].list }
-        # r.put(Integer) {|id| Kitchens[r, id: id].update }
-        # r.delete(Integer) {|id| Kitchens[r, id: id].delete }
-        # r.post { Kitchens[r].create }
       end
     end
   end
@@ -66,6 +64,7 @@ end
 
 App.require_blob('services/base.rb')
 App.require_blob('services/*.rb')
+App.require_blob('services/compliance/*.rb')
 App.require_blob('helpers/*.rb')
 
 

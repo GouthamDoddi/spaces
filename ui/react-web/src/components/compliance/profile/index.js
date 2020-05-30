@@ -4,7 +4,8 @@ import {
   Switch,
   Route,
   NavLink,
-  Redirect
+  Redirect,
+  useParams,
 } from 'react-router-dom';
 
 import Metadata from './metadata'
@@ -13,13 +14,15 @@ import Risk from './risk'
 import Objectives from './objectives'
 import ImpactArea from './objectives'
 
-function rTo(path) {
-  return `/compliance/profile/${path}`
+import { useTo } from '../util'
+
+function useLinkTo(path, exact=false) {
+  return(useTo(`profile/${path}`, exact))
 }
 
 function Link({to, className, children}) {
   return (
-    <NavLink to={rTo(to)} className='menu' activeClassName='selected'>
+    <NavLink to={useLinkTo(to, true)} className='menu' activeClassName='selected'>
       {children}
     </NavLink>
   )
@@ -30,12 +33,12 @@ export default function Element(props) {
     <>
       <div className='form-space'>
         <Switch>
-          <Route path={rTo('metadata')}> <Metadata /> </Route>
-          <Route path={rTo('context')}> <Context /> </Route>
-          <Route path={rTo('risk')}> <Risk /> </Route>
-          <Route path={rTo('objectives')}> <Objectives /> </Route>
-          <Route path={rTo('impact-area')}> <ImpactArea /> </Route>
-          <Route exact path=''> <Redirect to={rTo('metadata')} /> </Route>
+          <Route path={useLinkTo('metadata')}> <Metadata /> </Route>
+          <Route path={useLinkTo('details')}> <Context /> </Route>
+          <Route path={useLinkTo('impl')}> <Risk /> </Route>
+          <Route path={useLinkTo('stakeholders')}> <Objectives /> </Route>
+          <Route path={useLinkTo('impact-area')}> <ImpactArea /> </Route>
+          <Route exact path=''> <Redirect to={useLinkTo('metadata', true)} /> </Route>
         </Switch>
       </div>
       <div className='widgets'>
@@ -47,19 +50,19 @@ export default function Element(props) {
               The parametric data about the policy to identify, qualify, and manage across the lifecycle
             </div>
           </Link>
-          <Link to='context' className='menu'>
+          <Link to='details' className='menu'>
             <div className='title'> Details </div>
             <div className='desc'>
               The contextual information required for policy formulation
             </div>
           </Link>
-          <Link to='risk' className='menu'>
+          <Link to='impl' className='menu'>
             <div className='title'> Implementation </div>
             <div className='desc'>
                The identified risks in policy making, propagation, and implementations
             </div>
           </Link>
-          <Link to='objectives' className='menu'>
+          <Link to='stakeholders' className='menu'>
             <div className='title'> Stakeholders </div>
             <div className='desc'>
                The purpose of the policy and what it is trying to achieve

@@ -28,6 +28,7 @@ module App
       require_blob('lib/**/*.rb')
       setup_sequel!
       require_blob('models/*.rb')
+      require_blob('models/**/*.rb')
       require_relative 'routes'
 
     end
@@ -58,8 +59,12 @@ module App
     end
   end
 
-  module Models; end
-  module Services; end
+  module Models
+    module Compliance; end
+  end
+  module Services
+    module Compliance; end
+  end
   module Helpers; end
   module Router; end
 end

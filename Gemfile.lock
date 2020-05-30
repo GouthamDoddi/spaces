@@ -28,7 +28,7 @@ GEM
     minitest (5.13.0)
     nio4r (2.5.2)
     oj (3.9.2)
-    pg (1.1.4)
+    pg (1.2.3)
     puma (4.3.1)
       nio4r (~> 2.0)
     rack (2.2.2)
@@ -77,4 +77,4 @@ DEPENDENCIES
   thor
 
 BUNDLED WITH
-   2.1.2
+   2.1.4

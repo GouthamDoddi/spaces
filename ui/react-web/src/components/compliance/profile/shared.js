@@ -3,9 +3,16 @@ import React from 'react'
 import styled from 'styled-components'
 
 import cs from '../../../utils/colors'
+import Form from '../../form'
 
+function defaultClick(e) {
+  const form = e.target.closest('form')
+  debugger
+  console.log(form)
+  form.submit()
+}
 export function EditIcon(props) {
-  const { onClick, space='cps' } = props
+  const { onClick=defaultClick, space='cps' } = props
   const { color, icon } = cs[space]
   return (
     <div className='icon' onClick={onClick}>
@@ -23,11 +30,12 @@ export function EditIcon(props) {
 }
 
 export function SaveIcon(props) {
-  const { onClick, space='cps' } = props
+  const { onClick=defaultClick, space='cps' } = props
   const { color, icon } = cs[space]
 
   return (
-    <div className='icon' onClick={onClick}>
+    <SaveIconLabel className='icon'>
+      <input type='submit' />
       <svg xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fillRule="evenodd">
           <rect width="44" height="44" fill={icon} rx="12"/>
@@ -37,7 +45,7 @@ export function SaveIcon(props) {
           </g>
         </g>
       </svg>
-    </div>
+    </SaveIconLabel>
   )
 }
 
@@ -61,7 +69,21 @@ export function TranslateIcon(props) {
   )
 }
 
-export const Container = styled.div`
+const SaveIconLabel = styled.label`
+  cursor: pointer;
+  input[type="submit"] {
+    display: none;
+  }
+  svg {
+    width: 44px;
+    height: 44px;
+  }
+  & + .icon {
+    margin-left: 9px;
+  }
+`
+
+export const Container = styled(Form)`
   display: flex;
   flex-flow: column;
   height: 100%;
@@ -85,15 +107,13 @@ export const Container = styled.div`
   }
   .container {
     overflow-y: auto;
-    form {
-      display: grid;
-      grid-column-gap: 93px;
-      grid-template-columns: repeat(auto-fit, 265px);
-      // grid-template-rows: repeat(2, 100px);
-      > div {
-        margin-top: 12px;
-      }
-
+    
+    display: grid;
+    grid-column-gap: 93px;
+    grid-template-columns: repeat(auto-fit, 265px);
+    // grid-template-rows: repeat(2, 100px);
+    > div {
+      margin-top: 12px;
     }
 
   }

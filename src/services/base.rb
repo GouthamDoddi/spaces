@@ -3,6 +3,7 @@ class App::Services::Base
   attr_reader :request
 
   include App::Models
+  include App::Helpers
 
   # JSON_TYPE = {'Content-Type' => 'application/json'}
 
@@ -20,7 +21,7 @@ class App::Services::Base
   end
 
   def current_user
-    @current_user ||= App::Helper::CurrentUser.get
+    @current_user ||= App::Helpers::CurrentUser.decoded_token
   end
 
   def return_errors!(errors, code=400)
@@ -100,8 +101,8 @@ class App::Services::Base
     save(obj)
   end
 
-  def update
-    data = data_for(:save)
+  def update(data=nil)
+    data ||= data_for(:save)
     item.set_fields(data, data.keys)
     save(item)
   end
