@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="13" height="14">
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#BEC2C9" className='main' d="M9.073 16.667l-.125.06c-.046.022-.2 0-1.166.166C4.492 17.459 2.937 19.597 0 21c0 0 1.671-9.08 9.073-8.667V8L15 14.5 9.073 21v-3.25-1.083z"/>
+    </g>
+</svg>

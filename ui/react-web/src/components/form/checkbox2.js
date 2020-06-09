@@ -1,14 +1,17 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 import styled from 'styled-components'
 
 
 export default function Element(props) {
-  const { className, checked=false, label, id, ...others} = props
+  const { className, checked=false, label, id, onChange, ...others} = props
+  useEffect(() => {
+    setCheck(checked)
+  }, [checked])
   const [check, setCheck] = useState(checked)
   return(
-    <Box className={className} onClick={() => setCheck(!check)}>
-      <input type="checkbox" checked={check} {...others}/>
+    <Box className={className} onClick={() => {let c = !check; setCheck(c); onChange(c)}}>
+      <input type="checkbox"  checked={check} onChange={() => setCheck(!check)} {...others}/>
       <span></span>
       <span className='label'>{label}</span>
     </Box>

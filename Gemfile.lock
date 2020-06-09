@@ -43,7 +43,7 @@ GEM
     regexp_parser (1.7.0)
     roda (3.28.0)
       rack
-    sequel (5.25.0)
+    sequel (5.32.0)
     sequel_pg (1.12.2)
       pg (>= 0.18.0)
       sequel (>= 4.38.0)

@@ -47,7 +47,7 @@ class App::Helpers::CurrentUser
     end
 
     def encoded_token(user)
-      exp = (Time.now + 1.hour).to_i
+      exp = (Time.now + 80.hours).to_i
       payload = { id: user.id, role: user.role, ip: ip, exp: exp }
       JWT.encode(payload, SECRET, 'HS256')
     end

@@ -26,9 +26,10 @@ const customStyles = ({width='208px', height='45px', border='solid 1px #dedede',
 })
 
 export default function(props) {
-  const { options=[{value: 'blues', label: 'Blues'}], className='default', ...others } = props
+  const { options=[], outerClass, className='default', label, ...others } = props
   return (
-    <Container>
+    <Container className={outerClass}>
+      <label> {label} </label>
       <Select 
         styles = { customStyles({}) }
         options = { options }
@@ -40,11 +41,23 @@ export default function(props) {
 }
 
 const Container = styled.div`
+  display: flex;
+  flex-flow: column;
+  margin-left: 1px;
+  label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #687c9d;
+    margin-bottom: 10px;
+  }
   .default__control {
-    width: 208px;
-    height: 45px;
+    width: 265px;
+    height: 38px;
     border: solid 1px #dedede;
     background-color: #efefef;
+    &:focus {
+      border: solid 1px ${p => p.theme.color};
+    }
   }
   // .default__indicator-separator {
   //   display: none;

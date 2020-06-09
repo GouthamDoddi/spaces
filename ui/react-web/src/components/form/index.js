@@ -7,8 +7,12 @@ import TextArea from './text'
 import Checkbox from './checkbox'
 import Select from './select'
 import Search from './search'
+import CheckboxBig from './checkbox2'
+
+import { EditIcon, SaveIcon, TranslateIcon } from './icons.js'
 
 import styled from 'styled-components'
+
 
 function submitted(e, cb) {
   e.preventDefault()
@@ -40,11 +44,52 @@ export default function Element({children, onSubmit, store, ...others}) {
     </form>
   )
 }
+
+function ActionsElem(props) {
+  const { className } = props
+  return(
+    <div className={className}>
+      <EditIcon />
+      <SaveIcon  />
+      <TranslateIcon  />
+    </div>
+  )
+}
+
+export const Actions = styled(ActionsElem)`
+  display: flex;
+  justify-content: flex-end;
+  height: 66px;
+  padding: 17px 0 5px 0;
+`
  
-export { Input, TextArea, Checkbox, Search, Select }
+export { Input, TextArea, Checkbox, Search, Select, CheckboxBig }
 
 const Status = styled.div`
   position: absolute;
   width: 100%;
   text-align: center;
+`
+
+
+
+export const Container = styled(Element)`
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  margin-left: 39px;
+  margin-right: 18px;
+  .container {
+    overflow-y: auto;
+    flex: 1;
+    display: grid;
+    grid-column-gap: 93px;
+    grid-auto-rows: 78px;
+    grid-template-columns: repeat(auto-fit, 265px);
+    // grid-template-rows: repeat(2, 100px);
+    > div {
+      margin-top: 12px;
+    }
+
+  }
 `

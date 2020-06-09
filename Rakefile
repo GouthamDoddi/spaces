@@ -7,6 +7,7 @@ namespace :db do
     version = args[:version].to_i if args[:version]
     puts version
     Sequel.connect(ENV.fetch("DATABASE_URL")) do |db|
+      db.extension :pg_enum
       Sequel::Migrator.run(db, "src/migrations", target: version)
     end
   end
