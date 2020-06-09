@@ -3,11 +3,11 @@ import React from 'react'
 import styled from 'styled-components'
 
 function Element(props) {
-  const { className, children, label, ...others } = props
+  const { className, children, label, type='text', ...others } = props
   return(
     <div className={className}>
       <label> {label} </label>
-      <input {...others} />
+      <input {...others} type={type} />
     </div>
   )
 }
@@ -24,7 +24,6 @@ export default styled(Element)`
   input {
     outline: none;
     width: 265px;
-    // min-width: 265px;
     // max-width: 400px;
     height: 38px;
     border-radius: 2px;

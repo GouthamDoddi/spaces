@@ -46,6 +46,7 @@ module App
       Sequel::Model.plugin(::SequelPlugin::SaveUserId)
       Sequel::Model.plugin(::SequelPlugin::JsonValuesValidations)
       Sequel::Model.plugin(::SequelPlugin::JsonValueTypecast)
+      Sequel::Model.plugin(::SequelPlugin::DefaultJson)
       Sequel::Model.plugin :nested_attributes
       Sequel::Model.plugin :dirty
       Sequel::Model.plugin :json_serializer
@@ -53,7 +54,7 @@ module App
       Sequel.extension :core_extensions
       Sequel.extension :named_timezones
       Sequel.extension :pg_json_ops
-      db.extension :pg_json, :pg_array
+      db.extension :pg_json, :pg_array, :pg_enum
       db.wrap_json_primitives = true
       db.typecast_json_strings = true
     end
@@ -64,6 +65,7 @@ module App
   end
   module Services
     module Compliance; end
+    module Formulation; end
   end
   module Helpers; end
   module Router; end

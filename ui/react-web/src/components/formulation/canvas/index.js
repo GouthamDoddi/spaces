@@ -11,15 +11,17 @@ import Metadata from './metadata'
 import Context from './context'
 import Risk from './risk'
 import Objectives from './objectives'
-import ImpactArea from './objectives'
+import ImpactArea from './impact-areas'
 
-function rTo(path) {
-  return `/formulation/canvas/${path}`
+import { useTo } from '../util'
+
+function useLinkTo(path, exact=false) {
+  return(useTo(`canvas/${path}`, exact))
 }
 
 function Link({to, className, children}) {
   return (
-    <NavLink to={rTo(to)} className='menu' activeClassName='selected'>
+    <NavLink to={useLinkTo(to, true)} className='menu' activeClassName='selected'>
       {children}
     </NavLink>
   )
@@ -30,12 +32,12 @@ export default function Element(props) {
     <>
       <div className='form-space'>
         <Switch>
-          <Route path={rTo('metadata')}> <Metadata /> </Route>
-          <Route path={rTo('context')}> <Context /> </Route>
-          <Route path={rTo('risk')}> <Risk /> </Route>
-          <Route path={rTo('objectives')}> <Objectives /> </Route>
-          <Route path={rTo('impact-area')}> <ImpactArea /> </Route>
-          <Route exact path=''> <Redirect to={rTo('metadata')} /> </Route>
+          <Route path={useLinkTo('metadata')}> <Metadata /> </Route>
+          <Route path={useLinkTo('context')}> <Context /> </Route>
+          <Route path={useLinkTo('risk')}> <Risk /> </Route>
+          <Route path={useLinkTo('objectives')}> <Objectives /> </Route>
+          <Route path={useLinkTo('impact-area')}> <ImpactArea /></Route>
+          <Route exact path=''> <Redirect to={useLinkTo('metadata', true)} /> </Route>
         </Switch>
       </div>
       <div className='widgets'>
