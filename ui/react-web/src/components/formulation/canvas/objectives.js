@@ -50,7 +50,7 @@ export default function(props) {
   return (
     <CustomContainer onSubmit={(data) => submitted(policy_id, id , data)} store={localStore}>        
       <div className="fields">
-        <Select name='outcome_id' label='Risk' 
+        <Select name='outcome_id' label='Outcome' 
             options={toOpt(outcomeTypes)}
             outerClass='field'
             onChange={selectChange('outcome_id')}

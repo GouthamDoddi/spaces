@@ -7,7 +7,6 @@ import Form from '../../form'
 
 function defaultClick(e) {
   const form = e.target.closest('form')
-  debugger
   console.log(form)
   form.submit()
 }

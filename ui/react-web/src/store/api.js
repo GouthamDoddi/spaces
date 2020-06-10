@@ -2,7 +2,7 @@
 
 import store, { loggedIn, logout } from './user'
 
-const path = (p) => `/api/${p}`
+const path = (p) => `/papi/${p}`
 
 const handleResp = async function(r, succ, error) {
   if (r.status < 400) {
@@ -24,7 +24,6 @@ const handleError = async function(error, r) {
 }
 
 const fetchWithAuth = function(url, { success, error, data, auth=true, ...options } ) {
-
   options.headers = { Authorization: store.getState().token }
   if(data) { 
     options.body = JSON.stringify({data})

@@ -33,6 +33,27 @@ class App::Routes < Roda
         end
       end
 
+
+      r.on 'objects' do
+        r.on Integer, 'subobjects' do |object_id|
+          klass = Subobjects
+          r.get { klass[r, { object_id: object_id }].list }
+        end
+        klass = Objects
+        r.get { klass[r].list }
+      end
+
+      r.on 'subobjects' do
+        r.on Integer, 'questions' do |subobject_id|
+          klass = ObjectQuestions
+          r.get { klass[r, subobject_id: subobject_id].list }
+        end
+      end
+
+      r.on 'object-questions' do
+        do_crud(ObjectQuestions, r, 'CRUD')
+      end
+
       r.on 'beneficiaries' do
         r.on Integer, 'profiles' do |beneficiary_id|
           klass = BeneficiaryProfiles
@@ -86,12 +107,20 @@ class App::Routes < Roda
             r.put { klass[r, opt].remove_profile_detail}
           end
 
+          r.on 'add', String, Integer do |name, obj_id|
+            opt.merge!(name: name, obj_id: obj_id)
+            r.put { klass[r, opt].add_obj}
+          end
+
+          r.on 'remove', String, Integer do |name, obj_id|
+            opt.merge!(name: name, obj_id: obj_id)
+            r.put { klass[r, opt].remove_obj}
+          end
 
           r.on 'bill-decree' do
             klass = Formulation::BillDecrees
-            r.get { klass[r, policy_id: policy_id].get }
-            r.put { klass[r, policy_id: policy_id].update}
-            do_crud(klass, r, 'C')
+            r.get { klass[r, policy_id: policy_id].list }
+            do_crud(klass, r, 'CU')
           end
 
           # Context
@@ -144,18 +173,13 @@ class App::Routes < Roda
             r.get { klass[r, policy_id: policy_id].list }
             do_crud(klass, r, 'CU')
           end
-          r.on 'objects' do
-            klass = Formulation::Objects
-            r.on Integer, 'sub-objects' do |object_id|
-              klass = Formulation::Subobjects
-              r.get { klass[r, policy_id: policy_id, object_id: object_id].list }
-              do_crud(klass, r, 'CU')
-            end
-            do_crud(klass, r, 'CU')
+
+          r.on 'policy-sections' do
+            klass = Formulation::PolicySections
+            do_crud(klass, r, 'CUR')
             r.get { klass[r, policy_id: policy_id].list }
-          end         
-
-
+            do_crud(klass, r, 'CU')
+          end
         end
       end
 
