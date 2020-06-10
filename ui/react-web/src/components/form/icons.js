@@ -42,7 +42,7 @@ export function TranslateIcon(props) {
   const { onClick } = props
 
   return (
-    <IconBase onClick={onClick}>
+    <IconBase onClick={onClick} className='disabled'>
       <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
         <g fill="none" fillRule="evenodd">
           <rect width="44" height="44" className='back' rx="12"/>
@@ -68,6 +68,10 @@ const IconBase = styled.label`
   
   margin-right: 9px;
   &:last-child{ margin-right: 0 }
+  &.disabled {
+    .main { fill: #fff}
+    .back { fill: #ccc}
+  }
 `
 
 const SaveIconLabel = styled(IconBase)` 

@@ -7,11 +7,8 @@ class App::Services::Formulation::BillDecrees < App::Services::Base
     save(obj)
   end
 
-  def item
-    @item ||= begin
-      id = r.params[:policy_id]
-      model.find(policy_id: id) || return_errors!("No #{model.class} found with policy id: #{id}", 404)
-    end
+  def list
+    return_success(model.where(policy_id: r.params[:policy_id]).map(&:to_pos))
   end
 
   def self.fields

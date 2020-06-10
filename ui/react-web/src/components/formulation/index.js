@@ -18,17 +18,19 @@ import {
 
 import Canvas from './canvas'
 import Bill from './bill'
-// import Committees from './committees'
+import Committees from './committees'
 import Plan from './plan'
 import Framework from './framework'
 import Beneficiaries from './beneficiaries'
 import OperatingModel from './operating-model'
 import SupportModel from './supporting-model'
+import Checklist from './checklist'
 
 const WorkspaceLinks = [
   { name: 'Policy Canvas', path: 'canvas'},
   { name: 'Bill / Decree', path: 'bill'},
   { name: 'Policy Plan', path: 'plan'},
+  { name: 'Committees', path: 'committees'},
   { name: 'Frameworks', path: 'frameworks'},
   { name: 'Beneficiary', path: 'beneficiary'},
   { name: 'Policy Checklist', path: 'checklist'},
@@ -77,9 +79,10 @@ function Specific(props) {
         <Route path={useTo('canvas')}> <Canvas /> </Route>
         <Route path={useTo('bill')}> <Bill /> </Route>
         <Route path={useTo('plan')}> <Plan /> </Route>
+        <Route path={useTo('committees')}> <Committees /> </Route>
         <Route path={useTo('frameworks')}> <Framework /> </Route>
         <Route path={useTo('beneficiary')}> <Beneficiaries /> </Route>
-        <Route path={useTo('checklist')}> {elem('checklist')} </Route>
+        <Route path={useTo('checklist')}> <Checklist /> </Route>
         <Route path={useTo('operating-model')}> <OperatingModel /> </Route>
         <Route path={useTo('support-model')}> <SupportModel /> </Route>
         {/* <Route path={useTo('dependency-map')}> {elem('dependency-map')} </Route> */}

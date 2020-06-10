@@ -7,13 +7,16 @@ import {
   Redirect
 } from 'react-router-dom';
 
-function rTo(path) {
-  return `/formulation/committees/${path}`
+import {useTo} from '../util'
+
+
+function useLinkTo(path, exact=false) {
+  return(useTo(`committees/${path}`, exact))
 }
 
 function Link({to, className, children}) {
   return (
-    <NavLink to={rTo(to)} className='menu' activeClassName='selected'>
+    <NavLink to={useLinkTo(to, true)} className='menu' activeClassName='selected'>
       {children}
     </NavLink>
   )
@@ -24,10 +27,10 @@ export default function Element(props) {
     <>
       <div className='form-space'>
         <Switch>
-          <Route path={rTo('steering')}> <div> Selected Steering </div></Route>
-          <Route path={rTo('executive')}> <div> Selected Executive </div> </Route>
-          <Route path={rTo('operational')}> <div> Operational </div> </Route>
-          <Route exact path=''> <Redirect to={rTo('steering')} /> </Route>
+          <Route path={useLinkTo('steering')}> <div> Selected Steering </div></Route>
+          <Route path={useLinkTo('executive')}> <div> Selected Executive </div> </Route>
+          <Route path={useLinkTo('operational')}> <div> Operational </div> </Route>
+          <Route exact path=''> <Redirect to={useLinkTo('steering', true)} /> </Route>
         </Switch>
       </div>
       <div className='widgets'>
@@ -81,6 +84,7 @@ const Widget = styled.div`
     height: 71px;
     border-radius: 3px;
     background-color: #f4f7fa;
+    border: 1px solid #f4f7fa;
     padding-left: 14px;
     padding-top: 9px;
     .title {
@@ -93,7 +97,7 @@ const Widget = styled.div`
       margin-top: 4px;
     }
     &.selected {
-      border: 1px solid ${p => p.theme.color}
+      border: 1px solid ${p => p.theme.color};
     }
   }
 `

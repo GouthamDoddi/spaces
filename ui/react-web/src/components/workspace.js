@@ -97,6 +97,9 @@ export default styled.div`
     &.full-height {
       height: auto;
     }
+    &.full-width {
+      grid-column: 1 / -1;
+    }
   }
   .widgets {
     width: 309px;

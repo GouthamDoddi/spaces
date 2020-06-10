@@ -1,217 +1,164 @@
-import React, {useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 
-import {
-  Switch,
-  Route,
-  NavLink,
-  Redirect
-} from 'react-router-dom';
-
-import Form, { TextArea, Container, Input } from '../../form'
-
 import { useParams } from 'react-router-dom'
+import ShowQuestion from './show_question'
 import makeStore from '../../../store/make-store'
-import { useStore } from 'effector-react'
-import smallTable from '../../tables/small'
-import { useTo } from '../util'
-import { Add } from '../../tables/list'
 
 
-import SubObjects from './subobjects'
+import OptionList from './option-list'
+import {useTo} from '../util'
 
+const policyStore = makeStore(({policy_id}) => `formulation/metadata/${policy_id}`)
 
-const { store, changed, create, update, load } =  makeStore(({policy_id, id}) => `formulation/${policy_id}/objects`)
-
-
-const objectStore =  makeStore(({policy_id, id}) => `formulation/${policy_id}/objects`)
-
-
-function useLinkTo(path, exact=false) {
-  return(useTo(`frameworks/${path}`, exact))
-}
-
-function Link({to, className, children}) {
-  return (
-    <NavLink to={useLinkTo(to, true)} className={className} activeClassName='selected'>
-      {children}
-    </NavLink>
-  )
-}
+const objects = makeStore(`objects`)
+const subobjects = makeStore(({oid}) => `objects/${oid}/subobjects`)
+const questions = makeStore(({soid}) => `subobjects/${soid}/questions`)
 
 export default function(props) {
+
   const { policy_id } = useParams()
-
-  console.log(useLinkTo('new'))
-
+  const [oid, setOid] = useState(0)
+  const [soid, setSoid] = useState(0)
+  const [qid, setQid] = useState(0)
 
   useEffect(() => {
-    load({policy_id})
-  }, [])
+    if( !soid && !oid) {
+      objects.load()
+    }
+
+    if (policyStore.store.getState().data?.id != policy_id ) {
+      policyStore.load({policy_id})
+    }
+
+    if(oid) { 
+      subobjects.load({oid}) 
+    } else { subobjects.addData(null)}
+    
+    if(soid) { 
+      questions.load({soid}) 
+    } else { questions.addData(null)}
+  }, [oid, soid])
 
 
-  const objectsStore = useStore(store)
-
-  const objects = objectsStore.data || []
   return(
     <>
-      <div className='form-space no-background'>
-        <Wrapper>
-          <Breadcrumb> Objects </Breadcrumb>
-          <Content>
-            {
-              objects.map(({id, name, description }, i) => (
-                <ObjectCard to={id} key={i}>
-                  <Title>
-                    { name }
-                  </Title>
-                  <Description>
-                    {description}
-                  </Description>
-              </ObjectCard>
-              ))
-            }
-
-          </Content>
-          <Add to={useLinkTo('new', true)} />
-        </Wrapper>
+      <div className='form-space'>
+        <Container>
+          <BoxGrid>
+            <OptionList title='Objects' description='Lorem ipsum dolor sit amet, consectetur' dataStore={objects.store}
+              onClicked={(id) => {setOid(id); setSoid(null)}}
+              sid={oid}
+              path='object'
+              policyStore={policyStore}
+              bidsKey='object_ids'
+            >  </OptionList>
+            <Spacer />
+            <OptionList title='Sub Objects' description='Lorem ipsum dolor sit amet, consectetur'
+              dataStore={subobjects.store}
+              sid={soid}
+              path='subobject'
+              policyStore={policyStore}
+              bidsKey='subobject_ids'
+              onClicked={setSoid}></OptionList>
+            <Spacer />
+            <OptionList title='Questions' description='Lorem ipsum dolor sit amet, consectetur'
+              dataStore={questions.store}
+              sid={qid}
+              path='question'
+              bidsKey='question_ids'
+              policyStore={policyStore}
+              onClicked={setQid}
+              addButton={!!soid}></OptionList>
+            <Spacer />
+          </BoxGrid>
+          
+        </Container>
       </div>
-      <div className='widgets'>
-        <Widgets>
-          <Switch>
-            <Route path={useLinkTo('new')}> <NewObject /> </Route>
-            <Route path={useLinkTo(':object_id(\\d+)')}> <SubObjects /> </Route>
-            <Route path=''> <Redirect to={useLinkTo('new', true)} /> </Route>
-          </Switch>
 
-        </Widgets>
+      <div className='widgets'>
+        { qid ? <ShowQuestion qid={qid} soid={soid} loadQ={questions.load}/> : <EmptySpace/>}  
       </div>
     </>
-
   )
 }
 
-
-function submitted(policy_id,  data) {
-  const cb = (resp) => {
-    load({policy_id})
-    objectStore.addData(null)
-  }
-  data.policy_id = policy_id
-  objectStore.create({policy_id, data, cb})
-}
-
-function NewObject() {
-
-  const { policy_id } = useParams()
-
-  const localStore = useStore(objectStore.store) 
-
-  const { name, description } = localStore.data || {}
-
+function EmptySpace() {
   return (
-    <CustomForm onSubmit={(data) => submitted(policy_id, data)} store={localStore}>
-      <div className='obj-title'> Create Object </div>
-      <Input label='Name' name='name' required onChange={objectStore.changed} value={name || ''}/>
-      <TextArea className='text-area' label='Description' name='description' onChange={objectStore.changed} value={description || ''}/>
-      
-      <label className='submit'>
-        <input type='submit' />
-        <div> Create </div>        
-      </label>
-    </CustomForm>
+    <EmptyQArea>
+      <div> Questionnaire </div>
+      <div> Add / Update Questions after selecting sub objects </div>
+    </EmptyQArea>
   )
-
 }
-
-const CustomForm = styled(Form)`
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  .obj-title { 
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #000;
-  }
-
-  .text-area {
-    margin-top: 10px;
-  }
-
-  label.submit {
-    cursor: pointer;
-    margin-top: 10px;
-    input[type='submit'] {
-      display: none;
-    }
-    > div {
-      width: 100%;
-      text-align: center;
-      background-color: ${p => p.theme.color};
-      color: white;
-      line-height: 38px;
-    }
-  }  
-`
-const Widgets = styled.div`
-  background-color: #ffffff;
-  height: 464px;
-  border-radius: 3px;
-  box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
-  background-color: #ffffff;
-`
-
-
-const Breadcrumb = styled.div`
-  margin: 10px 0px 19px 4px;
-  color: #000000;
-  font-weight: bold;
-  font-size: 15px;
-`
-
-const Content = styled.div`
-  flex-grow: 1;
-  border-radius: 3px;
-  box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
-  background-color: #ffffff;
-  padding: 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 207px);
-  grid-auto-rows: 108px;
-  grid-gap: 18px 10px;
-`
-
-const Title = styled.div`
-  font-size: 15px;
-  font-weight: bold;
-  color: #000000;
-  margin-bottom: 8px;
-`
-
-const Description = styled.div`
-  font-size: 10px;
-  line-height: 1.2;
-  color: #98acbe;
-`
-const Wrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`
-const ObjectCard = styled(Link)`
+const EmptyQArea = styled.div`
   position: relative;
   top: 0;
   left: 0;
-  min-width: 207px;
-  height: 108px;
+  height: 465px;
   border-radius: 3px;
-  border: solid 1px #f4f7fa;
-  background-color: #f4f7fa;
-  padding: 20px;
-  &.selected {
-    border: solid 1px ${p => p.theme.color};
+  box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
+  background-color: #ffffff;
+  padding: 12px;
+
+  div:first-child {
+    font-size: 15px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 16px;
+  }
+
+  div:nth-child(2) {
+    font-size: 20px;
+    margin-top: 150px;
+    padding: 10px;
+    color: #8fa8bf;
+    text-align: center;
   }
 `
+const Spacer = styled.div`
+  align-items: center;
+  line-height: 400px;
+  text-align: center;
+  background-image: url('/img/shared/double-arrow.png');
+  background-repeat: no-repeat;
+  background-size: 29px 7px;
+  background-position: center center;
+`
+
+const BoxGrid = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  display:grid;
+  grid-template-columns: minmax(197px, 280px) 32px minmax(197px, 280px) 32px minmax(197px, 280px);
+  grid-template-rows: auto;
+  justify-content: center;
+`
+
+const Container = styled.div`
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  margin-left: 39px;
+  margin-right: 18px;
+  .container {
+    overflow-y: auto;
+    flex: 1;
+    display: grid;
+    grid-column-gap: 93px;
+    grid-auto-rows: 78px;
+    grid-template-columns: repeat(auto-fit, 265px);
+    // grid-template-rows: repeat(2, 100px);
+    > div {
+      margin-top: 12px;
+    }
+  }
+`
+
+const PassedByOptions = [
+  { value: 1, label: 'passed by 1' },
+  { value: 2, label: 'passed by 2' },
+  { value: 3, label: 'passed by 3' },
+]
+

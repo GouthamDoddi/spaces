@@ -24,10 +24,28 @@ export default function makeStore(path, defaultStore={ loading: false, loadMsg: 
   const changed = createEvent('changed')
   const selectChanged = createEvent('selectChanged')
       
-  store.on(changed, (s, e) => {
+  store.on(changed, (s, o) => {
+    
+    let e, i
+    if(typeof(o) === 'object' && o.e) {
+      e = o.e;
+      i = o.i
+    } else { e = o}
+    
+    
+    let val = e.target.value
+    let fld = e.target.name
+    let data = {...s.data}
+  
+    if(i >= 0) {
+      data[fld] = [...data[fld]]
+      data[fld][i] = val
+    } else {
+      data[fld] = val  
+    }
     return {
       ...s,
-      ...{data: {...s.data, [e.target.name]: e.target.value}}
+      ...{data}
     }
   })
 

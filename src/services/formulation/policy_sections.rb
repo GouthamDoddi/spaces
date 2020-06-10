@@ -1,6 +1,6 @@
-class App::Services::Formulation::Risk < App::Services::Base
+class App::Services::Formulation::PolicySections < App::Services::Base
 
-  def model; PolicyRisk; end
+  def model; PolicySection; end
 
   def list
     return_success(model.where(policy_id: r.params[:policy_id]).map(&:to_pos))
@@ -11,15 +11,14 @@ class App::Services::Formulation::Risk < App::Services::Base
     save(obj)
   end
 
-
   def self.fields
     {
       create: [
-        :probability, :risk_id, :impact, :description, :policy_id
+        :name, :tags, :description, :policy_id
       ],
 
       save: [
-        :probability, :risk_id, :impact, :description
+        :name, :tags, :description
       ]
     }
   end

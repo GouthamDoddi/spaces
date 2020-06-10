@@ -114,6 +114,33 @@ class App::Services::Base
     end
   end
 
+  def add_obj
+    name = r.params[:name]
+    obj_id = r.params[:obj_id]
+    fld = "#{name}_ids"
+    
+    obj_val = item.send(fld)
+
+    if(obj_val)
+      obj_val << obj_id
+      obj_val.uniq!
+    else
+      item.send("#{fld}=", [obj_id])
+    end
+    save(item)
+  end
+
+  def remove_obj
+    name = r.params[:name]
+    obj_id = r.params[:obj_id]
+    fld = "#{name}_ids"
+    obj_val = item.send(fld)
+    if(obj_val)
+      item.send(fld).delete(obj_id)
+    end
+    save(item)
+  end
+
   private
 
   def a_flds; self.class.allowed_fields; end
