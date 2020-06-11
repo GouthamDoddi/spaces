@@ -15,6 +15,15 @@ Sequel.migration do
       column :outcome_ids, 'integer[]'
       column :impl_domain_ids, 'integer[]'
 
+      column :beneficiary_ids, 'integer[]'
+      column :beneficiary_profile_ids, 'integer[]'
+      column :profile_detail_ids, 'integer[]'
+
+
+      column :object_ids, 'integer[]'
+      column :subobject_ids, 'integer[]'
+      column :question_ids, 'integer[]'
+
       TrueClass :active, :default => true
 
       Integer :created_by

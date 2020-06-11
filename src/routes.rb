@@ -33,6 +33,19 @@ class App::Routes < Roda
         end
       end
 
+      r.on 'policy-sections', Integer do |id|
+        opt = { id: id}
+        klass = Formulation::PolicySections
+        r.on 'add', String, Integer do |name, obj_id|
+          opt.merge!(name: name, obj_id: obj_id)
+          r.put { klass[r, opt].add_obj}
+        end
+
+        r.on 'remove', String, Integer do |name, obj_id|
+          opt.merge!(name: name, obj_id: obj_id)
+          r.put { klass[r, opt].remove_obj}
+        end
+      end
 
       r.on 'objects' do
         r.on Integer, 'subobjects' do |object_id|
