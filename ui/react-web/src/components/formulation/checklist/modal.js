@@ -29,7 +29,7 @@ function Modal({className, children, title, closePath}) {
 
 const Close = styled(Link)`
   position: absolute;
-  left: 643px;
+  right: 43px;
   top: 36px;
   z-index: 3;
 `
@@ -49,7 +49,7 @@ export default styled(Modal)`
 `
 const Content = styled.div`
 
-  width: 706px;
+  width: 780px;
   min-height: 750px;
   border-radius: 10px;
   box-shadow: 5px 2px 4px 0 rgba(0, 0, 0, 0.12);

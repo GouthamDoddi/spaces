@@ -9,6 +9,7 @@ import Tabs from './tabs'
 
 import Profile from './profile'
 import ProjectInfo from './project-info'
+import ObjectMap from './object-map'
 
 
 
@@ -46,13 +47,17 @@ export default function(props) {
       <Content> 
         <Container>
           <Tabs data={[['PROFILE', 'profile'], 
-            ['PROJECT INFO', 'project-info']]} />
+            ['PROJECT INFO', 'project-info'],
+            ['BENEFICIARY MAP', 'beneficiary-map'],
+            ['OBJECT MAP', 'object-map']
+            ]} />
             {/* , ['BENEFICIARY MAP', 'beneficiary-map'] */}
           <TabContent>
             <Switch>
               <Route path={useLinkTo('profile')}> <Profile /> </Route>
               <Route path={useLinkTo('project-info')}> <ProjectInfo /> </Route>
               <Route path={useLinkTo('beneficiary-map')}> <div>JAI MATHA DI!!!</div> </Route>
+              <Route path={useLinkTo('object-map')}> <ObjectMap /> </Route>
               <Route exact path={useLinkTo('')}> <Redirect to={useLinkTo('profile', true)} /> </Route>
             </Switch>
           </TabContent>

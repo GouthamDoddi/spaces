@@ -31,9 +31,9 @@ export default function(props) {
 const Container = styled.div`
   display: grid;
   margin-top: 17px;
-  
+  justify-content: center;
   grid-template-columns: repeat(3, auto);
   grid-template-rows: repeat(2, auto);
-  grid-gap: 17px 11px;
+  grid-gap: 17px 15px;
 
 `

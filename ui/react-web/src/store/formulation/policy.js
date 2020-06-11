@@ -1,9 +1,11 @@
 
 
-// import makeStore from '../make-store'
+import makeStore from '../make-store'
 
-// import { put } from '../api'
+import { put } from '../api'
 
 
-// const { store,  load } = makeStore('formulation/metadata')
+const policy = makeStore('formulation/metadata')
 
+
+export default policy
