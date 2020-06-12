@@ -10,9 +10,9 @@ export default function(props) {
   const { id } = props
   const title = `${id === 'new' ? 'Create' : 'Edit'} Task`
   return (
-    <Modal>
+    <Modal title='Task'>
       <div className='form-space'>
-        <header> {title} </header>
+        
 
         <Content>
           <form>
