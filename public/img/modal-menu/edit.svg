@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+    <g fill="none" fill-rule="evenodd">
+      <g>
+        <path d="M0 0L24 0 24 24 0 24z" transform="translate(9 10)"/>
+        <path className='ma-main' fill-rule="nonzero" d="M15.728 9.686l-1.414-1.414L5 17.586V19h1.414l9.314-9.314zm1.414-1.414l1.414-1.414-1.414-1.414-1.414 1.414 1.414 1.414zM7.242 21H3v-4.243L16.435 3.322c.39-.39 1.024-.39 1.414 0l2.829 2.829c.39.39.39 1.024 0 1.414L7.243 21h-.001z" transform="translate(9 10)"/>
+      </g>
+    </g>
+</svg>
