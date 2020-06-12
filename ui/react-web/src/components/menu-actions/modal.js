@@ -6,9 +6,16 @@ import {
   Link
 } from 'react-router-dom';
 
-function Modal({className, children, title}) {
-  const loc = useLocation();
 
+
+function Modal({className, children, title, disableList=[]}) {
+  const loc = useLocation();
+  const isSel = ((page) => loc.search.includes(page) ? 'selected' : null)
+  const to = (loc, page, disableList) => {
+    const query = new URLSearchParams(loc.search);
+    if(!disableList.includes(page)) query.set('page', page)
+    return `${loc.pathname}?${query.toString()}`
+  }
   return(
     <div className={className}>
       <Content>
@@ -28,14 +35,13 @@ function Modal({className, children, title}) {
 
         <Header>{title}</Header>
         {children}
-        
       </Content>
       <Actions>
-        {actions.profile({className: 'selected'})}
-        {actions.edit(1)}
-        {actions.share(2)}
-        {actions.msg(3)}
-        {actions.translate(4)}
+        {actions.profile({to: to('profile'), className: isSel('profile')})}
+        {actions.edit({to: to('edit'), className: isSel('edit')})}
+        {actions.share({to: to('share'), className: isSel('share')})}
+        {actions.msg({to: to('msg'), className: isSel('msg')})}
+        {actions.translate({to: to('translate'), className: isSel('translate')})}
       </Actions>
         {/* <Create> Create </Create> */}
     </div>
@@ -118,7 +124,7 @@ export default styled(Modal)`
 
 const actions = {
 
-  translate: (props) => <Icon {...props}>
+  translate: (props) => <Icon {...props} >
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
       <g className="ma-main" fill-rule="evenodd">
           <path d="M16.236 17.705l.655-2.312.656 2.312h-1.31zm1.288-3.254c-.067-.226-.346-.331-.632-.331-.279 0-.558.105-.625.331l-1.454 4.738c-.008.03-.015.06-.015.075 0 .241.354.407.617.407.166 0 .294-.053.332-.196l.286-1.002h1.725l.286 1.002c.038.143.166.196.331.196.264 0 .618-.173.618-.407 0-.023-.008-.045-.015-.075l-1.454-4.738z"/>
@@ -156,8 +162,8 @@ const actions = {
 }
 
 
-const Icon = styled.div`
-  cursor: pointer;
+const Icon = styled(Link)`
+  display: inline-block;
   width: 44px;
   height: 44px;
   object-fit: contain;
@@ -168,7 +174,7 @@ const Icon = styled.div`
   line-height: 50px;
   border-radius: 12px;
   &.selected {
-    background-color: ${p => p.theme.color}
+    background-color: ${p => p.theme.color};
     .ma-main {
       fill: white;
     }    
