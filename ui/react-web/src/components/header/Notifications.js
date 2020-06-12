@@ -12,8 +12,8 @@ export default function (props) {
       </div>
       <div className="actionMenuSub">
         <div className="messageNotificationBody">
-          {props?.notifications?.map((message) => (
-            <div className="messageNotificationBar">
+          {props?.notifications?.map((message, i) => (
+            <div className="messageNotificationBar" key={i}>
               <div className="messageNotificationIcon">{message?.initials}</div>
               <div className="messageNotificationContent">
                 <div className="messageNotificationheader">{message?.title}</div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   HashRouter as Router,
   Switch,
@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom';
 
 import { loggedIn } from './store/user'
+
+import { objects, subobjects, questions, beneficiaries, profiles, details } from './store/master-data'
 
 import Home from './components/home'
 import Dashboard from './components/dashboard'
@@ -47,6 +49,10 @@ function Routes() {
   )
 }
 function App() {
+
+  // useEffect(() => {
+  //   objects.load();
+  // }, [])
   return (
     <Router>
       <Switch>

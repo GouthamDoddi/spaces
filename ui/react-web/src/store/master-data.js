@@ -22,10 +22,11 @@ export const beneficiarySegments = {
 }
 
 
-export const objects = makeStore(`objects`)
-export const subobjects = makeStore(({oid}) => `objects/${oid}/subobjects`)
-export const questions = makeStore(({soid}) => `subobjects/${soid}/questions`)
+const group_by = 'id'
+export const objects = makeStore(`objects`, { group_by })
+export const subobjects = makeStore(({oid}) => `objects/${oid}/subobjects`, { group_by })
+export const questions = makeStore(({soid}) => `subobjects/${soid}/questions`, { group_by })
 
-export const beneficiaries = makeStore(`beneficiaries`)
-export const profiles = makeStore(({bid}) => `beneficiaries/${bid}/profiles`)
-export const details = makeStore(({pid}) => `beneficiary_profiles/${pid}/details`)
+export const beneficiaries = makeStore(`beneficiaries`, { group_by })
+export const profiles = makeStore(({bid}) => `beneficiaries/${bid}/profiles`, { group_by })
+export const details = makeStore(({pid}) => `beneficiary_profiles/${pid}/details`, { group_by })

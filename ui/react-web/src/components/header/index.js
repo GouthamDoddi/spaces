@@ -148,20 +148,20 @@ export default function (props) {
         </div>
         <div className="user-actions">
           <div className="alerts menuWrapper">
-            <div class="actionMenu messageCenter">
+            <div className="actionMenu messageCenter">
               <Alerts alerts={alerts} />
             </div>
           </div>
           <div className="msg menuWrapper">
-            <div class="actionMenu messageCenter">
+            <div className="actionMenu messageCenter">
               <Notifications notifications={notifications} />
             </div>
           </div>
           <div className="notifications menuWrapper">
-            <div class="actionMenu">Notifications</div>
+            <div className="actionMenu">Notifications</div>
           </div>
           <div className="user-icon menuWrapper">
-            <div class="actionMenu">
+            <div className="actionMenu">
               <ProfileMenu
                 onLogout={() => logout()}
                 onPassReset={() => console.log('Trigger Reset Password')}

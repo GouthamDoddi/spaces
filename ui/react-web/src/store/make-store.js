@@ -3,7 +3,7 @@ import { get, put, post } from './api'
 import { createEvent, createStore } from 'effector'
 
 
-export default function makeStore(path, defaultStore={ loading: false, loadMsg: '', data: null, error: null }) {
+export default function makeStore(path, { group_by=null, defaultStore={ loading: false, loadMsg: '', data: null, error: null }}={}) {
     
   const toPath = (...options) => {
     if(typeof(path) === 'function') {
@@ -64,7 +64,8 @@ export default function makeStore(path, defaultStore={ loading: false, loadMsg: 
   ))
   
   store.on(addData, (store, data) => {
-    console.log({...store, ...{data}})
+    // console.log({...store, ...{data}})
+    if(group_by && data) data = data.reduce(((acc, o) => (acc[o[group_by]] = o) && acc), {})
     return {...store, ...{data}}
   })
   
@@ -79,7 +80,7 @@ export default function makeStore(path, defaultStore={ loading: false, loadMsg: 
   function assignData(resp, cb) {
     const { data } = resp
     disableLoading()
-    console.log("Adding Data")
+    // console.log("Adding Data")
     addData( data )
     if(cb) { cb(data) }
   }

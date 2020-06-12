@@ -10,7 +10,7 @@ import makeStore from '../../../store/make-store'
 import OptionList from './option-list'
 import {useTo} from '../util'
 
-import { objects, subobjects, questions } from '../../../store/master-data'
+import { beneficiaries, profiles, details } from '../../../store/master-data'
 
 import policyStore from '../../../store/formulation/policy'
 import { sectionStore } from '../../../store/section-store'
@@ -18,13 +18,13 @@ import { sectionStore } from '../../../store/section-store'
 export default function(props) {
 
   const { policy_id, id } = useParams()
-  const [oid, setOid] = useState(0)
-  const [soid, setSoid] = useState(0)
-  const [qid, setQid] = useState(0)
+  const [bid, setBid] = useState(0)
+  const [pid, setPid] = useState(0)
+  
 
   useEffect(() => {
-    if( !soid && !oid) {
-      objects.load()
+    if( !pid && !bid) {
+      beneficiaries.load()
     }
 
     if (policyStore.store.getState().data?.id != policy_id ) {
@@ -34,46 +34,46 @@ export default function(props) {
       sectionStore.load({policy_id, id})
     }
 
-    if(oid) { 
-      subobjects.load({oid}) 
-    } else { subobjects.addData(null)}
+    if(bid) { 
+      profiles.load({bid}) 
+    } else { profiles.addData(null)}
     
-    if(soid) { 
-      questions.load({soid}) 
-    } else { questions.addData(null)}
-  }, [oid, soid])
+    if(pid) { 
+      details.load({pid}) 
+    } else { details.addData(null)}
+  }, [bid, pid])
 
 
   return(
     <Container>
       <BoxGrid>
-        <OptionList title='Objects' description='Lorem ipsum dolor sit amet, consectetur' dataStore={objects.store}
+        <OptionList title='Beneficiary' description='Lorem ipsum dolor sit amet, consectetur' dataStore={beneficiaries.store}
           sectionStore={sectionStore}
           policyStore={policyStore}
-          onClicked={(id) => {setOid(id); setSoid(null)}}
-          sid={oid}
-          path='object'
-          bidsKey='object_ids'
+          onClicked={(id) => {setBid(id); setPid(null)}}
+          sid={bid}
+          path='beneficiary'
+          bidsKey='beneficiary_ids'
         >  </OptionList>
         <Spacer />
-        <OptionList title='Sub Objects' description='Lorem ipsum dolor sit amet, consectetur'
+        <OptionList title='Profile' description='Lorem ipsum dolor sit amet, consectetur'
           sectionStore={sectionStore}
           policyStore={policyStore}
-          dataStore={subobjects.store}
-          sid={soid}
-          path='subobject'
-          bidsKey='subobject_ids'
-          onClicked={setSoid}></OptionList>
+          dataStore={profiles.store}
+          sid={pid}
+          path='beneficiary_profile'
+          bidsKey='beneficiary_profile_ids'
+          onClicked={setPid}></OptionList>
         <Spacer />
-        <OptionList title='Questions' description='Lorem ipsum dolor sit amet, consectetur'
+        <OptionList title='Details' description='Lorem ipsum dolor sit amet, consectetur'
           sectionStore={sectionStore}
           policyStore={policyStore}        
-          dataStore={questions.store}
-          sid={qid}
-          path='question'
-          bidsKey='question_ids'
-          onClicked={setQid}
-          addButton={!!soid}></OptionList>
+          dataStore={details.store}
+          // sid={qid}
+          path='profile_detail'
+          bidsKey='profile_detail_ids'
+          // onClicked={setQid}
+        ></OptionList>
         <Spacer />
       </BoxGrid>
       
@@ -152,10 +152,4 @@ const Container = styled.div`
     }
   }
 `
-
-const PassedByOptions = [
-  { value: 1, label: 'passed by 1' },
-  { value: 2, label: 'passed by 2' },
-  { value: 3, label: 'passed by 3' },
-]
 

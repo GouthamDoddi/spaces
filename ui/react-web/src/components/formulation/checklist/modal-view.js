@@ -10,6 +10,7 @@ import Tabs from './tabs'
 import Profile from './profile'
 import ProjectInfo from './project-info'
 import ObjectMap from './object-map'
+import BeneficiaryMap from './beneficiary-map'
 
 
 
@@ -56,7 +57,7 @@ export default function(props) {
             <Switch>
               <Route path={useLinkTo('profile')}> <Profile /> </Route>
               <Route path={useLinkTo('project-info')}> <ProjectInfo /> </Route>
-              <Route path={useLinkTo('beneficiary-map')}> <div>JAI MATHA DI!!!</div> </Route>
+              <Route path={useLinkTo('beneficiary-map')}> <BeneficiaryMap /> </Route>
               <Route path={useLinkTo('object-map')}> <ObjectMap /> </Route>
               <Route exact path={useLinkTo('')}> <Redirect to={useLinkTo('profile', true)} /> </Route>
             </Switch>

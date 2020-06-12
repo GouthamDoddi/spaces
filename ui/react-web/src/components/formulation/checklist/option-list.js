@@ -6,12 +6,7 @@ import styled from 'styled-components'
 import { CheckboxBig } from '../../form'
 import { useParams } from 'react-router-dom'
 
-// import { useTo } from '../util'
 import { put } from '../../../store/api'
-import { Add } from '../../tables/small'
-
-import policyStore from '../../../store/formulation/policy'
-import { sectionStore } from '../../../store/section-store'
 
 function Anchor({onClicked, item_id}) {
   if(onClicked) {
@@ -26,25 +21,34 @@ function Anchor({onClicked, item_id}) {
   return null
 }
 
-export default function({title, description, onClicked, dataStore, sid, path, bidsKey, addButton}) {
+export default function({title, description, onClicked, dataStore, sid, path, bidsKey, policyStore, sectionStore}) {
 
-  const {policy_id } = useParams()
+  const {policy_id, id } = useParams()
   const store = useStore(dataStore)
-  const data = store.data || []
+  const data = store.data
 
   const policyData = useStore(policyStore.store).data || {}
-
+  const bids = policyData[bidsKey] || []
   
 
-  const bids = policyData[bidsKey] || []
-  // console.log(bids)
+  const sectionData = useStore(sectionStore.store).data || {}
+  const sbids = sectionData[bidsKey] || []
 
-  const changed = (val, id) => {
-    const success = () => policyStore.load({policy_id})
+  useEffect( () => {
+    // console.log(title, policyStore.store.getState().data?.id, sectionStore.store.getState().data?.id)
+  },[])
+
+
+  const filteredData = data ? (bids.map((i) => data[i])).filter(Boolean) : []// bids.map(((i) => data[i]))
+  if(title === 'Profile') console.log(bids, data, filteredData)
+
+  // console.log(bids, data)
+  const changed = (val, obj_id) => {
+    const success = () => sectionStore.load({policy_id, id})
     if (val) {
-      put(`formulation/${policy_id}/add/${path}/${id}`, {success})
+      put(`policy-sections/${id}/add/${path}/${obj_id}`, {success})
     } else {
-      put(`formulation/${policy_id}/remove/${path}/${id}`, {success})
+      put(`policy-sections/${id}/remove/${path}/${obj_id}`, {success})
     }
   }
 
@@ -56,11 +60,11 @@ export default function({title, description, onClicked, dataStore, sid, path, bi
       </Header>
       <Content>
         { 
-          data.map((obj, i) => (
+          filteredData.map((obj, i) => (
             <Row key={i}
               className={sid === obj.id ? 'selected' : null}
             > 
-              <CheckboxBig className='cb' label={obj.name} name={bidsKey} checked={bids.includes(obj.id)}  onChange={(val) => changed(val, obj.id)} /> 
+              <CheckboxBig className='cb' label={obj.name} name={bidsKey} checked={sbids.includes(obj.id)}  onChange={(val) => changed(val, obj.id)} /> 
               <Anchor onClicked={onClicked} item_id={obj.id} />
             </Row>
           ))

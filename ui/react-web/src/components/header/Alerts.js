@@ -11,8 +11,8 @@ export default function (props) {
       </div>
       <div className="actionMenuSub">
         <div className="messageAlertBody">
-          {props?.alerts?.map((message) => (
-            <div className="messageAlertBar">
+          {props?.alerts?.map((message, i) => (
+            <div className="messageAlertBar" key={i}>
               <div className="messageAlertIcon">
                 <img src="/img/exclamation-mark.svg" />
               </div>
