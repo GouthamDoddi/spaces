@@ -8,7 +8,7 @@ import {
 
 import { Task, Note, Survey, Meeting, Space } from './menu-actions'
 
-function useQuery() {
+export function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
