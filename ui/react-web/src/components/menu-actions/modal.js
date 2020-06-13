@@ -23,6 +23,7 @@ function Modal({className, children, title, disableList=[]}) {
           const query = new URLSearchParams(loc.search);
           query.delete('menu-action')
           query.delete('id')
+          query.delete('page')
           return `${loc.pathname}?${query.toString()}`
         }}>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
