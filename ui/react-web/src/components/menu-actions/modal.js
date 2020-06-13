@@ -11,7 +11,7 @@ import {
 function Modal({className, children, title, disableList=[]}) {
   const loc = useLocation();
   const isSel = ((page) => loc.search.includes(page) ? 'selected' : null)
-  const to = (loc, page, disableList) => {
+  const to = (page) => {
     const query = new URLSearchParams(loc.search);
     if(!disableList.includes(page)) query.set('page', page)
     return `${loc.pathname}?${query.toString()}`
