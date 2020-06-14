@@ -22,7 +22,7 @@ class App::Services::Compliance::Sections < App::Services::Base
   def applicable_questions
     as = ApplicableSection.find_or_create(section_id: r.params[:id], project_id: r.params[:project_id], user_id: App.cu.id)
     as.answers = params
-    as.applicable = !params.values.any?{_1 == 'no' }
+    as.applicable = !params.values.any?{|a| a == 'no' }
     save(as)
   end
 
