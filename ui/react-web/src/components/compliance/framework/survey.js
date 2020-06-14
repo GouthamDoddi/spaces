@@ -15,60 +15,22 @@ import {useStore} from 'effector-react'
 const {store, load, create} = makeStore(({project_id, section_id}) => `compliance/${project_id}/sections/${section_id}/questions`)
 
 
-function ShowDone({type, dataid}) {
-  const ans = ['A', 'B', 'C']
-  let rows = []
-  console.log(type)
-  const sec = data[dataid];
-  for(let i = 0; i < sec.total; i++) {
-    let perc = Math.floor(Math.random() * 100)
-    perc = (perc < 25 ? (26 + Math.floor(Math.random() * 20)) : perc)
-    rows.push(
-      <Result key={i}>
-        <div className='rans'> { ans[Math.floor(Math.random() * sec.data[i].ans.data.length)] } </div>
-        <div className='box'>
-          <div className='rq'> {sec.data[i].q} </div>
-          <progress max={100} value={perc} />
-        </div>
-        <div className='perc'> {perc}%</div>
-      </Result>
 
-    )
-  }
-  if(type === 'petition') {
-    return(
-      <Results>
-        <div className='title'> RESULTS </div>
-        { rows }
-      </Results>
-    )
-  } else {
-    return(
-      <Done>
-        <img src='/img/kb/done.svg' alt='done' />
-        <div> Survey Complete! Thankyou for your time. </div>
-        <button> Submit the Survey </button>
-      </Done>
-    )
-  }
-}
 
-function submit(project_id, section_id, data) {
-  const cb = (resp) => {
-    console.log(resp)
-  }
-  create({data, project_id, section_id, cb})
-}
 
-export default function Element(props) {
-  const { project_id, section_id, qid } = useParams()
+
+export default function Element({sections, loadS, ...props}) {
+  const { project_id, section_id } = useParams()
 
   const [index, setIndex] = useState(0)
   const [answers, setAnswers] = useState({})
 
+  const section = sections.find((s) => s.id == section_id)
+  console.log(sections, section)
+
   useEffect(() => {
     load({project_id, section_id})
-  },[])
+  },[section_id])
   
   const qStore = useStore(store)
 
@@ -82,6 +44,8 @@ export default function Element(props) {
   if(index <= 0) { prevDisabled = true }
 
   let [enable, setEnable] = useState(false)
+
+  let [retake, setRetake] = useState(false)
   
   const item = data[index] || {}
 
@@ -90,37 +54,52 @@ export default function Element(props) {
     setAnswers({...answers, [item.id]: e.target.value})
     setEnable(true)
   }
+
+  function submit(project_id, section_id, data, loadS) {
+    const cb = (resp) => {
+      setRetake(false)
+      loadS({project_id})
+    }
+    create({data, project_id, section_id, cb})
+  }
   
-  return (
-    <>
-      {
-        nextDisabled ? <div> Done </div> :
-          <Survey>
-            <div className='progress'> Progress({index + 1}/{total}) </div>
-            <div className='container'>
-              <progress value={index + 1} max={total} />
-              <div className='q'> {data[index]?.name} </div>
-              {
-                (item.possible_answers || []).map((a, i) => 
-                    <div className='ans' key={i}> 
-                      <input type='radio' name={`ans${qid}`} key={index} value={a} onChange={setAnswer} checked={answers[item.id] == a}/> {a} 
-                    </div>)
-              }
-              <div className='actions'>
-                <div onClick={() => setIndex(index - 1)} className={prevDisabled ? 'disabled' : ''}> Back </div>
-                {
-                  index === (total - 1) ? <div className={ !!!answers[item.id]? 'disabled' : ''} onClick={() => submit(project_id, section_id, answers)}> Submit </div> : 
-                      <div onClick={() => setIndex(index + 1)} className={ !!!answers[item.id]? 'disabled' : ''}> Next </div>
-                }
-                
-              </div>
-            </div>
-          </Survey>
-      }
+  function ShowDone({answers}) {
+    return(
+      <Done>
+        <img src='/img/kb/done.svg' alt='done' />
+        <div> Survey Complete! Thankyou for your time. </div>
+        <button onClick={() => setRetake(true)}> Re - Take </button>
+      </Done>
+    )
+  }
 
-    </>
+  function SurveyE() {
+    return(
+      <Survey>
+      <div className='progress'> Progress({index + 1}/{total}) </div>
+      <div className='container'>
+        <progress value={index + 1} max={total} />
+        <div className='q'> {data[index]?.name} </div>
+        {
+          (item.possible_answers || []).map((a, i) => 
+              <div className='ans' key={i}> 
+                <input type='radio' name={`ans${index}`} key={index} value={a} onChange={setAnswer} checked={answers[item.id] == a}/> {a} 
+              </div>)
+        }
+        <div className='actions'>
+          <div onClick={() => setIndex(index - 1)} className={prevDisabled ? 'disabled' : ''}> Back </div>
+          {
+            index === (total - 1) ? <div className={ !!!answers[item.id]? 'disabled' : ''} onClick={() => submit(project_id, section_id, answers, loadS)}> Submit </div> : 
+                <div onClick={() => setIndex(index + 1)} className={ !!!answers[item.id]? 'disabled' : ''}> Next </div>
+          }
+          
+        </div>
+      </div>
+    </Survey>
+    )
+  }
 
-  )
+  return( section?.applicable && !retake ? <ShowDone /> : <SurveyE setRetake={setRetake}/>)
 }
 
 const Results = styled.div`

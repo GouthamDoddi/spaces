@@ -1,114 +1,150 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+
 import styled from 'styled-components'
-import { Switch, matchPath, Link, Route, useParams, useLocation } from 'react-router-dom'
-import SectionCard from './section-card'
-import Tabs from '../shared/tabs'
 
-import Cases from './cases'
-import Conv from './conv'
+import {
+  Switch,
+  Route,
+  NavLink,
+  Redirect
+} from 'react-router-dom';
 
-import records from '../../../store/temp-data-record'
+// import ModalView from './modal-view'
 
-import Attr from './attr'
+import { useParams } from 'react-router-dom'
 
-function rTo(path) {
-  return `/compliance/compl-sections/${path}`
+
+import { useStore } from 'effector-react'
+
+import { useTo } from '../util'
+
+import { Add } from '../../tables/list'
+
+
+import  makeStore from '../../../store/make-store'
+
+const {store, load } = makeStore(({project_id}) => `compliance/${project_id}/sections/applicable`)
+
+function useLinkTo(path, exact=false) {
+  return(useTo(`compl-sections/${path}`, exact))
 }
 
-
-function calcBreadCrumb(id, loc) {
-  let res = [['Compliance Sections', '/compliance/compl-sections']]
-  
-  
-  if(id) {
-    res.push(['> Section', `/compliance/compl-sections/${id}`])
-  }
-  return res
-}
-
-export default function (props) {
-  const data = Object.values(records)
-  const cards = (p) => (data.map((rec, i) => 
-    <SectionCard to={rTo(p && ((id * 1) === (rec.id * 1)) ? `${rec.id}/${p}` : rec.id)} 
-      {...rec} i={i} className={(id * 1) === (rec.id * 1) ? 'selected' : ''} /> 
-  ))
-  const loc = useLocation()
-  // if(!loc.search.includes('tab')) {
-  //   window.location.hash = `${loc.pathname}?tab=cases`
-  // }
-
-  const { params } = matchPath(loc.pathname, {path: '/:space/:asset/:id/'}) || {}
-  const { id } = params || {}
-  const breadcrumb = calcBreadCrumb(id, loc)
-
+function Link({to, className, children}) {
   return (
-    <>
-      <div className='form-space no-background'>
-        <Breadcrumb>
-          { breadcrumb.map((b, i) => (
-            <Link to={b[1]}> {b[0]} </Link>
-          ))}
-        </Breadcrumb>
-        <Content>
-          <Switch>
-            <Route path={rTo(':id')}> {cards(null)} </Route>
-            <Route path={rTo('')}> {cards(null)} </Route>
-          </Switch>
-          
-        </Content>
-      </div>
-      <div className='widgets'>
-        <WidgetContainer>
-          <Tabs data={[['Description', '']]} />
-          <div className='desc'>
-            { id ? `Description for Section: ${id}` 
-                 : 'Select a section to see description.'}
-          </div>
-        </WidgetContainer>
+    <NavLink to={useLinkTo(to, true)} className={className} activeClassName='selected'>
+      {children}
+    </NavLink>
+  )
+}
 
+export default function(props) {
+  const { project_id } = useParams()
+
+
+  useEffect(() => {
+    load({project_id})
+  }, [])
+
+
+  const sectionStore = useStore(store)
+
+  const sections = sectionStore.data || []
+  
+  return(
+    
+      // <Switch>
+      //   <Route path={useLinkTo(':id(\\d+|new)')}> <ModalView /></Route>
+      // </Switch>
+      <div className='form-space'>
+        <Wrapper>
+          <Content>
+            {
+              sections.map(({id, name, description, tags=[] }, i) => (
+                <ObjectCard key={i}>
+                  <Title>
+                    { name }
+                  </Title>
+                  <Description>
+                    {description}
+                  </Description>
+                  <Tags>
+                    {
+                      tags.map((tag,i) => (
+                        <div key={i}> #{tag} </div>
+                      ))
+                    }
+                  </Tags>
+                </ObjectCard>
+              ))
+            }
+          </Content>
+          {/* <Add to={useLinkTo('new', true)} /> */}
+        </Wrapper>
       </div>
-    </>
+
   )
 }
 
 
-
-const WidgetContainer = styled.div`
-  height: 466px;
-  border-radius: 3px;
-  box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
-  background-color: #ffffff;
-
-  .desc {
-    margin: 20px;
-  }
-`
-
-const Breadcrumb = styled.div`
-  margin-bottom: 16px;
-  display: flex;
-  font-size: 14px;
-  font-weight: 500;
-  color: #687c9d;
-  > * {
-    margin-right: 2px;
-    &:last-child {
-      font-weight: 700;
-    }
-  }
-`
-const Content = styled.div`
-  padding: 10px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  grid-auto-rows: 104px;
-  grid-gap: 14px;
+const Tags = styled.div`
+  max-width: 300px;
   overflow: auto;
-  height: 432px;
+  display: flex;
+  margin-top: 10px;
+  > div {
+    height: 20px;
+    border-radius: 3px;
+    border: solid 1px #e4eaf0;
+    background-color: #f4f7fa;
+    font-size: 10px;
+    color: #8fa8bf;
+    line-height: 20px;
+    margin-right: 5px;
+    padding: 0 5px;
+  }
+`
+
+const Content = styled.div`
+  flex-grow: 1;
   border-radius: 3px;
   box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
   background-color: #ffffff;
-  > div {
-    &:last-child { margin-bottom: 10px;}
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 307px);
+  grid-auto-rows: 108px;
+  grid-gap: 18px 10px;
+`
+
+const Title = styled.div`
+  font-size: 15px;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 8px;
+`
+
+const Description = styled.div`
+  font-size: 10px;
+  line-height: 1.2;
+  color: #98acbe;
+`
+const Wrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`
+const ObjectCard = styled(Link)`
+  position: relative;
+  top: 0;
+  left: 0;
+  min-width: 307px;
+  height: 108px;
+  border-radius: 3px;
+  border: solid 1px #f4f7fa;
+  background-color: #f4f7fa;
+  padding: 20px;
+  &.selected {
+    border: solid 1px ${p => p.theme.color};
   }
 `

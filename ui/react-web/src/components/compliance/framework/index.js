@@ -63,7 +63,7 @@ export default function Element({ elements, selectOptions, asset }) {
     <>
       <div className='form-space full-height'>
         <Switch>
-          <Route path={useToLink('sec/:section_id(\\d+)')}> <Survey /> </Route>
+          <Route path={useToLink('sec/:section_id(\\d+)')}> <Survey sections={data} loadS={load} /> </Route>
           <Route exact path=''> <SelectMsg> Select Survey (or) Petition </SelectMsg> </Route>
         </Switch>
 

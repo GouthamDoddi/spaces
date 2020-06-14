@@ -4,7 +4,13 @@ class App::Services::Compliance::Sections < App::Services::Base
 
   def list
     cond = Sequel.pg_array_op(:subobject_ids).overlaps(project.subobject_ids)
-    return_success(PolicySection.where(cond).map(&:to_pos))
+    sections = PolicySection.where(cond).all
+
+    ids = sections.map(&:id)
+    as = ApplicableSection.where(project_id: r.params[:project_id], section_id: ids).reduce({}){|a, o| a.merge!(o.section_id => o)}
+    
+    return_success(sections.map{|s| s.to_pos.merge!(applicable: as[s.id])})
+    # return_success(PolicySection.where(cond).map(&:to_pos))
   end
 
   def questions
