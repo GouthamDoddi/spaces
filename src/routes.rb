@@ -49,6 +49,11 @@ class App::Routes < Roda
             klass = Compliance::StakeHolders
             do_crud(klass, r, 'CRUL', opt)
           end
+
+          r.on 'implementation-domains' do
+            klass = Compliance::ImplementationDomains
+            do_crud(klass, r, 'CRUL', opt)
+          end
         end
       end
 
