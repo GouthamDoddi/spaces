@@ -29,7 +29,17 @@ class App::Routes < Roda
 
       r.on 'compliance' do
         r.on 'projects' do
-          do_crud(Compliance::Projects, r, 'CRUL')
+          klass = Compliance::Projects
+          r.on Integer, 'add', String, Integer do |id, name, obj_id|
+            opt = {id: id, name: name, obj_id: obj_id }
+            r.put { klass[r, opt].add_obj}
+          end
+  
+          r.on Integer, 'remove', String, Integer do |id, name, obj_id|
+            opt = {id: id, name: name, obj_id: obj_id }
+            r.put { klass[r, opt].remove_obj}
+          end
+          do_crud(klass, r, 'CRUL')
         end
       end
 

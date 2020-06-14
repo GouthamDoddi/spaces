@@ -6,13 +6,22 @@ Sequel.migration do
       String :name, size: 50
       String :sponsor, size: 50
       String :description, text: true
-      Integer :owner_id
+      String :owner
       Integer :type_id
 
       Date :start_date
       Date :end_date
       
-      column :section_ids, 'numeric[]'
+
+      # beneficiaries
+      column :beneficiary_ids, 'integer[]'
+      column :profile_ids, 'integer[]'
+
+      # Objects
+      column :object_ids, 'integer[]'
+      column :subobject_ids, 'integer[]'
+
+      # column :section_ids, 'numeric[]'
 
       TrueClass :active, :default => true
 

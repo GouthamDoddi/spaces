@@ -21,6 +21,12 @@ export const beneficiarySegments = {
   4: { value: 3, label: 'BS 4' },
 }
 
+export const projectTypes = {
+  1: { value: 1, label: 'Type 1'},
+  2: { value: 2, label: 'Type 2'},
+  3: { value: 3, label: 'Type 3'},
+}
+
 
 const group_by = 'id'
 export const objects = makeStore(`objects`, { group_by })

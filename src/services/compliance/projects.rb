@@ -8,8 +8,7 @@ class App::Services::Compliance::Projects < App::Services::Base
     {
       save: [
         :name, :sponsor, :description, 
-        :owner_id, :type_id, :start_date, :end_date,
-        :section_ids
+        :owner, :type_id, :start_date, :end_date,
       ]
     }
   end

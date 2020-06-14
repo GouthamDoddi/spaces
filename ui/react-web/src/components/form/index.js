@@ -56,6 +56,10 @@ function ActionsElem(props) {
   )
 }
 
+export function toOpt(obj) {
+  return(Object.values(obj))
+}
+
 export const Actions = styled(ActionsElem)`
   display: flex;
   justify-content: flex-end;
@@ -63,6 +67,7 @@ export const Actions = styled(ActionsElem)`
   padding: 17px 0 5px 0;
 `
  
+
 export { Input, TextArea, Checkbox, Search, Select, CheckboxBig }
 
 const Status = styled.div`

@@ -8,11 +8,11 @@ import {
   useParams,
 } from 'react-router-dom';
 
-import Metadata from './metadata'
-import Context from './context'
-import Risk from './risk'
-import Objectives from './objectives'
-import ImpactArea from './objectives'
+import Profile from './profile'
+import ObjectDetails from './object-details'
+import BeneficiaryDetails from './beneficiary-details'
+import Stakeholders from './stakeholders'
+import Implementation from './implementation'
 
 import { useTo } from '../util'
 
@@ -33,37 +33,43 @@ export default function Element(props) {
     <>
       <div className='form-space'>
         <Switch>
-          <Route path={useLinkTo('metadata')}> <Metadata /> </Route>
-          <Route path={useLinkTo('details')}> <Context /> </Route>
-          <Route path={useLinkTo('impl')}> <Risk /> </Route>
-          <Route path={useLinkTo('stakeholders')}> <Objectives /> </Route>
-          <Route path={useLinkTo('impact-area')}> <ImpactArea /> </Route>
-          <Route exact path=''> <Redirect to={useLinkTo('metadata', true)} /> </Route>
+          <Route path={useLinkTo('index')}> <Profile /> </Route>
+          <Route path={useLinkTo('object-details')}> <ObjectDetails /> </Route>
+          <Route path={useLinkTo('beneficiary-details')}> <BeneficiaryDetails /> </Route>
+          <Route path={useLinkTo('stakeholders')}> <Stakeholders /> </Route>
+          <Route path={useLinkTo('implementation')}> <Implementation /> </Route>
+          <Route exact path=''> <Redirect to={useLinkTo('index', true)} /> </Route>
         </Switch>
       </div>
       <div className='widgets'>
         <Widget>
           <div className='title'> Elements </div>
-          <Link to='metadata' className='menu'>
+          <Link to='index' className='menu'>
             <div className='title'> Profile </div>
             <div className='desc'>
               The parametric data about the policy to identify, qualify, and manage across the lifecycle
             </div>
           </Link>
-          <Link to='details' className='menu'>
-            <div className='title'> Details </div>
+          <Link to='object-details' className='menu'>
+            <div className='title'> Object Details </div>
             <div className='desc'>
               The contextual information required for policy formulation
             </div>
           </Link>
-          <Link to='impl' className='menu'>
-            <div className='title'> Implementation </div>
+          <Link to='beneficiary-details' className='menu'>
+            <div className='title'> Beneficiary Details </div>
             <div className='desc'>
                The identified risks in policy making, propagation, and implementations
             </div>
           </Link>
           <Link to='stakeholders' className='menu'>
             <div className='title'> Stakeholders </div>
+            <div className='desc'>
+               The purpose of the policy and what it is trying to achieve
+            </div>
+          </Link>
+          <Link to='implementation' className='menu'>
+            <div className='title'> Implementation </div>
             <div className='desc'>
                The purpose of the policy and what it is trying to achieve
             </div>
