@@ -27,6 +27,13 @@ export const projectTypes = {
   3: { value: 3, label: 'Type 3'},
 }
 
+export const roleTypes = {
+  1: { value: 1, label: 'Director' },
+  2: { value: 2, label: 'Manager' },
+  3: { value: 3, label: 'Lead' },
+  4: { value: 3, label: 'Employee' },
+}
+
 
 const group_by = 'id'
 export const objects = makeStore(`objects`, { group_by })

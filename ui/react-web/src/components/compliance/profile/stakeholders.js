@@ -1,95 +1,97 @@
-import React, {useState} from 'react'
+import React, { useEffect, useState } from 'react'
 
-import Input from '../../form/input'
-import styled from 'styled-components'
+import { Input, Select, toOpt } from '../../form'
 
-import {
-  Container,
-  EditIcon,
-  SaveIcon,
-  TranslateIcon
-} from './shared'
+import { useParams } from 'react-router-dom'
+import makeStore from '../../../store/make-store'
+
+import { roleTypes } from '../../../store/master-data'
+
+import { useStore } from 'effector-react'
+import { Table, Header, Row, Add } from '../../tables/small'
+
+import { CustomContainer, Content, RowContainer } from '../../split-form-container'
+
+const { store, load, create, update } =  makeStore(({project_id, id}) => `compliance/${project_id}/stake-holders`)
+
+const {changed, selectChange, addData, ...localState} = makeStore(({project_id, id}) => id ? `compliance/${project_id}/stake-holders/${id}` : `compliance/${project_id}/stake-holders`)
 
 
-
-export default function(props) {
-  let [data, setData] = useState([])
-  let name, email, role;
-  const addData = (e) => {
-    e.preventDefault();
-    const fdata = {
-      name: document.forms[0][0].value,
-      role: document.forms[0][1].value,
-      email: document.forms[0][2].value
-    }
-    
-    setData([...data, fdata])
+function submitted(project_id, id, data) {
+  const cb = (resp) => {
+    load({project_id})
   }
-  return(
-    <Container>
-      <div className='actions'>
-        <EditIcon color='#FD7635' fill='#FFEFE2' />
-        <SaveIcon color='#FD7635' fill='#FFEFE2' />
-        <TranslateIcon color='#FD7635' fill='#FFEFE2' />
-      </div>
-
-      <div className='container'>
-        <Form>
-          <Input label='Name' ref={name} type='text' />
-          <Input label='Role' ref={role} type='text' />
-          <Input label='Email' ref={email} type='text' />
-          <Button onClick={addData}> Invite </Button>
-        </Form>
-        <Table>
-          <Header>
-            <div> Name </div>
-            <div> Role </div>
-            <div> Email</div>
-            <div> Status</div>
-          </Header>
-          {
-            data.map((item, i) => (
-              <Row>
-                <div>{ item.name}</div>
-                <div> {item.role}</div>
-                <div> {item.email}</div>
-                <div> Pending </div>
-              </Row>
-            ))
-          }
-        </Table>
-      </div>
-    </Container>
-  )
+  data.project_id = project_id
+  id ? localState.update({project_id, id, data, cb}) : localState.create({project_id, data, cb})
 }
 
+const columns = '1fr 1fr 1fr 1fr'
+export default function(props) {
 
-const Form = styled.form`
-  height: 163px;
-`
+  const { project_id } = useParams()
 
-const Button = styled.button`
-  border: none;
-  background-color: ${p => p.theme.color};
-  color: #ffffff;
-  height: 40px;
-  align-self: flex-end;
-  margin-bottom: 4px;
-`
+  const [sectionId, setSectionId] = useState(null)
+  
+  useEffect(() => {
+    load({project_id})
+  }, [])
+  
+  const listStore = useStore(store)
+  const localStore = useStore(localState.store)
 
-const Table = styled.div`
-  margin-top: 20px;
-`
-const Row = styled.div`
-display: grid;
-grid-template-columns: repeat(4, minmax(50px, 1fr));
-grid-auto-rows: 50px;
+  const listData = listStore.data || []
+  let {id, role_id, name, email, status} = localStore.data || {}
 
-`
+  if (sectionId && id !== sectionId) {
+    addData(listData.find(o => o.id === sectionId))
+  } else if(sectionId == null && id) { addData(null) }
 
-const Header = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, minmax(50px, 1fr));
-  grid-auto-rows: 30px;
-  border-bottom: 1px solid #ccc;
-`
+  return (
+    <CustomContainer onSubmit={(data) => submitted(project_id, id , data)} store={localStore}>      
+      <div className='fields'>
+        <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' required />
+        <Select name='role_id' label='Role' 
+            options={toOpt(roleTypes)}
+            outerClass='field'
+            onChange={selectChange('role_id')}
+            value={roleTypes[role_id] || ''} 
+        />
+        <Input label='Email ID / LDAP Group ' name='email' type='email' onChange={changed} value={ email || ''} className='field' required />
+        
+        
+        <label className='submit'>
+          <input type='submit' />
+          <div> { sectionId ? 'Update' : 'Add'} </div>
+        </label>
+
+      </div>
+      <Content>
+        <Table className='table'>
+          <Header columns={columns}>
+            <div>Name</div>
+            <div>Role</div>
+            <div>Email</div>
+            <div>Status</div>
+          </Header> 
+
+          <RowContainer>
+            {
+              listData.map((o, i) => (
+                <Row onClick={() => setSectionId(o.id)} className={ o.id === id ? 'selected row' : 'row'} key={i} columns={columns}> 
+                  <div> {o.name} </div>
+                  
+                  <div> {roleTypes[o.id]?.label} </div>
+                  <div> {o.email} </div>
+                  <div> {o.status} </div>
+                </Row>
+              ))
+              
+            }
+          </RowContainer>
+        </Table>
+      <Add onClick={() => setSectionId(null)} />
+      </Content>
+
+    </CustomContainer>
+  )
+}

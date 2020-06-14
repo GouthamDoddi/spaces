@@ -41,6 +41,15 @@ class App::Routes < Roda
           end
           do_crud(klass, r, 'CRUL')
         end
+
+
+        r.on Integer do |project_id|
+          opt = { project_id: project_id }
+          r.on 'stake-holders' do
+            klass = Compliance::StakeHolders
+            do_crud(klass, r, 'CRUL', opt)
+          end
+        end
       end
 
       r.on 'policy-sections', Integer do |id|
