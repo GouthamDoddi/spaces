@@ -2,9 +2,12 @@ import {
   NavLink,
 } from 'react-router-dom';
 
+import styled from 'styled-components'
+import React from 'react'
+
 function Link({to, className, children}) {
   return (
-    <NavLink to={to} className={classNames} activeClassName='selected'>
+    <NavLink to={to} className={className} activeClassName='selected'>
       {children}
     </NavLink>
   )
@@ -39,7 +42,9 @@ export const Content = styled.div`
 `
 
 export const Element = styled(Link)`
+  display: inline-block;
   margin-bottom: 10px;
+  color: black;
   width: 273px;
   height: 71px;
   border-radius: 3px;

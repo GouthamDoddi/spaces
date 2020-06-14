@@ -1,34 +1,45 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import Input from '../../form/input'
+import { Input, Select, Actions, Container, TextArea, toOpt } from '../../form'
 
-import {
-  Container,
-  EditIcon,
-  SaveIcon,
-  TranslateIcon
-} from './shared'
+import { useParams } from 'react-router-dom'
+import makeStore from '../../../store/make-store'
+import { projectTypes } from '../../../store/master-data'
+import { useStore } from 'effector-react'
+
+const { store, load, create, update, changed } =  makeStore(({project_id, section_id}) => section_id ? `compliance/${project_id}/plans/${section_id}` : `compliance/${project_id}/plans`)
+
+function submitted(project_id, id, section_id, data) {
+  const cb = (resp) => {
+    load({project_id, section_id: section_id})
+  }
+  data.section_id = section_id
+  data.project_id = project_id
+  id ? update({project_id, section_id, data, cb}) : create({project_id, data, cb})
+}
+
 
 export default function(props) {
+
+  const { project_id, section_id } = useParams()
+  
+  useEffect(() => {
+    load({project_id, section_id: section_id})
+  }, [])
+  
+  const sectionStore = useStore(store)
+  const { id, owner, reviewer, responsible, target_date, description } = sectionStore.data || {}
+
   return(
-    <Container>
-      <div className='actions'>
-        <EditIcon color='#FD7635' fill='#FFEFE2' />
-        <SaveIcon color='#FD7635' fill='#FFEFE2' />
-        <TranslateIcon color='#FD7635' fill='#FFEFE2' />
-      </div>
+    <Container onSubmit={(data) => submitted(project_id, id, section_id, data)} store={sectionStore}>
+      <Actions />
 
       <div className='container'>
-        <form>
-          <Input label='Lorem Ipsum' type='text' />
-          <Input label='Lorem Ipsum' type='text' />
-          <Input label='Lorem Ipsum' type='text' />
-          <Input label='Lorem Ipsum' type='text' />
-          <Input label='Lorem Ipsum' type='text' />
-          <Input label='Lorem Ipsum' type='text' />
-          <Input label='Lorem Ipsum' type='text' />
-          <Input label='Lorem Ipsum' type='text' />
-        </form>
+        <Input label='Owner' type='text' name='owner' onChange={changed} value={owner || ''}/>
+        <Input label='Reviewer' type='text' name='reviewer' onChange={changed} value={reviewer || ''}/>
+        <Input label='Responsible' type='text' name='responsible' onChange={changed} value={responsible || ''}/>
+        <Input label='Target Date' type='date' name='target_date' onChange={changed} value={target_date || ''}/>
+        <TextArea label='Notes' value={description || ''} name='description' onChange={changed} />
       </div>
     </Container>
   )

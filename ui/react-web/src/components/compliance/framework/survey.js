@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 
 
@@ -8,10 +8,11 @@ import Link from '../shared/link';
 
 import data from '../../../store/temp-data-survey'
 
+import makeStore from '../../../store/make-store'
 
-function rTo(id, qid) {
-  return `/compliance/framework/${id}/${qid}`
-}
+import {useStore} from 'effector-react'
+
+const {store, load, create} = makeStore(({project_id, section_id}) => `compliance/${project_id}/sections/${section_id}/questions`)
 
 
 function ShowDone({type, dataid}) {
@@ -52,37 +53,66 @@ function ShowDone({type, dataid}) {
   }
 }
 
-export default function Element(props) {
-  const { id, qid } = useParams()
-  console.log( id, qid)
-  const total = data[id].total
-  const item = data[id].data[qid - 1]
+function submit(project_id, section_id, data) {
+  const cb = (resp) => {
+    console.log(resp)
+  }
+  create({data, project_id, section_id, cb})
+}
 
-  // const next = ['Next', qid + 1]
-  // const prev = ['Back', qid - 1]
-  // let links = []
+export default function Element(props) {
+  const { project_id, section_id, qid } = useParams()
+
+  const [index, setIndex] = useState(0)
+  const [answers, setAnswers] = useState({})
+
+  useEffect(() => {
+    load({project_id, section_id})
+  },[])
+  
+  const qStore = useStore(store)
+
+  const data = qStore.data || []
+
+  const total = data.length
+
   let nextDisabled, prevDisabled;
 
-  if(qid > total) { nextDisabled = true }
-  if(qid <= 1) { prevDisabled = true }
+  if(index >= total) { nextDisabled = true }
+  if(index <= 0) { prevDisabled = true }
 
   let [enable, setEnable] = useState(false)
+  
+  const item = data[index] || {}
 
+  const setAnswer = (e) => {
+    const item = data[index]
+    setAnswers({...answers, [item.id]: e.target.value})
+    setEnable(true)
+  }
+  
   return (
     <>
       {
-        nextDisabled ? <ShowDone {...data[id]} dataid={id}/> :
+        nextDisabled ? <div> Done </div> :
           <Survey>
-            <div className='progress'> Progress({qid}/{total}) </div>
+            <div className='progress'> Progress({index + 1}/{total}) </div>
             <div className='container'>
-              <progress value={qid} max={total} />
-              <div className='q'> {item.q} </div>
+              <progress value={index + 1} max={total} />
+              <div className='q'> {data[index]?.name} </div>
               {
-                item.ans.data.map(a => <div className='ans'> <input type='radio' name={`ans${qid}`} key={qid} onChange={(e) => {setEnable(true)}}/> {a} </div>)
+                (item.possible_answers || []).map((a, i) => 
+                    <div className='ans' key={i}> 
+                      <input type='radio' name={`ans${qid}`} key={index} value={a} onChange={setAnswer} checked={answers[item.id] == a}/> {a} 
+                    </div>)
               }
               <div className='actions'>
-                <Link to={rTo(id, qid - 1)} className={prevDisabled ? 'disabled' : ''}> Back </Link>
-                <Link to={rTo(id, (qid * 1) + 1)} className={ !enable ? 'disabled' : ''}> Next </Link>
+                <div onClick={() => setIndex(index - 1)} className={prevDisabled ? 'disabled' : ''}> Back </div>
+                {
+                  index === (total - 1) ? <div className={ !!!answers[item.id]? 'disabled' : ''} onClick={() => submit(project_id, section_id, answers)}> Submit </div> : 
+                      <div onClick={() => setIndex(index + 1)} className={ !!!answers[item.id]? 'disabled' : ''}> Next </div>
+                }
+                
               </div>
             </div>
           </Survey>
@@ -192,7 +222,7 @@ const Survey = styled.div`
       display: flex;
       justify-content: center;
       margin-top: 60px;
-      > a {
+      > div {
         display: inline-block;
         text-decoration: none;
         width: 160px;
@@ -204,7 +234,7 @@ const Survey = styled.div`
         line-height: 38px;
         text-align: center;
         color: #ffffff;
-        & + a {
+        & + div {
           margin-left: 32px;
         }
       }
@@ -230,94 +260,3 @@ const Survey = styled.div`
   .progress-value { color: ${p => p.theme.color}; }
 
 `
-
-
-// const data = {
-//   1: {
-//     type: 'survey',
-//     total: 2,
-//     data: [
-//       {
-//         q: 'Question 1?',
-//         ans:{
-//           type: 'radio',
-//           data: ['ans 1', 'ans 2']
-//         }
-//       },
-//       {
-//         q: 'Question 2?',
-//         ans:{
-//           type: 'radio',
-//           data: ['ans 1', 'ans 2', 'ans3']
-//         }
-//       },
-//     ]
-//   },
-//   2:  {
-//     type: 'petition',
-//     total: 3,
-//     data: [
-//       {
-//         q: 'Question 1?',
-//         ans:{
-//           type: 'radio',
-//           data: ['ans 1', 'ans 2']
-//         }
-//       },
-//       {
-//         q: 'Question 2?',
-//         ans:{
-//           type: 'radio',
-//           data: ['ans 1', 'ans 2', 'ans3']
-//         }
-//       },
-//       {
-//         q: 'Question 3?',
-//         ans:{
-//           type: 'radio',
-//           data: ['ans 1', 'ans 2', 'ans3']
-//         }
-//       },
-//     ]
-//   },
-//   3:  {
-//     type: 'survey',
-//     total: 2,
-//     data: [
-//       {
-//         q: 'Question 1?',
-//         ans:{
-//           type: 'radio',
-//           data: ['ans 1', 'ans 2']
-//         }
-//       },
-//       {
-//         q: 'Question 2?',
-//         ans:{
-//           type: 'radio',
-//           data: ['ans 1', 'ans 2', 'ans3']
-//         }
-//       },
-//     ]
-//   },
-//   4:  {
-//     type: 'survey',
-//     total: 2,
-//     data: [
-//       {
-//         q: 'Question 1?',
-//         ans:{
-//           type: 'radio',
-//           data: ['ans 1', 'ans 2']
-//         }
-//       },
-//       {
-//         q: 'Question 2?',
-//         ans:{
-//           type: 'radio',
-//           data: ['ans 1', 'ans 2', 'ans3']
-//         }
-//       },
-//     ]
-//   }
-// }

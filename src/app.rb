@@ -54,6 +54,7 @@ module App
       Sequel.extension :core_extensions
       Sequel.extension :named_timezones
       Sequel.extension :pg_json_ops
+      Sequel.extension :pg_array_ops
       db.extension :pg_json, :pg_array, :pg_enum
       db.wrap_json_primitives = true
       db.typecast_json_strings = true

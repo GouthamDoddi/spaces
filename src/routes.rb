@@ -42,9 +42,25 @@ class App::Routes < Roda
           do_crud(klass, r, 'CRUL')
         end
 
-
         r.on Integer do |project_id|
           opt = { project_id: project_id }
+          
+          r.on 'plans'  do
+            klass = Compliance::Plans
+            do_crud(klass, r, 'CRUDL', opt)            
+          end
+
+          r.on 'sections' do
+            klass = Compliance::Sections
+            r.get('applicable') { klass[r, opt].applicable_sections}
+            r.on Integer, 'questions' do |id|
+              
+              r.get { klass[r, opt.merge(id: id)].questions }
+              r.post { klass[r, opt.merge(id: id)].applicable_questions }
+            end
+            do_crud(klass, r, 'RL', opt)
+          end
+
           r.on 'stake-holders' do
             klass = Compliance::StakeHolders
             do_crud(klass, r, 'CRUL', opt)

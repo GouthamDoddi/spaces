@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
 import {
   Switch,
@@ -6,6 +6,9 @@ import {
   useParams
 } from 'react-router-dom';
 
+import { useStore } from 'effector-react'
+
+import makeStore from '../../../store/make-store'
 
 import Link from '../shared/link'
 
@@ -13,15 +16,20 @@ import cs from '../../../utils/colors'
 
 import Survey from './survey'
 
-function rTo(path) {
-  return `/compliance/framework/${path}`
+import { useTo } from '../util'
+
+
+const {store, load} = makeStore(({project_id}) => `compliance/${project_id}/sections`)
+
+function useToLink(path, exact=false) {
+  return useTo(`framework/${path}`, exact)
 }
 
 
 function ElementWidget(props) {
   const color = props.type === 'survey' ? cs.gs.color : cs.fs.color
   return(
-    <Menu to={rTo(`${props.id}/1`)} color={color}>
+    <Menu to={useToLink(`sec/${props.id}`, true)} color={color}>
       <div className='title'> { props.name } </div>
       <div className='desc'>
         <span> Number Of People Attempted:  </span>
@@ -39,17 +47,24 @@ function ElementWidget(props) {
 
 export default function Element({ elements, selectOptions, asset }) {
 
-  // const { params } = useRouteMatch(rTo(':section')) || {}
+  const { project_id, section_id } = useParams()
 
-  const { id } = useParams()
-  console.log(id)
+  const sectionStore = useStore(store)
+
+  const data = sectionStore.data || []
+
+  console.log(project_id, section_id)
+
+  useEffect(() => {
+    load({project_id})
+  }, [])
+
   return (
     <>
       <div className='form-space full-height'>
         <Switch>
-          <Route path={rTo(':id/:qid')}> <Survey /> </Route>
+          <Route path={useToLink('sec/:section_id(\\d+)')}> <Survey /> </Route>
           <Route exact path=''> <SelectMsg> Select Survey (or) Petition </SelectMsg> </Route>
-
         </Switch>
 
       </div>
@@ -57,7 +72,7 @@ export default function Element({ elements, selectOptions, asset }) {
         <Widget>
           <div className='title'> Surveys & Petitions </div>
           <div className='content-data'>
-            { ListOfThings.map((item, i) => <ElementWidget {...item} key={i} />) }
+            { data.map((item, i) => <ElementWidget {...item} key={i} />) }
           </div>
         </Widget>
       </div>
