@@ -8,9 +8,9 @@ import {
   NavLink,
 } from 'react-router-dom';
 
-import ModalView from './modal-view'
+import ModalView from './attributes/modal-view'
 
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 
 
 import { useStore } from 'effector-react'
@@ -21,26 +21,28 @@ import { Add } from '../../tables/list'
 
 import Breadcrumb from './breadcrumb'
 
+
 function useLinkTo(path, exact=false) {
-  return(useTo(`checklist/${path}`, exact))
+  const { id } = useParams()
+  const eid = exact ?  id : ':id(\\d+)'
+  return `${useTo(`checklist/${eid}/attrs`, exact)}/${path}`
 }
+
 
 function Link({to, className, children}) {
   return (
-    <NavLink to={useLinkTo(to, true)} className={className} activeClassName='selected'>
+    <NavLink to={to} className={className} activeClassName='selected'>
       {children}
     </NavLink>
   )
 }
 
 export default function({ store, load, ...props}) {
-  const { policy_id, ...params} = useParams()
-
+  const params = useParams()
 
   useEffect(() => {
-    load({policy_id})
+    load(params)
   }, [])
-
 
   const dataStore = useStore(store)
 
@@ -50,16 +52,17 @@ export default function({ store, load, ...props}) {
     <Wrapper>
       <Breadcrumb />
       <Switch>
-        <Route path={useLinkTo(':id(\\d+|new)')}> <ModalView /></Route>
+        {/* <Route path={useLinkTo(':attr_id(\\d+|new)/params')}> <ModalView /></Route> */}
+        <Route path={useLinkTo(':attr_id(\\d+|new)')}> <ModalView /></Route>
       </Switch>
       <Content>
         {
           data.map(({id, name, description, tags=[] }, i) => (
-            <ObjectCard to={`${id}/attrs`} key={i} className={ id == params.id}>
+            <ObjectCard to={useTo(`checklist/params/${id}`, true)} key={i} className={ id == params.id}>
               <Title>
                 { name }
               </Title>
-              <EditBtn to={id}/>
+              <EditBtn to={useLinkTo(id, true)}/>
               <Description>
                 {description}
               </Description>
@@ -78,7 +81,6 @@ export default function({ store, load, ...props}) {
     </Wrapper>
   )
 }
-
 
 const Tags = styled.div`
   max-width: 300px;

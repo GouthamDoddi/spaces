@@ -9,7 +9,8 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import ModalView from './modal-view'
+import AttributeCardView from './attribute-card-view'
+
 
 import { useParams } from 'react-router-dom'
 
@@ -17,9 +18,10 @@ import CardView from './cards-view'
 
 
 import { useTo } from '../util'
+import ParamView from './param-view'
 
 
-import  { store, load } from '../../../store/section-store'
+import  { store, load, attributeStore } from '../../../store/section-store'
 
 
 
@@ -31,9 +33,14 @@ export default function(props) {
   const { policy_id } = useParams()
 
   return(
-      <div className='form-space full-width'>
-        <CardView store={store} load={load} />
-      </div>
-
+    <Switch>
+      <Route path={useLinkTo(':id(\\d+)/attrs')}> 
+        <div className='form-space full-width no-background'> <AttributeCardView store={attributeStore.store} load={attributeStore.load} /> </div>
+      </Route>
+      <Route path={useLinkTo('params/:attr_id(\\d+)')}><ParamView /></Route>
+      <Route path={useLinkTo('')}> 
+        <div className='form-space full-width no-background'><CardView store={store} load={load} />  </div>
+      </Route>
+    </Switch>
   )
 }

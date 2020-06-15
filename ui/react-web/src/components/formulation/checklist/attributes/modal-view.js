@@ -4,8 +4,8 @@ import styled from 'styled-components'
 
 import Select, {components} from 'react-select'
 
-import Modal from './modal'
-import Tabs from './tabs'
+import Modal from '../modal'
+import Tabs from '../tabs'
 
 import Profile from './profile'
 import ProjectInfo from './project-info'
@@ -24,21 +24,25 @@ import {
   matchPath
  } from 'react-router-dom'
 
-import { useTo } from '../util'
+import { useTo } from '../../util'
 
 
 function useLinkTo(path, exact=false) {
-  const { pathname } = useLocation()
-  const {id} = useParams()
-  let eid = exact ?  id : ':id(\\d+|new)'
-  return `${useTo(`checklist/${eid}`, exact)}/${path}`
+  const { id, attr_id } = useParams()
+  const  eid = exact ?  id : ':id(\\d+|new)'
+
+  const aid = exact ? attr_id : ':attr_id(\\d+|new)'  
+  return `${useTo(`checklist/${eid}/attrs/${aid}`, exact)}/${path}`
 }
 
 export default function(props) {
-  const { id } = useParams()
-  console.log(useLinkTo('project-info'))
+
+  const { id, attr_id } = useParams()
+
+  console.log('attr_id', attr_id)
+  console.log("profile", useLinkTo('profile'))
   return (
-    <Modal closePath={useTo('checklist', true)}>
+    <Modal closePath={useTo(`checklist/${id}/attrs`, true)}>
       <Header> Policy Checklist </Header>
       <Content> 
         <Container>
@@ -46,7 +50,7 @@ export default function(props) {
             ['PROJECT INFO', useLinkTo('project-info', true)],
             ['BENEFICIARY MAP', useLinkTo('beneficiary-map', true)],
             ['OBJECT MAP', useLinkTo('object-map', true)]
-            ]} newRec={ id === 'new'}/>
+            ]} newRec={attr_id === 'new'}/>
           <TabContent>
             <Switch>
               <Route path={useLinkTo('profile')}> <Profile /> </Route>

@@ -14,16 +14,17 @@ function useLinkTo(path, exact=true) {
 
 function Link({to, className, children}) {
   return(
-    <NavLink to={useLinkTo(to)} className={className} activeClassName='selected'>
+    <NavLink to={to} className={className} activeClassName='selected'>
       {children}
     </NavLink>
   )
 }
 
 
-export default function Element({ data, useq }) {
+export default function Element({ data, newRec=false }) {
   const { id } = useParams()
-  if (id && id === 'new') return null
+  console.log('newRec', newRec)
+  if (newRec) return null
   return (
     <Tabs>
       {        

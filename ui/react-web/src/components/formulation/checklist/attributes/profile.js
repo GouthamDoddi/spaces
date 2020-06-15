@@ -2,52 +2,59 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 
-import Form, { TextArea, Select, Actions, Container, Input } from '../../form'
+import Form, { TextArea, Select, Actions, Container, Input } from '../../../form'
 
 import { useParams } from 'react-router-dom'
-import makeStore from '../../../store/make-store'
+import makeStore from '../../../../store/make-store'
 import { useStore } from 'effector-react'
 
-import {load as pLoad} from '../../../store/section-store'
+import {attributeStore} from '../../../../store/section-store'
 
-const { store, load, create, update, addData, changed } =  makeStore(({policy_id, id}) => id ? `formulation/${policy_id}/policy-sections/${id}` : `formulation/${policy_id}/policy-sections`)
+function pathFn({ policy_id, id, attr_id }) {
+  const base = `formulation/${policy_id}/policy-sections/${id}/attributes`
+  console.log('base', base)
+  return attr_id ? `${base}/${attr_id}` : base
 
+}
 
-function submitted(policy_id, id, tags, data) {
-  const newRec = (id === 'new')
+const { store, load, create, update, addData, changed } =  makeStore(pathFn)
+
+function submitted(policy_id, id, attr_id, tags, data) {
+  const newRec = (attr_id === 'new')
 
   const cb = (resp) => {
-    if(newRec) window.location.hash = `/formulation/${policy_id}/checklist/${resp.id}/profile`
-    pLoad({policy_id})
+    if(newRec) window.location.hash = `/formulation/${policy_id}/checklist/${id}/attrs/${resp.id}/profile`
+    attributeStore.load({policy_id, id})
   }
   data.tags = tags
   data.policy_id = policy_id
-  newRec ? create({policy_id, data, cb}) : update({policy_id, id, data, cb})
+  debugger
+  newRec ? create({policy_id, id, data, cb}) : update({policy_id, id, attr_id,  data, cb})
 }
 
 export default function(props) {
-  console.log("Store", pLoad)
-  const { policy_id, id } = useParams()
+  const { policy_id, id, attr_id } = useParams()
 
   const addTag = () => {
-    addData({id, name, description, tags: [...(tags || []), tag]})
+    addData({id: attr_id, name, description, tags: [...(tags || []), tag]})
   }
 
   const updateTags = (list) => {
-    addData({id, name, description, tags: [...list]})
+    addData({id: attr_id, name, description, tags: [...list]})
   } 
   
   useEffect(() => {
-    if(id !== 'new') load({policy_id, id})
+    attr_id !== 'new' ? load({policy_id, id, attr_id}) : addData(null)
   }, [])
   
+  console.log(useParams())
   const sectionStore = useStore(store)
  
   const { name, description, tags=[], tag } = sectionStore.data || {}
   
   console.log('tags', tags)
   return (
-    <CustomContainer onSubmit={(data) => submitted(policy_id, id , tags, data)} store={sectionStore}>        
+    <CustomContainer onSubmit={(data) => submitted(policy_id, id ,attr_id,  tags, data)} store={sectionStore}>        
       <div className="fields">
         <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' />
 

@@ -138,6 +138,10 @@ class App::Routes < Roda
           do_crud(Formulation::Metadata, r, 'CRUL')
         end
 
+        r.on 'attributes', Integer, 'params' do |attr_id|
+          do_crud(Formulation::AttributeParams, r, 'CRUDL', {attr_id: attr_id})
+        end
+
         r.on Integer do |policy_id|
           opt = { id: policy_id }
           klass = Formulation::Metadata
