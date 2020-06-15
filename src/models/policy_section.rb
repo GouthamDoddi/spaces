@@ -1,4 +1,4 @@
-class App::Models::PolicySection < Sequel::Model
+class App::Models::PolicySection < Sequel::Model(App.db[:policy_sections].where(parent_id: nil))
   def validate
     super
     # validates_presence [:name, :date]
