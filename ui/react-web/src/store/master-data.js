@@ -34,6 +34,11 @@ export const roleTypes = {
   4: { value: 3, label: 'Employee' },
 }
 
+export const applicationTypes = {
+  1: { value: 1, label: 'All' },
+  2: { value: 2, label: 'Conditional' },
+}
+
 export const mandateLevelTypes = {
   1: { value: 1, label: 'M1' },
   2: { value: 2, label: 'M2' },

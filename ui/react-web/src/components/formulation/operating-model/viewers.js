@@ -9,9 +9,9 @@ import makeStore from '../../../store/make-store'
 import { useStore } from 'effector-react'
 import { Table, Header, Row, Add } from '../../tables/small'
 
-const { store, load, create, update } =  makeStore(({policy_id, id}) => `formulation/${policy_id}/risk`)
+const { store, load, create, update } =  makeStore(({policy_id}) => `formulation/${policy_id}/policy-viewers`)
 
-const {changed, selectChange, addData, ...localState} = makeStore(({policy_id, id}) => `formulation/${policy_id}/risk/${id}`)
+const {changed, selectChange, addData, ...localState} = makeStore(({policy_id, id}) => id ? `formulation/${policy_id}/policy-viewers/${id}` : `formulation/${policy_id}/policy-viewers`)
 
 function toOpt(hash) {
   return(Object.values(hash))

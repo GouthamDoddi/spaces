@@ -13,7 +13,7 @@ import {CustomContainer, Content, RowContainer} from '../split-form-container'
 
 const { store, load, create, update } =  makeStore(({policy_id, id}) => `formulation/${policy_id}/op/stake-holders`)
 
-const {changed, selectChange, addData, ...localState} = makeStore(({policy_id, id}) => id ? `formulation/${policy_id}/op/stake-holders/${id}` : `formulation/${policy_id}/op/stake-holders`)
+const {changed, selectChange, addData, remove, ...localState} = makeStore(({policy_id, id}) => id ? `formulation/${policy_id}/op/stake-holders/${id}` : `formulation/${policy_id}/op/stake-holders`)
 
 function toOpt(hash) {
   return(Object.values(hash))
@@ -27,7 +27,7 @@ function submitted(policy_id, id, data) {
   id ? localState.update({policy_id, id, data, cb}) : localState.create({policy_id, data, cb})
 }
 
-const columns = '1fr 1fr 1fr 1fr'
+const columns = '1fr 1fr 1fr 1fr 0.5fr'
 export default function(props) {
 
   const { policy_id } = useParams()
@@ -74,6 +74,7 @@ export default function(props) {
             <div>Role</div>
             <div>Email</div>
             <div>Status</div>
+            <div>Actions</div>
           </Header> 
 
           <RowContainer>
@@ -85,6 +86,7 @@ export default function(props) {
                   <div> {roleTypes[o.id]?.label} </div>
                   <div> {o.email} </div>
                   <div> {o.status} </div>
+                  <div onClick={() => remove({id: o.id, policy_id: policy_id, cb: () => {load({policy_id}); setSectionId(null)}})}> &#128465; </div>
                 </Row>
               ))
               

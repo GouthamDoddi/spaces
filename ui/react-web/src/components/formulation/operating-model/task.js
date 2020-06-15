@@ -6,12 +6,13 @@ import Form, { TextArea, Select, Actions, Container, Input } from '../../form'
 
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
+import {roleTypes, applicationTypes} from '../../../store/master-data'
 import { useStore } from 'effector-react'
 import { Table, Header, Row, Add } from '../../tables/small'
 
-const { store, load, create, update } =  makeStore(({policy_id, id}) => `formulation/${policy_id}/risk`)
+const { store, load, create, update } =  makeStore(({policy_id}) => `formulation/${policy_id}/policy-op-tasks`)
 
-const {changed, selectChange, addData, ...localState} = makeStore(({policy_id, id}) => `formulation/${policy_id}/risk/${id}`)
+const {changed, selectChange, addData, remove, ...localState} = makeStore(({policy_id, id}) => id ? `formulation/${policy_id}/policy-op-tasks/${id}`: `formulation/${policy_id}/policy-op-tasks`)
 
 function toOpt(hash) {
   return(Object.values(hash))
@@ -24,6 +25,8 @@ function submitted(policy_id, id, data) {
   data.policy_id = policy_id
   id ? localState.update({policy_id, id, data, cb}) : localState.create({policy_id, data, cb})
 }
+
+const columns = '1fr 1fr .5fr 1fr 0.5fr'
 
 export default function(props) {
 
@@ -39,7 +42,7 @@ export default function(props) {
   const localStore = useStore(localState.store)
 
   const listData = listStore.data || []
-  let {id, risk_id, impact, probability, description} = localStore.data || {}
+  let {id, name, description, application_type, role_id, order} = localStore.data || {}
 
   if (sectionId && id !== sectionId) {
     addData(listData.find(o => o.id === sectionId))
@@ -48,27 +51,21 @@ export default function(props) {
   return (
     <CustomContainer onSubmit={(data) => submitted(policy_id, id , data)} store={localStore}>      
       <div className='fields'>
-
-        <Select name='risk_id' label='Risk' 
-            options={toOpt(riskTypes)}
+        <Input label='Task Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' />
+        <Select name='role_id' label='Role' 
+            options={toOpt(roleTypes)}
             outerClass='field'
-            onChange={selectChange('risk_id')}
-            value={riskTypes[risk_id] || ''} 
+            onChange={selectChange('role_id')}
+            value={roleTypes[role_id] || ''} 
         />
-        <Select name='impact' label='Impact' 
-            options={toOpt(impactTypes)}
+        <Input label='Order' name='order' type='number' onChange={changed} value={ order || ''} className='field' />
+        <Select name='application_type' label='Application' 
+            options={toOpt(applicationTypes)}
             outerClass='field'
-            onChange={selectChange('impact')}
-            value={impactTypes[impact] || ''} 
+            onChange={selectChange('application_type')}
+            value={applicationTypes[application_type] || ''} 
         />
-        <Select name='probability' label='Probability' 
-            options={toOpt(probabilityTypes)}
-            outerClass='field'
-            onChange={selectChange('probability')}
-            value={probabilityTypes[probability] || ''} 
-        />
-
-        <TextArea label='Description' name='description' type='text' onChange={changed} value={ description || ''} className='field' />
+        <TextArea label='Task Description' name='description' type='text' onChange={changed} value={ description || ''} className='field' />
         <label className='submit'>
           <input type='submit' />
           <div> { sectionId ? 'Update' : 'Add'} </div>
@@ -77,22 +74,23 @@ export default function(props) {
       </div>
       <Content>
         <Table className='table'>
-          <Header>
-            <div>ID</div>
-            <div>Risk</div>
-            <div>Probability</div>
-            <div>Impact</div>
+          <Header columns={columns}>
+            <div>Task Name</div>
+            <div>Role</div>
+            <div>Order</div>
+            <div>Application</div>
+            <div>Actions</div>
           </Header> 
 
           <RowContainer>
             {
               listData.map((o, i) => (
-                <Row onClick={() => setSectionId(o.id)} className={ o.id === id ? 'selected row' : 'row'} key={i}> 
-                  <div> {o.id} </div>
-                  
-                  <div> {riskTypes[o.risk_id]?.label} </div>
-                  <div> {probabilityTypes[o.probability]?.label} </div>
-                  <div> {impactTypes[o.impact]?.label} </div>
+                <Row onClick={() => setSectionId(o.id)} className={ o.id === id ? 'selected row' : 'row'} key={i} columns={columns}> 
+                  <div> {o.name} </div>
+                  <div> {roleTypes[o.role_id]?.label} </div>
+                  <div> {o.order} </div>
+                  <div> {applicationTypes[o.application_type]?.label} </div>
+                  <div onClick={() => remove({id: o.id, policy_id: policy_id, cb: () => {load({policy_id}); setSectionId(null)}})}> &#128465; </div>
                 </Row>
               ))
               

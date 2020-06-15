@@ -224,23 +224,35 @@ class App::Routes < Roda
             klass = Formulation::StakeHolders
             opts = {policy_id: policy_id, type: 'op'}
             r.get { klass[r, opts].list }
-            do_crud(klass, r, 'CU', opts)
+            do_crud(klass, r, 'CUD', opts)
           end
 
           r.on 'sp/stake-holders' do
             klass = Formulation::StakeHolders
             opts = {policy_id: policy_id, type: 'sp'}
             r.get { klass[r, opts].list }
-            do_crud(klass, r, 'CU', opts)
+            do_crud(klass, r, 'CUD', opts)
           end
 
           r.on 'policy-queues' do
             klass = Formulation::PolicyQueues
             r.get { klass[r, policy_id: policy_id].list }
-            do_crud(klass, r, 'CU')
+            do_crud(klass, r, 'CUD')
           end
           r.on 'policy-tickets' do
             klass = Formulation::PolicyTickets
+            r.get { klass[r, policy_id: policy_id].list }
+            do_crud(klass, r, 'CUD', {policy_id: policy_id})
+          end
+
+          r.on 'policy-op-tasks' do
+            klass = Formulation::PolicyOpTasks
+            r.get { klass[r, policy_id: policy_id].list }
+            do_crud(klass, r, 'CUD', {policy_id: policy_id})
+          end
+
+          r.on 'policy-viewers' do
+            klass = Formulation::PolicyViewers
             r.get { klass[r, policy_id: policy_id].list }
             do_crud(klass, r, 'CU')
           end

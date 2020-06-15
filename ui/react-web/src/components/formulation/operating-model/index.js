@@ -31,7 +31,7 @@ export default function Element(props) {
         <Switch>
           <Route path={useLinkTo('stake-holders')}> <StakeHolders /> </Route>
           <Route path={useLinkTo('task')}> <Task /> </Route>
-          <Route path={useLinkTo('viewers')}> <Viewers /> </Route>
+          {/* <Route path={useLinkTo('viewers')}> <Viewers /> </Route> */}
           <Route exact path=''> <Redirect to={useLinkTo('stake-holders', true)} /> </Route>
         </Switch>
       </div>
@@ -50,12 +50,12 @@ export default function Element(props) {
               Project scope & beneficiary details
             </div>
           </Link>
-          <Link to='viewers' className='menu'>
+          {/* <Link to='viewers' className='menu'>
             <div className='title'> Viewers </div>
             <div className='desc'>
               Implementation Partners - Internal and External
             </div>
-          </Link>
+          </Link> */}
         </Widget>
       </div>
     </>

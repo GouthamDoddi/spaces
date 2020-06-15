@@ -109,7 +109,7 @@ export default function makeStore(path, { group_by=null, defaultStore={ loading:
   }
 
   function remove({cb, ...others}) {
-    const ans = confirm("Are you sure to delete?");
+    const ans = window.confirm("Are you sure to delete?");
     if(ans) {
       enableLoading('deleting')
       del(toPath(others), { success: (data) => {assignData(data, cb)}, error: assignError })  
