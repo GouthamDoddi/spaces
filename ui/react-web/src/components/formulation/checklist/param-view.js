@@ -9,8 +9,14 @@ import makeStore from '../../../store/make-store'
 import { useStore } from 'effector-react'
 import { Table, Header, Row, Add } from '../../tables/small'
 
+import Tabs from './tabs'
+
+import { Switch, Route, Redirect } from 'react-router-dom'
+
 import { mandateLevelTypes } from '../../../store/master-data'
 import Breadcrumb from './breadcrumb'
+import { useTo } from '../util'
+import ContentForm from './content-form'
 
 const { store, load  } =  makeStore(({attr_id, id}) => `formulation/attributes/${attr_id}/params`)
 
@@ -25,6 +31,13 @@ function submitted(attr_id, id, data) {
     load({attr_id})
   }
   id ? localState.update({attr_id, id, data, cb}) : localState.create({attr_id, data, cb})
+}
+
+function useLinkTo(path, exact=false) {
+  const { policy_id, attr_id } = useParams()
+
+  const eid = exact ? attr_id : ':attr_id(\\d+)'
+  return useTo(`checklist/params/${eid}`, exact) + `/${path}`
 }
 
 const columns = '0.3fr 1fr 2fr 0.7fr'
@@ -49,60 +62,86 @@ export default function(props) {
   } else if(sectionId == null && id) { addData(null) }
 
   return (
+    <>
     <div className='form-space no-background'>
       <Breadcrumb />
       <CustomContainer onSubmit={(data) => submitted(attr_id, id , data)} store={localStore}>      
-            <div className='fields'>
-              <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' />
-              <TextArea label='Description' name='description' type='text' onChange={changed} value={ description || ''} className='field' />
-              <Select name='mandate_level_id' label='Mandate Level' 
-                  options={toOpt(mandateLevelTypes)}
-                  outerClass='field'
-                  onChange={selectChange('mandate_level_id')}
-                  value={mandateLevelTypes[mandate_level_id] || ''} 
-              />
-              <label className='submit'>
-                <input type='submit' />
-                <div> { sectionId ? 'Update' : 'Add'} </div>
-              </label>
+        <div className='fields'>
+          <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' />
+          <TextArea label='Description' name='description' type='text' onChange={changed} value={ description || ''} className='field' />
+          <Select name='mandate_level_id' label='Mandate Level' 
+              options={toOpt(mandateLevelTypes)}
+              outerClass='field'
+              onChange={selectChange('mandate_level_id')}
+              value={mandateLevelTypes[mandate_level_id] || ''} 
+          />
+          <label className='submit'>
+            <input type='submit' />
+            <div> { sectionId ? 'Update' : 'Add'} </div>
+          </label>
 
-            </div>
-            <Content>
-              <Table className='table'>
-                <Header columns={columns}>
-                  <div>ID</div>
-                  <div>Name</div>
-                  <div>Description</div>
-                  <div>Mandate Lavel</div>
-                </Header> 
+        </div>
+        <Content>
+          <Table className='table'>
+            <Header columns={columns}>
+              <div>ID</div>
+              <div>Name</div>
+              <div>Description</div>
+              <div>Mandate Lavel</div>
+            </Header> 
 
-                <RowContainer>
-                  {
-                    listData.map((o, i) => (
-                      <Row onClick={() => setSectionId(o.id)} className={ o.id === id ? 'selected row' : 'row'} key={i} columns={columns}> 
-                        <div> {o.id} </div>
-                        
-                        <div> {o.name} </div>
-                        <div> {o.description} </div>
-                        <div> {mandateLevelTypes[o.mandate_level_id]?.label} </div>
-                      </Row>
-                    ))
+            <RowContainer>
+              {
+                listData.map((o, i) => (
+                  <Row onClick={() => setSectionId(o.id)} className={ o.id === id ? 'selected row' : 'row'} key={i} columns={columns}> 
+                    <div> {o.id} </div>
                     
-                  }
-                </RowContainer>
-              </Table>
-            <Add onClick={() => setSectionId(null)} />
-            </Content>
+                    <div> {o.name} </div>
+                    <div> {o.description} </div>
+                    <div> {mandateLevelTypes[o.mandate_level_id]?.label} </div>
+                  </Row>
+                ))
+                
+              }
+            </RowContainer>
+          </Table>
+        <Add onClick={() => setSectionId(null)} />
+        </Content>
 
-          </CustomContainer>
+      </CustomContainer>
     </div>
+    <div className='widgets'>
+        <Tabs data={[['Know Base', useLinkTo('kb', true)], 
+            ['Exception Grounds', useLinkTo('eg', true)],
+            ['Operating Notes', useLinkTo('on', true)],
+            ]} />
+          
+        <Switch>
+          <Route path={useLinkTo('kb')}> <ContentForm type='kb' /> </Route>
+          <Route path={useLinkTo('eg')}> <ContentForm type='eg' /> </Route>
+          <Route path={useLinkTo('on')}> <ContentForm type='on' /> </Route>
+          <Route exact path={useLinkTo('')}> <Redirect to={useLinkTo('kb', true)} /> </Route>
+        </Switch>
+          
+    </div>
+    </>
   )
 }
 
+
+// const ContentForm = styled.div`
+//   background-color: #fff;
+//   height: 418px;
+// `
 const RowContainer = styled.div`
   flex-grow: 1;
   overflow: auto;
   min-height: 0;
+`
+
+const TabContent = styled.div`
+  // background-color: #f4f4f4;
+  // padding: 5px 10px 0 10px;
 `
 
 const Content = styled.div`

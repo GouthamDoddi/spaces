@@ -138,6 +138,10 @@ class App::Routes < Roda
           do_crud(Formulation::Metadata, r, 'CRUL')
         end
 
+        r.on 'section-contents', Integer, String do |section_id, type|
+          do_crud(Formulation::SectionContents, r, 'CRUDL', {section_id: section_id, type: type})
+        end
+
         r.on 'attributes', Integer, 'params' do |attr_id|
           do_crud(Formulation::AttributeParams, r, 'CRUDL', {attr_id: attr_id})
         end
