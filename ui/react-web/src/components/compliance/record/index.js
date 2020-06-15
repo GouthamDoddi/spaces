@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Switch, matchPath, Link, Route, useParams, useLocation } from 'react-router-dom'
 import SectionCard from './section-card'
 
-import { useTo } from '../util'
+import Cards from './cards'
+
 // import Tabs from '../shared/tabs'
 
 // import Cases from './cases'
@@ -13,49 +14,54 @@ import records from '../../../store/temp-data-record'
 
 import Attr from './attr'
 
+import { useTo } from '../util'
+
+import makeStore from '../../../store/make-store'
+
+const sectionStore = makeStore(({project_id}) => `compliance/${project_id}/sections/applicable`)
+const attributeStore = makeStore(({section_id}) => `compliance/attributes-for-section/${section_id}`)
+
 
 
 function useLinkTo(path, exact=false) {
   return useTo(`record/${path}`, exact)
 }
 
-function calcBreadCrumb(id, loc) {
-  let res = [['Compliance Record', '/compliance/record']]
-  
-  
-  if(id) {
-    res.push(['> Section', `/compliance/record/${id}`])
-  }
-  if( loc.pathname.includes('param')) {
-    res.push(['> Attribute', `/compliance/record/${id}/param`])
-  }
-  return res
+function buildBreadcrumb() {
+  const {section_id, attr_id} = useParams()
+  let list = [['> Sections', useLinkTo('', true)]]
+  if(section_id) list.push(['> Attributes', useLinkTo(`sec/${section_id}`, true)])
+  if(attr_id) list.push(['> Parameters', useLinkTo(`${section_id}/attr/${attr_id}/param`, true)])
+  return list
 }
-
-
 // /records -> All Sections
 // /records/sec/section_id -> All Attrs
 // /records/attr/attr_id/params -> all Params
 export default function (props) {
-  // const { project_id, section_id, attr_id, param_id}
 
-  useEffect(() => {
-
-  }, [])
-
+  const params = useParams()
+  // const [breadcrumb, setBreadcrumb] = useState([])
+  
+  // useEffect(() => {
+  //   setBreadcrumb(buildBreadcrumb())
+  // }, [params])
+  
+  const breadcrumb = buildBreadcrumb()
+  const secPathFn = ({id}) => useLinkTo(`sec/${id}`, true)
   return (
     <>
       <div className='form-space no-background'>
-        {/* <Breadcrumb>
-          { breadcrumb.map((b, i) => (
-            <Link to={b[1]}> {b[0]} </Link>
-          ))}
-        </Breadcrumb> */}
+        <Breadcrumb>
+          <div> Compliance Record </div>
+          {
+            breadcrumb.map((b, i) => <Link to={b[1]} key={i}> {b[0]} </Link>)
+          }
+        </Breadcrumb>
         <Content>
           <Switch>
-            <Route path={useLinkTo('attr/:attr_id(\\d+)/param')}> <div> Parameters </div> </Route>
-            <Route path={useLinkTo('sec/:section_id(\\d+)')}> <div> attributes </div> </Route>
-            <Route path={useLinkTo('')}> <div> sections</div> </Route>
+            <Route path={useLinkTo(':section_id(\\d+)/attr/:attr_id(\\d+)/param')}> <div> Parameters </div> </Route>
+            <Route path={useLinkTo('sec/:section_id(\\d+)')}> <Cards store={attributeStore} to={({section_id, id} ) => useLinkTo(`${section_id}/attr/${id}/param`, true)} /> </Route>
+            <Route path={useLinkTo('')}> <Cards store={sectionStore} to={secPathFn}/> </Route>
           </Switch>
         </Content>
       </div>

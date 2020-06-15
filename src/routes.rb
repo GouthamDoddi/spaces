@@ -54,6 +54,10 @@ class App::Routes < Roda
           do_crud(klass, r, 'CRUL')
         end
 
+        r.on 'attributes-for-section', Integer do |section_id|
+          r.get { Compliance::Sections[r, {section_id: section_id}].attributes }
+        end
+
         r.on Integer do |project_id|
           opt = { project_id: project_id }
           

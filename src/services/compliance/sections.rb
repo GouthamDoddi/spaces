@@ -33,6 +33,10 @@ class App::Services::Compliance::Sections < App::Services::Base
     return_success(model.where(id: as.map(&:section_id)))
   end
 
+  def attributes
+    return_success(PolicySectionAttribute.where(parent_id: r.params[:section_id]).map(&:to_pos))
+  end
+
   def project 
     @project ||= App::Models::Compliance::Project.find(id: r.params[:project_id])
   end
