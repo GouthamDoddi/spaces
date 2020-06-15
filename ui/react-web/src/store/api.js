@@ -50,4 +50,9 @@ function put(url, options={}) {
   fetchWithAuth(url, options)
 }
 
-export { post, get, put }
+function del(url, options={}) {
+  options.method = 'delete'
+  fetchWithAuth(url, options)
+}
+
+export { post, get, put, del }

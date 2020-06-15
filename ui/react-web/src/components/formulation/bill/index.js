@@ -12,7 +12,7 @@ import ProgressCard from '../../progress-card'
 
 const { store, load } =  makeStore(({policy_id}) => `formulation/${policy_id}/bill-decree`)
 
-const {changed, selectChange, addData, ...localState} = makeStore(({policy_id, id}) => id ? `formulation/${policy_id}/bill-decree/${id}` : `formulation/${policy_id}/bill-decree`)
+const {changed, selectChange, addData, remove, ...localState} = makeStore(({policy_id, id}) => id ? `formulation/${policy_id}/bill-decree/${id}` : `formulation/${policy_id}/bill-decree`)
 
 function toOpt(hash) {
   return(Object.values(hash))
@@ -26,7 +26,7 @@ function submitted(policy_id, id, data) {
   id ? localState.update({policy_id, id, data, cb}) : localState.create({policy_id, data, cb})
 }
 
-const columns = '1fr 1fr 1fr 1fr'
+const columns = '1fr 1fr 1fr 1fr .3fr'
 export default function(props) {
 
   const { policy_id } = useParams()
@@ -79,6 +79,7 @@ export default function(props) {
               <div>Number</div>
               <div>Effective Date</div>
               <div>Passed By</div>
+              <div>Actions</div>
             </Header> 
 
             <RowContainer>
@@ -89,13 +90,14 @@ export default function(props) {
                     <div> {o.number} </div>
                     <div> {o.effective_date} </div>
                     <div> {PassedByOptions[o.passed_by]?.label} </div>
+                    <div onClick={() => remove({id: o.id, policy_id: policy_id, cb: () => load({policy_id})})}> &#128465; </div>
                   </Row>
                 ))
                 
               }
             </RowContainer>
           </Table>
-          <Add onClick={() => setSectionId(null)} />
+          <Add className='add-btn' onClick={() => setSectionId(null)} />
         </Content>
 
       </CustomContainer>
@@ -139,6 +141,10 @@ const Content = styled.div`
       }
     }
 
+  }
+
+  .add-btn {
+    right: 45px;
   }
 `
 const CustomContainer = styled(Form)`

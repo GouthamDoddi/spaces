@@ -107,6 +107,15 @@ class App::Services::Base
     save(item)
   end
 
+  def delete
+    res = item.delete
+    res ? return_success(res.to_pos) : return_errors!('Unable to delete')
+  rescue => e
+    App.logger.error(e.message)
+    App.logger.error(e.backtrace)
+    return_errors!(e.message, 400)
+  end
+
   def item
     @item ||= begin
       id = r.params[:id]

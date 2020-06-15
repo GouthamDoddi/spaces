@@ -1,4 +1,4 @@
-import { get, put, post } from './api'
+import { get, put, post, del } from './api'
 
 import { createEvent, createStore } from 'effector'
 
@@ -107,7 +107,15 @@ export default function makeStore(path, { group_by=null, defaultStore={ loading:
     enableLoading('Updating')
     put(toPath(others), { data, success: (data) => {assignData(data, cb)}, error: assignError })
   }
-  return { store, load, create, update, changed, selectChange, addData }
+
+  function remove({cb, ...others}) {
+    const ans = confirm("Are you sure to delete?");
+    if(ans) {
+      enableLoading('deleting')
+      del(toPath(others), { success: (data) => {assignData(data, cb)}, error: assignError })  
+    }
+  }
+  return { store, load, create, update, changed, selectChange, addData, remove }
 }
 
 

@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { Switch, matchPath, Link, Route, useParams, useLocation } from 'react-router-dom'
 import SectionCard from './section-card'
-import Tabs from '../shared/tabs'
 
-import Cases from './cases'
-import Conv from './conv'
+import { useTo } from '../util'
+// import Tabs from '../shared/tabs'
+
+// import Cases from './cases'
+// import Conv from './conv'
 
 import records from '../../../store/temp-data-record'
 
 import Attr from './attr'
 
-function rTo(path) {
-  return `/compliance/record/${path}`
-}
 
+
+function useLinkTo(path, exact=false) {
+  return useTo(`record/${path}`, exact)
+}
 
 function calcBreadCrumb(id, loc) {
   let res = [['Compliance Record', '/compliance/record']]
@@ -29,46 +32,41 @@ function calcBreadCrumb(id, loc) {
   return res
 }
 
-export default function (props) {
-  const data = Object.values(records)
-  const cards = (p) => (data.map((rec, i) => 
-    <SectionCard to={rTo(p && ((id * 1) === (rec.id * 1)) ? `${rec.id}/${p}` : rec.id)} 
-      {...rec} i={i} className={(id * 1) === (rec.id * 1) ? 'selected' : ''} /> 
-  ))
-  const loc = useLocation()
-  if(!loc.search.includes('tab')) {
-    window.location.hash = `${loc.pathname}?tab=cases`
-  }
 
-  const { params } = matchPath(loc.pathname, {path: '/:space/:asset/:id/'}) || {}
-  const { id } = params || {}
-  const breadcrumb = calcBreadCrumb(id, loc)
+// /records -> All Sections
+// /records/sec/section_id -> All Attrs
+// /records/attr/attr_id/params -> all Params
+export default function (props) {
+  // const { project_id, section_id, attr_id, param_id}
+
+  useEffect(() => {
+
+  }, [])
 
   return (
     <>
       <div className='form-space no-background'>
-        <Breadcrumb>
+        {/* <Breadcrumb>
           { breadcrumb.map((b, i) => (
             <Link to={b[1]}> {b[0]} </Link>
           ))}
-        </Breadcrumb>
+        </Breadcrumb> */}
         <Content>
           <Switch>
-            <Route path={rTo(':id/param')}> <Attr /> </Route>
-            <Route path={rTo(':id')}> {cards('param')} </Route>
-            <Route path={rTo('')}> {cards(null)} </Route>
+            <Route path={useLinkTo('attr/:attr_id(\\d+)/param')}> <div> Parameters </div> </Route>
+            <Route path={useLinkTo('sec/:section_id(\\d+)')}> <div> attributes </div> </Route>
+            <Route path={useLinkTo('')}> <div> sections</div> </Route>
           </Switch>
-          
         </Content>
       </div>
       <div className='widgets'>
         <WidgetContainer>
-          <Tabs data={[['Cases', `?tab=cases`],['Conversation', `?tab=conv`]]} useq />
+          {/* <Tabs data={[['Cases', `?tab=cases`],['Conversation', `?tab=conv`]]} useq /> */}
           {/* <div className='content'> */}
-            {
+            {/* {
               loc.search.includes('cases') ? 
                 <Cases recid={id || 1} /> : <Conv recid={id || 1} />
-            }
+            } */}
           {/* </div> */}
         </WidgetContainer>
 

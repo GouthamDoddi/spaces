@@ -191,7 +191,7 @@ class App::Routes < Roda
           r.on 'bill-decree' do
             klass = Formulation::BillDecrees
             r.get { klass[r, policy_id: policy_id].list }
-            do_crud(klass, r, 'CU')
+            do_crud(klass, r, 'CUD')
           end
 
           # Context
