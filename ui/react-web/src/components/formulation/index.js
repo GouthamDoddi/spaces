@@ -30,7 +30,7 @@ const WorkspaceLinks = [
   { name: 'Policy Canvas', path: 'canvas'},
   { name: 'Bill / Decree', path: 'bill'},
   { name: 'Policy Plan', path: 'plan'},
-  { name: 'Committees', path: 'committees'},
+  // { name: 'Committees', path: 'committees'},
   { name: 'Frameworks', path: 'frameworks'},
   { name: 'Beneficiary', path: 'beneficiary'},
   { name: 'Policy Checklist', path: 'checklist'},
@@ -79,7 +79,7 @@ function Specific(props) {
         <Route path={useTo('canvas')}> <Canvas /> </Route>
         <Route path={useTo('bill')}> <Bill /> </Route>
         <Route path={useTo('plan')}> <Plan /> </Route>
-        <Route path={useTo('committees')}> <Committees /> </Route>
+        {/* <Route path={useTo('committees')}> <Committees /> </Route> */}
         <Route path={useTo('frameworks')}> <Framework /> </Route>
         <Route path={useTo('beneficiary')}> <Beneficiaries /> </Route>
         <Route path={useTo('checklist')}> <Checklist /> </Route>
