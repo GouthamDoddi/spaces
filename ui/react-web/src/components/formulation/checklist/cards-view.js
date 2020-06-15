@@ -32,7 +32,7 @@ function Link({to, className, children}) {
 }
 
 export default function({ store, load, ...props}) {
-  const { policy_id } = useParams()
+  const { policy_id, ...params} = useParams()
 
 
   useEffect(() => {
@@ -46,16 +46,17 @@ export default function({ store, load, ...props}) {
   
   return(
     <Wrapper>
-      {/* <Switch>
+      <Switch>
         <Route path={useLinkTo(':id(\\d+|new)')}> <ModalView /></Route>
-      </Switch> */}
+      </Switch>
       <Content>
         {
           data.map(({id, name, description, tags=[] }, i) => (
-            <ObjectCard to={id} key={i}>
+            <ObjectCard to={id} key={i} className={ id == params.id}>
               <Title>
                 { name }
               </Title>
+              <EditBtn to={id}/>
               <Description>
                 {description}
               </Description>
@@ -137,4 +138,14 @@ const ObjectCard = styled(Link)`
   &.selected {
     border: solid 1px ${p => p.theme.color};
   }
+`
+
+const EditBtn = styled(Link)`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background-color: ${p => p.theme.color};
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
 `
