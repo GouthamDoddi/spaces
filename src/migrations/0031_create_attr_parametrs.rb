@@ -8,6 +8,8 @@ Sequel.migration do
       Integer :mandate_level_id
       Integer :attribute_id
 
+      Integer :weightage
+
       TrueClass :active, :default => true
 
       Integer :created_by

@@ -43,7 +43,12 @@ export const mandateLevelTypes = {
   1: { value: 1, label: 'M1' },
   2: { value: 2, label: 'M2' },
   3: { value: 3, label: 'M3' },
+}
 
+export const HMLTypes = {
+  1: { value: 1, label: 'High' },
+  2: { value: 2, label: 'Medium' },
+  3: { value: 3, label: 'Low' },
 }
 
 

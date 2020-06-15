@@ -13,14 +13,14 @@ import Tabs from './tabs'
 
 import { Switch, Route, Redirect } from 'react-router-dom'
 
-import { mandateLevelTypes } from '../../../store/master-data'
+import { mandateLevelTypes, HMLTypes } from '../../../store/master-data'
 import Breadcrumb from './breadcrumb'
 import { useTo } from '../util'
 import ContentForm from './content-form'
 
 const { store, load  } =  makeStore(({attr_id, id}) => `formulation/attributes/${attr_id}/params`)
 
-const {changed, selectChange, addData, ...localState} = makeStore(({attr_id, id}) => id ? `formulation/attributes/${attr_id}/params/${id}` : `formulation/attributes/${attr_id}/params`)
+const {changed, selectChange, addData, remove, ...localState} = makeStore(({attr_id, id}) => id ? `formulation/attributes/${attr_id}/params/${id}` : `formulation/attributes/${attr_id}/params`)
 
 function toOpt(hash) {
   return(Object.values(hash))
@@ -40,7 +40,7 @@ function useLinkTo(path, exact=false) {
   return useTo(`checklist/params/${eid}`, exact) + `/${path}`
 }
 
-const columns = '0.3fr 1fr 2fr 0.7fr'
+const columns = '0.3fr 1fr 2fr 0.7fr 0.5fr'
 export default function(props) {
 
   const { attr_id } = useParams()
@@ -55,7 +55,7 @@ export default function(props) {
   const localStore = useStore(localState.store)
 
   const listData = listStore.data || []
-  let {id, mandate_level_id, description, name} = localStore.data || {}
+  let {id, mandate_level_id, description, name, weightage} = localStore.data || {}
 
   if (sectionId && id !== sectionId) {
     addData(listData.find(o => o.id === sectionId))
@@ -68,13 +68,19 @@ export default function(props) {
       <CustomContainer onSubmit={(data) => submitted(attr_id, id , data)} store={localStore}>      
         <div className='fields'>
           <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' />
-          <TextArea label='Description' name='description' type='text' onChange={changed} value={ description || ''} className='field' />
           <Select name='mandate_level_id' label='Mandate Level' 
               options={toOpt(mandateLevelTypes)}
               outerClass='field'
               onChange={selectChange('mandate_level_id')}
               value={mandateLevelTypes[mandate_level_id] || ''} 
           />
+          <Select name='weightage' label='Weightage' 
+              options={toOpt(HMLTypes)}
+              outerClass='field'
+              onChange={selectChange('weightage')}
+              value={HMLTypes[weightage] || ''} 
+          />
+          <TextArea label='Description' name='description' type='text' onChange={changed} value={ description || ''} className='field' />
           <label className='submit'>
             <input type='submit' />
             <div> { sectionId ? 'Update' : 'Add'} </div>
@@ -88,6 +94,7 @@ export default function(props) {
               <div>Name</div>
               <div>Description</div>
               <div>Mandate Lavel</div>
+              <div>Actions</div>
             </Header> 
 
             <RowContainer>
@@ -99,13 +106,14 @@ export default function(props) {
                     <div> {o.name} </div>
                     <div> {o.description} </div>
                     <div> {mandateLevelTypes[o.mandate_level_id]?.label} </div>
+                    <div onClick={() => remove({id: o.id, attr_id, cb: () => {load({attr_id}); setSectionId(null)}})}> &#128465; </div>
                   </Row>
                 ))
                 
               }
             </RowContainer>
           </Table>
-        <Add onClick={() => setSectionId(null)} />
+          <Add className='add-btn' onClick={() => setSectionId(null)} />
         </Content>
 
       </CustomContainer>
@@ -166,7 +174,9 @@ const Content = styled.div`
         border: 1px solid ${p => p.theme.color};
       }
     }
-
+  }
+  .add-btn {
+    right: 35px;
   }
 `
 const CustomContainer = styled(Form)`
