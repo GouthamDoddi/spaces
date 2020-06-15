@@ -1,4 +1,3 @@
-
 class App::Models::PolicySection < Sequel::Model
   def validate
     super

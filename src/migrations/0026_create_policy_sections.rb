@@ -7,6 +7,8 @@ Sequel.migration do
       String :description, text: true
       Integer :policy_id
 
+      Integer :parent_id
+
       column :tags, 'VARCHAR(60)[]'
 
       column :risk_ids, 'integer[]'

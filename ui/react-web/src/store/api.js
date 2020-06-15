@@ -2,7 +2,7 @@
 
 import store, { loggedIn, logout } from './user'
 
-const path = (p) => `/api/${p}`
+const path = (p) => `/papi/${p}`
 
 const handleResp = async function(r, succ, error) {
   if (r.status < 400) {

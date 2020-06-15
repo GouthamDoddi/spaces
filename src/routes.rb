@@ -13,6 +13,18 @@ class App::Routes < Roda
     r.delete(Integer) {|id| klass[r, opts.merge(id: id)].delete } if only.include?('D')
   end
 
+  def add_remove(klass, r, opts={})
+    r.on 'add', String, Integer do |name, obj_id|
+      opt.merge!(name: name, obj_id: obj_id)
+      r.put { klass[r, opt].add_obj}
+    end
+
+    r.on 'remove', String, Integer do |name, obj_id|
+      opt.merge!(name: name, obj_id: obj_id)
+      r.put { klass[r, opt].remove_obj}
+    end
+  end
+
   route do |r|
 
     r.public
@@ -76,15 +88,13 @@ class App::Routes < Roda
       r.on 'policy-sections', Integer do |id|
         opt = { id: id}
         klass = Formulation::PolicySections
-        r.on 'add', String, Integer do |name, obj_id|
-          opt.merge!(name: name, obj_id: obj_id)
-          r.put { klass[r, opt].add_obj}
-        end
+        add_remove(klass, r, opt)
+      end
 
-        r.on 'remove', String, Integer do |name, obj_id|
-          opt.merge!(name: name, obj_id: obj_id)
-          r.put { klass[r, opt].remove_obj}
-        end
+      r.on 'policy-section-attributes', Integer do |id|
+        opt = { id: id}
+        klass = Formulation::PolicySectionAttributes
+        add_remove(klass, r, opt)
       end
 
       r.on 'objects' do
@@ -229,9 +239,13 @@ class App::Routes < Roda
 
           r.on 'policy-sections' do
             klass = Formulation::PolicySections
-            do_crud(klass, r, 'CUR')
-            r.get { klass[r, policy_id: policy_id].list }
-            do_crud(klass, r, 'CU')
+            opts = { policy_id: policy_id }
+            r.on Integer, 'attributes' do |section_id|
+              opts[:section_id] = section_id
+              klass = Formulation::PolicySectionAttributes
+              do_crud(klass, r, 'CRUDL', opts)
+            end
+            do_crud(klass, r, 'CRUDL', opts)
           end
         end
       end
