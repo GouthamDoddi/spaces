@@ -16,12 +16,12 @@ class App::Routes < Roda
   def add_remove(klass, r, opts={})
     r.on 'add', String, Integer do |name, obj_id|
       opts.merge!(name: name, obj_id: obj_id)
-      r.put { klass[r, opt].add_obj}
+      r.put { klass[r, opts].add_obj}
     end
 
     r.on 'remove', String, Integer do |name, obj_id|
       opts.merge!(name: name, obj_id: obj_id)
-      r.put { klass[r, opt].remove_obj}
+      r.put { klass[r, opts].remove_obj}
     end
   end
 
