@@ -27,47 +27,69 @@ function useLinkTo(path, exact=false) {
 }
 
 function buildBreadcrumb( {section_id, attr_id }) {
-  
   let list = [['> Sections', '']]
   if(section_id) list.push(['> Attributes', `sec/${section_id}`])
   if(attr_id) list.push(['> Parameters', `${section_id}/attr/${attr_id}/param`])
-  
   return list
 }
 
+function RenderBreadcrumb() {
+  const { project_id }  = useParams()
+  const breadcrumb = buildBreadcrumb(useParams())
+  return(
+    <Breadcrumb>
+      <div> Compliance Record </div>
+      {
+        breadcrumb.map((b, i) => {
+          const path = `/compliance/${project_id}/record/${b[1]}`
+          return (<Link to={path} key={i}> {b[0]} </Link>)
+        })
+      }
+    </Breadcrumb>
+  )
+}
+
+function RenderWidget() {
+  return(
+    <div className='widgets'>
+      <WidgetContainer>
+        <Tabs>
+          <div className='selected'> Cases </div>
+        </Tabs>
+        <Cases />
+    
+      </WidgetContainer>
+    </div>
+  )
+}
+
 export default function (props) {
-  const params = useParams()
-  
-  const breadcrumb = buildBreadcrumb(params)  
 
   return (
-    <>
-      <div className='form-space no-background'>
-        <Breadcrumb>
-          <div> Compliance Record </div>
-          {
-            breadcrumb.map((b, i) => <Link to={useLinkTo(b[1], true)} key={i}> {b[0]} </Link>)
-          }
-        </Breadcrumb>
-        <Content>
-          <Switch>
-            <Route path={useLinkTo(':section_id(\\d+)/attr/:attr_id(\\d+)/param')}> <ParamView brd={buildBreadcrumb}/> </Route>
-            <Route path={useLinkTo('sec/:section_id(\\d+)')}> <Cards store={attributeStore} to={({section_id, id} ) => useLinkTo(`${section_id}/attr/${id}/param`, true)} brd={buildBreadcrumb} /> </Route>
-            <Route path={useLinkTo('')}> <Cards store={sectionStore} to={({id}) => useLinkTo(`sec/${id}`, true)} brd={buildBreadcrumb} /> </Route>
-          </Switch>
-        </Content>
-      </div>
-      <div className='widgets'>
-        <WidgetContainer>
-          <Tabs>
-            <div className='selected'> Cases </div>
-          </Tabs>
-          <Cases />
 
-        </WidgetContainer>
-
-      </div>
-    </>
+    <Switch>
+      <Route path={useLinkTo(':section_id(\\d+)/attr/:attr_id(\\d+)/param')}> 
+        <div className='form-space no-background'>
+          <RenderBreadcrumb breadcrumb={buildBreadcrumb(useParams())} />
+          <Content><ParamView brd={buildBreadcrumb}/></Content>
+        </div>
+        <RenderWidget />
+      </Route>
+      <Route path={useLinkTo('sec/:section_id(\\d+)')}>
+        <div className='form-space no-background'>
+          <RenderBreadcrumb breadcrumb={buildBreadcrumb(useParams())} />
+          <Content><Cards store={attributeStore} to={({section_id, id} ) => useLinkTo(`${section_id}/attr/${id}/param`, true)} brd={buildBreadcrumb} /> </Content>
+        </div>
+        <RenderWidget />
+      </Route>
+      <Route path={useLinkTo('')}> 
+        <div className='form-space no-background'>
+          <RenderBreadcrumb breadcrumb={buildBreadcrumb(useParams())} />
+          <Content><Cards store={sectionStore} to={({id}) => useLinkTo(`sec/${id}`, true)} brd={buildBreadcrumb} /> </Content>
+        </div>
+        <RenderWidget />
+      </Route>
+    </Switch>
   )
 }
 

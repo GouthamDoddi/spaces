@@ -3,11 +3,15 @@ import styled from 'styled-components'
 
 import { useStore } from 'effector-react'
 
-import { Switch, matchPath, Link, Route, useParams } from 'react-router-dom'
+import { Switch, matchPath, Link, Route, useParams, useLocation } from 'react-router-dom'
 
 import makeStore from '../../../store/make-store'
 
 import { Add } from '../../tables/small'
+
+import CasePopup from './case-popup'
+
+import { useTo } from '../util'
 
 const { store, load } = makeStore(({section_id=0, attr_id=0}) => `compliance/section/${section_id}/attr/${attr_id}/cases`)
 
@@ -23,20 +27,24 @@ function cc(st) {
 
 export default function(props) {
   const { section_id, attr_id } = useParams()
-
   useEffect(() => {
     load({ section_id, attr_id })
   }, [])
 
   const data = useStore(store).data || []
-
+  
   return(
-    <Container>
-      {
-        data.map( (c, i) => <Case {...c} i={i}/> )
-      }
-      <Add />
-    </Container>
+    <>
+      <Switch>
+        <Route path={useTo('record/:section_id(\\d+)/attr/:attr_id(\\d+)/case/:case_id(\\d+|new)')}> <CasePopup /> </Route>
+      </Switch>
+      <Container>
+        {
+          data.map( (c, i) => <Case {...c} i={i}/> )
+        }
+        <Link to={useTo(`record/${section_id}/attr/${attr_id || 0}/case/new`, true)}> <Add /> </Link>
+      </Container>
+   </>
   )
 }
 

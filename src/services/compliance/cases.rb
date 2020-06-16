@@ -13,6 +13,7 @@ class App::Services::Compliance::Cases < App::Services::Base
     obj.user_id = App.cu.id
     obj.section_id = rp[:section_id]
     obj.attribute_id = rp[:attribute_id]
+    obj.beneficiary_name = App.cu.user_obj.first_name
     save(obj)
   end
 

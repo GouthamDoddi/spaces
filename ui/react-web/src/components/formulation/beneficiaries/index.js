@@ -7,7 +7,6 @@ import makeStore from '../../../store/make-store'
 
 
 import OptionList from './option-list'
-import {useTo} from '../util'
 
 const policyStore = makeStore(({policy_id}) => `formulation/metadata/${policy_id}`)
 

@@ -12,7 +12,7 @@ import { Table, Header, Row, Add } from '../../tables/small'
 
 import { CustomContainer, Content, RowContainer } from '../../split-form-container'
 
-const { store, load, create, update } =  makeStore(({project_id, id}) => `compliance/${project_id}/stake-holders`)
+const { store, load } =  makeStore(({project_id, id}) => `compliance/${project_id}/stake-holders`)
 
 const {changed, selectChange, addData, ...localState} = makeStore(({project_id, id}) => id ? `compliance/${project_id}/stake-holders/${id}` : `compliance/${project_id}/stake-holders`)
 

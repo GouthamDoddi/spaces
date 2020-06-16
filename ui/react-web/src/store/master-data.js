@@ -138,6 +138,27 @@ export const policyStateTypes = {
  6: { value: 6, label: 'Terminate'}
 }
 
+export const caseQueueTypes = {
+  1: { value: 1, label: 'Policy Backlog'},
+  2: { value: 2, label: 'Exception Grounds'},
+  3: { value: 3, label: 'Knowledge Tasks'},
+  4: { value: 4, label: 'Initiative Requests'}
+}
+
+export const caseCategoryTypes = {
+  1: { value: 1, label: 'Clarification'},
+  2: { value: 2, label: 'Exception'},
+  3: { value: 3, label: 'Support'},
+  4: { value: 4, label: 'Relief'},
+  5: { value: 5, label: 'Suggestions'}
+}
+
+export const casePriorityTypes = {
+  1: { value: 1, label: 'Priority P1'},
+  2: { value: 2, label: 'Priority P2'},
+  3: { value: 3, label: 'Priority P3'},
+}
+
 // export const policyFamilyTypes = {
 //   ICT
 // 	Transport

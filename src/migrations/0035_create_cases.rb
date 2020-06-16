@@ -10,6 +10,7 @@ Sequel.migration do
       
       String :title
       String :description, text: true
+      String :beneficiary_name
 
       Integer :sla
 
