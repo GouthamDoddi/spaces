@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 
-import { Input, Select, Actions, Container } from '../../form'
+import { Input, Select, Actions, Container, toOpt } from '../../form'
 
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
 
-import {policyFamilyTypes, policyCategoryTypes, policyOwnerTypes, policyStatusTypes} from '../../../store/master-data'
+import {policyFamilyTypes, policyCategoryTypes, policyOwnerTypes, policyStatusTypes, policyStateTypes} from '../../../store/master-data'
 import { useStore } from 'effector-react'
 
 const { store, load, create, update, changed, selectChange } =  makeStore(({policy_id}) => `formulation/metadata/${policy_id}`)
@@ -28,7 +28,7 @@ export default function(props) {
   
   console.log(store)
   const metaStore = useStore(store)
-  const { family_id, name, policy_category_id, 
+  const { family_id, name, policy_category_id, policy_state_id,
     policy_status_id, owner_id, publication_date} = metaStore.data || {}
 
   return(
@@ -46,21 +46,29 @@ export default function(props) {
             options={categoryOptions}
             onChange={selectChange('policy_category_id')}
             value={categoryOptions.find(o => o.value === policy_category_id )} 
+            maxMenuHeight={200}
         />
-        <Input label='Publication Date' value={publication_date || ''}
-          type='date' name='publication_date' onChange={changed} 
-        />
+
         <Select name='owner_id' label='Policy Owner' 
             options={policyOwners}
             onChange={selectChange('owner_id')}
-            value={policyOwners.find(o => o.value === owner_id)} 
+            value={policyOwners.find(o => o.value === owner_id)}
+            maxMenuHeight={200}
         />
         <Select name='policy_status_id' label='Policy Status' 
             options={policyStatuses}
             onChange={selectChange('policy_status_id')}
             value={policyStatuses.find(o => o.value === policy_status_id)} 
         />
-
+        <Select name='policy_state_id' label='Policy State'
+            options={toOpt(policyStateTypes)}
+            onChange={selectChange('policy_state_id')}
+            value={policyStateTypes[policy_state_id] || ''}
+            maxMenuHeight={130}
+        />
+        <Input label='Publication Date' value={publication_date || ''}
+          type='date' name='publication_date' onChange={changed} 
+        />
       </div>
     </Container>
   )

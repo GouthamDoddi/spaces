@@ -1,7 +1,10 @@
 d = 
-"Strategic 
-Tactical 
-Operational 
+"Draft
+Re-Draft
+Ammend
+Proposed
+Legislated/Active
+Terminated
 "
 
 items = d.lines.map(&:chomp)

@@ -10,6 +10,7 @@ Sequel.migration do
       Integer :policy_category_id
       Date :publication_date
       Integer :policy_status_id
+      Integer :policy_state_id
       
       column :beneficiary_ids, 'integer[]'
       column :beneficiary_profile_ids, 'integer[]'

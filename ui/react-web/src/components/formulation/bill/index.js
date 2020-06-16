@@ -62,11 +62,8 @@ export default function(props) {
             type='date' name='effective_date' onChange={changed} 
           />
           <Input label='Ownership' type='text' name='ownership' onChange={changed} value={ownership || ''}/>
-          <Select name='passed_by' label='Passed By' 
-              options={PassedByOptions}
-              onChange={selectChange('passed_by')}
-              value={PassedByOptions.find((o) => o.value === (passed_by || 1))} 
-          />
+          <Input label='Passed By' type='text' name='passed_by' onChange={changed} value={passed_by || ''}/>
+
         </div>
         <label className='submit'>
             <input type='submit' />
@@ -89,7 +86,7 @@ export default function(props) {
                     <div> {o.name} </div>
                     <div> {o.number} </div>
                     <div> {o.effective_date} </div>
-                    <div> {PassedByOptions[o.passed_by]?.label} </div>
+                    <div> {o.passed_by} </div>
                     <div onClick={() => remove({id: o.id, policy_id: policy_id, cb: () => load({policy_id})})}> &#128465; </div>
                   </Row>
                 ))

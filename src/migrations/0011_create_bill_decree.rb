@@ -9,7 +9,7 @@ Sequel.migration do
       Date :effective_date
       Integer :policy_id
       String :ownership
-      Integer :passed_by      
+      String :passed_by, size: 50
       Integer :version
 
       TrueClass :active, :default => true

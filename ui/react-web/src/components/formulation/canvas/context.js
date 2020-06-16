@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 
-import Form, { TextArea, Select, Actions, Container } from '../../form'
+import Form, { TextArea, Select, Input } from '../../form'
 
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
@@ -44,11 +44,11 @@ export default function(props) {
   // let trigger_id, trigger_type_id, notes, id;
 
   const contextData = contextStore.data || []
-  let {id, trigger_id, trigger_type_id, notes} = localStore.data || {}
+  let {id, name, trigger_type_id, notes} = localStore.data || {}
 
   // console.log(selectedData, contextId)
 
-  console.log(policyTriggers[trigger_id])
+
   if (contextId && id !== contextId) {
     addData(contextData.find(o => o.id === contextId))
   } else if(contextId == null && id) { addData(null) }
@@ -63,12 +63,7 @@ export default function(props) {
             onChange={selectChange('trigger_type_id')}
             value={policyTriggerTypes[trigger_type_id] || ''} 
         />
-        <Select name='trigger_id' label='Trigger' 
-            options={toOpt(policyTriggers)}
-            outerClass='field'
-            onChange={selectChange('trigger_id')}
-            value={policyTriggers[trigger_id] || ''} 
-        />
+        <Input label='Trigger Name' name='name' onChange={changed} value={ name || ''} className='field' type='text' />
 
         <TextArea label='Notes' name='notes' onChange={changed} value={ notes || ''} className='field' />
         <label className='submit'>
@@ -81,7 +76,7 @@ export default function(props) {
         <Table className='table'>
           <Header>
             <div>ID</div>
-            <div>Trigger</div>
+            <div>Trigger Name</div>
             <div>Trigger Type</div>
             <div>Last Updated By</div>
           </Header> 
@@ -92,7 +87,7 @@ export default function(props) {
                 <Row onClick={() => setContextId(o.id)} className={ o.id === id ? 'selected row' : 'row'} key={i}> 
                   <div> {o.id} </div>
                   
-                  <div> {policyTriggers[o.trigger_id]?.label} </div>
+                  <div> {o.name} </div>
                   <div> {policyTriggerTypes[o.trigger_type_id]?.label} </div>
                   <div> Sathish </div>
                 </Row>

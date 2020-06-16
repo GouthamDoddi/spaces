@@ -7,6 +7,8 @@ import { Switch, matchPath, Link, Route, useParams } from 'react-router-dom'
 
 import makeStore from '../../../store/make-store'
 
+import { Add } from '../../tables/small'
+
 const { store, load } = makeStore(({section_id=0, attr_id=0}) => `compliance/section/${section_id}/attr/${attr_id}/cases`)
 
 const cm = {
@@ -33,6 +35,7 @@ export default function(props) {
       {
         data.map( (c, i) => <Case {...c} i={i}/> )
       }
+      <Add />
     </Container>
   )
 }
@@ -53,6 +56,11 @@ function Case(props) {
 
 const Container = styled.div`
   margin-top: 12px;
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 412px;
+  overflow: auto;
 `
 const Header = styled.div`
   display: flex;

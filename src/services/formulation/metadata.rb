@@ -45,7 +45,7 @@ class App::Services::Formulation::Metadata < App::Services::Base
     {
       save: [
         :name, :description, :owner_id, :family_id,
-        :policy_category_id, :policy_status_id, :publication_date
+        :policy_category_id, :policy_status_id, :publication_date, :policy_state_id
       ]
     }
   end

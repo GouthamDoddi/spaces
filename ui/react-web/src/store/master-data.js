@@ -104,10 +104,6 @@ export const policyOwnerTypes = {
   8: { value: 8, label: 'MOTC' }
 }
 
-export const policyStateTypes = {
-
-}
-
 export const policyStatusTypes = {
  1: { value: 1, label: 'Active'},
  2: { value: 2, label: 'Inactive'},
@@ -131,6 +127,15 @@ export const outcomeTypes = {
   1: { value: 1, label: 'Operational '},
   2: { value: 2, label: 'Strategic '},
   3: { value: 3, label: 'Tactical '}
+}
+
+export const policyStateTypes = {
+ 1: { value: 1, label: 'Ammend'},
+ 2: { value: 2, label: 'Draft'},
+ 3: { value: 3, label: 'Legislated/Active'},
+ 4: { value: 4, label: 'Proposed'},
+ 5: { value: 5, label: 'Re-Draft'},
+ 6: { value: 6, label: 'Terminate'}
 }
 
 // export const policyFamilyTypes = {

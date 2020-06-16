@@ -3,7 +3,7 @@ Sequel.migration do
     create_table(:policy_triggers) do
       primary_key :id
 
-      Integer :trigger_id
+      String :name, size: 60
       Integer :trigger_type_id
       Integer :policy_id
       String :notes, text: true

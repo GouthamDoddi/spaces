@@ -14,11 +14,11 @@ class App::Services::Formulation::Context < App::Services::Base
   def self.fields
     {
       create: [
-        :trigger_id, :trigger_type_id, :policy_id, :notes
+        :name, :trigger_type_id, :policy_id, :notes
       ],
 
       save: [
-        :trigger_id, :trigger_type_id, :notes
+        :name, :trigger_type_id, :notes
       ]
     }
   end
