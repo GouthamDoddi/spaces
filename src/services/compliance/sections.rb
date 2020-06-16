@@ -27,10 +27,22 @@ class App::Services::Compliance::Sections < App::Services::Base
   end
 
   def applicable_sections
-    as = ApplicableSection.where(project_id: r.params[:project_id], applicable: true)
-    as.map(&:section_id)
+    as = ApplicableSection.eager(:policy_section).where(project_id: r.params[:project_id], applicable: true)
 
-    return_success(model.where(id: as.map(&:section_id)))
+    # return_success(as.map{|a| a.as_json.merge!(a.policy_section.as_json(except: :id))})
+
+    return_success(as.map{|as| as.policy_section.to_pos})
+  end
+
+  def started_sections
+    ids = App::Models::Compliance::RecordParameter.select_map(:applicable_section_id).uniq
+
+    data = App::Models::ApplicableSection.eager(:project).where(section_id: ids).all
+
+    res = data.map do |section|
+      { title: section.project.name, description: section.project.description, beneficiary: 'Sathish', status: 'Open'}
+    end
+    return_success(res)
   end
 
   def attributes

@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-// import Link from '../shared/link'
-import { Link } from 'react-router-dom'
+import Link from '../shared/link'
 
 export default function(props) {
   const { name, description, tags, i, to, className } = props
@@ -13,14 +12,13 @@ export default function(props) {
       </Header>
       <Description> {description} </Description>
       <Tags>
-        { tags.map((tag, i) => <Tag key={i}> #{tag} </Tag>) }
+        { tags.map((tag, i) => <Tag> #{tag} </Tag>) }
       </Tags>
     </Card>
   )
 }
 
 const Card = styled(Link)`
-  display: inline-block;
   min-width: 320px;
   height: 104px;
   border-radius: 3px;

@@ -8,6 +8,12 @@ class App::Services::Compliance::Cases < App::Services::Base
     return_success(model.where(cond).map(&:to_pos))
   end
 
+  def user_cases
+    ids = App::Models::ApplicableSection.where(project_id: rp[:project_id], user_id: App.cu.id).map(&:section_id)
+
+    return_success(model.where(section_id: ids, user_id: App.cu.id).map(&:to_pos))
+  end
+
   def create
     obj = model.new(data_for(:create))
     obj.user_id = App.cu.id

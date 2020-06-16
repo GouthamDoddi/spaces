@@ -1,7 +1,19 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
+
+import { useStore } from 'effector-react'
+
 import { Switch, matchPath, Link, Route, useParams, useLocation } from 'react-router-dom'
-import records from '../../../store/temp-data-record'
+
+import makeStore from '../../../store/make-store'
+
+import { Add } from '../../tables/small'
+
+import CasePopup from './case-popup'
+
+import { useTo } from '../util'
+
+const { store, load } = makeStore(({section_id, attr_id=0}) => `compliance/section/${section_id}/attr/${attr_id}/cases`)
 
 const cm = {
   granted: '#f44e76',
@@ -14,33 +26,50 @@ function cc(st) {
 }
 
 export default function(props) {
-  const { recid } = props
-  const data = records[recid || 1].cases
+  const { section_id, attr_id=0 } = useParams()
+  useEffect(() => {
+    load({ section_id, attr_id })
+  }, [attr_id, section_id])
+
+  const data = useStore(store).data || []
+  
   return(
-    <Container>
-      {
-        data.map( (c, i) => <Case {...c} i={i}/> )
-      }
-    </Container>
+    <>
+      <Switch>
+        <Route path={useTo('record/:section_id(\\d+)/attr/:attr_id(\\d+)/case/:case_id(\\d+|new)')}> <CasePopup loadP={load} /> </Route>
+      </Switch>
+      <Container>
+        {
+          data.map( (c, i) => <Case {...c} i={i}/> )
+        }
+        <Link to={useTo(`record/${section_id}/attr/${attr_id || 0}/case/new`, true)}> <Add /> </Link>
+      </Container>
+   </>
   )
 }
 
 function Case(props) {
-  const {title, ticket_number, status, desc, i} = props
+  const { section_id, attr_id=0 } = useParams()
+  const {title, id, status, description, i} = props
   return(
-    <Box key={i}>
+    <Box key={i} to={useTo(`record/${section_id}/attr/${attr_id}/case/${id}`, true)}>
       <Header>
-        <Ticket>  {ticket_number} </Ticket>
+        <Ticket>  {id} </Ticket>
         <Status color={cc(status)} > {status} </Status>
       </Header>
       <Title>{title}</Title>
-      <Description> {desc || 'The parametric data about the policy to identify, qualify, and manage across the lifecycle '}</Description>
+      <Description> {description}</Description>
     </Box>
   )
 }
 
 const Container = styled.div`
   margin-top: 12px;
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 412px;
+  overflow: auto;
 `
 const Header = styled.div`
   display: flex;
@@ -52,10 +81,11 @@ const Ticket = styled.div`
   font-weight: 700;
   color: #000000;
 `
-const Box = styled.div`
+const Box = styled(Link)`
   // &:first-child {
   //   margin-top: 20px;
   // }
+  display: inline-block;
   width: 273px;
   height: 101px;
   border-radius: 3px;

@@ -29,7 +29,7 @@ export default function(props) {
   const { section_id, attr_id=0 } = useParams()
   useEffect(() => {
     load({ section_id, attr_id })
-  }, [])
+  }, [attr_id, section_id])
 
   const data = useStore(store).data || []
   

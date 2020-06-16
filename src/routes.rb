@@ -40,7 +40,11 @@ class App::Routes < Roda
       auth_required!
 
       r.on 'compliance' do
+        r.on 'sections-started' do
+          r.get {Compliance::Sections[r, opt].started_sections }
+        end
 
+        
         r.on 'section', Integer, 'attr', Integer do |section_id, attribute_id|
           opts = { section_id: section_id, attribute_id: attribute_id }
           r.on 'parameters' do
@@ -49,6 +53,10 @@ class App::Routes < Roda
           r.on 'cases' do
             do_crud(Compliance::Cases, r, 'CRUDL', opts)
           end
+        end
+
+        r.on Integer, 'mycases' do |project_id|
+          r.get {Compliance::Cases[r, {project_id: project_id }].user_cases }
         end
         
         r.on 'attribute', Integer, 'cases'
@@ -72,6 +80,8 @@ class App::Routes < Roda
 
         r.on Integer do |project_id|
           opt = { project_id: project_id }
+          
+
           
           r.on 'plans'  do
             klass = Compliance::Plans

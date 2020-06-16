@@ -19,7 +19,7 @@ import Profile from './profile'
 import Framework from './framework'
 import Plan from './plan'
 import Announcements from './announcements'
-import MyCases from './case-management/mycases'
+import MyCases from './record/mycases'
 import Kb from './kb'
 import Sections from './sections'
 import Scores from '../governance/compl-projects'
@@ -37,8 +37,8 @@ const WorkspaceLinks = [
   { name: 'Compliance Management', path: 'compl-management'},
   { name: 'My Cases', path: 'mycases'},
   { name: 'Case Management', path: 'case-management'},
-  { name: 'Compliance Scores', path: 'compl-projects'},
-  { name: 'My Announcements', path: 'my-announce'},
+  // { name: 'Compliance Scores', path: 'compl-projects'},
+  // { name: 'My Announcements', path: 'my-announce'},
 ]
 
 const WorkspaceListLinks = [

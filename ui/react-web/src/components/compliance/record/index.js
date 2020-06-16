@@ -49,15 +49,14 @@ function RenderBreadcrumb() {
   )
 }
 
-function RenderWidget() {
+function RenderWidget({hideCases=false}) {
   return(
     <div className='widgets'>
       <WidgetContainer>
         <Tabs>
           <div className='selected'> Cases </div>
         </Tabs>
-        <Cases />
-    
+        { !hideCases ? <Cases /> : <CenterMsg> Please select Section </CenterMsg> }
       </WidgetContainer>
     </div>
   )
@@ -87,14 +86,19 @@ export default function (props) {
           <RenderBreadcrumb breadcrumb={buildBreadcrumb(useParams())} />
           <Content><Cards store={sectionStore} to={({id}) => useLinkTo(`sec/${id}`, true)} brd={buildBreadcrumb} /> </Content>
         </div>
-        <RenderWidget />
+        <RenderWidget hideCases/>
       </Route>
     </Switch>
   )
 }
 
 
-
+const CenterMsg = styled.div`
+  font-size: 20px;
+  margin-top: 100px;
+  color: #687c9d;
+  text-align: center;
+`
 const WidgetContainer = styled.div`
   height: 466px;
   border-radius: 3px;
