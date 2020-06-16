@@ -1,7 +1,13 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
-import { Switch, matchPath, Link, Route, useParams, useLocation } from 'react-router-dom'
-import records from '../../../store/temp-data-record'
+
+import { useStore } from 'effector-react'
+
+import { Switch, matchPath, Link, Route, useParams } from 'react-router-dom'
+
+import makeStore from '../../../store/make-store'
+
+const { store, load } = makeStore(({section_id=0, attr_id=0}) => `compliance/section/${section_id}/attr/${attr_id}/cases`)
 
 const cm = {
   granted: '#f44e76',
@@ -14,8 +20,14 @@ function cc(st) {
 }
 
 export default function(props) {
-  const { recid } = props
-  const data = records[recid || 1].cases
+  const { section_id, attr_id } = useParams()
+
+  useEffect(() => {
+    load({ section_id, attr_id })
+  }, [])
+
+  const data = useStore(store).data || []
+
   return(
     <Container>
       {
@@ -26,15 +38,15 @@ export default function(props) {
 }
 
 function Case(props) {
-  const {title, ticket_number, status, desc, i} = props
+  const {title, id, status, description, i} = props
   return(
     <Box key={i}>
       <Header>
-        <Ticket>  {ticket_number} </Ticket>
+        <Ticket>  {id} </Ticket>
         <Status color={cc(status)} > {status} </Status>
       </Header>
       <Title>{title}</Title>
-      <Description> {desc || 'The parametric data about the policy to identify, qualify, and manage across the lifecycle '}</Description>
+      <Description> {description}</Description>
     </Box>
   )
 }

@@ -1,6 +1,5 @@
 
-class App::Models::Subobject < Sequel::Model
-  one_to_many :questions, class: 'App::Models::ObjectQuestion'
+class App::Models::Compliance::Case < Sequel::Model
   def validate
     super
     # validates_presence [:name, :date]

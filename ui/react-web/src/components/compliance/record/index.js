@@ -5,9 +5,8 @@ import SectionCard from './section-card'
 
 import Cards from './cards'
 
-// import Tabs from '../shared/tabs'
 
-// import Cases from './cases'
+import Cases from './cases'
 // import Conv from './conv'
 
 
@@ -60,13 +59,11 @@ export default function (props) {
       </div>
       <div className='widgets'>
         <WidgetContainer>
-          {/* <Tabs data={[['Cases', `?tab=cases`],['Conversation', `?tab=conv`]]} useq /> */}
-          {/* <div className='content'> */}
-            {/* {
-              loc.search.includes('cases') ? 
-                <Cases recid={id || 1} /> : <Conv recid={id || 1} />
-            } */}
-          {/* </div> */}
+          <Tabs>
+            <div className='selected'> Cases </div>
+          </Tabs>
+          <Cases />
+
         </WidgetContainer>
 
       </div>
@@ -109,5 +106,27 @@ const Content = styled.div`
   background-color: #ffffff;
   > div {
     &:last-child { margin-bottom: 10px;}
+  }
+`
+const Tabs = styled.div`
+  display: flex;
+  width: 100%;
+  height: 42px;
+  border-radius: 3px;
+  background-color: #f2f2f2;
+  > * {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+    border-bottom: 4px solid #f2f2f2;
+    &.selected {
+      font-weight: 800;
+      color: ${p => p.theme.color};
+      border-bottom: 4px solid ${p => p.theme.color};
+    }
   }
 `
