@@ -13,7 +13,7 @@ import CasePopup from './case-popup'
 
 import { useTo } from '../util'
 
-const { store, load } = makeStore(({section_id=0, attr_id=0}) => `compliance/section/${section_id}/attr/${attr_id}/cases`)
+const { store, load } = makeStore(({section_id, attr_id=0}) => `compliance/section/${section_id}/attr/${attr_id}/cases`)
 
 const cm = {
   granted: '#f44e76',
@@ -26,7 +26,7 @@ function cc(st) {
 }
 
 export default function(props) {
-  const { section_id, attr_id } = useParams()
+  const { section_id, attr_id=0 } = useParams()
   useEffect(() => {
     load({ section_id, attr_id })
   }, [])
@@ -36,7 +36,7 @@ export default function(props) {
   return(
     <>
       <Switch>
-        <Route path={useTo('record/:section_id(\\d+)/attr/:attr_id(\\d+)/case/:case_id(\\d+|new)')}> <CasePopup /> </Route>
+        <Route path={useTo('record/:section_id(\\d+)/attr/:attr_id(\\d+)/case/:case_id(\\d+|new)')}> <CasePopup loadP={load} /> </Route>
       </Switch>
       <Container>
         {
@@ -49,9 +49,10 @@ export default function(props) {
 }
 
 function Case(props) {
+  const { section_id, attr_id=0 } = useParams()
   const {title, id, status, description, i} = props
   return(
-    <Box key={i}>
+    <Box key={i} to={useTo(`record/${section_id}/attr/${attr_id}/case/${id}`, true)}>
       <Header>
         <Ticket>  {id} </Ticket>
         <Status color={cc(status)} > {status} </Status>
@@ -80,10 +81,11 @@ const Ticket = styled.div`
   font-weight: 700;
   color: #000000;
 `
-const Box = styled.div`
+const Box = styled(Link)`
   // &:first-child {
   //   margin-top: 20px;
   // }
+  display: inline-block;
   width: 273px;
   height: 101px;
   border-radius: 3px;

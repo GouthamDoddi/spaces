@@ -20,11 +20,11 @@ class App::Services::Compliance::Cases < App::Services::Base
   def self.fields
     {
       create: [
-        :title, :description, :type_id, :status, category_id, :priority
+        :title, :description, :type_id, :status, :category_id, :priority
       ],
 
       save: [
-        :title, :description, :type_id, :status, category_id, :priority, :closure_comments
+        :title, :description, :type_id, :status, :category_id, :priority, :closure_comments
       ]
     }
   end

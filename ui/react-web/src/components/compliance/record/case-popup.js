@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import styled from 'styled-components'
 
@@ -15,18 +15,24 @@ import {
 import makeStore from '../../../store/make-store'
 import { caseCategoryTypes, caseQueueTypes, casePriorityTypes } from '../../../store/master-data'
 
-const {changed, load, selectChange, ...localState} = makeStore(({policy_id, id}) => `formulation/${policy_id}/risk/${id}`)
+const {changed, load, selectChange, update, create, ...localState} = makeStore(({section_id, attr_id=0, id}) =>  (id ? 
+  `compliance/section/${section_id}/attr/${attr_id}/cases/${id}` : `compliance/section/${section_id}/attr/${attr_id}/cases`)
+)
 
-function submitted(policy_id, id, data) {
+function submitted(section_id, attr_id=0, id, data, loadP) {
   const cb = (resp) => {
-    load({policy_id})
+    loadP({section_id, attr_id})
   }
-  data.policy_id = policy_id
-  id ? localState.update({policy_id, id, data, cb}) : localState.create({policy_id, data, cb})
+
+  id ? update({section_id, attr_id, id, data, cb}) : create({attr_id, section_id, data, cb})
 }
 
-export default function(props) {
+export default function({loadP, ...props}) {
   const { section_id, attr_id, case_id} = useParams()
+
+  useEffect(() => {
+    load({section_id, attr_id, id: case_id})
+  }, [])
   const store = useStore(localState.store)
 
   const { id, title, description, type_id, priority, category_id, status } = store.data || {}
@@ -34,7 +40,7 @@ export default function(props) {
     <Modal >
       <Header> {id ? 'Edit Case' : 'Create Case'} </Header>
       <Content>
-        <CustomContainer onSubmit={(data) => submitted(section_id, attr_id, id , data)} store={store}>     
+        <CustomContainer onSubmit={(data) => submitted(section_id, attr_id, id , data, loadP)} store={store}>     
           <div className='fields'>
             <Input label='Title' name='title' type='text' onChange={changed} value={ title || ''} className='field' /> 
             <Select name='type_id' label='Type' 
