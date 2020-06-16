@@ -41,7 +41,7 @@ class App::Routes < Roda
 
       r.on 'compliance' do
         r.on 'sections-started' do
-          r.get {Compliance::Sections[r, opt].started_sections }
+          r.get {Compliance::Sections[r].started_sections }
         end
 
         

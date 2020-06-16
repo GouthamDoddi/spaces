@@ -40,7 +40,7 @@ class App::Services::Compliance::Sections < App::Services::Base
     data = App::Models::ApplicableSection.eager(:project).where(section_id: ids).all
 
     res = data.map do |section|
-      { title: section.project.name, description: section.project.description, beneficiary: 'Sathish', status: 'Open'}
+      { id: section.project.id, title: section.project.name, description: section.project.description, beneficiary: 'Sathish', status: 'Open'}
     end
     return_success(res)
   end

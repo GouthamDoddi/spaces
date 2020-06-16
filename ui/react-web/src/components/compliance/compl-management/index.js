@@ -15,9 +15,13 @@ import ParamView from './param-view'
 import { useTo } from '../util'
 
 import makeStore from '../../../store/make-store'
+import {policyFamilyTypes} from '../../../store/master-data'
 
+import { useStore } from 'effector-react'
 
-const beneficiaryStore = makeStore(({project_id}) => `compliance/${project_id}/sections-started`)
+import TaskCard from './task-card'
+
+const projectStore = makeStore(() => `compliance/sections-started`)
 const sectionStore = makeStore(({project_id}) => `compliance/${project_id}/sections/applicable`)
 const attributeStore = makeStore(({section_id}) => `compliance/attributes-for-section/${section_id}`)
 
@@ -25,13 +29,14 @@ const attributeStore = makeStore(({section_id}) => `compliance/attributes-for-se
 
 
 function useLinkTo(path, exact=false) {
-  return useTo(`record/${path}`, exact)
+  return useTo(`compl-management/${path}`, exact)
 }
 
-function buildBreadcrumb( {section_id, attr_id }) {
-  let list = [['> Sections', '']]
-  if(section_id) list.push(['> Attributes', `sec/${section_id}`])
-  if(attr_id) list.push(['> Parameters', `${section_id}/attr/${attr_id}/param`])
+function buildBreadcrumb( {sp_id, section_id, attr_id }) {
+  let list = [['Dashboard', '']]
+  if(sp_id) list.push(['> Sections', sp_id])
+  if(section_id) list.push(['> Attributes', `${sp_id}/sec/${section_id}`])
+  if(attr_id) list.push(['> Parameters', `${sp_id}/${section_id}/attr/${attr_id}/param`])
   return list
 }
 
@@ -40,10 +45,9 @@ function RenderBreadcrumb() {
   const breadcrumb = buildBreadcrumb(useParams())
   return(
     <Breadcrumb>
-      <div> Compliance Record </div>
       {
         breadcrumb.map((b, i) => {
-          const path = `/compliance/${project_id}/record/${b[1]}`
+          const path = `/compliance/${project_id}/compl-management/${b[1]}`
           return (<Link to={path} key={i}> {b[0]} </Link>)
         })
       }
@@ -69,30 +73,80 @@ export default function (props) {
   return (
 
     <Switch>
-      <Route path={useLinkTo(':section_id(\\d+)/attr/:attr_id(\\d+)/param')}> 
+      <Route path={useLinkTo(':sp_id(\\d+)/:section_id(\\d+)/attr/:attr_id(\\d+)/param')}> 
         <div className='form-space no-background'>
           <RenderBreadcrumb breadcrumb={buildBreadcrumb(useParams())} />
           <Content><ParamView brd={buildBreadcrumb}/></Content>
         </div>
         <RenderWidget />
       </Route>
-      <Route path={useLinkTo('sec/:section_id(\\d+)')}>
+      <Route path={useLinkTo(':sp_id(\\d+)/sec/:section_id(\\d+)')}>
         <div className='form-space no-background'>
           <RenderBreadcrumb breadcrumb={buildBreadcrumb(useParams())} />
-          <Content><Cards store={attributeStore} to={({section_id, id} ) => useLinkTo(`${section_id}/attr/${id}/param`, true)} brd={buildBreadcrumb} /> </Content>
+          <Content><Cards store={attributeStore} to={({sp_id, section_id, id} ) => useLinkTo(`${sp_id}/${section_id}/attr/${id}/param`, true)} brd={buildBreadcrumb} /> </Content>
         </div>
         <RenderWidget />
+      </Route>
+      <Route path={useLinkTo(':sp_id(\\d+)')}> 
+        <div className='form-space no-background'>
+          <RenderBreadcrumb breadcrumb={buildBreadcrumb(useParams())} />
+          <Content><Cards store={sectionStore} to={({sp_id, id}) => useLinkTo(`${sp_id}/sec/${id}`, true)} brd={buildBreadcrumb} /> </Content>
+        </div>
+        <RenderWidget hideCases/>
       </Route>
       <Route path={useLinkTo('')}> 
         <div className='form-space no-background'>
           <RenderBreadcrumb breadcrumb={buildBreadcrumb(useParams())} />
-          <Content><Cards store={sectionStore} to={({id}) => useLinkTo(`sec/${id}`, true)} brd={buildBreadcrumb} /> </Content>
+          <Content> <TaskCards /></Content>
         </div>
-        <RenderWidget hideCases/>
+
+        <div className='widgets'>
+          <WidgetContainer>
+            <Tabs>
+              <div className='selected'> Policy Family </div>
+            </Tabs>
+            { Object.values(policyFamilyTypes).slice(0,4).map((p, i) => <PolicyCard {...p} key={i} />)}
+          </WidgetContainer>
+        </div>
       </Route>
     </Switch>
   )
 }
+
+
+function PolicyCard(props) {
+  const { label,  active_tasks=300, key} = props
+  return (
+    <PCard key={key}>
+      <Title> {label} </Title>
+      <Desc> Lorem ipsum dolor sit consectetur adipiscing elit, sed do adipiscing elit, sed do </Desc>
+      <Status> Active Tasks: {active_tasks} </Status>
+    </PCard>
+  )
+}
+
+function TaskCards(props) {
+  useEffect(() => {
+    projectStore.load()
+  }, [])
+  
+  const data = useStore(projectStore.store).data || []
+
+  return (
+    data.map((item, i) => <TaskCard to={useLinkTo(item.id, true)} {...item} key={i}/>)
+  )
+
+}
+
+const PCard = styled.div`
+  width: 273px;
+  height: 97px;
+  border-radius: 3px;
+  // border: solid 1px #f44e76;
+  background-color: #f4f7fa;
+  margin: 7px 16px 4px 17px;
+  padding: 10px 14px 10px 14px;
+`
 
 
 const CenterMsg = styled.div`
@@ -157,4 +211,24 @@ const Tabs = styled.div`
       border-bottom: 4px solid ${p => p.theme.color};
     }
   }
+`
+
+
+const Title = styled.div`
+  font-size: 15px;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 10px;
+`
+
+const Desc = styled.div`
+  font-size: 10px;
+  line-height: 1.1;
+  color: #98acbe;
+  margin-bottom: 12px;
+`
+const Status = styled.div`
+  font-size: 12px;
+  font-weight: 800;
+  color: #7e9ab3;
 `
