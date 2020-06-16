@@ -27,6 +27,7 @@ module App
       @db = Sequel.connect(db_url, logger: Logger.new(STDOUT))
       require_blob('lib/**/*.rb')
       setup_sequel!
+      App.require_blob('helpers/*.rb')
       require_blob('models/*.rb')
       require_blob('models/**/*.rb')
       require_relative 'routes'

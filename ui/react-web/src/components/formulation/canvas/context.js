@@ -6,6 +6,8 @@ import Form, { TextArea, Select, Actions, Container } from '../../form'
 
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
+
+import { policyTriggerTypes } from '../../../store/master-data'
 import { useStore } from 'effector-react'
 import { Table, Header, Row, Add } from '../../tables/small'
 
@@ -197,13 +199,6 @@ const policyTriggers = {
   1: { value: 1, label: 'Trigger 1' },
   2: { value: 2, label: 'Trigger 2' },
   3: { value: 3, label: 'Trigger 3' },
-}
-
-
-const policyTriggerTypes = {
-  1: { value: 1, label: 'Trigger Type 1' },
-  2: { value: 2, label: 'Trigger Type 2' },
-  3: { value: 3, label: 'Trigger Type 3' },
 }
 
 const headerData = [

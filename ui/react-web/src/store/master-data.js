@@ -52,6 +52,103 @@ export const HMLTypes = {
 }
 
 
+export const userComplianceTypes = {
+  1: { value: 1, label: 'Compliance: Compiled'},
+  2: { value: 2, label: 'Compliance: Review'},
+  3: { value: 3, label: 'Compliance: Pending'}
+}
+
+
+export const policyFamilyTypes = {
+  1: {value: 1, label: 'Agriculture'},
+  2: {value: 2, label: 'Arts and Culture'},
+  3: {value: 3, label: 'Defense'},
+  4: {value: 4, label: 'Education'},
+  5: {value: 5, label: 'Employment'},
+  6: {value: 6, label: 'Environment'},
+  7: {value: 7, label: 'Foreign Affairs'},
+  8: {value: 8, label: 'Health'},
+  9: {value: 9, label: 'ICT'},
+  10: {value: 10, label: 'Immigration'},
+  11: {value: 11, label: 'Industry'},
+  12: {value: 12, label: 'Innovation'},
+  13: {value: 13, label: 'Investment'},
+  14: {value: 14, label: 'Labor'},
+  15: {value: 15, label: 'Others'},
+  16: {value: 16, label: 'Police & Justice'},
+  17: {value: 17, label: 'Science'},
+  18: {value: 18, label: 'Security'},
+  19: {value: 19, label: 'Technology'},
+  20: {value: 20, label: 'Trade'},
+  21: {value: 21, label: 'Transport'}
+}
+
+export const policyCategoryTypes = {
+  1: { value: 1, label: 'Data Management'},
+  2: { value: 2, label: 'Data Privacy'},
+  3: { value: 3, label: 'Ecommerce'},
+  4: { value: 4, label: 'Eparticipation'},
+  5: { value: 5, label: 'Epayment'},
+  6: { value: 6, label: 'Online Services'},
+  7: { value: 7, label: 'Open Data'}
+}
+
+export const policyOwnerTypes = {
+  1: { value: 1, label: 'ADLSA' },
+  2: { value: 2, label: 'MEC' },
+  3: { value: 3, label: 'MEI' },
+  4: { value: 4, label: 'MOF' },
+  5: { value: 5, label: 'MOI' },
+  6: { value: 6, label: 'MOJ' },
+  7: { value: 7, label: 'MOPH' },
+  8: { value: 8, label: 'MOTC' }
+}
+
+export const policyStateTypes = {
+
+}
+
+export const policyStatusTypes = {
+ 1: { value: 1, label: 'Active'},
+ 2: { value: 2, label: 'Inactive'},
+ 3: { value: 3, label: 'WIP'}
+}
+
+export const policyTriggerTypes = {
+ 1: { value: 1, label: 'Backlog'},
+ 2: { value: 2, label: 'Bill'},
+ 3: { value: 3, label: 'Event'},
+ 4: { value: 4, label: 'Petitio'}
+}
+
+export const riskTypes = {
+ 1: {value: 1, label: 'Operational Risk'},
+ 2: {value: 2, label: 'Strategic Risk'},
+ 3: {value: 3, label: 'Tactical Ris'}
+}
+
+export const outcomeTypes = {
+  1: { value: 1, label: 'Operational '},
+  2: { value: 2, label: 'Strategic '},
+  3: { value: 3, label: 'Tactical '}
+}
+
+// export const policyFamilyTypes = {
+//   ICT
+// 	Transport
+// 	Health
+// 	Education
+// 	Employment, Labor, Immigration
+// 	Environment
+// 	Science, Technology, Innovation
+// 	Industry, Trade, Investment
+// 	Agriculture
+// 	Defense, Security, Foreign Affairs
+// 	Arts and Culture
+// 	Police & Justice
+// 	Others
+// }
+
 const group_by = 'id'
 export const objects = makeStore(`objects`, { group_by })
 export const subobjects = makeStore(({oid}) => `objects/${oid}/subobjects`, { group_by })

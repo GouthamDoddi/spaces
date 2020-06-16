@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 
-import Form, { TextArea, Select, Actions, Container, Input } from '../../form'
+import Form, { TextArea, Select } from '../../form'
 
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
+import {outcomeTypes} from '../../../store/master-data'
 import { useStore } from 'effector-react'
 import { Table, Header, Row, Add } from '../../tables/small'
 
-const { store, load, create, update } =  makeStore(({policy_id, id}) => `formulation/${policy_id}/outcomes`)
+const { store, load  } =  makeStore(({policy_id, id}) => `formulation/${policy_id}/outcomes`)
 
 const {changed, selectChange, addData, ...localState} = makeStore(({policy_id, id}) => `formulation/${policy_id}/outcomes/${id}`)
 
@@ -175,11 +176,3 @@ const CustomContainer = styled(Form)`
   }
   
 `
-
-const outcomeTypes = {
-  1: { value: 1, label: 'Outcome 1' },
-  2: { value: 2, label: 'Outcome 2' },
-  3: { value: 3, label: 'Outcome 3' },
-  4: { value: 3, label: 'Outcome 4' },
-}
-

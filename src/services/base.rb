@@ -84,6 +84,7 @@ class App::Services::Base
   end
 
   def r; request; end
+  def rp; request.params; end
 
 
   # Basic Operations

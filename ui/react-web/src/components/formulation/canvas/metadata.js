@@ -4,6 +4,8 @@ import { Input, Select, Actions, Container } from '../../form'
 
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
+
+import {policyFamilyTypes, policyCategoryTypes, policyOwnerTypes, policyStatusTypes} from '../../../store/master-data'
 import { useStore } from 'effector-react'
 
 const { store, load, create, update, changed, selectChange } =  makeStore(({policy_id}) => `formulation/metadata/${policy_id}`)
@@ -65,27 +67,11 @@ export default function(props) {
 }
 
 
-const familyOptions = [
-  { value: 1, label: 'Family 1' },
-  { value: 2, label: 'Family 2' },
-  { value: 3, label: 'Family 3' },
-]
+const familyOptions = Object.values(policyFamilyTypes)
 
-const categoryOptions = [
-  { value: 1, label: 'Category 1' },
-  { value: 2, label: 'Category 2' },
-  { value: 3, label: 'Category 3' },
-]
+const categoryOptions = Object.values(policyCategoryTypes)
 
 
-const policyOwners = [
-  { value: 1, label: 'Owner 1' },
-  { value: 2, label: 'Owner 2' },
-  { value: 3, label: 'Owner 3' },
-]
+const policyOwners = Object.values(policyOwnerTypes)
 
-const policyStatuses = [
-  { value: 1, label: 'Status 1' },
-  { value: 2, label: 'Status 2' },
-  { value: 3, label: 'Status 3' },
-]
+const policyStatuses = Object.values(policyStatusTypes)

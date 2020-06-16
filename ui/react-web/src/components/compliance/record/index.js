@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Switch, matchPath, Link, Route, useParams, useLocation } from 'react-router-dom'
+import { Switch, Link, Route, useParams } from 'react-router-dom'
 import SectionCard from './section-card'
 
 import Cards from './cards'
@@ -10,9 +10,8 @@ import Cards from './cards'
 // import Cases from './cases'
 // import Conv from './conv'
 
-import records from '../../../store/temp-data-record'
 
-import Attr from './attr'
+import ParamView from './param-view'
 
 import { useTo } from '../util'
 
@@ -23,45 +22,39 @@ const attributeStore = makeStore(({section_id}) => `compliance/attributes-for-se
 
 
 
+
 function useLinkTo(path, exact=false) {
   return useTo(`record/${path}`, exact)
 }
 
-function buildBreadcrumb() {
-  const {section_id, attr_id} = useParams()
-  let list = [['> Sections', useLinkTo('', true)]]
-  if(section_id) list.push(['> Attributes', useLinkTo(`sec/${section_id}`, true)])
-  if(attr_id) list.push(['> Parameters', useLinkTo(`${section_id}/attr/${attr_id}/param`, true)])
+function buildBreadcrumb( {section_id, attr_id }) {
+  
+  let list = [['> Sections', '']]
+  if(section_id) list.push(['> Attributes', `sec/${section_id}`])
+  if(attr_id) list.push(['> Parameters', `${section_id}/attr/${attr_id}/param`])
+  
   return list
 }
-// /records -> All Sections
-// /records/sec/section_id -> All Attrs
-// /records/attr/attr_id/params -> all Params
-export default function (props) {
 
+export default function (props) {
   const params = useParams()
-  // const [breadcrumb, setBreadcrumb] = useState([])
   
-  // useEffect(() => {
-  //   setBreadcrumb(buildBreadcrumb())
-  // }, [params])
-  
-  const breadcrumb = buildBreadcrumb()
-  const secPathFn = ({id}) => useLinkTo(`sec/${id}`, true)
+  const breadcrumb = buildBreadcrumb(params)  
+
   return (
     <>
       <div className='form-space no-background'>
         <Breadcrumb>
           <div> Compliance Record </div>
           {
-            breadcrumb.map((b, i) => <Link to={b[1]} key={i}> {b[0]} </Link>)
+            breadcrumb.map((b, i) => <Link to={useLinkTo(b[1], true)} key={i}> {b[0]} </Link>)
           }
         </Breadcrumb>
         <Content>
           <Switch>
-            <Route path={useLinkTo(':section_id(\\d+)/attr/:attr_id(\\d+)/param')}> <div> Parameters </div> </Route>
-            <Route path={useLinkTo('sec/:section_id(\\d+)')}> <Cards store={attributeStore} to={({section_id, id} ) => useLinkTo(`${section_id}/attr/${id}/param`, true)} /> </Route>
-            <Route path={useLinkTo('')}> <Cards store={sectionStore} to={secPathFn}/> </Route>
+            <Route path={useLinkTo(':section_id(\\d+)/attr/:attr_id(\\d+)/param')}> <ParamView brd={buildBreadcrumb}/> </Route>
+            <Route path={useLinkTo('sec/:section_id(\\d+)')}> <Cards store={attributeStore} to={({section_id, id} ) => useLinkTo(`${section_id}/attr/${id}/param`, true)} brd={buildBreadcrumb} /> </Route>
+            <Route path={useLinkTo('')}> <Cards store={sectionStore} to={({id}) => useLinkTo(`sec/${id}`, true)} brd={buildBreadcrumb} /> </Route>
           </Switch>
         </Content>
       </div>

@@ -40,6 +40,18 @@ class App::Routes < Roda
       auth_required!
 
       r.on 'compliance' do
+
+        r.on 'section', Integer, 'attr', Integer do |section_id, attribute_id|
+          opts = { section_id: section_id, attribute_id: attribute_id }
+          r.on 'parameters' do
+            do_crud(Compliance::Parametes, r, 'CRUDL', opts)
+          end
+          r.on 'cases' do
+            do_crud(Compliance::Cases, r, 'CRUDL', opts)
+          end
+        end
+        
+        r.on 'attribute', Integer, 'cases'
         r.on 'projects' do
           klass = Compliance::Projects
           r.on Integer, 'add', String, Integer do |id, name, obj_id|
@@ -308,8 +320,6 @@ App.require_blob('services/base.rb')
 App.require_blob('services/*.rb')
 App.require_blob('services/compliance/*.rb')
 App.require_blob('services/formulation/*.rb')
-App.require_blob('helpers/*.rb')
-
 
 App::Routes.send(:include, App::Services)
 # App::Routes.send(:include, App::Services)

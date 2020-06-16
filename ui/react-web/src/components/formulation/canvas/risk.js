@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 
-import Form, { TextArea, Select, Actions, Container, Input } from '../../form'
+import Form, { TextArea, Select } from '../../form'
 
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
+
+import { riskTypes } from '../../../store/master-data'
 import { useStore } from 'effector-react'
 import { Table, Header, Row, Add } from '../../tables/small'
 
@@ -189,14 +191,6 @@ const CustomContainer = styled(Form)`
     min-height: 0;
   } 
 `
-
-const riskTypes = {
-  1: { value: 1, label: 'Risk 1' },
-  2: { value: 2, label: 'Risk 2' },
-  3: { value: 3, label: 'Risk 3' },
-  4: { value: 3, label: 'Risk 4' },
-}
-
 
 const impactTypes = {
   low: { value: 'low', label: 'Low' },

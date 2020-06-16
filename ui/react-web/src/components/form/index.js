@@ -98,3 +98,18 @@ export const Container = styled(Element)`
 
   }
 `
+
+export const Submit = styled.label`
+  cursor: pointer;
+  align-self: flex-end;
+  input[type='submit'] {
+    display: none;
+  }
+  > div {
+    width: 100%;
+    text-align: center;
+    background-color: ${p => p.theme.color};
+    color: white;
+    line-height: 38px;
+  }
+` 
