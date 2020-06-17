@@ -100,7 +100,7 @@ const Content = styled.div`
 `
 const Box = styled(Link)`
   display: block;
-  width: 350px;
+  width: 360px;
   height: 120px;
   border-radius: 3px;
   background-color: #f4f7fa;

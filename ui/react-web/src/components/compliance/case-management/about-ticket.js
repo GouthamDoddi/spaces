@@ -5,27 +5,35 @@ import styled from 'styled-components'
 import Modal from './modal'
 
 import CreateTask from './create-task'
-import Cc from './cc'
+// import Cc from './cc'
 
 import { useQuery } from '../util'
 import { useStore } from 'effector-react'
 
-import { Select, toOpt } from '../../form'
+import { Select, TextArea, toOpt } from '../../form'
 
 import makeStore from '../../../store/make-store'
 
 import {caseCategoryTypes, casePriorityTypes, caseQueueTypes} from '../../../store/master-data'
 
 import { 
-  Link,
-  matchPath
+  useParams
  } from 'react-router-dom'
 
- const {changed, selectChange, ...caseState } = makeStore(({section_id, attr_id=0, id}) =>  `compliance/section/${section_id}/attr/${attr_id}/cases/${id}`)
+const {changed, selectChange, update, ...caseState } = makeStore(({section_id, attr_id=0, id}) =>  `compliance/section/${section_id}/attr/${attr_id}/cases/${id}`)
 
-function rTo() { return '' }
 
-export default function(props) {
+function saveCase({status, section_id, attr_id, case_id, loadP, project_id}) {
+  let {data} = caseState.store.getState()
+  data.status = status
+  const cb = (resp) => {
+    loadP({project_id})
+  }
+  update({section_id, attr_id, id: case_id, data, cb})
+}
+
+export default function({loadP, ...props}) {
+  const {project_id} = useParams()
   const query = useQuery()
   const section_id = query.get('section_id')
   const attr_id = query.get('attr_id')
@@ -38,10 +46,9 @@ export default function(props) {
   },[])
 
   const caseStore = useStore(caseState.store)
-  const { asset } = { asset: 'case-management'}
 
   const data = caseStore.data || {}
-  const { title, type_id, sla, beneficiary_name, description, status, category_id, section_name, attribute_name, priority } = data
+  const { title, type_id, sla, beneficiary_name, description, status, category_id, section_name, attribute_name, priority, closure_comments } = data
   return (
     <Modal>
       <Header> {title} </Header>
@@ -99,15 +106,21 @@ export default function(props) {
           </Tabs>
 
           <TabContent>
-              { tab === 'tasks' ? <CreateTask /> : <Cc /> }
+              { tab === 'tasks' ? <CreateTask /> :     
+                  <Container2>
+                    <div className='cc'>
+                      <TextArea label='Closure Comments' name='closure_comments' onChange={changed} value={ closure_comments || ''} className='field' />
+                    </div>
+                    <div className='rest'>
+                      <TextArea label='Description' name='description' onChange={changed} value={ description || ''} className='field' />
+                    </div>
+                  </Container2> 
+              }
           </TabContent>
           
-          <Actions>
-            <Link to={''}> 
-              <button> Close </button>
-            </Link>
-            <button className='save'> Save </button>
-            <button> Hold </button>
+          <Actions>           
+            <button onClick={() => saveCase({status: 'closed', section_id, attr_id, case_id, loadP, project_id})}> Close Case </button>
+            <button className='save' onClick={() => saveCase({status, section_id, attr_id, case_id, loadP, project_id})}> Save </button>
           </Actions>
         </Container>
 
@@ -115,6 +128,23 @@ export default function(props) {
     </Modal>
   )
 }
+
+const Container2 = styled.div`
+  display: flex;
+  height: 290px;
+  .cc {
+    textarea {
+      height: 200px;      
+    }
+    padding-right: 20px;
+    margin-top: 15px;
+  }
+  .rest {
+    > div {
+      margin-top: 15px;
+    }
+  }
+`
 
 const Container = styled.div`
   margin-top: 20px;

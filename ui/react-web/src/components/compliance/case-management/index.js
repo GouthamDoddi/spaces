@@ -154,7 +154,7 @@ const CardsContainer = styled.div`
 const Cards = styled.div`
   display: grid;
   background-color: #ffffff;
-  grid-template-columns: repeat(auto-fit, 350px);
+  grid-template-columns: repeat(auto-fit, 360px);
   grid-auto-rows: 120px;
   grid-gap: 15px;
 `
