@@ -13,7 +13,7 @@ import CasePopup from './case-popup'
 
 import { useTo } from '../util'
 
-const { store, load } = makeStore(({section_id, attr_id=0}) => `compliance/section/${section_id}/attr/${attr_id}/cases`)
+// const { store, load } = makeStore(({section_id, attr_id=0}) => `compliance/section/${section_id}/attr/${attr_id}/cases`)
 
 const cm = {
   granted: '#f44e76',
@@ -27,6 +27,8 @@ function cc(st) {
 
 export default function(props) {
   const { section_id, attr_id=0 } = useParams()
+
+  const { store, load} = props.casesStore
   useEffect(() => {
     load({ section_id, attr_id })
   }, [attr_id, section_id])
@@ -35,9 +37,9 @@ export default function(props) {
   
   return(
     <>
-      <Switch>
+      {/* <Switch>
         <Route path={useTo('record/:section_id(\\d+)/attr/:attr_id(\\d+)/case/:case_id(\\d+|new)')}> <CasePopup loadP={load} /> </Route>
-      </Switch>
+      </Switch> */}
       <Container>
         {
           data.map( (c, i) => <Case {...c} i={i}/> )

@@ -15,9 +15,12 @@ import ParamView from './param-view'
 import { useTo } from '../util'
 
 import makeStore from '../../../store/make-store'
+import CasePopup from './case-popup'
+import cases from './cases'
 
 const sectionStore = makeStore(({project_id}) => `compliance/${project_id}/sections/applicable`)
 const attributeStore = makeStore(({section_id}) => `compliance/attributes-for-section/${section_id}`)
+const casesStore = makeStore(({section_id, attr_id=0}) => `compliance/section/${section_id}/attr/${attr_id}/cases`)
 
 
 
@@ -56,7 +59,7 @@ function RenderWidget({hideCases=false}) {
         <Tabs>
           <div className='selected'> Cases </div>
         </Tabs>
-        { !hideCases ? <Cases /> : <CenterMsg> Please select Section </CenterMsg> }
+        { !hideCases ? <Cases casesStore={casesStore}/> : <CenterMsg> Please select Section </CenterMsg> }
       </WidgetContainer>
     </div>
   )
@@ -65,7 +68,10 @@ function RenderWidget({hideCases=false}) {
 export default function (props) {
 
   return (
-
+    <>
+    <Switch>
+      <Route path={useTo('record/:section_id(\\d+)/attr/:attr_id(\\d+)/case/:case_id(\\d+|new)')}> <CasePopup loadP={casesStore.load} /> </Route>
+    </Switch>
     <Switch>
       <Route path={useLinkTo(':section_id(\\d+)/attr/:attr_id(\\d+)/param')}> 
         <div className='form-space no-background'>
@@ -89,6 +95,7 @@ export default function (props) {
         <RenderWidget hideCases/>
       </Route>
     </Switch>
+    </>
   )
 }
 
