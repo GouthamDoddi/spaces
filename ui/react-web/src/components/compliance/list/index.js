@@ -1,166 +1,117 @@
-import React, { useEffect } from 'react'
-
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useStore } from 'effector-react'
 
+import { useStore } from 'effector-react'
 import { Link } from 'react-router-dom'
 
-import makeStore from '../../../store/make-store'
+import { List, Table, Header, Row, Add, Top, PRow } from '../../tables/list2'
 
+import { policyFamilyTypes, policyStatusTypes, policyOwnerTypes, policyStateTypes } from '../../../store/master-data'
+
+import makeStore from '../../../store/make-store'
 
 const { store, load } = makeStore('compliance/projects/list')
 
 
-export default function({data}) {
+const columns = '100px 1.5fr 0.6fr 1fr 1fr 0.5fr 1.2fr 1.2fr'
+export default function(props) {
   useEffect(() => { 
-    load()
+    console.log(load())
   }, [])
+
+  const [collapsed, setCollapsed] = useState(false)
+
   const listStore = useStore(store)
-  const profileData = listStore.data || []
-  return(
-    <List>
+  const metadata = listStore.data || []
+  return (
+    <CustomList>
       <Top>
-        Project Profile
+        Project List
       </Top>
-      <Table>
-        <thead>
-          <tr>
-            {headerData.map((arr, i) => <th key={i}> {arr[0]} </th>)}            
-          </tr>
-        </thead>
-        <tbody>
-          {
-            profileData.map((h,i) => (
-              <tr key={i}>
-                {headerData.map((arr,i) => <td key={i} className={arr[1]}>
-                  <Link to={`/compliance/${h.id}/profile`}> {h[arr[1]]} </Link>
-                </td>)}
-              </tr>
+
+      <Table className='table-compl'>
+        <Header columns={columns}>
+          <div className='first-t'> Code</div>
+          <div>Project Name</div>
+          <div>Project Owner</div>
+          <div>Start Date</div>
+          <div>End Date</div>
+          <div>Status</div>
+          <div>Tasks</div>
+          <div>Score</div>
+        </Header>
+
+        {
+            metadata.map((h,i) => (
+              <Row key={i} columns={columns} className='first-t'>
+                <Link to={`/compliance/${h.id}/profile`}> {('000' + h.id).slice(-3)} </Link>
+                <Link to={`/compliance/${h.id}/profile`}> {h.name} </Link>
+                <Link to={`/compliance/${h.id}/profile`}> {h.owner} </Link>
+                <Link to={`/compliance/${h.id}/profile`}> {h.start_date} </Link>
+                <Link to={`/compliance/${h.id}/profile`}> {h.end_date} </Link>
+                <Link to={`/compliance/${h.id}/profile`}> {h.status || 'Start'} </Link>
+                <Link to={`/compliance/${h.id}/profile`}> <Progress value={Math.floor(Math.random() * 40)} max={100}></Progress> </Link>
+                <Link to={`/compliance/${h.id}/profile`}> <Progress value={Math.floor(Math.random() * 40)} max={100}></Progress> </Link>
+              </Row>
             ))
-          }
-        </tbody>
+        }
       </Table>
-      <Add to='/compliance/new/profile'>
-        <div> Create Project </div>
-      </Add>
-    </List>
+      <AddPolicy to='/formulation/new/canvas'>
+        <div> Create Policy </div>
+      </AddPolicy>
+    </CustomList>
   )
 }
 
-const Add = styled(Link)`
-  display: block;
-  position: absolute;
-  bottom: 42px;
-  right: 33px;
-  width: 63px;
-  height: 63px;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-  background-color: #f44e76;
-  &:after {
-    content: '+';
-    color: #fff;
-    position: relative;
-    top: 8px;
-    left: 22px;
-    font-size: 32px;
-  }
-
-  div {
-    position: absolute;
-    bottom: -20px;
-    left: 2px;
-    font-size: 8px;
-    font-weight: bold;
-    line-height: 1.5;
-    text-align: center;
-    color: #f44e76;
-  }
-  
+const Progress = styled.progress`
+  &::-webkit-progress-bar { background-color: #e5eff8; }
+  &::-webkit-progress-value { background: #f44e76; }
+  &::-moz-progress-bar { background: #f44e76; }
+  -webkit-appearance: none;
+  width: 84.3%;
+  height: 8px;
+  color: #f44e76;
+  border-radius: 5px;
 `
-const List = styled.div`
-  // margin: 0 0px 0px 20px;
-  width: 100%;
+
+
+const CustomList = styled(List)`
+  // max-width: 1200px;
   min-width: 1027px;
+  display: flex;
+  flex-flow: column;
   position: relative;
+  top: 0;
+  left: 0;
+  .table-compl {
+    flex: 1;
+    width: 100%;
+    max-height: 513px;
+  }
 
 `
 
-const Top = styled.div`
-  margin: 0 0 23px 0;
-  font-size: 14px;
-  font-weight: 800;
-  color: #687c9d;
-`
-
-const Container = styled.div`
-
-`
-const Table = styled.table`  
-  display: grid;
-  border-collapse: collapse;
-  min-width: 100%;
-  grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr 1fr;
-  grid-auto-rows: 70px;
-  height: 425px;
-  background-color: #fff;
-  border-radius: 3px;
-  box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
-  color: #000;
-  font-size: 14px;
-  thead,
-  tbody,
-  tr {
-    display: contents;
-  } 
-  th,
-  td {
-    height: 70px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  
-  th {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    background-color: #fee5eb;
-    text-align: left;
-  }
-  
-  th:last-child {
-    border: 0;
-  }
-  
-  td {
-    height: 70px;
-    padding: 20px 10px;
-    text-align: center;
-    color: #000000;
-    &.description {
-      color: #98acbe;
-    }
-    a {
-      color: #000000;
-    }
-    word-wrap: break-word;
-    border-right: 1px dotted #e6f0f9;
+const AddPolicy = styled(Add)`
+  > div {
+    left: 5px;
   }
 `
-
 const headerData = [
-  ['Project Name', 'name'],
-  ['Description', 'description'],
-  ['Project Stage', 'stage'],
-  ['Project Status', 'status'],
-  ['Start Date', 'start_date'],
-  ['End Date', 'end_date'],
-  ['Actions', 'action']
+  ['Code', 'name'],
+  ['Policy Name', 'name'],
+  ['Policy Owner', 'owner']
+  ['Start Date', 'family_id'],
+  ['Status', 'status'],
 ]
 
-const testData = [
-  {name: 'Project 1', description: 'test description, test description, test description', stage: 'Initiation', status: 'Approved', start_date: '20 Apr 2020', end_date: '20 May 2020'}
-]
+const Icon = styled.div`
+  &.collapsed {
+    background-image: url('/img/collapse.png');
+  }
+  &.expanded {
+    background-image: url('/img/expand.png');
+  }
+  
+  background-repeat: no-repeat;
+  background-position: center;
+`

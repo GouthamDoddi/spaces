@@ -75,7 +75,7 @@ export default function(props) {
 
 const itemsList = {
   task: (i) => (
-    <Item to='?menu-action=task' key={i}>
+    <Item to='?menu-action=task&page=edit' key={i}>
       <Icon>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" >
           <g fill="none" fillRule="evenodd">
@@ -88,7 +88,7 @@ const itemsList = {
     </Item>
   ),
   survey: (i) => (
-    <Item to='?menu-action=survey' key={i}>
+    <Item to='?menu-action=survey&page=profile' key={i}>
       <Icon>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18">
           <path className='main' d="M15.111 17.778H.89c-.491 0-.889-.398-.889-.89v-16C0 .399.398 0 .889 0H15.11c.491 0 .889.398.889.889v16c0 .49-.398.889-.889.889zM14.222 16V1.778H1.778V16h12.444zM4.444 4.444h7.112v1.778H4.444V4.444zm0 3.556h7.112v1.778H4.444V8zm0 3.556H8.89v1.777H4.444v-1.777z"/>
@@ -99,7 +99,7 @@ const itemsList = {
   ),
 
   note: (i) => (
-    <Item to='?menu-action=note' key={i}>
+    <Item to='?menu-action=note&page=edit' key={i}>
       <Icon>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18">
           <g fill="none" fillRule="evenodd">
@@ -112,7 +112,7 @@ const itemsList = {
     </Item>
   ),
   space: (i) => (
-    <Item to='?menu-action=space' key={i}>
+    <Item to='?menu-action=space&page=edit' key={i}>
       <Icon>
         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="16">
             <g fill="none" fillRule="evenodd">
@@ -126,7 +126,7 @@ const itemsList = {
   ),
 
   meeting: (i) => (
-    <Item to='?menu-action=meeting' key={i}>
+    <Item to='?menu-action=meeting&page=profile' key={i}>
       <Icon>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20">
             <g fill="none" fillRule="evenodd">

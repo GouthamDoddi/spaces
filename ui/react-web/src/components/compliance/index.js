@@ -109,9 +109,6 @@ function SpecificWithProfile(props) {
 function ListView() {
   return(
     <CustomWorkspace>
-      <div className='header'>
-        <Links data={WorkspaceListLinks} prefix='compliance' />
-      </div>
       <Switch>
         <Route path='/compliance/profile'> <List /> </Route>
         <Route path='checklist'> <div> CHECKLIST </div> </Route>
@@ -142,7 +139,6 @@ export default function() {
 }
 
 const CustomWorkspace = styled(Workspace)`
-  .header {
-    width: 1027px;
-  }
+  display: flex;
+  margin-top: 20px;
 `
