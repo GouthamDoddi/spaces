@@ -56,8 +56,8 @@ export default function(props) {
             ))
         }
       </Table>
-      <AddPolicy to='/formulation/new/canvas'>
-        <div> Create Policy </div>
+      <AddPolicy to='/compliance/new/profile'>
+        <div> Create Project </div>
       </AddPolicy>
     </CustomList>
   )

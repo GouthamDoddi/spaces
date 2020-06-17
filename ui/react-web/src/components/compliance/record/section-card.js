@@ -21,7 +21,7 @@ export default function(props) {
 
 const Card = styled(Link)`
   display: inline-block;
-  min-width: 320px;
+  width: 370px;
   height: 104px;
   border-radius: 3px;
   background-color: #f4f7fa;

@@ -27,5 +27,7 @@ export default function({store, to,...props}) {
 }
 
 const Container = styled.div`
-
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 370px);
+  grid-gap: 10px;
 `

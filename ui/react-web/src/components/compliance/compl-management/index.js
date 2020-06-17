@@ -76,21 +76,21 @@ export default function (props) {
       <Route path={useLinkTo(':sp_id(\\d+)/:section_id(\\d+)/attr/:attr_id(\\d+)/param')}> 
         <div className='form-space no-background'>
           <RenderBreadcrumb breadcrumb={buildBreadcrumb(useParams())} />
-          <Content><ParamView brd={buildBreadcrumb}/></Content>
+          <WhiteBackground><ParamView brd={buildBreadcrumb}/></WhiteBackground>
         </div>
         <RenderWidget />
       </Route>
       <Route path={useLinkTo(':sp_id(\\d+)/sec/:section_id(\\d+)')}>
         <div className='form-space no-background'>
           <RenderBreadcrumb breadcrumb={buildBreadcrumb(useParams())} />
-          <Content><Cards store={attributeStore} to={({sp_id, section_id, id} ) => useLinkTo(`${sp_id}/${section_id}/attr/${id}/param`, true)} brd={buildBreadcrumb} /> </Content>
+          <WhiteBackground><Cards store={attributeStore} to={({sp_id, section_id, id} ) => useLinkTo(`${sp_id}/${section_id}/attr/${id}/param`, true)} brd={buildBreadcrumb} /></WhiteBackground>
         </div>
         <RenderWidget />
       </Route>
       <Route path={useLinkTo(':sp_id(\\d+)')}> 
         <div className='form-space no-background'>
           <RenderBreadcrumb breadcrumb={buildBreadcrumb(useParams())} />
-          <Content><Cards store={sectionStore} to={({sp_id, id}) => useLinkTo(`${sp_id}/sec/${id}`, true)} brd={buildBreadcrumb} /> </Content>
+          <WhiteBackground><Cards store={sectionStore} to={({sp_id, id}) => useLinkTo(`${sp_id}/sec/${id}`, true)} brd={buildBreadcrumb} /></WhiteBackground>
         </div>
         <RenderWidget hideCases/>
       </Route>
@@ -177,10 +177,21 @@ const Breadcrumb = styled.div`
     }
   }
 `
+const WhiteBackground = styled.div`
+  padding: 10px;
+  overflow: auto;
+  height: 432px;
+  border-radius: 3px;
+  box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
+  background-color: #ffffff;
+  > div {
+    &:last-child { margin-bottom: 10px;}
+  }
+`
 const Content = styled.div`
   padding: 10px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, 370px);
   grid-auto-rows: 104px;
   grid-gap: 14px;
   overflow: auto;
