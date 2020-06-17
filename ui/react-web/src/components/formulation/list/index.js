@@ -101,7 +101,9 @@ const CustomList = styled(List)`
   .table {
     flex: 1;
     width: 100%;
+    max-height: 513px;
   }
+
 `
 
 const AddPolicy = styled(Add)`
