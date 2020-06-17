@@ -1,59 +1,51 @@
-import React from 'react'
-
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 
-import CaseStatusCard from './status-card'
-import SearchBar from './search-bar'
-import ConvList from './conv-list'
+import { useStore } from 'effector-react'
 
-import AboutTicket from './about-ticket'
+import { Switch, matchPath, Link, Route, useParams, useLocation } from 'react-router-dom'
 
-// import Link from '../shared/link'
-import Tabs from '../shared/tabs'
-// import Select from 'react-select'
-import ticketData from '../../../store/temp-data-tickets'
-import TextArea from '../../form/text'
+import makeStore from '../../../store/make-store'
 
-// import { priorityOptions } from './status-card'
 
-import { Switch, Route, useLocation, matchPath } from 'react-router-dom'
+import CasePopup from './about-ticket'
 
 import CaseCatCards from './case-cat-cards'
 
-function rTo(ticket) {
-  return `/compliance/case-management/${ticket}`
+import { useTo, useQuery } from '../util'
+
+import CaseStatusCard from './status-card'
+import SearchBar from './search-bar'
+
+const { store, load } = makeStore(({project_id}) => `compliance/${project_id}/approver-cases`)
+
+const cm = {
+  granted: '#f44e76',
+  inreview: '#42d7b6',
+  rejected: '#f7fafd'
 }
 
+function cc(st) {
+  return cm[st.toLowerCase().replace(/\s/g,'')]
+}
 
 export default function(props) {
-  const loc = useLocation()
-  const { params } = matchPath(loc.pathname, {path: '/:space/case-management/:ticket/'}) || {}
-  const { ticket } = params || {}
+  const [tab, setTab] = useState('cat')
 
-  let Widget = null
-  if(ticket) {
-    Widget = WidgetDetail    
-  } else {
-    Widget = WidgetDashboard
-  }
+  const { project_id } = useParams()
 
-  const cards = (p) => (
-    Object.values(ticketData).map((t, i ) => {
-      const id = t.ticket_number
-      const path = (p && ticket * 1 === id * 1) ? `${id}/open` : id
-      // if(p) { debugger}
-      return (
-        <CaseStatusCard {...t} 
-          to={rTo(path)} 
-          className={id * 1 === ticket * 1 ? 'selected' : ''}
-          key={i} 
-        />
-      )
-    }
-  ))
+  useEffect(() => {
+    load({ project_id })
+  }, [])
 
-  return (
+  const data = useStore(store).data || []
+  let query = useQuery();
+  const case_id = query.get('case_id')
+
+  return(
     <>
+      { case_id ? <CasePopup loadP={load} /> : null }
+
       <div className='form-space no-background'>
         <Container>
           <TopBar>
@@ -62,87 +54,54 @@ export default function(props) {
           </TopBar>
           <CardsContainer >
             <Cards>
-              <Switch>
-                <Route path={rTo(':ticket/open')}> <AboutTicket /> </Route>
-                <Route path={rTo(':ticket')}> {cards('open')} </Route>
-                <Route path={rTo('')}> {cards(null)} </Route>
-              </Switch>  
+              {
+                data.map( (c, i) => <CaseStatusCard {...c} key={i} to={useTo(`case-management?case_id=${c.id}&section_id=${c.section_id}&attr_id=${c.attribute_id}`, true)} /> )
+              }
             </Cards>
           </CardsContainer>      
         </Container>
       </div>
       <div className='widget'>
         <WidgetContainer>
-          <Widget />
+          <>
+            <Tabs> 
+              <div onClick={() => setTab('cat')} className={tab ==='cat' ? 'selected' : null}>Case Categories</div>
+              <div onClick={() => setTab('q')} className={tab ==='q' ? 'selected' : null}>Queues</div>
+            </Tabs>
+            <div className='content2'>
+              { tab === 'cat' ? <CaseCatCards /> : <div>Queues </div> }
+            </div>
+          </>   
         </WidgetContainer>
       </div>
     </>
   )
 }
 
-function setTab(s, p, tab) {
-  if(!s.includes('tab')) { 
-    window.location.hash = `${p}?tab=${tab}`
+
+const Tabs = styled.div`
+  display: flex;
+  width: 100%;
+  height: 42px;
+  border-radius: 3px;
+  background-color: #f2f2f2;
+  > * {
+    cursor: pointer;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+    border-bottom: 4px solid #f2f2f2;
+    &.selected {
+      font-weight: 800;
+      color: ${p => p.theme.color};
+      border-bottom: 4px solid ${p => p.theme.color};
+    }
   }
-}
-function WidgetDetail(props) {
-  const { search, pathname } = useLocation()
-  setTab(search, pathname, 'details')
-  const details = search.includes('details')
-  const conv = search.includes('conv')
-  
-  return (
-
-    <>
-      <Tabs data={[['Details', '?tab=details'], ['Conversation', '?tab=conv']]} useq />
-      <div className='content'>
-        { (details && <Details />) || (conv && <ConvList />)}
-      </div>
-    </>
-  )
-}
-
-function WidgetDashboard(props) {
-  const { search, pathname } = useLocation()
-  setTab(search, pathname, 'case')
-  const cases = search.includes('case')
-  const q = search.includes('queues')
-  return (
-    <>
-      <Tabs data={[['Case Categories', '?tab=case'], ['Queues', '?tab=queues']]} useq />
-      <div className='content2'>
-        { (cases && <CaseCatCards />) ||  (q && <Queues />) }
-      </div>
-    </>
-  )
-}
-
-function CaseCat() {
-  return <div> Cases </div>
-}
-function Queues() {
-  return <div> QUeues </div>
-}
-
-function Details(props) {
-  return (
-    <>
-      <TextArea label='Description' className='details'/>
-      <TextArea label='Closure Comments' className='details'/>
-    </>
-  )
-}
-
-function Conversation(props) {
-  return null
-}
-
-
-// export function Widget(props) {
-//   return (
-//   )
-// }
-
+`
 const WidgetContainer = styled.div`
   height: 466px;
   border-radius: 3px;
@@ -158,6 +117,12 @@ const WidgetContainer = styled.div`
   }
 `
 
+const Widget = styled.div`
+  height: 466px;
+  box-shadow: rgba(155, 204, 244, 0.24) 0px 2px 7px 0px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 3px;
+`
 const Container = styled.div`
   display: flex;
   flex-flow: column;
@@ -189,7 +154,7 @@ const CardsContainer = styled.div`
 const Cards = styled.div`
   display: grid;
   background-color: #ffffff;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, 350px);
   grid-auto-rows: 120px;
   grid-gap: 15px;
 `

@@ -10,8 +10,7 @@ export default function(){
           <TextArea label='Closure Comments' />
         </div>
         <div className='rest'>
-          <TextArea label='Internal Comments' />
-          <TextArea label='Suggestions' />
+          <TextArea label='Description' />
         </div>
       </Container>
     )

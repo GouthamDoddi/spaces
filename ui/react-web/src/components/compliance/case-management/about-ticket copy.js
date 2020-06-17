@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 
+import Select, {components} from 'react-select'
+
 import Modal from './modal'
 
 import CreateTask from './create-task'
@@ -13,10 +15,14 @@ import { useStore } from 'effector-react'
 import { Select, toOpt } from '../../form'
 
 import makeStore from '../../../store/make-store'
-
 import {caseCategoryTypes, casePriorityTypes, caseQueueTypes} from '../../../store/master-data'
 
 import { 
+  useParams,
+  Switch,
+  Route,
+  Redirect,
+  useLocation,
   Link,
   matchPath
  } from 'react-router-dom'
@@ -41,7 +47,7 @@ export default function(props) {
   const { asset } = { asset: 'case-management'}
 
   const data = caseStore.data || {}
-  const { title, type_id, sla, beneficiary_name, description, status, category_id, section_name, attribute_name, priority } = data
+  const { title, type_id, sla, beneficiary_name, description, status, category_id, section_name, attribute_name } = data
   return (
     <Modal>
       <Header> {title} </Header>
@@ -78,19 +84,40 @@ export default function(props) {
         </Info>
 
         <Form> 
-          <Select name='category_id' label='Category' 
-              options={toOpt(caseCategoryTypes)}
-              outerClass='field'
-              onChange={selectChange('category_id')}
-              value={caseCategoryTypes[category_id] || ''} 
-          />
-          <Select name='priority' label='Priority' 
-            options={toOpt(casePriorityTypes)}
-            outerClass='field'
-            onChange={selectChange('priority')}
-            value={casePriorityTypes[priority] || ''} 
-          />
+          <div className='label'> Category </div>
+          <div className='input'>
+            <input type='text' />
+            <button> Add </button>
+          </div>
+
+          <Select options={priorityOptions}
+            defaultValue={priorityOptions[0]}
+            components={selectComps}
+            className='priority-box' />
         </Form>
+
+        {/* <Grounds>
+          <label> Grounds / Links </label>
+          <div className='boxes'>
+            <Select options={priorityOptions}
+              placeholder='Section'
+              className='select'
+              components={selectComps}
+            />
+            <Select options={priorityOptions}
+              placeholder='Attribute'
+              className='select'
+              components={selectComps}
+            />
+            <Select options={priorityOptions}
+              placeholder='Parameter'
+              className='select'
+              components={selectComps}
+            />
+            <input type='text' placeholder='Grounds'/>
+            <input type='text' placeholder='Link' />    
+          </div>
+        </Grounds> */}
         
         <Container>
           <Tabs>
@@ -166,6 +193,31 @@ const Tabs = styled.div`
   }
 `
 
+const Grounds = styled.div`
+  margin-top: 20px;
+  label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #687c9d;
+  }
+  .boxes {
+    margin-top: 8px;
+    display: flex;
+    > * {
+      flex: 1;
+      margin-right: 5px;
+      &:last-child {
+        width: 91px;
+      }
+      
+    }
+    input {
+      max-width: 110px;
+      padding-left: 10px; 
+    }
+  }
+`
+
 const Content = styled.div`
   padding: 10px 38px 20px 38px;
   position: relative;
@@ -197,8 +249,68 @@ const Form = styled.div`
   margin-top: 10px;
   display: grid;
   grid-template-columns: 340px 250px;
-  grid-template-rows: 40px 30px;
+  grid-template-rows: 40px 40px 40px;
   grid-gap: 12px;
+  grid-template-areas: 
+          "label priority"
+          "input priority"
+          "tags  priority";
+  .label {
+    grid-area: label;
+    align-self: flex-end;
+  }
+  .priority-box {
+    grid-area: priority;
+    align-self: center;
+    width: 135px;
+    height: 38px;
+    border-radius: 2px;
+    border: solid 1px #dedede;
+    background-color: #efefef;
+    margin-top: -5px;
+    justify-self: center;
+    font-size: 14px;
+  }
+  .input {
+    grid-area: input;
+    display: flex;
+    input {
+      outline: none;
+      width: 231px;
+      height: 38px;
+      border-radius: 2px;
+      border: solid 1px #dedede;
+      background-color: #efefef;
+      margin-right: 12px;
+    }
+    button {
+      width: 94px;
+      height: 38px;
+      border-radius: 2px;
+      color: #fff;
+      background-color: ${p => p.theme.color};
+      border: 1px solid ${p => p.theme.color};
+      outline: none;
+    }
+  }
+  .tags {
+    grid-area: tags;
+    display: flex;
+    flex-wrap: wrap;
+    > div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 49px;
+      height: 28px;
+      border-radius: 5px;
+      background-color: #d8d8d8;
+      margin-right: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #7e9ab3;
+    }
+  }
 `
 
 const Header = styled.div`

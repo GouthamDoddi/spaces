@@ -14,6 +14,11 @@ class App::Services::Compliance::Cases < App::Services::Base
     return_success(model.where(section_id: ids, user_id: App.cu.id).map(&:to_pos))
   end
 
+  def approver_cases
+    ids = App::Models::ApplicableSection.where(project_id: rp[:project_id]).map(&:section_id)
+    return_success(model.where(section_id: ids).map(&:to_pos))
+  end
+
   def create
     obj = model.new(data_for(:create))
     obj.user_id = App.cu.id
@@ -21,6 +26,13 @@ class App::Services::Compliance::Cases < App::Services::Base
     obj.attribute_id = rp[:attribute_id]
     obj.beneficiary_name = App.cu.user_obj.first_name
     save(obj)
+  end
+
+  def get
+    resp = item.as_json
+    resp[:section_name] = item.section.name
+    resp[:attribute_name] = item.attribute.name
+    return_success(resp)
   end
 
   def self.fields

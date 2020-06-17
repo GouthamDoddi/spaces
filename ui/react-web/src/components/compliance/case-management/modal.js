@@ -50,7 +50,7 @@ export default styled(Modal)`
 const Content = styled.div`
 
   width: 706px;
-  min-height: 950px;
+  min-height: 780px;
   border-radius: 10px;
   box-shadow: 5px 2px 4px 0 rgba(0, 0, 0, 0.12);
   background-color: #ffffff;

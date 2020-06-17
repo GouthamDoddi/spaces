@@ -13,7 +13,7 @@ function rTo(id) {
 }
 export default function(props){
     const { ticket } = useParams()
-    const data = ticketData[ticket].tasks
+    const data = ticketData[ticket]?.tasks || []
     return (
       <Container>
         <Cards>

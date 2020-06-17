@@ -58,6 +58,10 @@ class App::Routes < Roda
           end
         end
 
+        r.on Integer, 'approver-cases' do |project_id|
+          r.get {Compliance::Cases[r, {project_id: project_id }].approver_cases }
+        end
+
         r.on Integer, 'mycases' do |project_id|
           r.get {Compliance::Cases[r, {project_id: project_id }].user_cases }
         end

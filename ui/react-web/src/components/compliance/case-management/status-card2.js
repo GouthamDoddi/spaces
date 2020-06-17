@@ -2,46 +2,54 @@ import React from 'react'
 
 import styled from 'styled-components'
 
-// import Select, { components } from 'react-select';
-
-import {Select} from '../../form'
+import Select, { components } from 'react-select';
 
 // import { Link } from 'react-router-dom'
 import Link from '../shared/link'
 
-import { casePriorityTypes, caseCategoryTypes } from '../../../store/master-data'
-
+export const priorityOptions = [
+  { value: 'p1', label: 'P1', color: '#FF8B00' },
+  { value: 'p2', label: 'P2', color: '#FFC400' },
+  { value: 'p3', label: 'P3', color: '#36B37E' },
+]
 
 function rTo(path) {
   return `/compliance/case-management/${path}`
 }
 export default function CaseStatusCard(props) {
-  const { id, sla, priority, title, category_id, beneficiary_name, to, className } = props
+  const { ticket_number, sla, priority, title, user_role, tags, to, className } = props
   const styles = {
     control: base => ({...base, height: 35, minHeight: 35})
   }
   return(
     <Box to={to} className={className}>
       <Header>
-        <div className='ticket'> {('000' + id).slice(-4)} </div>
-        <Select outterClass='priority' options={Object.values(casePriorityTypes)}
-          defaultValue={casePriorityTypes[priority || 1]}
+        <div className='ticket'> {ticket_number} </div>
+        <Select className='priority' options={priorityOptions}
+          defaultValue={priorityOptions[0]}
+          components={{
+            IndicatorSeparator: () => null,
+            DropdownIndicator: (props) => (
+              <components.DropdownIndicator {...props} className='dropdown'>
+              </components.DropdownIndicator>
+            ) 
+          }}
         />
         <div className='sla'>
           <span className='text'> SLA: </span>
-          <span className='value'>{sla || '7 days'} </span>
+          <span className='value'>{sla} </span>
         </div>
-        <Link to=''> Open </Link>
+        <Link to={rTo(`${ticket_number}/open`)}> Open </Link>
       </Header>
       <Content>
         <div className='title'>
           {title}
         </div>
         <div className='categories'>
-          Category: {caseCategoryTypes[category_id]?.label}
+          Categories: {tags.map((t, i) => <Tag key={i}> #{t} </Tag>)} 
         </div>
         <div className='type'>
-          {beneficiary_name}
+          {user_role}
         </div>
       </Content> 
     </Box>
@@ -100,15 +108,15 @@ const Content = styled.div`
 `
 const Box = styled(Link)`
   display: block;
-  width: 350px;
+  min-width: 316px;
   height: 120px;
   border-radius: 3px;
   background-color: #f4f7fa;
   padding: 7px 7px 12px 7px;
   border: 1px solid #f4f7fa;
-  // &.selected {
-  //   border: 1px solid ${p => p.theme.color};
-  // }
+  &.selected {
+    border: 1px solid ${p => p.theme.color};
+  }
 `
 
 const Header = styled.div`
@@ -122,9 +130,8 @@ const Header = styled.div`
     font-weight: bold;
     color: #000000;
   }
-  .default__control{ width: 120px;}
   .priority {
-    .default__control{ width: 120px; }
+    width: 60px;
     font-size: 14px;
     .dropdown {
       padding: 8px 4px;
