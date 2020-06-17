@@ -126,6 +126,8 @@ function PolicyCard(props) {
 }
 
 function TaskCards(props) {
+
+  const { project_id } = useParams()
   useEffect(() => {
     projectStore.load()
   }, [])
@@ -133,7 +135,7 @@ function TaskCards(props) {
   const data = useStore(projectStore.store).data || []
 
   return (
-    data.map((item, i) => <TaskCard to={useLinkTo(item.id, true)} {...item} key={i}/>)
+    data.map((item, i) => <TaskCard to={`/compliance/${project_id}/compl-management/${item.id}`} {...item} key={i}/>)
   )
 
 }
