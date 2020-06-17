@@ -62,7 +62,7 @@ export default function({ store, load, ...props}) {
               <Title>
                 { name }
               </Title>
-              <EditBtn to={useLinkTo(id, true)}/>
+              <EditBtn to={useLinkTo(id, true)}> 📝 </EditBtn>
               <Description>
                 {description}
               </Description>
@@ -148,9 +148,12 @@ const ObjectCard = styled(Link)`
 const EditBtn = styled(Link)`
   position: absolute;
   right: 10px;
-  top: 10px;
-  background-color: ${p => p.theme.color};
+  top: 6px;
+  
+  // background-color: ${p => p.theme.color};
   width: 20px;
   height: 20px;
   border-radius: 3px;
+  color: ${p => p.theme.color};
+  // transform: rotate(-60deg);
 `

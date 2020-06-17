@@ -27,7 +27,7 @@ export default function({title, description, mStore, refData, dKey='desc'}) {
   //     put(`formulation/${policy_id}/remove/${path}/${id}`, {success})
   //   }
   // }
-
+  
   return (
     <Box>
       <Header>

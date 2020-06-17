@@ -6,7 +6,7 @@ import SimpleList from './simple-list'
 
 import makeStore from '../../../store/make-store'
 
-import { risks, outcomes, beneficiarySegments } from '../../../store/master-data'
+import { risks, outcomes, beneficiarySegments, riskTypes, outcomeTypes } from '../../../store/master-data'
 
 const imdStore = makeStore(() => 'imp-domain')
 const bStore = makeStore(() => 'benefits')
@@ -20,9 +20,9 @@ export default function(props) {
     <Container>
       <SimpleList title='Implementation Domain' mStore={imdStore} />
       <SimpleList title='Benefits' mStore={bStore} />
-      <SimpleList title='Risk' mStore={riskStore} refData={risks} dKey='risk_id' />
+      <SimpleList title='Risk' mStore={riskStore} refData={riskTypes} dKey='risk_id' />
       <SimpleList title='Impact Areas' mStore={iaStore} refData={beneficiarySegments} dKey='beneficiary_segment_id'/>
-      <SimpleList title='Objectives and Outcomes' mStore={onoStore} refData={outcomes} dKey='outcome_id' />
+      <SimpleList title='Objectives and Outcomes' mStore={onoStore} refData={outcomeTypes} dKey='outcome_id' />
     </Container>
   )
 }

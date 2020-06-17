@@ -4,7 +4,9 @@ import styled from 'styled-components'
 import { useStore } from 'effector-react'
 import { Link } from 'react-router-dom'
 
-import { List, Table, Header, Row, Add, Top } from '../../tables/list'
+import { List, Table, Header, Row, Add, Top } from '../../tables/list2'
+
+import { policyFamilyTypes, policyStatusTypes, policyOwnerTypes, policyStateTypes } from '../../../store/master-data'
 
 import makeStore from '../../../store/make-store'
 
@@ -14,6 +16,8 @@ export default function(props) {
   useEffect(() => { 
     console.log(load())
   }, [])
+
+  
   const listStore = useStore(store)
   const metadata = listStore.data || []
   return (
@@ -24,17 +28,24 @@ export default function(props) {
 
       <Table className='table'>
         <Header>
-          { headerData.map((arr,i) => 
-            <div key={i}>{arr[0]}</div>
-          )}
+          <div>Code</div>
+          <div>Policy Name</div>
+          <div>Policy Owner</div>
+          <div>Start Date</div>
+          <div>Status</div>
         </Header>
 
         {
             metadata.map((h,i) => (
               <Row key={i}>
-                {headerData.map((arr,i) => <div key={i} className={arr[1]}>
-                  <Link to={`/formulation/${h.id}/canvas`}> {h[arr[1]]} </Link>
-                </div>)}
+                <Link to={`/formulation/${h.id}/canvas`}> {('000' + h.id).slice(-3)} </Link>
+                <Link to={`/formulation/${h.id}/canvas`}> {h.name} </Link>
+                <Link to={`/formulation/${h.id}/canvas`}> {policyOwnerTypes[h.owner_id]?.label} </Link>
+                <Link to={`/formulation/${h.id}/canvas`}> {h.start_date} </Link>
+                <Link to={`/formulation/${h.id}/canvas`}> {policyStatusTypes[h.status || 1]?.label} </Link>
+                {/* <Link to={`/formulation/${h.id}/canvas`}> {policyFamilyTypes[h.family_id]?.label} </Link>
+                <Link to={`/formulation/${h.id}/canvas`}> {policyFamilyTypes[h.family_id]?.label} </Link>
+                <Link to={`/formulation/${h.id}/canvas`}> {policyFamilyTypes[h.family_id]?.label} </Link> */}
               </Row>
             ))
         }
@@ -67,8 +78,9 @@ const AddPolicy = styled(Add)`
   }
 `
 const headerData = [
+  ['Code', 'name'],
   ['Policy Name', 'name'],
-  ['Policy Family', 'family_id'],
-  ['Policy Status', 'status'],
   ['Policy Owner', 'owner']
+  ['Start Date', 'family_id'],
+  ['Status', 'status'],
 ]
