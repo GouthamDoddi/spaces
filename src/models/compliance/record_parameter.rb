@@ -8,4 +8,5 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
     # validates_presence [:name]
     # validates_unique :name
   # end
+
 end

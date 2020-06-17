@@ -36,8 +36,9 @@ export default function(props) {
   const pStore = useStore(store)
   const sStore = useStore(other.store)
 
-  const data = pStore.data || []
+  const rawData = pStore.data 
 
+  const data = rawData || []
   useEffect(() => {
     load({section_id, attr_id})
     props.brd({ section_id, attr_id })
@@ -47,9 +48,9 @@ export default function(props) {
     addData(data[0])
   }
 
-  const { id, user_compliance_type, name, description, user_notes, mandate_level_id, parameter_id } = sStore.data || {}
+  const { id, user_compliance_type, name, description, user_notes, mandate_level_id, parameter_id, status, approver_notes, approver_compliance_type } = sStore.data || {}
   
-  if( data.length == 0) {
+  if( rawData && data.length == 0) {
     return <Container> <NoParams> No Parameters</NoParams></Container>
   } else {
     return(
@@ -71,6 +72,18 @@ export default function(props) {
         <Forms onSubmit={(data) => submitted(section_id, attr_id, id, parameter_id, data)} store={sStore}>
           <Left>
             <Attachment label='Attachments' btn='Upload' />
+            {
+              approver_notes ?  <div className='mandate'> <span> Approver Notes: </span> <span className='value'> {approver_notes} </span> </div> : null
+            }
+
+            {
+              approver_compliance_type ? 
+                <div className='mandate'>
+                  <span> Complaince select by approver -  </span>
+                  <span className='value'> {userComplianceTypes[approver_compliance_type]?.label} </span>
+              </div> : null
+            }
+
             <div className='exception'>
               <span> Exception Granted: </span>
               <span className='value'> None</span>
@@ -85,15 +98,19 @@ export default function(props) {
             <Select name='user_compliance_type' label='' 
               options={toOpt(userComplianceTypes)}
               outerClass='sfield'
-              onChange={selectChange('user_compliance_type')}
+              onChange={status === 'closed' ? (() => {}) : selectChange('user_compliance_type')}
               value={userComplianceTypes[user_compliance_type] || ''} 
             />
   
-            <TextArea label='Notes' name='user_notes' onChange={changed} value={ user_notes || ''} className='field' /> 
-            <Submit>
-              <input type='submit' />
-              <div> { id ? 'Update' : 'Add'} </div>
-            </Submit>
+            <TextArea label='Notes' name='user_notes' onChange={changed} value={ user_notes || ''} className='field' disabled={ status === 'closed' } /> 
+            { 
+              status !== 'closed' ? 
+                <Submit>
+                  <input type='submit' />
+                  <div> { id ? 'Update' : 'Add'} </div>
+                </Submit> : null
+            }
+
           </Right>
         </Forms>
       </Container>
@@ -128,10 +145,20 @@ const Left = styled.div`
     span { color: white; }
     background-color: ${p => p.theme.color};
   }
-
+  .mandate {
+    font-size: 14px;
+    font-weight: 500;
+    color: #687c9d;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    .value {
+      font-weight: bold;
+      color: #f44e76;
+    }
+  }
   .exception {
     position: absolute;
-    bottom: 20px;
+    bottom: 10px;
     font-size: 14px;
     font-weight: 500;
     color: #687c9d;

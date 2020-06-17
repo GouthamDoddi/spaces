@@ -40,7 +40,7 @@ export default function(props) {
       </Switch>
       <Container>
         {
-          data.map( (c, i) => <Case {...c} i={i}/> )
+          data.map( (c, i) => <Case {...c} key={i}/> )
         }
         <Link to={useTo(`record/${section_id}/attr/${attr_id || 0}/case/new`, true)}> <Add /> </Link>
       </Container>

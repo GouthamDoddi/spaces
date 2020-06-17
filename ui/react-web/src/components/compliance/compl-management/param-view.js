@@ -18,7 +18,7 @@ import {userComplianceTypes, mandateLevelTypes} from '../../../store/master-data
 const {load, store} = makeStore(({section_id, attr_id}) => `compliance/section/${section_id}/attr/${attr_id}/parameters`)
 
 const {create, update, addData, changed, selectChange, ...other} = makeStore(({section_id, attr_id, id}) => (id ? 
-    `compliance/section/${section_id}/attr/${attr_id}/parameters/${id}` : `compliance/section/${section_id}/attr/${attr_id}/parameters`))
+    `compliance/section/${section_id}/attr/${attr_id}/parameters/${id}/approver` : `compliance/section/${section_id}/attr/${attr_id}/parameters`))
 
 
 function submitted(section_id, attr_id, id, parameter_id, data) {
@@ -26,7 +26,7 @@ function submitted(section_id, attr_id, id, parameter_id, data) {
     load({section_id, attr_id})
   }
   data.parameter_id = parameter_id
-  id ? update({section_id, attr_id, id, data, cb}) : create({section_id, attr_id, data, cb})
+  update({section_id, attr_id, id, data, cb})
 }
        
 export default function(props) {
@@ -36,20 +36,22 @@ export default function(props) {
   const pStore = useStore(store)
   const sStore = useStore(other.store)
 
-  const data = pStore.data || []
+  const rawData = pStore.data 
+
+  const data = rawData?.filter((o) => o.status != 'closed') || []
 
   useEffect(() => {
     load({section_id, attr_id})
-    props.brd({ section_id, attr_id })
+    // props.brd({ section_id, attr_id })
   }, [])
 
   if(data[0] && sStore.data === null) {
     addData(data[0])
   }
 
-  const { id, user_compliance_type, name, description, user_notes, mandate_level_id, parameter_id } = sStore.data || {}
+  const { id, user_compliance_type, name, description, user_notes, mandate_level_id, parameter_id, approver_notes, approver_compliance_type } = sStore.data || {}
   
-  if( data.length == 0) {
+  if( rawData && data.length == 0) {
     return <Container> <NoParams> No Parameters</NoParams></Container>
   } else {
     return(
@@ -71,6 +73,7 @@ export default function(props) {
         <Forms onSubmit={(data) => submitted(section_id, attr_id, id, parameter_id, data)} store={sStore}>
           <Left>
             <Attachment label='Attachments' btn='Upload' />
+            <TextArea label='User Notes' name='user_notes' onChange={changed} value={ user_notes || ''} className='field' disabled /> 
             <div className='exception'>
               <span> Exception Granted: </span>
               <span className='value'> None</span>
@@ -79,17 +82,18 @@ export default function(props) {
           <Right>
             <div className='mandate'>
               <span> Mandate: </span>
-              <span className='value'> {mandateLevelTypes[mandate_level_id]?.label} </span>
+              <span className='value'> {mandateLevelTypes[mandate_level_id]?.label} - </span>
+              <span> {userComplianceTypes[user_compliance_type]?.label} </span>
             </div>
             
-            <Select name='user_compliance_type' label='' 
+            <Select name='approver_compliance_type' label='' 
               options={toOpt(userComplianceTypes)}
               outerClass='sfield'
-              onChange={selectChange('user_compliance_type')}
-              value={userComplianceTypes[user_compliance_type] || ''} 
+              onChange={selectChange('approver_compliance_type')}
+              value={userComplianceTypes[approver_compliance_type] || ''} 
             />
-  
-            <TextArea label='Notes' name='user_notes' onChange={changed} value={ user_notes || ''} className='field' /> 
+            
+            <TextArea label='Approver Notes' name='approver_notes' onChange={changed} value={ approver_notes || ''} className='field' /> 
             <Submit>
               <input type='submit' />
               <div> { id ? 'Update' : 'Add'} </div>
@@ -129,9 +133,13 @@ const Left = styled.div`
     background-color: ${p => p.theme.color};
   }
 
+  .field {
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
   .exception {
     position: absolute;
-    bottom: 20px;
+    bottom: 10px;
     font-size: 14px;
     font-weight: 500;
     color: #687c9d;
@@ -159,6 +167,7 @@ const Right = styled.div`
   }
   textarea {
     height: 72px;
+    margin-bottom: 10px;
   }
   button {
     float: right;

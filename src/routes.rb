@@ -47,9 +47,12 @@ class App::Routes < Roda
         
         r.on 'section', Integer, 'attr', Integer do |section_id, attribute_id|
           opts = { section_id: section_id, attribute_id: attribute_id }
+
           r.on 'parameters' do
+            r.put(Integer, 'approver') {|id|  Compliance::Parametes[r, opts.merge!(id: id)].approver_update }
             do_crud(Compliance::Parametes, r, 'CRUDL', opts)
           end
+
           r.on 'cases' do
             do_crud(Compliance::Cases, r, 'CRUDL', opts)
           end

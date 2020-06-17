@@ -53,9 +53,9 @@ export const HMLTypes = {
 
 
 export const userComplianceTypes = {
-  1: { value: 1, label: 'Compliance: Compiled'},
-  2: { value: 2, label: 'Compliance: Review'},
-  3: { value: 3, label: 'Compliance: Pending'}
+  1: { value: 1, label: 'Compliance: Fully complied'},
+  2: { value: 2, label: 'Compliance: Partially complied'},
+  3: { value: 3, label: 'Compliance: Non complied'}
 }
 
 
