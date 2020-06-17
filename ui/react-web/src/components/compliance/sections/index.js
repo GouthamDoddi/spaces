@@ -38,7 +38,7 @@ function Link({to, className, children}) {
 }
 
 export default function(props) {
-  const { project_id } = useParams()
+  const { project_id, section_id } = useParams()
 
 
   useEffect(() => {
@@ -50,17 +50,15 @@ export default function(props) {
 
   const sections = sectionStore.data || []
   
-  return(
-    
-      // <Switch>
-      //   <Route path={useLinkTo(':id(\\d+|new)')}> <ModalView /></Route>
-      // </Switch>
+  return(    
+      <>
+      <Switch><Route path={useLinkTo(':section_id(\\d+)')}><div></div></Route></Switch>
       <div className='form-space'>
         <Wrapper>
           <Content>
             {
               sections.map(({id, name, description, tags=[] }, i) => (
-                <ObjectCard key={i}>
+                <ObjectCard key={i} to={`/compliance/${project_id}/compl-sections/${id}`}>
                   <Title>
                     { name }
                   </Title>
@@ -81,9 +79,53 @@ export default function(props) {
           {/* <Add to={useLinkTo('new', true)} /> */}
         </Wrapper>
       </div>
-
+      <div className='widgets'>
+        <WidgetContainer>
+          <Tabs> <div className='selected'>Description</div> </Tabs>
+          <div className='desc'>
+            { section_id ? `Description for Section: ${section_id}` 
+                  : 'Select a section to see description.'}
+          </div>
+        </WidgetContainer>
+    
+      </div>
+    </>
   )
 }
+
+const WidgetContainer = styled.div`
+  height: 466px;
+  border-radius: 3px;
+  box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
+  background-color: #ffffff;
+
+  .desc {
+    margin: 20px;
+  }
+`
+
+const Tabs = styled.div`
+  display: flex;
+  width: 100%;
+  height: 42px;
+  border-radius: 3px;
+  background-color: #f2f2f2;
+  > * {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+    border-bottom: 4px solid #f2f2f2;
+    &.selected {
+      font-weight: 800;
+      color: ${p => p.theme.color};
+      border-bottom: 4px solid ${p => p.theme.color};
+    }
+  }
+`
 
 
 const Tags = styled.div`

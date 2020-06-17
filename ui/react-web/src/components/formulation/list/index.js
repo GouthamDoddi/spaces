@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import { useStore } from 'effector-react'
 import { Link } from 'react-router-dom'
 
-import { List, Table, Header, Row, Add, Top } from '../../tables/list2'
+import { List, Table, Header, Row, Add, Top, PRow } from '../../tables/list2'
 
 import { policyFamilyTypes, policyStatusTypes, policyOwnerTypes, policyStateTypes } from '../../../store/master-data'
 
@@ -17,7 +17,8 @@ export default function(props) {
     console.log(load())
   }, [])
 
-  
+  const [collapsed, setCollapsed] = useState(false)
+
   const listStore = useStore(store)
   const metadata = listStore.data || []
   return (
@@ -28,25 +29,45 @@ export default function(props) {
 
       <Table className='table'>
         <Header>
+          <div></div>
           <div>Code</div>
           <div>Policy Name</div>
           <div>Policy Owner</div>
-          <div>Start Date</div>
+          <div>Publication Date</div>
           <div>Status</div>
+          <div>Tasks</div>
+          <div>Score</div>
         </Header>
 
         {
             metadata.map((h,i) => (
-              <Row key={i}>
-                <Link to={`/formulation/${h.id}/canvas`}> {('000' + h.id).slice(-3)} </Link>
-                <Link to={`/formulation/${h.id}/canvas`}> {h.name} </Link>
-                <Link to={`/formulation/${h.id}/canvas`}> {policyOwnerTypes[h.owner_id]?.label} </Link>
-                <Link to={`/formulation/${h.id}/canvas`}> {h.start_date} </Link>
-                <Link to={`/formulation/${h.id}/canvas`}> {policyStatusTypes[h.status || 1]?.label} </Link>
-                {/* <Link to={`/formulation/${h.id}/canvas`}> {policyFamilyTypes[h.family_id]?.label} </Link>
-                <Link to={`/formulation/${h.id}/canvas`}> {policyFamilyTypes[h.family_id]?.label} </Link>
-                <Link to={`/formulation/${h.id}/canvas`}> {policyFamilyTypes[h.family_id]?.label} </Link> */}
-              </Row>
+              <>
+                <PRow key={i}>
+                  <Icon className={collapsed ? 'collapsed': 'expanded'} onClick={() => setCollapsed(!collapsed)}></Icon>
+                  <Link to={`/formulation/${h.id}/canvas`}> {('000' + h.id).slice(-3)} </Link>
+                  <Link to={`/formulation/${h.id}/canvas`}> {h.name} </Link>
+                  <Link to={`/formulation/${h.id}/canvas`}> {policyOwnerTypes[h.owner_id]?.label} </Link>
+                  <Link to={`/formulation/${h.id}/canvas`}> {h.publication_date} </Link>
+                  <Link to={`/formulation/${h.id}/canvas`}> {policyStatusTypes[h.status || 1]?.label} </Link>
+                  <Link to={`/formulation/${h.id}/canvas`}> <Progress value={Math.floor(Math.random() * 40)} max={100}></Progress> </Link>
+                  <Link to={`/formulation/${h.id}/canvas`}> <Progress value={Math.floor(Math.random() * 40)} max={100}></Progress> </Link>
+                </PRow>
+                {
+                  !collapsed ? 
+                    h.sections.map((sec, i) => (
+                      <Row>
+                        <div></div>
+                        <Link to={`/formulation/${h.id}/canvas`}> {('000' + sec.id).slice(-3)} </Link>
+                        <Link to={`/formulation/${h.id}/canvas`}> {sec.name} </Link>
+                        <Link to={`/formulation/${h.id}/canvas`}> {policyOwnerTypes[h.owner_id]?.label} </Link>
+                        <Link to={`/formulation/${h.id}/canvas`}> {h.publication_date} </Link>
+                        <Link to={`/formulation/${h.id}/canvas`}> {policyStatusTypes[h.status || 1]?.label} </Link>
+                        <Link to={`/formulation/${h.id}/canvas`}> <Progress value={Math.floor(Math.random() * 40)} max={100}></Progress> </Link>
+                        <Link to={`/formulation/${h.id}/canvas`}> <Progress value={Math.floor(Math.random() * 40)} max={100}></Progress> </Link>
+                      </Row>
+                    )) : null
+                }
+              </>
             ))
         }
       </Table>
@@ -57,9 +78,20 @@ export default function(props) {
   )
 }
 
+const Progress = styled.progress`
+  &::-webkit-progress-bar { background-color: #e5eff8; }
+  &::-webkit-progress-value { background: #fd7635; }
+  &::-moz-progress-bar { background: #fd7635; }
+  -webkit-appearance: none;
+  width: 84.3%;
+  height: 8px;
+  color: #fd7635;
+  border-radius: 5px;
+`
+
 
 const CustomList = styled(List)`
-  max-width: 1200px;
+  // max-width: 1200px;
   min-width: 1027px;
   display: flex;
   flex-flow: column;
@@ -84,3 +116,15 @@ const headerData = [
   ['Start Date', 'family_id'],
   ['Status', 'status'],
 ]
+
+const Icon = styled.div`
+  &.collapsed {
+    background-image: url('/img/collapse.png');
+  }
+  &.expanded {
+    background-image: url('/img/expand.png');
+  }
+  
+  background-repeat: no-repeat;
+  background-position: center;
+`

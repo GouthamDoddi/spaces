@@ -23,6 +23,9 @@ export const Row = styled(Header)`
   margin-bottom: 3px;
   border: 1px solid #fafafa;
   justify-content: center;
+  text-overflow: ellipsis;
+  // white-space: nowrap;
+  overflow: hidden;
 `
 
 export const Add = styled.div`

@@ -47,31 +47,31 @@ export default function Element(props) {
           <Link to='index' className='menu'>
             <div className='title'> Profile </div>
             <div className='desc'>
-              The parametric data about the policy to identify, qualify, and manage across the lifecycle
+              The parametric static data about the project including owners and proposed dates
             </div>
           </Link>
           <Link to='object-details' className='menu'>
             <div className='title'> Object Details </div>
             <div className='desc'>
-              The contextual information required for policy formulation
+              Object Details: Details about the objects and sub objects that constitute the project
             </div>
           </Link>
           <Link to='beneficiary-details' className='menu'>
             <div className='title'> Beneficiary Details </div>
             <div className='desc'>
-               The identified risks in policy making, propagation, and implementations
+              Beneficiary Details: Details about the beneficiary that is impacted by the project (internal / external)
             </div>
           </Link>
           <Link to='stakeholders' className='menu'>
             <div className='title'> Stakeholders </div>
             <div className='desc'>
-               The purpose of the policy and what it is trying to achieve
+              Stakeholders: The list of users who will work on the project and their contact details to ensure audit tracebility
             </div>
           </Link>
           <Link to='implementation' className='menu'>
             <div className='title'> Implementation </div>
             <div className='desc'>
-               The purpose of the policy and what it is trying to achieve
+              Implementation: List of internal departments and their mapping to project roles to ensure accountability
             </div>
           </Link>
         </Widget>

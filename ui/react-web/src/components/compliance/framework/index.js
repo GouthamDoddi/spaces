@@ -32,8 +32,8 @@ function ElementWidget(props) {
     <Menu to={useToLink(`sec/${props.id}`, true)} color={color}>
       <div className='title'> { props.name } </div>
       <div className='desc'>
-        <span> Number Of People Attempted:  </span>
-        <span className='value'> {props.attenmpted_ppl_count} </span>
+        <span> Approved  </span>
+        <span className='value'> {props.applicable ? 'Yes': 'No'} </span>
       </div>
       <div className='desc'>
         <span> Due Date:  </span>
@@ -64,13 +64,13 @@ export default function Element({ elements, selectOptions, asset }) {
       <div className='form-space full-height'>
         <Switch>
           <Route path={useToLink('sec/:section_id(\\d+)')}> <Survey sections={data} loadS={load} /> </Route>
-          <Route exact path=''> <SelectMsg> Select Survey (or) Petition </SelectMsg> </Route>
+          <Route exact path=''> <SelectMsg> Select sub objects to provide further details </SelectMsg> </Route>
         </Switch>
 
       </div>
       <div className='widgets'>
         <Widget>
-          <div className='title'> Surveys & Petitions </div>
+          <div className='title'> Object behavior </div>
           <div className='content-data'>
             { data.map((item, i) => <ElementWidget {...item} key={i} />) }
           </div>
