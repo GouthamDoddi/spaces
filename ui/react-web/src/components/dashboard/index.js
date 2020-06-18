@@ -8,7 +8,7 @@ import {useStore} from 'effector-react'
 
 import makeStore from '../../store/make-store'
 
-const { load, store} = makeStore(() => `/compliance/project-report`)
+const { load, store} = makeStore(() => `compliance/project-report`)
 
 export default function() {
   useEffect(() => {
