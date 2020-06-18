@@ -9,6 +9,8 @@ import makeStore from '../../../store/make-store'
 import { useStore } from 'effector-react'
 import { Table, Header, Row, Add } from '../../tables/small'
 
+import {caseCategoryTypes} from '../../../store/master-data'
+
 import {CustomContainer, Content, RowContainer} from '../split-form-container'
 
 const { store, load, create, update } =  makeStore(({policy_id, id}) => `formulation/${policy_id}/policy-tickets`)
@@ -53,10 +55,10 @@ export default function(props) {
     <CustomContainer onSubmit={(data) => submitted(policy_id, id , data)} store={localStore}>      
       <div className='fields'>
         <Select name='category_id' label='Category' 
-            options={toOpt(categoryTypes)}
+            options={toOpt(caseCategoryTypes)}
             outerClass='field'
             onChange={selectChange('category_id')}
-            value={categoryTypes[category_id] || ''}
+            value={caseCategoryTypes[category_id] || ''}
             required 
         />        
         <TextArea label='Purpose' name='purpose' type='text' onChange={changed} value={ purpose || ''} className='field' required />
@@ -89,7 +91,7 @@ export default function(props) {
             {
               listData.map((o, i) => (
                 <Row onClick={() => setSectionId(o.id)} className={ o.id === id ? 'selected row' : 'row'} key={i} columns={columns}> 
-                  <div> {categoryTypes[o.category_id]?.label} </div>
+                  <div> {caseCategoryTypes[o.category_id]?.label} </div>
                   <div> {o.purpose} </div>
                   <div> {roleTypes[o.role_id]?.label} </div>
                   <div> {o.sla} </div>

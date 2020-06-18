@@ -6,6 +6,8 @@ import Form, { Input, Select, TextArea } from '../../form'
 
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
+
+import {caseQueueTypes} from '../../../store/master-data'
 import { useStore } from 'effector-react'
 import { Table, Header, Row, Add } from '../../tables/small'
 
@@ -62,10 +64,10 @@ export default function(props) {
         />
         <Input label='SLA' name='sla' type='text' onChange={changed} value={ sla || ''} className='field' required />
         <Select name='category_id' label='Category' 
-            options={toOpt(categoryTypes)}
+            options={toOpt(caseQueueTypes)}
             outerClass='field'
             onChange={selectChange('category_id')}
-            value={categoryTypes[category_id] || ''} 
+            value={caseQueueTypes[category_id] || ''} 
         />        
         
         <label className='submit'>
@@ -93,7 +95,7 @@ export default function(props) {
                   <div> {o.description} </div>
                   <div> {roleTypes[o.role_id]?.label} </div>
                   <div> {o.sla} </div>
-                  <div> {categoryTypes[o.category_id]?.label} </div>
+                  <div> {caseQueueTypes[o.category_id]?.label} </div>
                   <div onClick={() => remove({id: o.id, policy_id: policy_id, cb: () => {load({policy_id}); setSectionId(null)}})}> &#128465; </div>
                 </Row>
               ))
