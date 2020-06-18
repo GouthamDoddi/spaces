@@ -11,6 +11,8 @@ import { useParams } from 'react-router-dom'
 
 import { Select, TextArea, toOpt, Input } from '../../form'
 
+import { Add } from '../../tables/small'
+
 import makeStore from '../../../store/make-store'
 
 import { casePriorityTypes } from '../../../store/master-data'
@@ -55,8 +57,9 @@ export default function(props){
     <Container>
       <Cards>
         { data.map((task, i ) => (
-          <TaskCard {...task} to={id} key={i} />
+          <TaskCard {...task} onClick={() => addData(data[i])} key={i} />
         ))}
+        <Add onClick={() => {addData(null)}}/>
       </Cards>
       <div className='details'>
         <span> View Task </span>
@@ -71,7 +74,7 @@ export default function(props){
               onChange={selectChange('priority')}
               value={casePriorityTypes[priority] || ''} 
           />
-          <button onClick={submit}> Append </button>
+          <button onClick={submit}> {id ? 'Update' : 'Create'} </button>
         </div>
         
       </div>
@@ -118,6 +121,9 @@ const Container = styled.div`
   }
 `
 const Cards = styled.div`
+  position: relative;
+  top: 0;
+  left: 0;
   width: 344px;
   height: 290px;
   background-color: #efeeee;

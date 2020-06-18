@@ -60,6 +60,9 @@ export const Element = styled(Link)`
     line-height: 1.2;
     color: #98acbe;
     margin-top: 4px;
+    height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   &.selected {
     border: 1px solid ${p => p.theme.color}

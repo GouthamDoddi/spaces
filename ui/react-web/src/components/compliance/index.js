@@ -24,6 +24,7 @@ import Kb from './kb'
 import Sections from './sections'
 import Scores from '../governance/compl-projects'
 import Management from './compl-management'
+import ComplQ from './case-queues'
 
 import { useTo } from './util'
 
@@ -37,8 +38,7 @@ const WorkspaceLinks = [
   { name: 'Compliance Management', path: 'compl-management'},
   { name: 'My Cases', path: 'mycases'},
   { name: 'Case Management', path: 'case-management'},
-  // { name: 'Compliance Scores', path: 'compl-projects'},
-  // { name: 'My Announcements', path: 'my-announce'},
+  { name: 'Case Queues', path: 'compl-q'},
 ]
 
 const WorkspaceListLinks = [
@@ -87,6 +87,7 @@ function Specific(props) {
         <Route path={useTo('case-management')}> <CaseManagement /> </Route>
         <Route path={useTo('compl-projects')}> <Scores /> </Route>
         <Route path={useTo('my-announce')}> <Announcements /> </Route>
+        <Route path={useTo('compl-q')}> <ComplQ /> </Route>
         <Route exact path={useTo('')}> <Redirect to={useTo('profile', true)} /> </Route>
       </Switch>
     </Workspace>

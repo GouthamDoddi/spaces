@@ -159,6 +159,11 @@ export const casePriorityTypes = {
   3: { value: 3, label: 'Priority P3'},
 }
 
+export const statusTypes = {
+  open: { value: 'open', label: 'Open'},
+  review: { value: 'review', label: 'In Review'},
+  close: { value: 'close', label: 'Close'},
+}
 // export const policyFamilyTypes = {
 //   ICT
 // 	Transport

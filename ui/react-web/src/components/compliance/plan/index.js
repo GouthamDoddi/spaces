@@ -34,6 +34,7 @@ function Link({to, className, children}) {
 
 export default function(props) {
   const { project_id } = useParams()
+  
   useEffect(() => {
     load({project_id})
   },[])

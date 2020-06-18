@@ -24,8 +24,8 @@ export default function(props) {
   const { project_id, section_id } = useParams()
   
   useEffect(() => {
-    load({project_id, section_id: section_id})
-  }, [])
+    load({project_id, section_id})
+  }, [section_id])
   
   const sectionStore = useStore(store)
   const { id, owner, reviewer, responsible, target_date, description } = sectionStore.data || {}
