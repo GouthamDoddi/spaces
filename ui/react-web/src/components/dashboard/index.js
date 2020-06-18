@@ -1,13 +1,23 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
 import ProgressCard from '../progress-card'
 import ProfileCard from '../project-profile-card'
 import { Search, Select }from '../form'
 
+import {useStore} from 'effector-react'
+
+import makeStore from '../../store/make-store'
+
+const { load, store} = makeStore(() => `/compliance/project-report`)
+
 export default function() {
-  // useEffect(() => {
-  //   console.log("Route Loaded")
-  // })
+  useEffect(() => {
+    load()
+  }, [])
+
+  const projRepStore = useStore(store)
+
+  const projRepData = projRepStore.data || []
   return(
     <Container>
       <div className='left-actions'>
@@ -56,7 +66,7 @@ export default function() {
               </div>
             </div>
             <div className='cards'>
-              { profileData.map((p, i) => <ProfileCard i={i} {...p} key={i} />)}
+              { projRepData.map((p, i) => <ProfileCard i={i} {...p} key={i} />)}
               
             </div>
           </ProfileCards>
@@ -220,9 +230,13 @@ const ProfileCards = styled.div`
 
   > .cards {
     display: flex;
-    overflow-y: auto;
+    overflow-x: auto;
+    > div {
+      margin-right: 15px;
+    }
   }
 `
+
 
 const profileData = [
   {

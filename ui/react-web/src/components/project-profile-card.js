@@ -26,11 +26,23 @@ export default function(props) {
         }
       </Top>
       <Bottom>
-
+        <Progress value={Math.floor(Math.random() * 40)} max={100} />
       </Bottom>
     </Box>
   )
 }
+
+
+const Progress = styled.progress`
+  &::-webkit-progress-bar { background-color: #e5eff8; }
+  &::-webkit-progress-value { background: #f44e76; }
+  &::-moz-progress-bar { background: #f44e76; }
+  -webkit-appearance: none;
+  width: 84.3%;
+  height: 8px;
+  color: #f44e76;
+  border-radius: 5px;
+`
 
 const Box = styled.div`
   width: 415px;
@@ -71,7 +83,8 @@ const Top = styled.div`
 `
 
 const Bottom = styled.div`
-
+  padding-left: 30px;
+  margin-top: 30px;
 `
 
 const Title = styled.div`

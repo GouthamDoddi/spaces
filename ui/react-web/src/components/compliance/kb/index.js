@@ -1,18 +1,30 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
 import {
   Switch,
   Route,
+  NavLink,
   Redirect,
-  // useRouteMatch
+  useParams,
   useLocation
 } from 'react-router-dom';
 
 import Link from '../shared/link'
+import { useStore } from 'effector-react'
+import { useTo } from '../util'
 
 import Faq from './faq'
 import Sop from './sop'
 import Templates from './templates'
+
+import makeStore from '../../../store/make-store'
+import {Widget, Title, Content, Element} from '../../elements'
+const {store, load } = makeStore(({project_id, section_id}) => `compliance/${project_id}/sections/applicable`)
+
+function useLinkTo(path, exact=false) {
+  return(useTo(`plan/${path}`, exact))
+}
+
 
 function rTo(path) {
   return `/compliance/kb/${path}`
@@ -40,35 +52,45 @@ function ElementWidget(props) {
   )
 }
 
-export default function Element({ elements, selectOptions, asset }) {
+export default function({ elements, selectOptions, asset }) {
   // const [ hideWidget, setHideWidget ] = useState(false)
   // const { params } = useRouteMatch(rTo(':section')) || {}
   // const hide = (params && params.section === 'faq') ? 'hide' : ''
   const loc = useLocation()
   console.log(loc)
 
+  const { project_id } = useParams()
+  
+  useEffect(() => {
+    load({project_id})
+  },[])
+
+  const sectionStore = useStore(store)
+
+  const sections = sectionStore.data || []
+
   return (
     <>
       <div className='form-space full-height'>
-        <Switch>
-
-          <Route path={rTo(':section/faq')}> <Faq /> </Route>
-          <Route path={rTo(':section/sop')}>  <Sop /> </Route>
-          <Route path={rTo(':section/templates')}>  <Templates /> </Route>
-          <Route exact path={rTo(':section')}>
-              <Redirect to={`${loc.pathname}/faq`} />
-          </Route>
-          <Route exact path=''> <SelectSectionMessage> Please Select a Section </SelectSectionMessage> </Route>
-        </Switch>
-
+         <SelectSectionMessage> Please Select a Section </SelectSectionMessage>
       </div>
       <div className='widgets'>
         <Widget>
-          <div className='title'> Surveys & Petitions </div>
-          <div className='content-data'>
-            { ListOfSections.map((item, i) => <ElementWidget {...item} key={i} />) }
-          </div>
-        </Widget>
+            <Title> Elements </Title>
+            <Content>
+              {
+                sections.map((section, i) => (
+                  <Element to={i} className='menu' key={i}>
+                    <div className='title'> {section.name} </div>
+                    <div className='desc'>
+                      {section.description}
+                    </div>
+                  </Element>
+                ))
+              }
+            </Content>
+
+          </Widget>
         {/* <Widget>
           <div className='title'> Section </div>
           <Link to='' className='menu'>
@@ -142,31 +164,31 @@ const Menu = styled(Link)`
   }
 `
 
-const Widget = styled.div`
-  &.hide {
-    display: none;
-  }
-  border-radius: 3px;
-  box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
-  background-color: #ffffff;
-  width: 100%;
-  height: 466px;
-  display: flex;
-  flex-flow: column;
-  overflow: auto;
-  > .title {
-    margin-top: 22px;
-    margin-left: 21px;
-    font-size: 15px;
-    font-weight: 800;
-    color: #000000;
-  }
-  .content-data {
-    height: 420px;
-    overflow: auto;
-    padding-left: 18px;
-    padding-right: 18px;
-    margin-top: 4px;
-    padding-top: 12px;
-  }
-`
+// const Widget = styled.div`
+//   &.hide {
+//     display: none;
+//   }
+//   border-radius: 3px;
+//   box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
+//   background-color: #ffffff;
+//   width: 100%;
+//   height: 466px;
+//   display: flex;
+//   flex-flow: column;
+//   overflow: auto;
+//   > .title {
+//     margin-top: 22px;
+//     margin-left: 21px;
+//     font-size: 15px;
+//     font-weight: 800;
+//     color: #000000;
+//   }
+//   .content-data {
+//     height: 420px;
+//     overflow: auto;
+//     padding-left: 18px;
+//     padding-right: 18px;
+//     margin-top: 4px;
+//     padding-top: 12px;
+//   }
+// `

@@ -44,6 +44,10 @@ class App::Routes < Roda
           r.get {Compliance::Sections[r].started_sections }
         end
 
+        r.on 'project-report' do
+          r.get { Compliance::Projects[r].report_cards }
+        end
+
         r.on Integer, 'tasks' do |project_id|
           opts = { project_id: project_id }
           r.get('for-case', Integer) {|case_id| Compliance::Tasks[r, opts.merge!(case_id: case_id)].for_case}

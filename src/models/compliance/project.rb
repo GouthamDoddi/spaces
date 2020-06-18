@@ -1,6 +1,6 @@
 class App::Models::Compliance::Project < Sequel::Model
 
-  # one_to_many :applicable_sections
+  one_to_many :applicable_sections, class: 'App::Models::ApplicableSection'
 
   def validate
     super
@@ -9,9 +9,9 @@ class App::Models::Compliance::Project < Sequel::Model
     validates_unique :name
   end
 
-  def applicable_sections
-    App::Models::ApplicationSection.where(project_id: id, applicable: true)
-  end
+  # def applicable_sections
+  #   App::Models::ApplicationSection.where(project_id: id, applicable: true)
+  # end
 
   def to_pos
     as_json
