@@ -43,7 +43,7 @@ export default function(props) {
             metadata.map((h,i) => (
               <>
                 <PRow key={i}>
-                  <Icon className={collapsed ? 'collapsed': 'expanded'} onClick={() => setCollapsed(!collapsed)}></Icon>
+                  <Icon className={collapsed === i ? 'collapsed': 'expanded'} onClick={() => setCollapsed(i === collapsed ? '': i)}></Icon>
                   <Link to={`/formulation/${h.id}/canvas`}> {('000' + h.id).slice(-3)} </Link>
                   <Link to={`/formulation/${h.id}/canvas`}> {h.name} </Link>
                   <Link to={`/formulation/${h.id}/canvas`}> {policyOwnerTypes[h.owner_id]?.label} </Link>
@@ -53,7 +53,7 @@ export default function(props) {
                   <Link to={`/formulation/${h.id}/canvas`}> <Progress value={Math.floor(Math.random() * 40)} max={100}></Progress> </Link>
                 </PRow>
                 {
-                  !collapsed ? 
+                  collapsed === i ? 
                     h.sections.map((sec, i) => (
                       <Row>
                         <div></div>
