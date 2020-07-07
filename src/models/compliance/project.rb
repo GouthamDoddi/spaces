@@ -2,6 +2,8 @@ class App::Models::Compliance::Project < Sequel::Model
 
   one_to_many :applicable_sections, class: 'App::Models::ApplicableSection'
 
+  plugin ::SequelPlugin::AllowedList
+
   def validate
     super
     # validates_presence [:name, :owner_id, :type_id]

@@ -3,6 +3,11 @@ class App::Services::Policies < App::Services::Base
 
   def model; Policy; end
 
+  def list
+    byebug 
+    super
+  end
+
   def self.fields
     {
       save: [

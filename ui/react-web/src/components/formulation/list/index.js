@@ -6,9 +6,10 @@ import { Link } from 'react-router-dom'
 
 import { List, Table, Header, Row, Add, Top, PRow } from '../../tables/list2'
 
-import { policyFamilyTypes, policyStatusTypes, policyOwnerTypes, policyStateTypes } from '../../../store/master-data'
+import { policyStatusTypes, policyOwnerTypes } from '../../../store/master-data'
 
 import makeStore from '../../../store/make-store'
+import {hasAction} from '../../../store/user'
 
 const { store, load } = makeStore('formulation/metadata')
 
@@ -55,7 +56,7 @@ export default function(props) {
                 {
                   !collapsed ? 
                     h.sections.map((sec, i) => (
-                      <Row>
+                      <Row key={i}>
                         <div></div>
                         <Link to={`/formulation/${h.id}/canvas`}> {('000' + sec.id).slice(-3)} </Link>
                         <Link to={`/formulation/${h.id}/canvas`}> {sec.name} </Link>
@@ -71,9 +72,12 @@ export default function(props) {
             ))
         }
       </Table>
-      <AddPolicy to='/formulation/new/canvas'>
-        <div> Create Policy </div>
-      </AddPolicy>
+      { 
+        hasAction('create_policy') ? 
+          <AddPolicy to='/formulation/new/canvas'>
+            <div> Create Policy </div>
+          </AddPolicy> : null
+      }
     </CustomList>
   )
 }

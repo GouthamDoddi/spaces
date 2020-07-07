@@ -59,7 +59,22 @@ export function loggedIn() {
 }
 
 
+export function hasSpaceAccess(space) {
+  const { auth } = store.getState()
+  return auth?.self?.permissions?.all || !!((auth?.self?.permissions || {})[space])
+}
 
+export function hasAssetAccess(type, type_id, space, asset) {
+  const { auth } = store.getState()
+  const currentSpace = (auth[type][type_id]?.permissions || {})[space] || {}
+  return auth?.self?.permissions?.all || !!(currentSpace[asset]) || !!(currentSpace.all)
+}
+
+export function hasAction(action) {
+  const { auth } = store.getState()
+  const permissions = auth?.self?.permissions
+  return (permissions?.actions || []).includes(action)
+}
 export default store;
 // export function token() {
 
