@@ -9,6 +9,7 @@ import { List, Table, Header, Row, Add, Top, PRow } from '../../tables/list2'
 import { policyFamilyTypes, policyStatusTypes, policyOwnerTypes, policyStateTypes } from '../../../store/master-data'
 
 import makeStore from '../../../store/make-store'
+import {hasAction} from '../../../store/user'
 
 const { store, load } = makeStore('compliance/projects/list')
 
@@ -56,9 +57,13 @@ export default function(props) {
             ))
         }
       </Table>
-      <AddPolicy to='/compliance/new/profile'>
-        <div> Create Project </div>
-      </AddPolicy>
+      { 
+        hasAction('create_project') ? 
+          <AddPolicy to='/compliance/new/profile'>
+            <div> Create Project </div>
+          </AddPolicy> : null
+      }
+
     </CustomList>
   )
 }

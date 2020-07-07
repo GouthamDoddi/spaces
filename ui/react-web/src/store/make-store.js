@@ -108,11 +108,11 @@ export default function makeStore(path, { group_by=null, defaultStore={ loading:
     put(toPath(others), { data, success: (data) => {assignData(data, cb)}, error: assignError })
   }
 
-  function remove({cb, ...others}) {
+  function remove({data, cb, ...others}) {
     const ans = window.confirm("Are you sure to delete?");
     if(ans) {
       enableLoading('deleting')
-      del(toPath(others), { success: (data) => {assignData(data, cb)}, error: assignError })  
+      del(toPath(others), { data, success: (data) => {assignData(data, cb)}, error: assignError })  
     }
   }
   return { store, load, create, update, changed, selectChange, addData, remove }

@@ -74,25 +74,26 @@ class App::Models::User < Sequel::Model
   def role_name; ROLE_MAPPER[role]; end
 
   def basic_info
-    data = as_json(only: [:email, :first_name, :last_name, :role])
+    data = as_json(only: [:id, :email, :first_name, :last_name, :role])
     data[:role_name] = role_name
     data
   end
 
   def default_policies
     (role == 0 || roles_by_id[role].has_action?('create_policy')) ? 
-      created_policy_ids.reduce({}){|h, pid| h.merge!( pid => {name: 'Creator', permissions: {all: true} })} : {}
+      created_policy_ids.reduce({}){|h, pid| h.merge!( pid => {name: 'Creator', permissions: {formulation: {all: true}} })} : {}
   end
 
   def default_projects
-    (role == 0 || roles_by_id[role].has_action?('create_project')) ? created_project_ids.reduce({}){|h, pid| h.merge!( pid => {name: 'Creator', permissions: {all: true} })} : {}
+    (role == 0 || roles_by_id[role].has_action?('create_project')) ? 
+      created_project_ids.reduce({}){|h, pid| h.merge!( pid => {name: 'Creator', permissions: {compliance: {all: true}} })} : {}
   end
 
   def auth_data
     @auth_data ||= begin
       data = -> (key) { 
         authorization[key].reduce({}) {|h, (i, r)|
-        h.merge(i => roles_by_id[r].values.slice(:name, :permissions))} 
+        h.merge(i => roles_by_id[r].values.slice(:name, :permissions, :id))} 
       }
       { policies: data.('policies').merge!(default_policies), projects: data.('projects').merge!(default_projects), 
         self: (role > 0 ? roles_by_id[role].values.slice(:name, :permissions) : {name: 'Super Admin', permissions: {all: true} })  }

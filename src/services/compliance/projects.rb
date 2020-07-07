@@ -4,9 +4,9 @@ class App::Services::Compliance::Projects < App::Services::Base
 
   def model; Project; end
 
-  def list
-    return_success(model.allowed(:projects).all.map(&:to_pos))
-  end
+  # def list
+  #   return_success(model.all.map(&:to_pos))
+  # end
 
   def report_cards
     resp = 

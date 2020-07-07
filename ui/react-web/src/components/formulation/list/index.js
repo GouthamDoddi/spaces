@@ -8,18 +8,22 @@ import { List, Table, Header, Row, Add, Top, PRow } from '../../tables/list2'
 
 import { policyStatusTypes, policyOwnerTypes } from '../../../store/master-data'
 
+import userStore from '../../../store/user'
+
 import makeStore from '../../../store/make-store'
 import {hasAction} from '../../../store/user'
 
 const { store, load } = makeStore('formulation/metadata')
 
 export default function(props) {
+
   useEffect(() => { 
     console.log(load())
   }, [])
 
   const [collapsed, setCollapsed] = useState(false)
 
+  const { auth } = userStore.getState()
   const listStore = useStore(store)
   const metadata = listStore.data || []
   return (
@@ -33,6 +37,7 @@ export default function(props) {
           <div></div>
           <div>Code</div>
           <div>Policy Name</div>
+          <div>Role</div>
           <div>Policy Owner</div>
           <div>Publication Date</div>
           <div>Status</div>
@@ -47,10 +52,11 @@ export default function(props) {
                   <Icon className={collapsed ? 'collapsed': 'expanded'} onClick={() => setCollapsed(!collapsed)}></Icon>
                   <Link to={`/formulation/${h.id}/canvas`}> {('000' + h.id).slice(-3)} </Link>
                   <Link to={`/formulation/${h.id}/canvas`}> {h.name} </Link>
+                  <Link to={`/formulation/${h.id}/canvas`}> {auth.policies[h.id]?.name} </Link>
                   <Link to={`/formulation/${h.id}/canvas`}> {policyOwnerTypes[h.owner_id]?.label} </Link>
                   <Link to={`/formulation/${h.id}/canvas`}> {h.publication_date} </Link>
                   <Link to={`/formulation/${h.id}/canvas`}> {policyStatusTypes[h.status || 1]?.label} </Link>
-                  <Link to={`/formulation/${h.id}/canvas`}> <Progress value={Math.floor(Math.random() * 40)} max={100}></Progress> </Link>
+                  <Link to={`/formulation/${h.id}/canvas`}> <Progress value={Math.floor(1)} max={100}></Progress> </Link>
                   <Link to={`/formulation/${h.id}/canvas`}> <Progress value={Math.floor(Math.random() * 40)} max={100}></Progress> </Link>
                 </PRow>
                 {
@@ -60,10 +66,11 @@ export default function(props) {
                         <div></div>
                         <Link to={`/formulation/${h.id}/canvas`}> {('000' + sec.id).slice(-3)} </Link>
                         <Link to={`/formulation/${h.id}/canvas`}> {sec.name} </Link>
+                        <Link to={`/formulation/${h.id}/canvas`}> {auth.policies[h.id]?.name} </Link>
                         <Link to={`/formulation/${h.id}/canvas`}> {policyOwnerTypes[h.owner_id]?.label} </Link>
                         <Link to={`/formulation/${h.id}/canvas`}> {h.publication_date} </Link>
                         <Link to={`/formulation/${h.id}/canvas`}> {policyStatusTypes[h.status || 1]?.label} </Link>
-                        <Link to={`/formulation/${h.id}/canvas`}> <Progress value={Math.floor(Math.random() * 40)} max={100}></Progress> </Link>
+                        <Link to={`/formulation/${h.id}/canvas`}> <Progress value={Math.floor(1)} max={100}></Progress> </Link>
                         <Link to={`/formulation/${h.id}/canvas`}> <Progress value={Math.floor(Math.random() * 40)} max={100}></Progress> </Link>
                       </Row>
                     )) : null

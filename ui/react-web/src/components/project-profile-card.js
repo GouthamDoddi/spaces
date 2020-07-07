@@ -45,6 +45,7 @@ const Progress = styled.progress`
 `
 
 const Box = styled.div`
+  min-width: 415px;
   width: 415px;
   height: 400px;
   border-radius: 3px;

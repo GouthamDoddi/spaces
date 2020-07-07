@@ -3,9 +3,9 @@ import styled from 'styled-components'
 // import { components } from 'react-select';
 
 export function EditIcon(props) {
-  const { onClick } = props
+  const { onClick, className } = props
   return (
-    <IconBase onClick={onClick}>
+    <IconBase onClick={onClick} className={className}>
       <svg xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fillRule="evenodd">
           <rect width="44" height="44" className='back' rx="12"/>
@@ -71,6 +71,12 @@ const IconBase = styled.label`
   &.disabled {
     .main { fill: #fff}
     .back { fill: #ccc}
+    pointer-events: none;
+  }
+
+  &.selected {
+    .back { fill: ${p => p.theme.color}}
+    .main { fill: #ffffff}
   }
 `
 

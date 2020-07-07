@@ -8,6 +8,17 @@ import {
 } from 'react-router-dom';
 
 import {useTo} from '../util'
+import makeStore from '../../../store/make-store'
+import EditView from './edit-view'
+
+const  steer =  makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/2`)
+const steerSpecific = makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/2`)
+
+const  ex =  makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/3`)
+const exSpecific = makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/3`)
+
+const  op =  makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/4`)
+const opSpecific = makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/4`)
 
 
 function useLinkTo(path, exact=false) {
@@ -27,9 +38,15 @@ export default function Element(props) {
     <>
       <div className='form-space'>
         <Switch>
-          <Route path={useLinkTo('steering')}> <div> Selected Steering </div></Route>
-          <Route path={useLinkTo('executive')}> <div> Selected Executive </div> </Route>
-          <Route path={useLinkTo('operational')}> <div> Operational </div> </Route>
+          <Route path={useLinkTo('steering')}> 
+            <EditView listStore={steer} specificStore={steerSpecific}/>
+          </Route>
+          <Route path={useLinkTo('executive')}> 
+            <EditView listStore={ex} specificStore={exSpecific}/>
+          </Route>
+          <Route path={useLinkTo('operational')}> 
+            <EditView listStore={op} specificStore={opSpecific}/>
+          </Route>
           <Route exact path=''> <Redirect to={useLinkTo('steering', true)} /> </Route>
         </Switch>
       </div>

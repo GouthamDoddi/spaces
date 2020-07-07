@@ -70,6 +70,12 @@ export function hasAssetAccess(type, type_id, space, asset) {
   return auth?.self?.permissions?.all || !!(currentSpace[asset]) || !!(currentSpace.all)
 }
 
+export function hasSelfAssetAccess(space, asset) {
+  const { auth } = store.getState()
+  const currentSpace = (auth.self?.permissions || {})[space] || {}
+  return auth?.self?.permissions?.all || !!(currentSpace[asset]) || !!(currentSpace.all)
+}
+
 export function hasAction(action) {
   const { auth } = store.getState()
   const permissions = auth?.self?.permissions

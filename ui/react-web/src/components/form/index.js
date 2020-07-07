@@ -46,10 +46,11 @@ export default function Element({children, onSubmit, store, ...others}) {
 }
 
 function ActionsElem(props) {
-  const { className } = props
+  const { className, edit } = props
+
   return(
     <div className={className}>
-      <EditIcon />
+      <EditIcon className={edit ? 'selected' : null}/>
       <SaveIcon  />
       <TranslateIcon  />
     </div>
@@ -95,7 +96,11 @@ export const Container = styled(Element)`
     > div {
       margin-top: 12px;
     }
-
+  }
+  &.disable {
+    input, textarea, .field, .default__control {
+      pointer-events: none;
+    }
   }
 `
 

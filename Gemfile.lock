@@ -43,9 +43,9 @@ GEM
     regexp_parser (1.7.0)
     roda (3.28.0)
       rack
-    sequel (5.32.0)
-    sequel_pg (1.12.2)
-      pg (>= 0.18.0)
+    sequel (5.34.0)
+    sequel_pg (1.13.0)
+      pg (>= 0.18.0, != 1.2.0)
       sequel (>= 4.38.0)
     sqlite3 (1.4.2)
     thor (1.0.1)
