@@ -24,7 +24,7 @@ module App
     def load!
       # db_url = "postgres://fethuvddimttsx:98b059a48ec005e01720de96f8b24dafeb8172da7a53d47b21670d30daa36ca6@ec2-52-200-119-0.compute-1.amazonaws.com:5432/d3m8o8hvjchi1d"
       db_url = "postgres://exbkkjhk:teWF4qtJwyLZMXLm0CDM1eiYfNC-xr_T@satao.db.elephantsql.com:5432/exbkkjhk"
-      @db = Sequel.connect(db_url, logger: Logger.new(STDOUT), max_connections: 3, after_connect: Proc.new{puts "************ Connected ************ "})
+      @db = Sequel.connect(db_url, logger: Logger.new(STDOUT), max_connections: 4, after_connect: Proc.new{puts "************ Connected ************ "})
       require_blob('lib/**/*.rb')
       setup_sequel!
       App.require_blob('helpers/*.rb')
