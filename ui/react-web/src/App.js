@@ -8,8 +8,8 @@ import {
 
 import { loggedIn } from './store/user'
 
-import { objects, subobjects, questions, beneficiaries, profiles, details } from './store/master-data'
-
+// import { objects, subobjects, questions, beneficiaries, profiles, details } from './store/master-data'
+import SnackBar from './snackbar'
 import Home from './components/home'
 import Dashboard from './components/dashboard'
 import Formulation from './components/formulation'
@@ -34,6 +34,7 @@ function Routes() {
   // console.log(background)
   return (
     <>
+      <SnackBar />
       <Header />
       {/* <Switch location={ background || location }> */}
       <Switch>
@@ -43,7 +44,7 @@ function Routes() {
         <Route path="/activation"> <TP theme={cs.as}> <Activation /> </TP> </Route>
         <Route path="/governance"> <TP theme={cs.gs}> <Governance /> </TP> </Route>
         <Route path="/compliance"> <TP theme={cs.cps}> <Compliance /> </TP> </Route>
-        <Route exact path="/"> <TP theme={cs.home}> <Home /> </TP></Route>
+        <Route exact path="/"> <TP theme={cs.home}> <Dashboard /> </TP></Route>
       </Switch>
     </>
   )

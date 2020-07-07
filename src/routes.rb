@@ -191,6 +191,14 @@ class App::Routes < Roda
         r.on Integer do |policy_id|
           opt = { id: policy_id }
           klass = Formulation::Metadata
+          
+          r.on 'users-with-role', Integer do |role_id|
+            klass = Formulation::UserRoles
+            opt[:role_id] = role_id
+            r.post { klass[r, opt].create }
+            r.delete { klass[r, opt].delete }
+            r.get { klass[r, opt].list }
+          end
 
           r.on 'add_beneficiary', Integer do |beneficiary_id|
             opt[:beneficiary_id] = beneficiary_id

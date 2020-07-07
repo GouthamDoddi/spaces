@@ -164,6 +164,20 @@ export const statusTypes = {
   review: { value: 'review', label: 'In Review'},
   close: { value: 'close', label: 'Close'},
 }
+
+export const userRoleTypes = {
+  1: { value: 1, label: 'Steering Committee'},
+  3: { value: 3, label: 'Operational Committee'},
+}
+
+export const listOfUsers = {
+  2: { value: 2, label: 'user.one@motc.qa'},
+  3: { value: 3, label: 'user.two@motc.qa'},
+  4: { value: 4, label: 'user.three@motc.qa'},
+  5: { value: 5, label: 'user.four@motc.qa'},
+  6: { value: 6, label: 'user.five@motc.qa'},
+  7: { value: 7, label: 'user.six@motc.qa'},
+}
 // export const policyFamilyTypes = {
 //   ICT
 // 	Transport
@@ -188,3 +202,4 @@ export const questions = makeStore(({soid}) => `subobjects/${soid}/questions`, {
 export const beneficiaries = makeStore(`beneficiaries`, { group_by })
 export const profiles = makeStore(({bid}) => `beneficiaries/${bid}/profiles`, { group_by })
 export const details = makeStore(({pid}) => `beneficiary_profiles/${pid}/details`, { group_by })
+

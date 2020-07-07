@@ -5,6 +5,8 @@ import { NavLink } from 'react-router-dom'
 
 import { useParams } from 'react-router-dom'
 
+import {hasSelfAssetAccess, hasAssetAccess} from '../store/user'
+
 function NormalLink(props) {
   const { to, className, children } = props;
   return (
@@ -12,6 +14,12 @@ function NormalLink(props) {
       {children}
     </NavLink>
   )
+}
+
+function hasAccess(prefix, type_id, path) {
+  
+  if(prefix === 'formulation') return hasAssetAccess('policies', type_id * 1, prefix, path);
+  else return hasSelfAssetAccess(prefix, path)
 }
 
 function NormalLinks(props) {
@@ -22,8 +30,10 @@ function NormalLinks(props) {
     <div className={className}>
       {
         data.map((obj, i) => (
-          (!only || only.includes(obj.path)) ? 
-            <Link to={to(obj)} key={obj.path}> {obj.name} </Link> : <Disabled key={i}>{obj.name} </Disabled>
+          hasAccess(prefix, id, obj.path) ? 
+            (!only || only.includes(obj.path)) ? 
+              <Link to={to(obj)} key={obj.path}> {obj.name} </Link> : <Disabled key={i}>{obj.name} </Disabled> :
+            null
           )
         )
       }

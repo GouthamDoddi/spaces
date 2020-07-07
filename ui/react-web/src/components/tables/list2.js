@@ -28,7 +28,7 @@ export const Table = styled.div`
 export const Header = styled.div`
   min-width: 1023px;
   display: grid;
-  grid-template-columns: ${p => p.columns || '40px 100px 1.5fr 0.6fr 1fr 0.5fr 1.2fr 1.2fr'};
+  grid-template-columns: ${p => p.columns || '40px 100px 1fr 1.5fr 0.6fr 1fr 0.5fr 1.2fr 1.2fr'};
   grid-auto-rows: 70px;
   background-color: ${p => p.theme.icon};
   // justify-items: center;
@@ -48,7 +48,7 @@ export const Header = styled.div`
 `
 
 export const Row = styled(Header)`
-  grid-template-columns: ${p => p.columns || '40px 100px 1.5fr 0.6fr 1fr 0.5fr 1.2fr 1.2fr'};
+  grid-template-columns: ${p => p.columns || '40px 100px 1fr 1.5fr 0.6fr 1fr 0.5fr 1.2fr 1.2fr'};
   grid-auto-rows: 40px;
   > div {
     // border-right: 1px dotted #ccc;
@@ -64,7 +64,7 @@ export const Row = styled(Header)`
 `
 
 export const PRow = styled(Header)`
-  grid-template-columns: ${p => p.columns || '40px 100px 1.5fr 0.6fr 1fr 0.5fr 1.2fr 1.2fr'};
+  grid-template-columns: ${p => p.columns || '40px 100px 1fr 1.5fr 0.6fr 1fr 0.5fr 1.2fr 1.2fr'};
 
   grid-auto-rows: 40px;
   > div {

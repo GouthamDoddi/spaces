@@ -1,18 +1,14 @@
 Sequel.migration do
   change do
-    create_table(:users) do
+    create_table(:roles) do
       primary_key :id
 
-      String :first_name, size: 50
-      String :last_name, size: 50
-      String :email, size: 100
-      String :encoded_password, size: 200
-      String :username, size: 25
-
-      Integer :role
+      String :name, size: 50
+      String :description, text: true
+      # Integer :user_id
       TrueClass :active, :default => true
 
-      json :authorization
+      json :permissions
 
       Integer :created_by
       Integer :updated_by

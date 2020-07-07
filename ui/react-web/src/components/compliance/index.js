@@ -5,12 +5,15 @@ import Workspace, { Links } from '../workspace';
 import CreateMenu from '../createMenu';
 import List from './list'
 
+import userStore, {hasSelfAssetAccess} from '../../store/user'
+
 import {
   Switch,
   Route,
   useRouteMatch,
   Redirect,
   useParams,
+  useLocation
 } from 'react-router-dom';
 
 import CaseManagement from './case-management'
@@ -70,10 +73,20 @@ function Specific(props) {
   const { id } = useParams()
   const only = id === 'new' ? ['profile'] : null
   console.log(useTo('profile'))
+
+  const { pathname } = useLocation()
+  const path = pathname.split(id)[1].split('/')[1]
+  
+  if(!hasSelfAssetAccess('compliance', path)) {
+    const { auth } = userStore.getState()
+    const h = Object.keys(auth.self.permissions.compliance)[0]
+    window.location.hash = `/compliance/${id}/${h}`
+  }
+
   return(      
     <Workspace>
       <div className='header'>
-        <Links data={WorkspaceLinks} prefix='compliance' only={only} />
+        <Links data={WorkspaceLinks} prefix='compliance' only={only} permissions='self' />
       </div>
       <Switch>
         <Route path={useTo('profile')}> <Profile /> </Route>

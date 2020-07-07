@@ -3,7 +3,7 @@ class App::Services::Formulation::Metadata < App::Services::Base
   def model; Policy; end
 
   def list
-    resp = model.eager(:policy_sections).all.map do |p|
+    resp = model.allowed.eager(:policy_sections).all.map do |p|
       p.as_json.merge!(sections: p.policy_sections.as_json)
     end
     return_success(resp)

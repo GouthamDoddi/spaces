@@ -3,19 +3,20 @@ import { NavLink } from 'react-router-dom'
 import { useStore } from 'effector-react'
 import styled from 'styled-components'
 import cs from '../../utils/colors.js'
-import {logout} from '../../store/user'
+import {logout, hasSpaceAccess} from '../../store/user'
 import userStore from '../../store/user'
 import Notifications from './Notifications'
 import ProfileMenu from './ProfileMenu'
 import Alerts from './Alerts'
 
 function NormalLink(props) {
-  const { to, className, children } = props
+  const { to, className, children, space } = props
   return (
-    <NavLink to={to} className={className} activeClassName="selected">
-      {children}
-      <div> &#x2B24; </div>
-    </NavLink>
+    hasSpaceAccess(space) ?
+      <NavLink to={to} className={className} activeClassName="selected">
+        {children}
+        <div> &#x2B24; </div>
+      </NavLink> : null
   )
 }
 const alerts = [
@@ -127,24 +128,24 @@ export default function (props) {
           <Link color={cs.home.color} to="/dashboard">
             <div> Home </div>
           </Link>
-          <Link color={cs.fs.color} to="/formulation">
+          <Link color={cs.fs.color} to="/formulation" space='formulation'>
             <div> Formulation Spaces </div>
           </Link>
-          <Link color={cs.cs.color} to="/collaboration">
+          <Link color={cs.cs.color} to="/collaboration" space='collaboration'>
             <div> Collaboration Spaces </div>
           </Link>
           {/* <Link color={cs.as.color} to='/activation'>
             <div> Activation Spaces </div>
           </Link> */}
-          <Link color={cs.gs.color} to="/governance">
+          <Link color={cs.gs.color} to="/governance" space='governance'>
             <div> Governance </div>
           </Link>
-          <Link color={cs.cps.color} to="/compliance">
+          <Link color={cs.cps.color} to="/compliance" space='compliance'>
             <div> Compliance Spaces </div>
           </Link>
-          <Link to="/policies">
+          {/* <Link to="/policies">
             <div> Policies </div>
-          </Link>
+          </Link> */}
         </div>
         <div className="user-actions">
           <div className="alerts menuWrapper">
