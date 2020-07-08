@@ -1,7 +1,7 @@
 class App::Services::Session < App::Services::Base
 
   def login
-    return_success!(token: current_user.token)  if current_user
+    return_success!(token: App.cu.token, info: App.cu.user_obj.basic_info, auth: App.cu.user_obj.auth_data)  if current_user
     
     user = User.find(email: params[:email])
 

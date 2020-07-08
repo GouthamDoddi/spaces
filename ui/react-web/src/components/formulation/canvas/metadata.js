@@ -5,13 +5,16 @@ import { Input, Select, Actions, Container, toOpt } from '../../form'
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
 
+import { reloadAuth } from '../../../store/user'
+
 import {policyFamilyTypes, policyCategoryTypes, policyOwnerTypes, policyStatusTypes, policyStateTypes} from '../../../store/master-data'
 import { useStore } from 'effector-react'
 
-const { store, load, create, update, changed, selectChange } =  makeStore(({policy_id}) => `formulation/metadata/${policy_id}`)
+const { store, load, create, addData, update, changed, selectChange } =  makeStore(({policy_id}) => `formulation/metadata/${policy_id}`)
 
 function submitted(policy_id, data) {
   const cb = (resp) => {
+    reloadAuth()
     window.location.hash = `/formulation/${resp.id}/canvas/metadata`
   }
   policy_id === 'new' ? create({data, cb}) : update({policy_id, data, cb}) 
@@ -24,13 +27,16 @@ export default function(props) {
   
   useEffect(() => {
     if(policy_id && policy_id !== 'new') { load({policy_id}) }
+    if(policy_id === 'new') { 
+      addData(null) 
+    }
   }, [])
   
-  console.log(store)
+  
   const metaStore = useStore(store)
   const { family_id, name, policy_category_id, policy_state_id,
     policy_status_id, owner_id, publication_date} = metaStore.data || {}
-
+  console.log(family_id)
   return(
     <Container onSubmit={(data) => submitted(policy_id,data)} store={metaStore}>
       <Actions />

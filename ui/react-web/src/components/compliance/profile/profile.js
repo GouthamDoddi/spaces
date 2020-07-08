@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react'
 
 import { Input, Select, Actions, Container, TextArea, toOpt } from '../../form'
-
+import { reloadAuth } from '../../../store/user'
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
 import { projectTypes } from '../../../store/master-data'
 import { useStore } from 'effector-react'
 
-const { store, load, create, update, changed, selectChange } =  makeStore(({project_id}) => project_id ? `compliance/projects/${project_id}` : 'compliance/projects')
+const { store, load, create, update, addData, changed, selectChange } =  makeStore(({project_id}) => project_id ? `compliance/projects/${project_id}` : 'compliance/projects')
 
 function submitted(project_id, data) {
   const cb = (resp) => {
+    reloadAuth()
     window.location.hash = `/compliance/${resp.id}/profile/index`
   }
   project_id === 'new' ? create({data, cb}) : update({project_id, data, cb}) 
@@ -23,6 +24,7 @@ export default function(props) {
   
   useEffect(() => {
     if(project_id && project_id !== 'new') { load({project_id}) }
+    if(project_id === 'new') { addData(null)}
   }, [])
   
   const projectStore = useStore(store)

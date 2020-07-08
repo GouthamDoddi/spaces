@@ -41,6 +41,17 @@ function handleLogin( resp ) {
   }
 }
 
+
+function handleReload( resp ) {
+  
+  if(resp.status === 'success' && resp.data.token) {
+    addData(resp.data)
+    window.location.reload()
+    // console.log(window.location.hash.replace('#', ''))
+    // window.location.hash = window.location.hash.replace('#', '')
+  }
+}
+
 function handleErrorLogin( resp ) {
   addError('Invlid email / password')
   console.log(resp)
@@ -78,8 +89,16 @@ export function hasSelfAssetAccess(space, asset) {
 
 export function hasAction(action) {
   const { auth } = store.getState()
-  const permissions = auth?.self?.permissions
-  return (permissions?.actions || []).includes(action)
+  const permissions = auth?.self?.permissions || {}
+  return permissions.all || (permissions.actions || []).includes(action)
+}
+
+export function reloadAuth() {
+  post('login',{
+    auth: true,
+    success: handleReload,
+    error: handleErrorLogin,
+  })
 }
 export default store;
 // export function token() {
