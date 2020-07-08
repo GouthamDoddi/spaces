@@ -12,7 +12,7 @@ Sequel.migration do
       Integer :role
       TrueClass :active, :default => true
 
-      json :authorization
+      jsonb :authorization
 
       Integer :created_by
       Integer :updated_by
