@@ -38,9 +38,10 @@ class App::Services::Compliance::Sections < App::Services::Base
     ids = App::Models::Compliance::RecordParameter.select_map(:applicable_section_id).uniq
 
     data = App::Models::ApplicableSection.eager(:project).where(section_id: ids).all
-
+    # byebug
     res = data.map do |section|
-      { id: section.project.id, title: section.project.name, description: section.project.description, beneficiary: 'Sathish', status: 'Open'}
+      
+      { id: section.project.id, title: section.project.name, description: section.project.description, beneficiary: 'Sathish', status: 'Open', user_id: section.user_id}
     end
     return_success(res)
   end

@@ -7,7 +7,7 @@ import Form, { TextArea, Select, Input } from '../../form'
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
 
-import { policyTriggerTypes } from '../../../store/master-data'
+import { policyTriggerTypes, listOfUsers } from '../../../store/master-data'
 import { useStore } from 'effector-react'
 import { Table, Header, Row, Add } from '../../tables/small'
 
@@ -89,7 +89,7 @@ export default function(props) {
                   
                   <div> {o.name} </div>
                   <div> {policyTriggerTypes[o.trigger_type_id]?.label} </div>
-                  <div> Sathish </div>
+                  <div> {listOfUsers[o.created_by]?.label || 'Sathish'} </div>
                 </Row>
               ))
               

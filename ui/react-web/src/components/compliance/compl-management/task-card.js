@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Link } from 'react-router-dom'
+import {listOfUsers} from '../../../store/master-data'
 
 const cm = {
   open: '#f44e76',
@@ -15,7 +16,7 @@ function cc(st) {
 }
 
 export default function(props) {
-  const { title, description, beneficiary, status, i, to } = props
+  const { title, description, beneficiary, user_id, status, i, to } = props
   return (
     <Box key={i} to={to}>
       <InnerBox>
@@ -41,7 +42,7 @@ export default function(props) {
           </Desc>
           <Footer>
             <span> SLA: none</span>
-            <span> {beneficiary}</span>
+            <span> {listOfUsers[user_id]?.label || beneficiary}</span>
           </Footer>
 
         </Content>

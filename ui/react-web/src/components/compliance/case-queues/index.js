@@ -49,7 +49,7 @@ export default function(props) {
 const Container = styled.div`
   padding: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-filt, 320px)
+  grid-template-columns: repeat(auto-fit, 320px);
   grid-auto-rows: 96px;
   grid-gap: 15px 10px;
 `
