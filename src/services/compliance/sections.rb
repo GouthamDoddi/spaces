@@ -2,11 +2,10 @@ class App::Services::Compliance::Sections < App::Services::Base
 
   def model; PolicySection; end
 
-  def list
-    cond = Sequel.pg_array_op(:subobject_ids).overlaps(project.subobject_ids)
-    sections = PolicySection.where(cond).all
 
-    ids = sections.map(&:id)
+  def list
+    ids = project.possible_section_ids
+    sections = model.where(id: ids).all
     as = ApplicableSection.where(project_id: r.params[:project_id], section_id: ids).reduce({}){|a, o| a.merge!(o.section_id => o)}
     
     return_success(sections.map{|s| s.to_pos.merge!(applicable: as[s.id])})
@@ -14,9 +13,9 @@ class App::Services::Compliance::Sections < App::Services::Base
   end
 
   def questions
-    ids = item.subobject_ids & project.subobject_ids
-
-    return_success(ObjectQuestion.where(subobject_id: ids, id: (item.question_ids || []).map(&:to_i)).map(&:to_pos))
+    ids =  App::Models::Subobject.exclude(object_id: item.object_ids.map(&:to_i)).exclude(id: item.subobject_ids.to_a).select(:id)
+    
+    return_success(ObjectQuestion.where(subobject_id: ids).exclude(id: (item.question_ids || []).map(&:to_i)).map(&:to_pos))
   end
 
   def applicable_questions
@@ -28,7 +27,7 @@ class App::Services::Compliance::Sections < App::Services::Base
 
   def applicable_sections
     as = ApplicableSection.eager(:policy_section).where(project_id: r.params[:project_id], applicable: true)
-
+    # byebug
     # return_success(as.map{|a| a.as_json.merge!(a.policy_section.as_json(except: :id))})
 
     return_success(as.map{|as| as.policy_section.to_pos})
