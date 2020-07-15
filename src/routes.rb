@@ -312,7 +312,7 @@ class App::Routes < Roda
             do_crud(klass, r, 'CRUDL', opts)
           end
 
-          r.on 'simple-section' do
+          r.on 'simple-sections' do
             klass = Formulation::SimpleSections
             opts = { policy_id: policy_id }
             do_crud(klass, r, 'RU', opts)

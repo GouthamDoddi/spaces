@@ -1,0 +1,21 @@
+things to do:
+
+
+section behaviour
+   uncheck parent
+   same for section and attribute
+   proparly link them
+
+   
+   tasdeeq
+   collaboration, complete
+
+   Form rewrite
+   attachment
+
+
+   home page
+   task & cases linking
+
+
+   

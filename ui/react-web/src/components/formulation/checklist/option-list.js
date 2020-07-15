@@ -21,9 +21,10 @@ function Anchor({onClicked, item_id}) {
   return null
 }
 
-export default function({title, description, onClicked, dataStore, sid, path, bidsKey, policyStore, sectionStore}) {
+export default function({title, description, onClicked, dataStore, sid, path, bidsKey, policyStore, sectionStore, iid}) {
 
-  const {policy_id, id } = useParams()
+  const {policy_id } = useParams()
+  const id = iid || useParams().id
   const store = useStore(dataStore)
   const data = store.data
 
