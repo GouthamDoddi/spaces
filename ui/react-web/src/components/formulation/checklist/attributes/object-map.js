@@ -15,7 +15,7 @@ import { sectionStore } from '../../../../store/section-store'
 
 export default function(props) {
 
-  const { policy_id, id } = useParams()
+  const { policy_id, id, attr_id } = useParams()
   const [oid, setOid] = useState(0)
   const [soid, setSoid] = useState(0)
   const [qid, setQid] = useState(0)
@@ -29,7 +29,7 @@ export default function(props) {
       policyStore.load({policy_id})
     }
     if (sectionStore.store.getState().data?.id != id ) {
-      sectionStore.load({policy_id, id})
+      sectionStore.load({policy_id, id: attr_id})
     }
 
     if(oid) { 
@@ -52,6 +52,7 @@ export default function(props) {
           sid={oid}
           path='object'
           bidsKey='object_ids'
+          iid={attr_id}
         >  </OptionList>
         <Spacer />
         <OptionList title='Sub Objects' description='Lorem ipsum dolor sit amet, consectetur'
@@ -61,6 +62,7 @@ export default function(props) {
           sid={soid}
           path='subobject'
           bidsKey='subobject_ids'
+          iid={attr_id}
           onClicked={setSoid}></OptionList>
         <Spacer />
         <OptionList title='Questions' description='Lorem ipsum dolor sit amet, consectetur'
@@ -71,6 +73,7 @@ export default function(props) {
           path='question'
           bidsKey='question_ids'
           onClicked={setQid}
+          iid={attr_id}
           addButton={!!soid}></OptionList>
         <Spacer />
       </BoxGrid>

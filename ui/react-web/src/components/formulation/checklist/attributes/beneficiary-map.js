@@ -15,7 +15,7 @@ import { sectionStore } from '../../../../store/section-store'
 
 export default function(props) {
 
-  const { policy_id, id } = useParams()
+  const { policy_id, id, attr_id } = useParams()
   const [bid, setBid] = useState(0)
   const [pid, setPid] = useState(0)
   
@@ -52,6 +52,7 @@ export default function(props) {
           sid={bid}
           path='beneficiary'
           bidsKey='beneficiary_ids'
+          iid={attr_id}
         >  </OptionList>
         <Spacer />
         <OptionList title='Profile' description='Lorem ipsum dolor sit amet, consectetur'
@@ -61,6 +62,7 @@ export default function(props) {
           sid={pid}
           path='beneficiary_profile'
           bidsKey='beneficiary_profile_ids'
+          iid={attr_id}
           onClicked={setPid}></OptionList>
         <Spacer />
         <OptionList title='Details' description='Lorem ipsum dolor sit amet, consectetur'
@@ -70,6 +72,7 @@ export default function(props) {
           // sid={qid}
           path='profile_detail'
           bidsKey='profile_detail_ids'
+          iid={attr_id}
           // onClicked={setQid}
         ></OptionList>
         <Spacer />
