@@ -122,7 +122,7 @@ const Content = styled.div`
 `
 
 const Row = styled.div`
-  padding: 0 22px;
+  padding: 0 10px;
   border-bottom: solid 1px #d4e0ec;
   display: flex;
   font-size: 12px;

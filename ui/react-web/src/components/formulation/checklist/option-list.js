@@ -46,9 +46,9 @@ export default function({title, description, onClicked, dataStore, sid, path, bi
   const changed = (val, obj_id) => {
     const success = () => sectionStore.load({policy_id, id})
     if (val) {
-      put(`policy-sections/${id}/add/${path}/${obj_id}`, {success})
-    } else {
       put(`policy-sections/${id}/remove/${path}/${obj_id}`, {success})
+    } else {
+      put(`policy-sections/${id}/add/${path}/${obj_id}`, {success})
     }
   }
 
@@ -64,7 +64,7 @@ export default function({title, description, onClicked, dataStore, sid, path, bi
             <Row key={i}
               className={sid === obj.id ? 'selected' : null}
             > 
-              <CheckboxBig className='cb' label={obj.name} name={bidsKey} checked={sbids.includes(obj.id)}  onChange={(val) => changed(val, obj.id)} /> 
+              <CheckboxBig className='cb' label={obj.name} name={bidsKey} checked={!sbids.includes(obj.id)}  onChange={(val) => changed(val, obj.id)} /> 
               <Anchor onClicked={onClicked} item_id={obj.id} />
             </Row>
           ))
@@ -126,7 +126,7 @@ const Content = styled.div`
 `
 
 const Row = styled.div`
-  padding: 0 22px;
+  padding: 0 10px;
   border-bottom: solid 1px #d4e0ec;
   display: flex;
   font-size: 12px;

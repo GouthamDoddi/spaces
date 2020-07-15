@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import ShowQuestion from './show_question'
 import makeStore from '../../../store/make-store'
+import { usePrevious } from '../../../utils/helpers'
 
 
 import OptionList from './option-list'
 
-const policyStore = makeStore(({policy_id}) => `formulation/metadata/${policy_id}`)
+import policyStore from '../../../store/formulation/policy'
 
 const objects = makeStore(`objects`)
 const subobjects = makeStore(({oid}) => `objects/${oid}/subobjects`)
@@ -22,12 +23,16 @@ export default function(props) {
   const [soid, setSoid] = useState(0)
   const [qid, setQid] = useState(0)
 
+  const prevLoc = usePrevious(useLocation().pathname)
+  // console.log(`location: ${loc}`, useLocation().pathname)
+
   useEffect(() => {
     if( !soid && !oid) {
       objects.load()
     }
 
-    if (policyStore.store.getState().data?.id != policy_id ) {
+    
+    if (policyStore.store.getState().data?.id != policy_id || !!prevLoc) {
       policyStore.load({policy_id})
     }
 

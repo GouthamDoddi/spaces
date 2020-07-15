@@ -129,13 +129,7 @@ class App::Routes < Roda
 
       r.on 'policy-sections', Integer do |id|
         opt = { id: id}
-        klass = Formulation::PolicySections
-        add_remove(klass, r, opt)
-      end
-
-      r.on 'policy-section-attributes', Integer do |id|
-        opt = { id: id}
-        klass = Formulation::PolicySectionAttributes
+        klass = Formulation::SimpleSections
         add_remove(klass, r, opt)
       end
 
@@ -316,6 +310,12 @@ class App::Routes < Roda
               do_crud(klass, r, 'CRUDL', opts)
             end
             do_crud(klass, r, 'CRUDL', opts)
+          end
+
+          r.on 'simple-section' do
+            klass = Formulation::SimpleSections
+            opts = { policy_id: policy_id }
+            do_crud(klass, r, 'RU', opts)
           end
         end
       end
