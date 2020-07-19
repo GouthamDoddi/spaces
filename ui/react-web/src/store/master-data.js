@@ -177,6 +177,11 @@ export const listOfUsers = {
   5: { value: 5, label: 'user.four@motc.qa'},
   6: { value: 6, label: 'user.five@motc.qa'},
   7: { value: 7, label: 'user.six@motc.qa'},
+  8: { value: 8, label: 'sai.k@softpathinfotech.com'},
+  9: { value: 9, label: 'naveen.m@softpathinfotech.com'},
+  10: { value: 10, label: 'yashila@softpathinfotech.com'},
+  11: { value: 11, label: 'sireesha@softpathinfotech.com'},
+  12: { value: 12, label: 'sandeep.k@softpathinfotech.com'},
 }
 // export const policyFamilyTypes = {
 //   ICT
