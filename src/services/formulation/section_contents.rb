@@ -21,11 +21,11 @@ class App::Services::Formulation::SectionContents < App::Services::Base
   def self.fields
     {
       create: [
-        :name, :description, :section_id, :type
+        :name, :description, :section_id, :type, :kb_type
       ],
 
       save: [
-        :name, :description
+        :name, :description, :kb_type
       ]
     }
   end

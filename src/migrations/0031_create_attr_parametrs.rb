@@ -4,6 +4,7 @@ Sequel.migration do
       primary_key :id
 
       String :name, size: 50
+      String :doc_group, size: 50
       String :description, text: true
       Integer :mandate_level_id
       Integer :attribute_id

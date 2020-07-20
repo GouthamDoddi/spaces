@@ -9,6 +9,7 @@ Sequel.migration do
       Integer :section_id
 
       String :type
+      String :kb_type, size: 20
 
       TrueClass :active, :default => true
 
