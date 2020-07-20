@@ -6,6 +6,7 @@ import Form, { TextArea, Select, Actions, Container, Input } from '../../form'
 
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
+import { kbTypes } from '../../../store/master-data'
 import { useStore } from 'effector-react'
 import { Table, Header, Row, Add } from '../../tables/small'
 
@@ -38,16 +39,46 @@ export default function({type, ...props}) {
   const localStore = useStore(localState.store)
 
   const listData = listStore.data || []
-  let {id, name,  description} = localStore.data || {}
+  let {id, name,  description, kb_type} = localStore.data || {}
 
   if (sectionId && id !== sectionId) {
     addData(listData.find(o => o.id === sectionId))
   } else if(sectionId == null && id) { addData(null) }
 
+
+  function KbForm(props) {
+    return(
+      <SplitName className='sp'>
+        <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='name' />
+        <Select name='kb_type' label='Type' 
+            options={toOpt(kbTypes)}
+            outerClass='type'
+            onChange={selectChange('kb_type')}
+            value={kbTypes[kb_type] || ''} 
+        />
+      </SplitName>
+    )
+  }
+
+  function OpForm(props) {
+    return(
+      <SplitName>
+        <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' />
+      </SplitName>
+    )
+  }
+  function EgForm(props) {
+    return(
+      <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' />
+    )
+  }
+
   return (
     <CustomContainer onSubmit={(data) => submitted(attr_id, type, id , data)} store={localStore}>      
       <div className='fields'>
-        <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' />
+        {
+          type === 'kb' ? <KbForm /> : type ==='on' ? <OpForm /> : <EgForm />
+        }
         <TextArea label='Description' name='description' type='text' onChange={changed} value={ description || ''} className='field' />
         <label className='submit'>
           <input type='submit' />
@@ -82,6 +113,31 @@ const Cards = styled.div`
   overflow: auto;
 `
 
+
+const SplitName = styled.div`
+  display: flex;
+  input[name='name'] {
+    width: 160px;
+  }
+
+  
+  .name {
+    width: 160px;
+  }
+
+  .type {
+    margin-left: 10px;
+    width: 80px;
+    .default__control {
+      width: 90px;
+    }
+  }
+
+  .rest {
+    width: 60px;
+  }
+
+`
 const Card = styled.div`
   cursor: pointer;
   width: 288px;
@@ -140,10 +196,12 @@ const CustomContainer = styled(Form)`
     grid-template-rows: 70px 74px 50px;
     grid-template-columns: repeat(auto-fit, 265px);
     grid-column-gap: 90px;
-
-    input {
-      width: 250px;
+    .field {
+      input {
+        width: 250px;
+      }
     }
+
     textarea {
       width: 240px;
     }

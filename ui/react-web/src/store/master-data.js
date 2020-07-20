@@ -183,6 +183,12 @@ export const listOfUsers = {
   11: { value: 11, label: 'sireesha@softpathinfotech.com'},
   12: { value: 12, label: 'sandeep.k@softpathinfotech.com'},
 }
+
+export const kbTypes = {
+  faq: { value: 'faq', label: 'FAQ'},
+  sop: { value: 'sop', label: 'SOP'},
+  template: { value: 'template', label: 'Template'},
+}
 // export const policyFamilyTypes = {
 //   ICT
 // 	Transport

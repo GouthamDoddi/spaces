@@ -55,7 +55,7 @@ export default function(props) {
   const localStore = useStore(localState.store)
 
   const listData = listStore.data || []
-  let {id, mandate_level_id, description, name, weightage} = localStore.data || {}
+  let {id, mandate_level_id, description, name, weightage, doc_group} = localStore.data || {}
 
   if (sectionId && id !== sectionId) {
     addData(listData.find(o => o.id === sectionId))
@@ -68,6 +68,7 @@ export default function(props) {
       <CustomContainer onSubmit={(data) => submitted(attr_id, id , data)} store={localStore}>      
         <div className='fields'>
           <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' />
+          <Input label='Document Group' name='doc_group' type='text' onChange={changed} value={ doc_group || ''} className='field' />
           <Select name='mandate_level_id' label='Mandate Level' 
               options={toOpt(mandateLevelTypes)}
               outerClass='field'
