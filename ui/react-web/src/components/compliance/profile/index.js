@@ -22,13 +22,15 @@ function useLinkTo(path, exact=false) {
 
 function Link({to, className, children}) {
   return (
-    <NavLink to={useLinkTo(to, true)} className='menu' activeClassName='selected'>
+    <NavLink to={useLinkTo(to, true)} className={className} activeClassName='selected'>
       {children}
     </NavLink>
   )
 }
 
 export default function Element(props) {
+  const { project_id } = useParams()
+  const hide = project_id === 'new' ? 'hide' : null
   return (
     <>
       <div className='form-space'>
@@ -50,25 +52,25 @@ export default function Element(props) {
               The parametric static data about the project including owners and proposed dates
             </div>
           </Link>
-          <Link to='object-details' className='menu'>
+          <Link to='object-details' className={`menu ${hide}`}>
             <div className='title'> Object Details </div>
             <div className='desc'>
               Object Details: Details about the objects and sub objects that constitute the project
             </div>
           </Link>
-          <Link to='beneficiary-details' className='menu'>
+          <Link to='beneficiary-details' className={`menu ${hide}`}>
             <div className='title'> Beneficiary Details </div>
             <div className='desc'>
               Beneficiary Details: Details about the beneficiary that is impacted by the project (internal / external)
             </div>
           </Link>
-          <Link to='stakeholders' className='menu'>
+          <Link to='stakeholders' className={`menu ${hide}`}>
             <div className='title'> Stakeholders </div>
             <div className='desc'>
               Stakeholders: The list of users who will work on the project and their contact details to ensure audit tracebility
             </div>
           </Link>
-          <Link to='implementation' className='menu'>
+          <Link to='implementation' className={`menu ${hide}`}>
             <div className='title'> Implementation </div>
             <div className='desc'>
               Implementation: List of internal departments and their mapping to project roles to ensure accountability
@@ -106,6 +108,9 @@ const Widget = styled.div`
     border: 1px solid #f4f7fa;
     padding-left: 14px;
     padding-top: 9px;
+    &.hide {
+      display: none;
+    }
     .title {
       margin: 0;
     }

@@ -189,6 +189,12 @@ export const kbTypes = {
   sop: { value: 'sop', label: 'SOP'},
   template: { value: 'template', label: 'Template'},
 }
+
+export const docGroupTypes = {
+  standard: { value: 'standard', label: 'Standard'},
+  policy: { value: 'policy', label: 'Policy'},
+  guidelines: { value: 'guidelines', label: 'Guidelines'},
+}
 // export const policyFamilyTypes = {
 //   ICT
 // 	Transport

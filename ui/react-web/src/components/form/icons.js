@@ -3,9 +3,9 @@ import styled from 'styled-components'
 // import { components } from 'react-select';
 
 export function EditIcon(props) {
-  const { onClick, className } = props
+  const { onClick, className='selected' } = props
   return (
-    <IconBase onClick={onClick} className={className}>
+    <IconBase onClick={onClick} className='selected'>
       <svg xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fillRule="evenodd">
           <rect width="44" height="44" className='back' rx="12"/>

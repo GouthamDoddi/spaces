@@ -7,6 +7,8 @@ import {
   Redirect
 } from 'react-router-dom';
 
+import { useParams } from 'react-router-dom'
+
 import Metadata from './metadata'
 import Context from './context'
 import Risk from './risk'
@@ -21,13 +23,16 @@ function useLinkTo(path, exact=false) {
 
 function Link({to, className, children}) {
   return (
-    <NavLink to={useLinkTo(to, true)} className='menu' activeClassName='selected'>
+    <NavLink to={useLinkTo(to, true)} className={className} activeClassName='selected'>
       {children}
     </NavLink>
   )
 }
 
 export default function Element(props) {
+  const { policy_id } = useParams()
+  const hide = policy_id === 'new' ? 'hide' : null
+  
   return (
     <>
       <div className='form-space'>
@@ -49,25 +54,25 @@ export default function Element(props) {
               The parametric data about the policy to identify, qualify, and manage across the lifecycle
             </div>
           </Link>
-          <Link to='context' className='menu'>
-            <div className='title'> Context </div>
+          <Link to='context' className={`menu ${hide}`}>
+            <div className='title'> Context</div>
             <div className='desc'>
               The contextual information required for policy formulation
             </div>
           </Link>
-          <Link to='risk' className='menu'>
+          <Link to='risk' className={`menu ${hide}`}>
             <div className='title'> Risk </div>
             <div className='desc'>
                The identified risks in policy making, propagation, and implementations
             </div>
           </Link>
-          <Link to='objectives' className='menu'>
+          <Link to='objectives' className={`menu ${hide}`}>
             <div className='title'> Objectives </div>
             <div className='desc'>
                The purpose of the policy and what it is trying to achieve
             </div>
           </Link>
-          <Link to='impact-area' className='menu'>
+          <Link to='impact-area' className={`menu ${hide}`}>
             <div className='title'> Impact Area </div>
             <div className='desc'>
               The areas and the impact the policy has in the intended domains
@@ -107,6 +112,9 @@ const Widget = styled.div`
     padding-top: 9px;
     .title {
       margin: 0;
+    }
+    &.hide {
+      display: none;
     }
     .desc {
       font-size: 10px;

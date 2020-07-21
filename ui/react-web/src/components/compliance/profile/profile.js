@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-
+import styled from 'styled-components'
 import { Input, Select, Actions, Container, TextArea, toOpt } from '../../form'
 import { reloadAuth } from '../../../store/user'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
 import { projectTypes } from '../../../store/master-data'
 import { useStore } from 'effector-react'
@@ -47,6 +47,21 @@ export default function(props) {
         <Input label='Project end date' type='date' name='end_date' onChange={changed} value={end_date || ''}/>
         <TextArea label='Project Description' value={description || ''} name='description' onChange={changed} />
       </div>
+      {
+        project_id === 'new' ? <CancelBtn to='/compliance'> Cancel </CancelBtn> : null
+      }
+      
     </Container>
   )
 }
+
+
+const CancelBtn = styled(Link)`
+  padding: 10px 20px;
+  flex-direction: column;
+  margin: 0 auto;
+  background-color: ${p => p.theme.color};
+  margin-bottom: 20px;
+  color: #fff;
+  border-radius: 3px;
+`

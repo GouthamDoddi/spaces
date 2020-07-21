@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 
+import styled from 'styled-components'
 import { Input, Select, Actions, Container, toOpt } from '../../form'
 
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
 
 import { reloadAuth } from '../../../store/user'
@@ -76,10 +77,23 @@ export default function(props) {
           type='date' name='publication_date' onChange={changed} 
         />
       </div>
+      {
+        policy_id === 'new' ? <CancelBtn to='/formulation'> Cancel </CancelBtn> : null
+      }
+      
     </Container>
   )
 }
 
+const CancelBtn = styled(Link)`
+  padding: 10px 20px;
+  flex-direction: column;
+  margin: 0 auto;
+  background-color: ${p => p.theme.color};
+  margin-bottom: 20px;
+  color: #fff;
+  border-radius: 3px;
+`
 
 const familyOptions = Object.values(policyFamilyTypes)
 

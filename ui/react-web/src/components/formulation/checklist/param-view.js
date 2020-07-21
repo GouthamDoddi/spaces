@@ -13,7 +13,7 @@ import Tabs from './tabs'
 
 import { Switch, Route, Redirect } from 'react-router-dom'
 
-import { mandateLevelTypes, HMLTypes } from '../../../store/master-data'
+import { mandateLevelTypes, HMLTypes, docGroupTypes } from '../../../store/master-data'
 import Breadcrumb from './breadcrumb'
 import { useTo } from '../util'
 import ContentForm from './content-form'
@@ -68,7 +68,12 @@ export default function(props) {
       <CustomContainer onSubmit={(data) => submitted(attr_id, id , data)} store={localStore}>      
         <div className='fields'>
           <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' />
-          <Input label='Document Group' name='doc_group' type='text' onChange={changed} value={ doc_group || ''} className='field' />
+          <Select name='doc_group' label='Document Group' 
+              options={toOpt(docGroupTypes)}
+              outerClass='field'
+              onChange={selectChange('doc_group')}
+              value={docGroupTypes[doc_group] || ''} 
+          />
           <Select name='mandate_level_id' label='Mandate Level' 
               options={toOpt(mandateLevelTypes)}
               outerClass='field'
