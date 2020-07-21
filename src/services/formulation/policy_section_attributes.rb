@@ -15,11 +15,11 @@ class App::Services::Formulation::PolicySectionAttributes < App::Services::Base
   def self.fields
     {
       create: [
-        :name, :tags, :description, :policy_id, :parent_id
+        :name, :tags, :description, :policy_id, :parent_id, :order
       ],
 
       save: [
-        :name, :tags, :description
+        :name, :tags, :description, :order
       ]
     }
   end

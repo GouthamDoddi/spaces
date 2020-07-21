@@ -50,13 +50,14 @@ export default function(props) {
   console.log(useParams())
   const sectionStore = useStore(store)
  
-  const { name, description, tags=[], tag } = sectionStore.data || {}
+  const { name, description, tags=[], tag, order } = sectionStore.data || {}
   
   console.log('tags', tags)
   return (
     <CustomContainer onSubmit={(data) => submitted(policy_id, id ,attr_id,  tags, data)} store={sectionStore}>        
       <div className="fields">
         <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' />
+        <Input label='Order' name='order' type='number' onChange={changed} value={ order || ''} className='field' />
 
         <TextArea label='Description' name='description' type='text' onChange={changed} value={ description || ''} className='field' />
         <div className='tags'>

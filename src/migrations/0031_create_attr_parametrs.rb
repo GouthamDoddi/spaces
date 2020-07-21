@@ -8,7 +8,7 @@ Sequel.migration do
       String :description, text: true
       Integer :mandate_level_id
       Integer :attribute_id
-
+      Integer :order
       Integer :weightage
 
       TrueClass :active, :default => true

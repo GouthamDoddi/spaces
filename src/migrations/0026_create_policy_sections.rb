@@ -9,6 +9,8 @@ Sequel.migration do
 
       Integer :parent_id
 
+      Integer :order
+
       column :tags, 'VARCHAR(60)[]'
 
       column :risk_ids, 'integer[]'

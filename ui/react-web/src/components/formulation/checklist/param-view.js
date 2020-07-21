@@ -67,7 +67,7 @@ export default function(props) {
       <Breadcrumb />
       <CustomContainer onSubmit={(data) => submitted(attr_id, id , data)} store={localStore}>      
         <div className='fields'>
-          <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' />
+          <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} required className='field' />
           <Select name='doc_group' label='Document Group' 
               options={toOpt(docGroupTypes)}
               outerClass='field'

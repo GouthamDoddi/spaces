@@ -13,9 +13,9 @@ class App::Services::Compliance::Sections < App::Services::Base
   end
 
   def questions
-    ids =  App::Models::Subobject.exclude(object_id: item.object_ids.map(&:to_i)).exclude(id: item.subobject_ids.to_a).select(:id)
+    ids =  App::Models::Subobject.exclude(object_id: item.object_ids).exclude(id: item.subobject_ids).select(:id)
     
-    return_success(ObjectQuestion.where(subobject_id: ids).exclude(id: (item.question_ids || []).map(&:to_i)).map(&:to_pos))
+    return_success(ObjectQuestion.where(subobject_id: ids).exclude(id: item.question_ids).map(&:to_pos))
   end
 
   def applicable_questions

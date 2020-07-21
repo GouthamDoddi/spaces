@@ -3,11 +3,11 @@ import React from 'react'
 import styled from 'styled-components'
 
 function Element(props) {
-  const { className, children, label, type='text', ...others } = props
+  const { className, children, label, type='text', required, ...others } = props
   return(
     <div className={className}>
-      <label> {label} </label>
-      <input {...others} type={type} />
+      <label className={required ? 'required' : null}> {label} </label>
+      <input required={required} {...others} type={type} />
     </div>
   )
 }
@@ -20,6 +20,10 @@ export default styled(Element)`
     font-weight: 500;
     color: #687c9d;
     margin-bottom: 10px;
+    &.required::after {
+      content: '*';
+      color: red;
+    }
   }
   input {
     outline: none;

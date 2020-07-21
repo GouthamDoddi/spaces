@@ -36,7 +36,7 @@ export default function(props) {
   
   const metaStore = useStore(store)
   const { family_id, name, policy_category_id, policy_state_id,
-    policy_status_id, owner_id, publication_date} = metaStore.data || {}
+    policy_status_id, owner_id, publication_date, code} = metaStore.data || {}
   console.log(family_id)
   return(
     <Container onSubmit={(data) => submitted(policy_id,data)} store={metaStore}>
@@ -48,7 +48,8 @@ export default function(props) {
             onChange={selectChange('family_id')}
             value={familyOptions.find((o) => o.value === family_id)} 
         />
-        <Input label='Name' type='text' name='name' onChange={changed} value={name || ''}/>
+        <Input label='Name' type='text' name='name' required onChange={changed} value={name || ''}/>
+        <Input label='Code' type='text' name='code' onChange={changed} value={code || ''}/>
         <Select name='policy_category_id' label='Policy Category' 
             options={categoryOptions}
             onChange={selectChange('policy_category_id')}

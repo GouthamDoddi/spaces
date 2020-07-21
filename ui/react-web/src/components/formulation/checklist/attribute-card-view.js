@@ -110,6 +110,9 @@ const Content = styled.div`
   grid-template-columns: repeat(auto-fit, 307px);
   grid-auto-rows: 108px;
   grid-gap: 18px 10px;
+  height: 320px;
+  overflow-y: auto;
+  padding-bottom: 20px;
 `
 
 const Title = styled.div`
