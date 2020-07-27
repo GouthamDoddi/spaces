@@ -3,6 +3,7 @@ Sequel.migration do
     create_table(:policy_risks) do
       primary_key :id
 
+      String :name, size: 40
       Integer :risk_id
       Integer :policy_id
       String :description, text: true

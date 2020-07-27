@@ -2,6 +2,19 @@ class App::Models::Policy < Sequel::Model
   one_to_many :policy_sections
 
   plugin ::SequelPlugin::AllowedList
+
+
+  def object_ids_val
+    (object_ids&.to_a || [])
+  end
+
+  def subobject_ids_val
+    (subobject_ids&.to_a || [])
+  end
+
+  def question_ids_val
+    (question_ids&.to_a || [])
+  end
   
   def validate
     super

@@ -107,7 +107,7 @@ export const policyOwnerTypes = {
 export const policyStatusTypes = {
  1: { value: 1, label: 'Active'},
  2: { value: 2, label: 'Inactive'},
- 3: { value: 3, label: 'WIP'}
+ 3: { value: 3, label: 'Work in progress'}
 }
 
 export const policyTriggerTypes = {

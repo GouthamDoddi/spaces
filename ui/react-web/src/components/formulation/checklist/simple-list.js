@@ -8,9 +8,9 @@ import { useParams } from 'react-router-dom'
 import { put } from '../../../store/api'
 
 
-export default function({title, description, mStore, refData, dKey='desc'}) {
+export default function({title, description, mStore,oIds,  refData, dKey='desc'}) {
 
-  const {policy_id } = useParams()
+  const { policy_id } = useParams()
 
   useEffect(() => {
     mStore.load({policy_id})
@@ -41,7 +41,7 @@ export default function({title, description, mStore, refData, dKey='desc'}) {
               // className={sid === obj.id ? 'selected' : null}
             > 
             {/* checked={bids.includes(obj.id)} */}
-              <CheckboxBig label={refData ? refData[obj[dKey]].label : obj.description} name={dKey}  /> 
+              <CheckboxBig label={ obj.name || refData[obj[dKey]].label } name={dKey} checked={!oIds.includes(obj.id)} /> 
             </Row>
           ))
         }

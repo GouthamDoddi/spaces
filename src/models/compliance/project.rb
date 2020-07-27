@@ -20,8 +20,12 @@ class App::Models::Compliance::Project < Sequel::Model
   # end
 
   def possible_attributes
-    cond = Sequel.pg_array_op(:subobject_ids).overlaps(subobject_ids)
-    App::Models::PolicySectionAttribute.exclude(cond).or(subobject_ids: nil)
+    if subobject_ids
+     cond = Sequel.pg_array_op(:subobject_ids).overlaps(subobject_ids)
+      App::Models::PolicySectionAttribute.exclude(cond).or(subobject_ids: nil)
+    else
+      []
+    end
   end
 
   def possible_questions
@@ -29,7 +33,7 @@ class App::Models::Compliance::Project < Sequel::Model
   end
 
   def possible_section_ids
-    possible_attributes.distinct.select_map(:parent_id).compact
+    (pa = possible_attributes).present? ? pa.distinct.select_map(:parent_id).compact : []
   end
 
 

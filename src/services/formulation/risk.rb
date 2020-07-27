@@ -15,11 +15,11 @@ class App::Services::Formulation::Risk < App::Services::Base
   def self.fields
     {
       create: [
-        :probability, :risk_id, :impact, :description, :policy_id
+        :probability, :risk_id, :impact, :description, :policy_id, :name
       ],
 
       save: [
-        :probability, :risk_id, :impact, :description
+        :probability, :risk_id, :impact, :description, :name
       ]
     }
   end

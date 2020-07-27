@@ -15,11 +15,11 @@ class App::Services::Formulation::Outcomes < App::Services::Base
   def self.fields
     {
       create: [
-        :outcome_id, :description, :policy_id
+        :outcome_id, :description, :policy_id, :name
       ],
 
       save: [
-        :outcome_id, :description
+        :outcome_id, :description, :name
       ]
     }
   end

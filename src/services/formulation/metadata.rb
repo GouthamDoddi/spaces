@@ -51,7 +51,7 @@ class App::Services::Formulation::Metadata < App::Services::Base
   def self.fields
     {
       save: [
-        :name, :description, :owner_id, :family_id,
+        :name, :description, :owner_id, :family_id, :code,
         :policy_category_id, :policy_status_id, :publication_date, :policy_state_id
       ]
     }

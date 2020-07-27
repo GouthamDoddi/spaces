@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 
-import Form, { TextArea, Select } from '../../form'
+import Form, { TextArea, Select, Input } from '../../form'
 
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
@@ -41,7 +41,7 @@ export default function(props) {
   const localStore = useStore(localState.store)
 
   const listData = listStore.data || []
-  let {id, risk_id, impact, probability, description} = localStore.data || {}
+  let {id, name, risk_id, impact, probability, description} = localStore.data || {}
 
   if (sectionId && id !== sectionId) {
     addData(listData.find(o => o.id === sectionId))
@@ -50,7 +50,7 @@ export default function(props) {
   return (
     <CustomContainer onSubmit={(data) => submitted(policy_id, id , data)} store={localStore}>      
       <div className='fields'>
-
+        <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' required />
         <Select name='risk_id' label='Risk' 
             options={toOpt(riskTypes)}
             outerClass='field'

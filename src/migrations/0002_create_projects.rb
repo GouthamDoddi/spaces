@@ -22,7 +22,8 @@ Sequel.migration do
       column :subobject_ids, 'integer[]'
 
       # column :section_ids, 'numeric[]'
-
+      
+      column :applied_attribute_ids, 'integer[]'
       TrueClass :active, :default => true
 
       Integer :created_by

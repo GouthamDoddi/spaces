@@ -30,12 +30,12 @@ const WorkspaceLinks = [
   { name: 'Policy Canvas', path: 'canvas'},
   { name: 'Bill / Decree', path: 'bill'},
   { name: 'Frameworks', path: 'frameworks'},
+  { name: 'Committees', path: 'committees'},
   { name: 'Beneficiary', path: 'beneficiary'},
   { name: 'Policy Checklist', path: 'checklist'},
   { name: 'Operating Model', path: 'operating-model'},
   { name: 'Support Model', path: 'support-model'},
   { name: 'Policy Plan', path: 'plan'},
-  { name: 'Committees', path: 'committees'},
   // { name: 'Dependency Map', path: 'dependency-map'},
 ]
 

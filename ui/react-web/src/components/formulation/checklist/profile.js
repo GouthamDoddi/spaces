@@ -10,7 +10,7 @@ import { useStore } from 'effector-react'
 
 import {load as pLoad} from '../../../store/section-store'
 
-const { store, load, create, update, addData, changed } =  makeStore(({policy_id, id}) => id ? `formulation/${policy_id}/policy-sections/${id}` : `formulation/${policy_id}/policy-sections`)
+import { policySection } from '../../../store/section-store'
 
 
 function submitted(policy_id, id, tags, data) {
@@ -27,6 +27,7 @@ function submitted(policy_id, id, tags, data) {
 
 export default function(props) {
   console.log("Store", pLoad)
+  const { store, load, create, update, addData, changed } = policySection
   const { policy_id, id } = useParams()
 
   const addTag = () => {

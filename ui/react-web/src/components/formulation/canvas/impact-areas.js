@@ -40,7 +40,7 @@ export default function(props) {
   const localStore = useStore(localState.store)
 
   const listData = listStore.data || []
-  let {id, beneficiary_segment_id, impact, impact_correlation, description} = localStore.data || {}
+  let {id, name, beneficiary_segment_id, impact, impact_correlation, description} = localStore.data || {}
 
   if (sectionId && id !== sectionId) {
     addData(listData.find(o => o.id === sectionId))
@@ -49,6 +49,7 @@ export default function(props) {
   return (
     <CustomContainer onSubmit={(data) => submitted(policy_id, id , data)} store={localStore}>      
       <div className='fields'>
+        <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' required />
 
         <Select name='beneficiary_segment_id' label='Beneficiary Segment' 
             options={toOpt(bsTypes)}

@@ -35,7 +35,7 @@ export default function(props) {
       <Actions />
 
       <div className='container'>
-        <Input label='Name' type='text' name='name' onChange={changed} value={name || ''}/>
+        <Input label='Name' type='text' name='name' onChange={changed} value={name || ''} required/>
         <Input label='Sponsor' type='text' name='sponsor' onChange={changed} value={sponsor || ''}/>
         <Input label='Owner' type='text' name='owner' onChange={changed} value={owner || ''}/>
         <Select name='type_id' label='Project Type' 

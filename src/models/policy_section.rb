@@ -1,16 +1,16 @@
 class App::Models::PolicySection < Sequel::Model(App.db[:policy_sections].where(parent_id: nil))
   many_to_one :policy
 
-  def object_ids
-    (super&.to_a || [])
+  def object_ids_val
+    (object_ids&.to_a || [])
   end
 
-  def subobject_ids
-    (super&.to_a || [])
+  def subobject_ids_val
+    (subobject_ids&.to_a || [])
   end
 
-  def question_ids
-    (super&.to_a || [])
+  def question_ids_val
+    (question_ids&.to_a || [])
   end
   
   def validate

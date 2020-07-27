@@ -43,13 +43,13 @@ export default function(props) {
       <Actions />
 
       <div className='container'>
+        <Input label='Name' type='text' name='name' required onChange={changed} value={name || ''}/>
         <Select name='family_id' label='Policy Family' 
             options={familyOptions}
             onChange={selectChange('family_id')}
             value={familyOptions.find((o) => o.value === family_id)} 
         />
-        <Input label='Name' type='text' name='name' required onChange={changed} value={name || ''}/>
-        <Input label='Code' type='text' name='code' onChange={changed} value={code || ''}/>
+        <Input label='Code' type='text' name='code' onChange={changed} value={code || ''} required/>
         <Select name='policy_category_id' label='Policy Category' 
             options={categoryOptions}
             onChange={selectChange('policy_category_id')}
@@ -61,38 +61,43 @@ export default function(props) {
             options={policyOwners}
             onChange={selectChange('owner_id')}
             value={policyOwners.find(o => o.value === owner_id)}
-            maxMenuHeight={200}
+            maxMenuHeight={150}
+        />
+
+        <Select name='policy_state_id' label='Policy State'
+            options={toOpt(policyStateTypes)}
+            onChange={selectChange('policy_state_id')}
+            value={policyStateTypes[policy_state_id] || ''}
+            maxMenuHeight={120}
         />
         <Select name='policy_status_id' label='Policy Status' 
             options={policyStatuses}
             onChange={selectChange('policy_status_id')}
             value={policyStatuses.find(o => o.value === policy_status_id)} 
-        />
-        <Select name='policy_state_id' label='Policy State'
-            options={toOpt(policyStateTypes)}
-            onChange={selectChange('policy_state_id')}
-            value={policyStateTypes[policy_state_id] || ''}
-            maxMenuHeight={130}
+            maxMenuHeight={76}
         />
         <Input label='Publication Date' value={publication_date || ''}
           type='date' name='publication_date' onChange={changed} 
         />
       </div>
+
       {
         policy_id === 'new' ? <CancelBtn to='/formulation'> Cancel </CancelBtn> : null
       }
-      
     </Container>
   )
 }
 
 const CancelBtn = styled(Link)`
+  position: absolute;
   padding: 10px 20px;
   flex-direction: column;
   margin: 0 auto;
-  background-color: ${p => p.theme.color};
+  bottom: 0;
+  left: 45%;
+  // background-color: ${p => p.theme.color};
   margin-bottom: 20px;
-  color: #fff;
+  color: #000;
   border-radius: 3px;
 `
 

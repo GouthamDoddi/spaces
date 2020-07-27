@@ -26,6 +26,7 @@ export default function(props) {
   const { auth } = userStore.getState()
   const listStore = useStore(store)
   const metadata = listStore.data || []
+  // debugger
   return (
     <CustomList>
       <Top>

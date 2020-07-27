@@ -3,6 +3,7 @@ Sequel.migration do
     create_table(:policy_impact_areas) do
       primary_key :id
 
+      String :name, size: 40
       Integer :outcome_id
       Integer :policy_id
       String :description, text: true

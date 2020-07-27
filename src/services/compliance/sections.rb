@@ -19,17 +19,21 @@ class App::Services::Compliance::Sections < App::Services::Base
   end
 
   def applicable_questions
-    as = ApplicableSection.find_or_create(section_id: r.params[:id], project_id: r.params[:project_id], user_id: App.cu.id)
-    as.answers = params
-    as.applicable = !params.values.any?{|a| a == 'no' }
-    save(as)
+    project = App::Models::Compliance::Project[r.params[:project_id]]
+    
+
+    attributes = PolicySectionAttribute.eager(policy_section: :policy).where(parent_id: rp[:id]).all
+    
+    qs = params.select{|q, ans| ans == 'yes' || ans == 'Yes' }
+    project.applied_attributes ||= []
+    project.applied_attributes += attributes.filter_map {|attr| attr.id if (attr.question_ids_val - qs.keys).blank?}
+    project.applied_attributes.uniq!
+    save(project)
   end
 
   def applicable_sections
-    as = ApplicableSection.eager(:policy_section).where(project_id: r.params[:project_id], applicable: true)
-    # byebug
-    # return_success(as.map{|a| a.as_json.merge!(a.policy_section.as_json(except: :id))})
-
+    project = App::Models::Compliance::Project[rp[:project_id]]
+    as = PolicySectionAttribute.eager(:policy_section).where(id: project.applied_attributes || [])
     return_success(as.map{|as| as.policy_section.to_pos})
   end
 

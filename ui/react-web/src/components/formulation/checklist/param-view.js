@@ -80,12 +80,12 @@ export default function(props) {
               onChange={selectChange('mandate_level_id')}
               value={mandateLevelTypes[mandate_level_id] || ''} 
           />
-          <Select name='weightage' label='Weightage' 
+          {/* <Select name='weightage' label='Weightage' 
               options={toOpt(HMLTypes)}
               outerClass='field'
               onChange={selectChange('weightage')}
               value={HMLTypes[weightage] || ''} 
-          />
+          /> */}
           <TextArea label='Description' name='description' type='text' onChange={changed} value={ description || ''} className='field' />
           <label className='submit'>
             <input type='submit' />

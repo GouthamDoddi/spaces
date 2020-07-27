@@ -11,14 +11,14 @@ import {useTo} from '../util'
 import makeStore from '../../../store/make-store'
 import EditView from './edit-view'
 
-const  steer =  makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/2`)
-const steerSpecific = makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/2`)
+const  steer =  makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/1`)
+const steerSpecific = makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/1`)
 
-const  ex =  makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/3`)
-const exSpecific = makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/3`)
+const  ex =  makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/2`)
+const exSpecific = makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/2`)
 
-const  op =  makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/4`)
-const opSpecific = makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/4`)
+const  op =  makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/3`)
+const opSpecific = makeStore(({policy_id}) => `formulation/${policy_id}/users-with-role/3`)
 
 
 function useLinkTo(path, exact=false) {
@@ -39,13 +39,13 @@ export default function Element(props) {
       <div className='form-space'>
         <Switch>
           <Route path={useLinkTo('steering')}> 
-            <EditView listStore={steer} specificStore={steerSpecific}/>
+            <EditView listStore={steer} specificStore={steerSpecific} type='steering'/>
           </Route>
           <Route path={useLinkTo('executive')}> 
-            <EditView listStore={ex} specificStore={exSpecific}/>
+            <EditView listStore={ex} specificStore={exSpecific} type='executive'/>
           </Route>
           <Route path={useLinkTo('operational')}> 
-            <EditView listStore={op} specificStore={opSpecific}/>
+            <EditView listStore={op} specificStore={opSpecific} type='operational'/>
           </Route>
           <Route exact path=''> <Redirect to={useLinkTo('steering', true)} /> </Route>
         </Switch>

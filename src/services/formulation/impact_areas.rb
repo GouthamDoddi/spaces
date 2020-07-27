@@ -14,11 +14,11 @@ class App::Services::Formulation::ImpactAreas < App::Services::Base
   def self.fields
     {
       create: [
-        :beneficiary_segment_id, :impact_correlation, :impact, :description, :policy_id
+        :beneficiary_segment_id, :impact_correlation, :impact, :description, :policy_id, :name
       ],
 
       save: [
-        :beneficiary_segment_id, :impact_correlation, :impact, :description
+        :beneficiary_segment_id, :impact_correlation, :impact, :description, :name
       ]
     }
   end

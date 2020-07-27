@@ -43,7 +43,7 @@ function submitted(policy_id, data, localState, load) {
 
 const columns = '0.3fr 1fr 1fr 1fr 0.3fr'
 
-export default function(props) {
+export default function({type, ...props}) {
 
   const { store, load  } =  props.listStore
 
@@ -58,8 +58,8 @@ export default function(props) {
   
   useEffect(() => {
     load({policy_id})
-
-  }, [])
+    
+  }, [type])
   
   const listStore = useStore(store)
   const localStore = useStore(localState.store)
@@ -80,14 +80,7 @@ export default function(props) {
             outerClass='field'
             onChange={selectChange('user_id')}
             value={listOfUsers[user_id] || ''}
-            // isDisabled
         />
-        {/* <Select name='role_id' label='Role' 
-            options={toOpt(userRoleTypes)}
-            outerClass='field'
-            onChange={selectChange('role_id')}
-            value={userRoleTypes[role_id] || ''} 
-        /> */}
 
         <label className='submit'>
           <input type='submit' />
