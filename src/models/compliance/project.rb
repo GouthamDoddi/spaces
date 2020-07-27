@@ -44,10 +44,6 @@ class App::Models::Compliance::Project < Sequel::Model
     (subobject_ids&.to_a || [])
   end
 
-  def question_ids_val
-    (question_ids&.to_a || [])
-  end
-
   def to_pos
     as_json
   end
