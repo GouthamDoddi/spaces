@@ -36,7 +36,17 @@ class App::Models::Compliance::Project < Sequel::Model
     (pa = possible_attributes).present? ? pa.distinct.select_map(:parent_id).compact : []
   end
 
+  def object_ids_val
+    (object_ids&.to_a || [])
+  end
 
+  def subobject_ids_val
+    (subobject_ids&.to_a || [])
+  end
+
+  def question_ids_val
+    (question_ids&.to_a || [])
+  end
 
   def to_pos
     as_json

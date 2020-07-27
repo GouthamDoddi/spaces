@@ -13,16 +13,17 @@ class App::Services::Compliance::Sections < App::Services::Base
   end
 
   def questions
-    ids =  App::Models::Subobject.exclude(object_id: item.object_ids).exclude(id: item.subobject_ids).select(:id)
-    
+    ids =  App::Models::Subobject.exclude(object_id: item.object_ids).exclude(id: item.subobject_ids)
+            .where(object_id: project.object_ids_val, id: project.subobject_ids_val).select(:id)
+
     return_success(ObjectQuestion.where(subobject_id: ids).exclude(id: item.question_ids).map(&:to_pos))
   end
 
   def applicable_questions
     project = App::Models::Compliance::Project[r.params[:project_id]]
-    
 
-    attributes = PolicySectionAttribute.eager(policy_section: :policy).where(parent_id: rp[:id]).all
+    # project.
+    attributes = PolicySectionAttribute.eager(policy_section: :policy).where(parent_id: rp[:id], ).all
     
     qs = params.select{|q, ans| ans == 'yes' || ans == 'Yes' }
     project.applied_attributes ||= []
