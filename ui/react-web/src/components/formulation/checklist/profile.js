@@ -15,7 +15,7 @@ import { policySection } from '../../../store/section-store'
 
 function submitted(policy_id, id, tags, data) {
   const newRec = (id === 'new')
-
+  const { create, update } = policySection
   const cb = (resp) => {
     if(newRec) window.location.hash = `/formulation/${policy_id}/checklist/${resp.id}/profile`
     pLoad({policy_id})
@@ -27,7 +27,7 @@ function submitted(policy_id, id, tags, data) {
 
 export default function(props) {
   console.log("Store", pLoad)
-  const { store, load, create, update, addData, changed } = policySection
+  const { store, load, addData, changed } = policySection
   const { policy_id, id } = useParams()
 
   const addTag = () => {

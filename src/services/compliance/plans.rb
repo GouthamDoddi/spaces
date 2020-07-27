@@ -18,7 +18,7 @@ class App::Services::Compliance::Plans < App::Services::Base
   def item
     @item ||= begin
       id = r.params[:id]
-      model.find(project_id: r.params[:project_id], section_id: id) || return_errors!("No #{model.class} found with section id: #{id}", 404)
+      model.find(project_id: r.params[:project_id], section_id: id) || model.new  # return_errors!("No #{model} found with section id: #{id}", 404)
     end
   end
 

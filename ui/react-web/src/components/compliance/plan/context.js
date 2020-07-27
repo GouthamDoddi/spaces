@@ -35,7 +35,7 @@ export default function(props) {
       <Actions />
 
       <div className='container'>
-        <Input label='Owner' type='text' name='owner' onChange={changed} value={owner || ''}/>
+        <Input label='Owner' type='text' name='owner' onChange={changed} value={owner || ''} required/>
         <Input label='Reviewer' type='text' name='reviewer' onChange={changed} value={reviewer || ''}/>
         <Input label='Responsible' type='text' name='responsible' onChange={changed} value={responsible || ''}/>
         <Input label='Target Date' type='date' name='target_date' onChange={changed} value={target_date || ''}/>

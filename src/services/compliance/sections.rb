@@ -33,8 +33,8 @@ class App::Services::Compliance::Sections < App::Services::Base
 
   def applicable_sections
     project = App::Models::Compliance::Project[rp[:project_id]]
-    as = PolicySectionAttribute.eager(:policy_section).where(id: project.applied_attributes || [])
-    return_success(as.map{|as| as.policy_section.to_pos})
+    section_ids = PolicySectionAttribute.where(id: project.applied_attributes.to_a || []).select_map(:parent_id).uniq
+    return_success(model.where(id: section_ids).map{|s| s.to_pos})
   end
 
   def started_sections
