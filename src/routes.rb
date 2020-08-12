@@ -39,6 +39,18 @@ class App::Routes < Roda
 
       auth_required!
 
+      r.on 'extras' do
+        r.on String, Integer, String do |ref, ref_id, name|
+          opts = { ref: ref, ref_id: ref_id, name: name }
+          klass = Formulation::Extras
+          r.get { klass[r, opts].list}
+          r.post { klass[r, opts].create }
+        end
+        r.put(Integer) { klass[r, {id: id}].update }
+        r.get(Integer) { klass[r, {id: id}].get}
+      end
+
+
       r.on 'compliance' do
         r.on 'sections-started' do
           r.get {Compliance::Sections[r].started_sections }

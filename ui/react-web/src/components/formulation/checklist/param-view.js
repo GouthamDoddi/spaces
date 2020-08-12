@@ -9,7 +9,7 @@ import makeStore from '../../../store/make-store'
 import { useStore } from 'effector-react'
 import { Table, Header, Row, Add } from '../../tables/small'
 
-import Tabs from './tabs'
+import Modal from './modal'
 
 import { Switch, Route, Redirect } from 'react-router-dom'
 
@@ -17,6 +17,8 @@ import { mandateLevelTypes, HMLTypes, docGroupTypes } from '../../../store/maste
 import Breadcrumb from './breadcrumb'
 import { useTo } from '../util'
 import ContentForm from './content-form'
+
+import Tools from './tools'
 
 const { store, load  } =  makeStore(({attr_id, id}) => `formulation/attributes/${attr_id}/params`)
 
@@ -125,16 +127,19 @@ export default function(props) {
       </CustomContainer>
     </div>
     <div className='widgets'>
-        <Tabs data={[['Know Base', useLinkTo('kb', true)], 
+        {/* <Tabs data={[['Know Base', useLinkTo('kb', true)], 
             ['Exception Grounds', useLinkTo('eg', true)],
             ['Operating Notes', useLinkTo('on', true)],
-            ]} />
+            ]} /> */}
+
+        <Tools parameterId={sectionId}/>
           
         <Switch>
-          <Route path={useLinkTo('kb')}> <ContentForm type='kb' /> </Route>
-          <Route path={useLinkTo('eg')}> <ContentForm type='eg' /> </Route>
-          <Route path={useLinkTo('on')}> <ContentForm type='on' /> </Route>
-          <Route exact path={useLinkTo('')}> <Redirect to={useLinkTo('kb', true)} /> </Route>
+          <Route path={useLinkTo('faq')}> <Modal closePath={useLinkTo('', true)}> </Modal> </Route>
+          <Route path={useLinkTo('eg')}> <Modal closePath={useLinkTo('', true)}> </Modal> </Route>
+          <Route path={useLinkTo('opn')}> <Modal closePath={useLinkTo('', true)}> </Modal></Route>
+          <Route path={useLinkTo('sops')}> <Modal closePath={useLinkTo('', true)}> </Modal></Route>
+          <Route path={useLinkTo('steps')}> <Modal closePath={useLinkTo('', true)}> </Modal></Route>
         </Switch>
           
     </div>
