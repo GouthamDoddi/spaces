@@ -7,7 +7,13 @@ class App::Services::Formulation::SectionContents < App::Services::Base
   end
 
   def list
-    return_success(model.where(cond).map(&:to_pos))
+    data = model.where(cond)
+    if rp[:parameter_id].to_i > 0
+      data = data.where(parameter_id: rp[:parameter_id].to_i).first&.to_pos || {}
+      return_success(data)
+    else
+      return_success(data.map(&:to_pos))
+    end
   end
 
   def create
@@ -21,11 +27,11 @@ class App::Services::Formulation::SectionContents < App::Services::Base
   def self.fields
     {
       create: [
-        :name, :description, :section_id, :type, :kb_type
+        :name, :description, :section_id, :type, :kb_type, :parameter_id
       ],
 
       save: [
-        :name, :description, :kb_type
+        :name, :description
       ]
     }
   end

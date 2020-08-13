@@ -127,12 +127,6 @@ export default function(props) {
       </CustomContainer>
     </div>
     <div className='widgets'>
-        {/* <Tabs data={[['Know Base', useLinkTo('kb', true)], 
-            ['Exception Grounds', useLinkTo('eg', true)],
-            ['Operating Notes', useLinkTo('on', true)],
-            ]} /> */}
-
-
         <Tools parameterId={sectionId}/>
           
         <Switch>
@@ -147,7 +141,7 @@ export default function(props) {
             <Popup item='sops' />
           </Route>
           <Route path={useLinkTo('steps')}>
-            <Popup item='steps' />
+            { sectionId ? <Popup item='steps' parameterId={sectionId} /> :  <Redirect to={useLinkTo('', true)} /> }
           </Route>
         </Switch>
 
@@ -158,10 +152,9 @@ export default function(props) {
 }
 
 const Popup = function(props) {
-  const { item } = props
   return(
     <Modal closePath={useLinkTo('', true)} closeTop='15px'> 
-      <ToolsForm item={item} /> 
+      <ToolsForm {...props} /> 
     </Modal> 
   )
 }

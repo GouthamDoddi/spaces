@@ -2,16 +2,19 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { RichText } from '../../form'
 
-import { Opn, Eg, Faq, Sop } from './tools/all'
+import { Opn, Eg, Faq, Sop, Steps } from './tools/all'
 
 const titles = {
   faq: 'FAQ',
   sops: 'SOPS',
   opn: 'Operational Notes',
   eg: 'Exception Grounds',
-  steps: 'Steps'
+  steps: 'Wiki'
 }
 function ProperItem({item, ...props}) {
+  if(item === 'steps') {
+    return <Steps type={item} {...props} />
+  }
   return (
     <Opn type={item} />
   )

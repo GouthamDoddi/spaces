@@ -89,41 +89,15 @@ const AddBtn = styled.div`
   top: 0;
 `
 
-
-const SplitName = styled.div`
-  display: flex;
-  input[name='name'] {
-    width: 160px;
-  }
-
-  
-  .name {
-    width: 160px;
-  }
-
-  .type {
-    margin-left: 10px;
-    width: 80px;
-    .default__control {
-      width: 90px;
-    }
-  }
-
-  .rest {
-    width: 60px;
-  }
-
-`
 const Card = styled.div`
   cursor: pointer;
-  width: 288px;
+  width: 100%;
   height: 78px;
   border-radius: 3px;
   background-color: #f4f7fa;
   margin-top: 6px;
   margin-left: 10px;
   padding: 10px 10px;
-
 `
 
 const Title = styled.div`
@@ -137,6 +111,10 @@ const Description = styled.div`
   line-height: 1.1;
   color: #98acbe;
   margin-bottom: 10px;
+  height: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 const UpdatedAt = styled.div`

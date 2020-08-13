@@ -7,6 +7,7 @@ Sequel.migration do
       String :description, text: true
 
       Integer :section_id
+      Integer :parameter_id
 
       String :type
       String :kb_type, size: 20
