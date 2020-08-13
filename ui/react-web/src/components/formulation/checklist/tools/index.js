@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Link, useParams } from 'react-router-dom'
-import { useTo } from '../util'
+import { useTo } from '../../util'
 
 function useLinkTo(path, exact=false) {
   const { policy_id, attr_id } = useParams()

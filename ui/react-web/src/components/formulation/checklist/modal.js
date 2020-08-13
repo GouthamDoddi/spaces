@@ -6,13 +6,13 @@ import {
   Link
 } from 'react-router-dom';
 
-function Modal({className, children, title, closePath}) {
+function Modal({className, children, title, closePath, closeTop}) {
   const loc = useLocation();
   
   return(
     <div className={className}>
       <Content>
-        <Close to={closePath}>
+        <Close to={closePath} closeTop={closeTop}>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
             <g fill="none" fillRule="evenodd">
               <path d="M0 0L24 0 24 24 0 24z" transform="translate(-5 -5)"/>
@@ -30,7 +30,7 @@ function Modal({className, children, title, closePath}) {
 const Close = styled(Link)`
   position: absolute;
   right: 43px;
-  top: 36px;
+  top: ${p => p.closeTop || '36px'};
   z-index: 3;
 `
 export default styled(Modal)`

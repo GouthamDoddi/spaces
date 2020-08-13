@@ -16,7 +16,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { mandateLevelTypes, HMLTypes, docGroupTypes } from '../../../store/master-data'
 import Breadcrumb from './breadcrumb'
 import { useTo } from '../util'
-import ContentForm from './content-form'
+import ToolsForm from './tools-form'
 
 import Tools from './tools'
 
@@ -132,18 +132,37 @@ export default function(props) {
             ['Operating Notes', useLinkTo('on', true)],
             ]} /> */}
 
+
         <Tools parameterId={sectionId}/>
           
         <Switch>
-          <Route path={useLinkTo('faq')}> <Modal closePath={useLinkTo('', true)}> </Modal> </Route>
-          <Route path={useLinkTo('eg')}> <Modal closePath={useLinkTo('', true)}> </Modal> </Route>
-          <Route path={useLinkTo('opn')}> <Modal closePath={useLinkTo('', true)}> </Modal></Route>
-          <Route path={useLinkTo('sops')}> <Modal closePath={useLinkTo('', true)}> </Modal></Route>
-          <Route path={useLinkTo('steps')}> <Modal closePath={useLinkTo('', true)}> </Modal></Route>
+          <Route path={useLinkTo('faq')}> <Popup item={'faq'} /></Route>
+          <Route path={useLinkTo('eg')}> 
+            <Popup item='eg' />
+          </Route>
+          <Route path={useLinkTo('opn')}>
+            <Popup item='opn' />
+          </Route>
+          <Route path={useLinkTo('sops')}> 
+            <Popup item='sops' />
+          </Route>
+          <Route path={useLinkTo('steps')}>
+            <Popup item='steps' />
+          </Route>
         </Switch>
+
           
     </div>
     </>
+  )
+}
+
+const Popup = function(props) {
+  const { item } = props
+  return(
+    <Modal closePath={useLinkTo('', true)} closeTop='15px'> 
+      <ToolsForm item={item} /> 
+    </Modal> 
   )
 }
 
