@@ -36,10 +36,11 @@ function submitted(attr_id, id, data) {
 }
 
 function useLinkTo(path, exact=false) {
-  const { policy_id, attr_id } = useParams()
+  const { policy_id, attr_id, id } = useParams()
 
   const eid = exact ? attr_id : ':attr_id(\\d+)'
-  return useTo(`checklist/params/${eid}`, exact) + `/${path}`
+  const sid = exact ? id : ':id(\\d+)'
+  return useTo(`checklist/${sid}/params/${eid}`, exact) + `/${path}`
 }
 
 const columns = '0.3fr 1fr 2fr 0.7fr 0.5fr'

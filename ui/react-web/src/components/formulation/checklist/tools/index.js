@@ -5,10 +5,12 @@ import { Link, useParams } from 'react-router-dom'
 import { useTo } from '../../util'
 
 function useLinkTo(path, exact=false) {
-  const { policy_id, attr_id } = useParams()
+  const { policy_id, attr_id, id } = useParams()
 
   const eid = exact ? attr_id : ':attr_id(\\d+)'
-  return useTo(`checklist/params/${eid}`, exact) + `/${path}`
+  const sid = exact ? id : ':id(\\d+)'
+  return useTo(`checklist/${sid}/params/${eid}`, exact) + `/${path}`
+  // return useTo(`checklist/params/${eid}`, exact) + `/${path}`
 }
 
 

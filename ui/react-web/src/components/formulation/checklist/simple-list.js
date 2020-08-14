@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom'
 import { put } from '../../../store/api'
 
 
-export default function({title, description, mStore,oIds,  refData, dKey='desc'}) {
+export default function({title, description, mStore,oIds=[],  refData, dKey='desc'}) {
 
   const { policy_id } = useParams()
 

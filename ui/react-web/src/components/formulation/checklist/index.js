@@ -37,7 +37,7 @@ export default function(props) {
       <Route path={useLinkTo(':id(\\d+)/attrs')}> 
         <div className='form-space full-width no-background'> <AttributeCardView store={attributeStore.store} load={attributeStore.load} /> </div>
       </Route>
-      <Route path={useLinkTo('params/:attr_id(\\d+)')}><ParamView /></Route>
+      <Route path={useLinkTo(':id(\\d+)/params/:attr_id(\\d+)')}><ParamView /></Route>
       <Route path={useLinkTo('')}> 
         <div className='form-space full-width no-background'><CardView store={store} load={load} />  </div>
       </Route>

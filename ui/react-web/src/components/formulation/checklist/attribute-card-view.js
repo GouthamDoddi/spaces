@@ -58,7 +58,7 @@ export default function({ store, load, ...props}) {
       <Content>
         {
           data.map(({id, name, description, tags=[] }, i) => (
-            <ObjectCard to={useTo(`checklist/params/${id}`, true)} key={i} className={ id == params.id}>
+            <ObjectCard to={useTo(`checklist/${params.id}/params/${id}`, true)} key={i} className={ id == params.id}>
               <Title>
                 { name }
               </Title>
