@@ -9,13 +9,14 @@ class App::Services::Compliance::Cases < App::Services::Base
   end
 
   def user_cases
-    ids = App::Models::ApplicableSection.where(project_id: rp[:project_id], user_id: App.cu.id).map(&:section_id)
+    # ids = App::Models::ApplicableSection.where(project_id: rp[:project_id], user_id: App.cu.id).map(&:section_id)
+    ids = project.applicable_sections
 
     return_success(model.where(section_id: ids, user_id: App.cu.id).map(&:to_pos))
   end
 
   def approver_cases
-    ids = App::Models::ApplicableSection.where(project_id: rp[:project_id]).map(&:section_id)
+    ids = project.applicable_sections
     return_success(model.where(section_id: ids).map(&:to_pos))
   end
 
@@ -33,6 +34,10 @@ class App::Services::Compliance::Cases < App::Services::Base
     resp[:section_name] = item.section.name
     resp[:attribute_name] = item.attribute.name
     return_success(resp)
+  end
+
+  def project
+    @project ||= App::Models::Compliance::Project[rp[:project_id]]
   end
 
   def self.fields

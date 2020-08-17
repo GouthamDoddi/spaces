@@ -27,10 +27,11 @@ export default function Element({sections, loadS, ...props}) {
 
   const section = sections.find((s) => s.id == section_id)
   console.log(sections, section)
+  let [retake, setRetake] = useState(false)
 
   useEffect(() => {
     load({project_id, section_id})
-  },[section_id])
+  },[section_id, retake])
   
   const qStore = useStore(store)
 
@@ -45,7 +46,7 @@ export default function Element({sections, loadS, ...props}) {
 
   let [enable, setEnable] = useState(false)
 
-  let [retake, setRetake] = useState(false)
+
   
   const item = data[index] || {}
 
@@ -62,13 +63,15 @@ export default function Element({sections, loadS, ...props}) {
     }
     create({data, project_id, section_id, cb})
   }
+
+
   
   function ShowDone({answers}) {
     return(
       <Done>
         <img src='/img/kb/done.svg' alt='done' />
         <div> Survey Complete! Thankyou for your time. </div>
-        <button onClick={() => setRetake(true)}> Re - Take </button>
+        <button onClick={() => {setAnswers({}); setRetake(true)}}> Re - Take </button>
       </Done>
     )
   }

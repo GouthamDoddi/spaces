@@ -46,7 +46,7 @@ export default function({type='wiki', parameterId, ...props}) {
   return (
     <CustomContainer onSubmit={(data) => submitted(attr_id, type, id , data)} store={localStore}>      
       <div className='fields'>
-        <RichText label='Wiki (Steps)' name='description' data={ description || ''} className='field' />
+        <RichText label='Description' name='description' data={ description || ''} className='field' />
         <Input label='Wiki (Steps)' name='parameter_id' type='hidden' value={ parameter_id || parameterId} className='hidden' />
         <label className='submit'>
           <input type='submit' />

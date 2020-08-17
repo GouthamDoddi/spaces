@@ -4,11 +4,15 @@ class App::Services::Compliance::Sections < App::Services::Base
 
 
   def list
-    ids = project.possible_section_ids
-    sections = model.where(id: ids).all
-    as = ApplicableSection.where(project_id: r.params[:project_id], section_id: ids).reduce({}){|a, o| a.merge!(o.section_id => o)}
-    
-    return_success(sections.map{|s| s.to_pos.merge!(applicable: as[s.id])})
+    # ids = project.possible_section_ids
+    sections = project.possible_sections
+
+
+
+    # as = ApplicableSection.where(project_id: r.params[:project_id], section_id: sections.map(&:id)).reduce({}){|a, o| a.merge!(o.section_id => o)}
+    as = project.applicable_sections
+    # byebug
+    return_success(sections.map{|s| s.to_pos.merge!(applicable: as.include?(s.id))})
     # return_success(PolicySection.where(cond).map(&:to_pos))
   end
 
@@ -21,12 +25,18 @@ class App::Services::Compliance::Sections < App::Services::Base
   def applicable_questions
     project = App::Models::Compliance::Project[r.params[:project_id]]
 
-    # project.
     attributes = PolicySectionAttribute.eager(policy_section: :policy).where(parent_id: rp[:id], ).all
-    
     qs = params.select{|q, ans| ans == 'yes' || ans == 'Yes' }
     project.applied_attributes ||= []
-    project.applied_attributes += attributes.filter_map {|attr| attr.id if (attr.question_ids_val - qs.keys).blank?}
+    selected_attrs = attributes.filter_map do |attr|
+      qids = params.keys.map(&:to_i) & attr.possible_question_ids
+      if (qids - qs.keys.map(&:to_i)).blank?
+        attr.id
+      end
+    end
+
+    project.applied_attributes -= attributes.map(&:id)
+    project.applied_attributes += selected_attrs
     project.applied_attributes.uniq!
     save(project)
   end
@@ -40,7 +50,7 @@ class App::Services::Compliance::Sections < App::Services::Base
   def started_sections
     ids = App::Models::Compliance::RecordParameter.select_map(:applicable_section_id).uniq
 
-    data = App::Models::ApplicableSection.eager(:project).where(section_id: ids).all
+    data = project.applicable_sections
     # byebug
     res = data.map do |section|
       
