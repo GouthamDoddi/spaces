@@ -13,10 +13,9 @@ class App::Services::Compliance::Sections < App::Services::Base
   end
 
   def questions
-    ids =  App::Models::Subobject.exclude(object_id: item.object_ids).exclude(id: item.subobject_ids)
-            .where(object_id: project.object_ids_val, id: project.subobject_ids_val).select(:id)
-
-    return_success(ObjectQuestion.where(subobject_id: ids).exclude(id: item.question_ids).map(&:to_pos))
+    ids =  App::Models::Subobject.exclude(object_id: item.object_ids_val).exclude(id: item.subobject_ids_val)
+            .where(object_id: project.object_ids_val, id: project.subobject_ids_val).select_map(:id)
+    return_success(ObjectQuestion.where(subobject_id: ids).exclude(id: item.question_ids_val).map(&:to_pos))
   end
 
   def applicable_questions
