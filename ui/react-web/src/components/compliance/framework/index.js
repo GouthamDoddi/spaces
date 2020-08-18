@@ -1,155 +1,186 @@
-import React, {useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
-import {
-  Switch,
-  Route,
-  useParams
-} from 'react-router-dom';
-
-import { useStore } from 'effector-react'
+import { useParams } from 'react-router-dom';
 
 import makeStore from '../../../store/make-store'
+import {useStore} from 'effector-react'
 
-import Link from '../shared/link'
-
-import cs from '../../../utils/colors'
-
-import Survey from './survey'
-
-import { useTo } from '../util'
+const {store, load, create} = makeStore(({project_id}) => `compliance/${project_id}/possible-questions`)
 
 
-const {store, load} = makeStore(({project_id}) => `compliance/${project_id}/sections`)
+export default function(props) {
+  const { project_id } = useParams()
+  const qStore = useStore(store)
+  const [index, setIndex] = useState(0)
+  const [answers, setAnswers] = useState({})
+  let [enable, setEnable] = useState(false)
+  let [retake, setRetake] = useState(false)
 
-function useToLink(path, exact=false) {
-  return useTo(`framework/${path}`, exact)
-}
+  let nextDisabled, prevDisabled, total, data, item;
+  if(qStore.data) {
+    data = qStore.data.qs || []
+    total = data.length
+    if(index >= total) { nextDisabled = true }
+    if(index <= 0) { prevDisabled = true }
+    item = data[index] || {}
+  }
 
-
-function ElementWidget(props) {
-  const color = props.type === 'survey' ? cs.gs.color : cs.fs.color
-  return(
-    <Menu to={useToLink(`sec/${props.id}`, true)} color={color}>
-      <div className='title'> { props.name } </div>
-      <div className='desc'>
-        <span> Approved  </span>
-        <span className='value'> {props.applicable ? 'Yes': 'No'} </span>
-      </div>
-      <div className='desc'>
-        <span> Due Date:  </span>
-        <span className='value'> {props.due_date} </span>
-      </div>
-    </Menu>
-
-  )
-}
-
-
-export default function Element({ elements, selectOptions, asset }) {
-
-  const { project_id, section_id } = useParams()
-
-  const sectionStore = useStore(store)
-
-  const data = sectionStore.data || []
-
-  console.log(project_id, section_id)
+  const setAnswer = (e) => {
+    // const item = data[index]
+    setAnswers({...answers, [item.id]: e.target.value})
+    setEnable(true)
+  }
 
   useEffect(() => {
     load({project_id})
-  }, [])
+  }, [project_id, retake])
 
-  return (
-    <>
-      <div className='form-space full-height'>
-        <Switch>
-          <Route path={useToLink('sec/:section_id(\\d+)')}> <Survey sections={data} loadS={load} /> </Route>
-          <Route exact path=''> <SelectMsg> Select sub objects to provide further details </SelectMsg> </Route>
-        </Switch>
-
-      </div>
-      <div className='widgets'>
-        <Widget>
-          <div className='title'> Object behavior </div>
-          <div className='content-data'>
-            { data.map((item, i) => <ElementWidget {...item} key={i} />) }
+  function SurveyE(props) {
+    return(
+      <Survey>
+        <div className='progress'> Progress({index + 1}/{total}) </div>
+        <div className='container'>
+          <progress value={index + 1} max={total} />
+          <div className='q'> {data[index]?.name} </div>
+          {
+            (item.possible_answers || []).map((a, i) => 
+                <div className='ans' key={i}> 
+                  <input type='radio' name={`ans${index}`} key={index} value={a} onChange={setAnswer} checked={answers[item.id] == a}/> {a} 
+                </div>)
+          }
+          <div className='actions'>
+            <div onClick={() => setIndex(index - 1)} className={prevDisabled ? 'disabled' : ''}> Back </div>
+            {
+              index === (total - 1) ? <div className={ !!!answers[item.id]? 'disabled' : ''} onClick={() => submit(project_id, answers)}> Submit </div> : 
+                  <div onClick={() => setIndex(index + 1)} className={ !!!answers[item.id]? 'disabled' : ''}> Next </div>
+            }
+            
           </div>
-        </Widget>
-      </div>
-    </>
+        </div>
+      </Survey>
+    )
+  }
+  function ShowDone({answers}) {
+    return(
+      <Done>
+        <img src='/img/kb/done.svg' alt='done' />
+        <div> Survey Complete! Thankyou for your time. </div>
+        <button onClick={() => {setAnswers({}); setRetake(true)}}> Re - Take </button>
+      </Done>
+    )
+  }
+
+  function submit(project_id, data) {
+    const cb = (resp) => {
+      setRetake(false)
+    }
+    create({data, project_id, cb})
+  }
+
+  return(
+    <div className='form-space full-width'>
+      { data ? 
+          ((qStore.data.done && !retake) ? <ShowDone /> : <SurveyE />)
+        : null
+      }
+    </div>
   )
 }
 
-
-const ListOfThings = [
-  { id: 1, name: 'Survey One', attenmpted_ppl_count: 234, due_date: '8 May 2020', type: 'survey'},
-  { id: 2, name: 'Survey Two', attenmpted_ppl_count: 234, due_date: '8 May 2020', type: 'survey'},
-  { id: 3, name: 'Survey Three', attenmpted_ppl_count: 234, due_date: '8 May 2020', type: 'survey'},
-  { id: 4, name: 'Survey Four', attenmpted_ppl_count: 234, due_date: '8 May 2020', type: 'survey'},
-  // { id: 5, name: 'Survey 4', attenmpted_ppl_count: 234, due_date: '8 May 2020', type: 'survey'},
-]
-
-
-const SelectMsg = styled.div`
-  text-align: center;
-  margin-top: 100px;
-  font-weight: 800;
-`
-
-const Menu = styled(Link)`
-  text-decoration: none;
-  display: block;
-  min-height: 84px;
-  border-radius: 3px;
-  background-color: #f4f7fa;
-  border: 1px solid #f4f7fa;
-  padding-left: 14px;
-  padding-top: 9px;
-  margin-bottom: 10px;
-
-  .title {
-    color: ${p => p.color };
-    font-weight: 800;
-    margin: 0;
-  }
-
-  .desc {
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 1.2;
-    color: #98acbe;
-    margin-top: 4px;
-    .value {
-      font-weight: 800;
-    }
-  }
-  &.selected {
-    border: 1px solid ${p => p.theme.color}
-  }
-`
-const Widget = styled.div`
-  border-radius: 3px;
-  box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
-  background-color: #ffffff;
-  width: 100%;
-  height: 466px;
+const Done = styled.div`
   display: flex;
+  align-items: center;
+  padding-top: 61px;
   flex-flow: column;
-  overflow: auto;
-  > .title {
-    margin-top: 19px;
-    margin-left: 21px;
+  img {
+    width: 80px;
+    height: 89px;
+  }
+
+  div {
+    margin-top: 64px;
     font-size: 15px;
-    font-weight: 800;
+    font-weight: 700;
     color: #000000;
   }
 
-  .content-data {
-    height: 420px;
-    overflow: auto;
-    padding-left: 18px;
-    padding-right: 18px;
-    margin-top: 4px;
-    padding-top: 12px;
+  button {
+    height: 38px;
+    border-radius: 2px;
+    background-color: #42d7b6;
+    border: none;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 90px;
+    padding: 10px 18px;
   }
+`
+
+
+const Survey = styled.div`
+  font-size: 14px;
+  font-weight: 500;
+  .progress {
+    text-align: center;
+    margin-top: 60px;
+  }
+
+  .container {
+    margin: 50px 53px;
+    .q {
+      margin-top: 50px;
+      font-size: 15px;
+      font-weight: 800;
+    }
+    .ans {
+      margin-top: 40px;
+      & + .ans {
+        margin-top: 30px;
+      }
+      input {
+        margin-right: 15px;
+      }
+    }
+    .actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 60px;
+      > div {
+        display: inline-block;
+        text-decoration: none;
+        width: 160px;
+        height: 38px;
+        border-radius: 2px;
+        background-color: #42d7b6;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 38px;
+        text-align: center;
+        color: #ffffff;
+        & + div {
+          margin-left: 32px;
+        }
+      }
+      .disabled {
+        cursor: not-allowed;
+        pointer-events: none;
+        background-color: #CCC;
+      }
+    }
+
+  }
+
+  progress {
+    height: 4px;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+
+  progress::-webkit-progress-bar { background-color: #e5eff8; }
+
+  progress::-webkit-progress-value { background: ${p => p.theme.color}; }
+  progress::-moz-progress-bar { background: ${p => p.theme.color}; }
+  .progress-value { color: ${p => p.theme.color}; }
+
 `

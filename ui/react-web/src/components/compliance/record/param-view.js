@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import cs from '../../../utils/colors'
 import Attachment from '../../form/attachment'
-import Form, {TextArea, Select, toOpt, Submit} from '../../form'
+import Form, {TextArea, Select, toOpt, Submit, Input} from '../../form'
 import { useParams } from 'react-router-dom'
 
 import {useStore} from 'effector-react'
@@ -42,13 +42,14 @@ export default function(props) {
   useEffect(() => {
     load({section_id, attr_id})
     props.brd({ section_id, attr_id })
-  }, [])
+    addData(null)
+  }, [attr_id])
 
   if(data[0] && sStore.data === null) {
     addData(data[0])
   }
 
-  const { id, user_compliance_type, name, description, user_notes, mandate_level_id, parameter_id, status, approver_notes, approver_compliance_type } = sStore.data || {}
+  const { id, user_compliance_type, name, description, user_notes, mandate_level_id, parameter_id, status, approver_notes, approver_compliance_type, doc_group } = sStore.data || {}
   
   if( rawData && data.length == 0) {
     return <Container> <NoParams> No Parameters</NoParams></Container>
@@ -93,6 +94,10 @@ export default function(props) {
             <div className='mandate'>
               <span> Mandate: </span>
               <span className='value'> {mandateLevelTypes[mandate_level_id]?.label} </span>
+            </div>
+            <div className='mandate'>
+              <span> Document Group: </span>
+              <span className='value'> {doc_group} </span>
             </div>
             
             <Select name='user_compliance_type' label='' 
