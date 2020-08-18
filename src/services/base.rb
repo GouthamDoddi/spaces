@@ -53,9 +53,9 @@ class App::Services::Base
     r.halt({ status: 'success', data: data })
   end
 
-  def save(obj)
+  def save(obj, &block)
     if obj.save
-      return_success(obj.to_pos)
+      block_given? ? yield : return_success(obj.to_pos)
     else
       return_errors!(obj.errors, 400)
     end
@@ -117,9 +117,8 @@ class App::Services::Base
     return_errors!(e.message, 400)
   end
 
-  def item
+  def item(id=rp[:id])
     @item ||= begin
-      id = r.params[:id]
       model[id] || return_errors!("No #{model.class} found with id: #{id}", 404)
     end
   end

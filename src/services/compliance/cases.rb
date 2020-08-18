@@ -10,13 +10,13 @@ class App::Services::Compliance::Cases < App::Services::Base
 
   def user_cases
     # ids = App::Models::ApplicableSection.where(project_id: rp[:project_id], user_id: App.cu.id).map(&:section_id)
-    ids = project.applicable_sections
+    ids = project.applied_section_ids
 
     return_success(model.where(section_id: ids, user_id: App.cu.id).map(&:to_pos))
   end
 
   def approver_cases
-    ids = project.applicable_sections
+    ids = project.applied_section_ids
     return_success(model.where(section_id: ids).map(&:to_pos))
   end
 

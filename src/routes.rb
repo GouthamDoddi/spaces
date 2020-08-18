@@ -86,8 +86,6 @@ class App::Routes < Roda
         r.on Integer, 'mycases' do |project_id|
           r.get {Compliance::Cases[r, {project_id: project_id }].user_cases }
         end
-        
-        r.on 'attribute', Integer, 'cases'
         r.on 'projects' do
           klass = Compliance::Projects
           r.on Integer, 'add', String, Integer do |id, name, obj_id|
@@ -109,7 +107,11 @@ class App::Routes < Roda
         r.on Integer do |project_id|
           opt = { project_id: project_id }
           
-
+          r.on 'possible-questions' do
+            klass = Compliance::Projects
+            r.get { klass[r, opt].questions }
+            r.post { klass[r, opt].add_applicable_attributes }
+          end
           
           r.on 'plans'  do
             klass = Compliance::Plans

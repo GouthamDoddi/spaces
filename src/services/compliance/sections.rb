@@ -2,6 +2,9 @@ class App::Services::Compliance::Sections < App::Services::Base
 
   def model; PolicySection; end
 
+  def questions_for_project
+    
+  end
 
   def list
     # ids = project.possible_section_ids
@@ -42,9 +45,7 @@ class App::Services::Compliance::Sections < App::Services::Base
   end
 
   def applicable_sections
-    project = App::Models::Compliance::Project[rp[:project_id]]
-    section_ids = PolicySectionAttribute.where(id: project.applied_attributes.to_a || []).select_map(:parent_id).uniq
-    return_success(model.where(id: section_ids).map{|s| s.to_pos})
+    return_success(project.applied_sections.map{|s| s.to_pos})
   end
 
   def started_sections

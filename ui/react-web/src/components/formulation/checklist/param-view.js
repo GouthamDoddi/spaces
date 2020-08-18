@@ -113,7 +113,7 @@ export default function(props) {
                     <div> {o.id} </div>
                     
                     <div> {o.name} </div>
-                    <div> {o.description} </div>
+                    <div> {docGroupTypes[o.doc_group]} </div>
                     <div> {mandateLevelTypes[o.mandate_level_id]?.label} </div>
                     <div onClick={() => remove({id: o.id, attr_id, cb: () => {load({attr_id}); setSectionId(null)}})}> &#128465; </div>
                   </Row>
