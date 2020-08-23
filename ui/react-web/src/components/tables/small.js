@@ -13,8 +13,9 @@ export const Header = styled.div`
   background-color: #e4e4e4;
   > div {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
+    &:first-child { margin-left: 8px;}
   }
 `
 
@@ -22,10 +23,12 @@ export const Row = styled(Header)`
   background-color: #fafafa;
   margin-bottom: 3px;
   border: 1px solid #fafafa;
-  justify-content: center;
+  justify-content: left;
   text-overflow: ellipsis;
   // white-space: nowrap;
   overflow: hidden;
+  > .center { justify-content: center; }
+  > .right { justify-content: right; }
 `
 
 export const Add = styled.div`

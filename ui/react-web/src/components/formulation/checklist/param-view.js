@@ -75,7 +75,7 @@ export default function(props) {
               options={toOpt(docGroupTypes)}
               outerClass='field'
               onChange={selectChange('doc_group')}
-              value={docGroupTypes[doc_group] || ''} 
+              value={docGroupTypes[doc_group?.toLowerCase()] || ''} 
           />
           <Select name='mandate_level_id' label='Mandate Level' 
               options={toOpt(mandateLevelTypes)}
@@ -89,7 +89,7 @@ export default function(props) {
               onChange={selectChange('weightage')}
               value={HMLTypes[weightage] || ''} 
           /> */}
-          <TextArea label='Description' name='description' type='text' onChange={changed} value={ description || ''} className='field' />
+          <TextArea label='Description' name='Short description' type='text' onChange={changed} value={ description || ''} className='field' />
           <label className='submit'>
             <input type='submit' />
             <div> { sectionId ? 'Update' : 'Add'} </div>
@@ -101,10 +101,10 @@ export default function(props) {
             <Header columns={columns}>
               <div>ID</div>
               <div>Name</div>
-              <div>Description</div>
+              <div>Docment Group</div>
               <div>Mandate Lavel</div>
               <div>Actions</div>
-            </Header> 
+            </Header>   
 
             <RowContainer>
               {
@@ -113,9 +113,9 @@ export default function(props) {
                     <div> {o.id} </div>
                     
                     <div> {o.name} </div>
-                    <div> {o.doc_group} </div>
-                    <div> {mandateLevelTypes[o.mandate_level_id]?.label} </div>
-                    <div onClick={() => remove({id: o.id, attr_id, cb: () => {load({attr_id}); setSectionId(null)}})}> &#128465; </div>
+                    <div> {docGroupTypes[o.doc_group?.toLowerCase()]?.label} </div>
+                    <div className='center'> {mandateLevelTypes[o.mandate_level_id]?.label} </div>
+                    <div className='center' onClick={() => remove({id: o.id, attr_id, cb: () => {load({attr_id}); setSectionId(null)}})}> &#128465; </div>
                   </Row>
                 ))
                 

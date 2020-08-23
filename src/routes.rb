@@ -39,6 +39,9 @@ class App::Routes < Roda
 
       auth_required!
 
+      r.on 'get-section-attr', Integer, [Integer, true] do |id, attr_id|
+        r.get { Formulation::SimpleSections[r, {id: id, attr_id: attr_id}].names }
+      end
       r.on 'extras' do
         r.on String, Integer, String do |ref, ref_id, name|
           opts = { ref: ref, ref_id: ref_id, name: name }
