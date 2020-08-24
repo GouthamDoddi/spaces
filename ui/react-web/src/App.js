@@ -19,6 +19,7 @@ import Governance from './components/governance'
 import Compliance from './components/compliance'
 import Login from './components/login'
 import Timeline from './components/dashboard/timeline'
+import Kanban from './components/dashboard/kanban'
 
 import Header from './components/header'
 
@@ -40,6 +41,7 @@ function Routes() {
       {/* <Switch location={ background || location }> */}
       <Switch>
         <Route path="/timeline"> <TP theme={cs.home}> <Timeline /> </TP> </Route>
+        <Route path="/kanban"> <TP theme={cs.home}> <Kanban /> </TP> </Route>
         <Route path="/dashboard"> <TP theme={cs.home}> <Dashboard /> </TP> </Route>
         <Route path="/formulation"> <TP theme={cs.fs}> <Formulation /> </TP> </Route>
         <Route path="/collaboration"> <TP theme={cs.cs}> <Collaboration /> </TP> </Route>

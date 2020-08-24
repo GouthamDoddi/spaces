@@ -20,6 +20,23 @@ function Row({dir, icon, time, title='Title', desc, ...props}) {
   )
 }
 
+export function Themenu(props) {
+  return(
+    <LeftMenu>
+      <LeftMenuItem className='selected'>
+        <PolicyIcon />
+        Policy Timeline
+      </LeftMenuItem>
+
+      <LeftMenuItem>
+        <ProjectIcon />
+        Project Timeline
+      </LeftMenuItem>
+      
+    </LeftMenu>
+  )
+}
+
 export default function(props) {
   const [data, setData] = useState([])
 
@@ -31,18 +48,7 @@ export default function(props) {
 
   return(
     <Container>
-      <LeftMenu>
-        <LeftMenuItem className='selected'>
-          <PolicyIcon />
-           Policy Timeline
-        </LeftMenuItem>
-
-        <LeftMenuItem>
-          <ProjectIcon />
-          Project Timeline
-        </LeftMenuItem>
-        
-      </LeftMenu>
+      <Themenu />
       <Tree>
         <FormulationCard>
           <div className='title'> Formulation Space </div>
@@ -79,9 +85,9 @@ export default function(props) {
   )
 }
 
-export function Filters(props) {
+export function Filters({top=0, bottom, ...props}) {
   return (
-    <WhiteBox padding='12px'>
+    <WhiteBox padding='12px' top={top} bottom={bottom}>
       <FilterBox>
         <label> Filters </label>
         <Select label='Policy/Project' outerClass='form'/>
@@ -320,8 +326,9 @@ const WhiteBox = styled.div`
   border-radius: 3px;
   box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
   background-color: #ffffff;
-  margin-bottom: 25px;
+  margin-bottom: ${p => p.bottom || '25px'};
   padding: ${p => p.padding || 0};
+  margin-top: ${p => p.top};
 `
 
 const StatusGrid = styled.div`
@@ -506,3 +513,15 @@ function ProjectIcon() {
 
   )
 }
+
+
+// {
+//   "timeline": [
+//     { "status": "draft", "title": "Title", "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", "time": "6 June 2020, 10:00am"  },
+//     { "status": "legal", "title": "Title", "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", "time": "6 June 2020, 10:00am"  },
+//     { "status": "activate", "title": "Title", "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", "time": "6 June 2020, 10:00am"  },
+//     { "status": "deactivate", "title": "Title", "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", "time": "6 June 2020, 10:00am"  },
+//     { "status": "suspend", "title": "Title", "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", "time": "6 June 2020, 10:00am"  },
+//     { "status": "start", "title": "Title", "desc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", "time": "6 June 2020, 10:00am"  }
+//   ]
+// }
