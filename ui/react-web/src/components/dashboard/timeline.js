@@ -31,6 +31,18 @@ export default function(props) {
 
   return(
     <Container>
+      <LeftMenu>
+        <LeftMenuItem className='selected'>
+          <PolicyIcon />
+           Policy Timeline
+        </LeftMenuItem>
+
+        <LeftMenuItem>
+          <ProjectIcon />
+          Project Timeline
+        </LeftMenuItem>
+        
+      </LeftMenu>
       <Tree>
         <FormulationCard>
           <div className='title'> Formulation Space </div>
@@ -104,6 +116,45 @@ export function Legend(props) {
   )
 }
 
+const LeftMenu = styled.div`
+  width: 80px;
+  background-color: #ffffff;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 4;
+  padding-top: 80px;
+`
+
+const LeftMenuItem = styled.div`
+  cursor: pointer;
+  width: 60px;
+  height: 38px;
+  font-size: 15px;
+  text-align: center;
+  color: #9c9bbb;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 90px;
+  .main-fill {
+    fill: #9c9bbb;
+  }
+
+  &:first-child {
+    margin-top: 50px;
+  }
+  &.selected {
+    font-weight: bold;
+    color: #7333dd;
+    .main-fill {
+      fill: #7333dd;
+    }
+  }
+`
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -427,6 +478,29 @@ function Start() {
                 <path d="M0 0L24 0 24 24 0 24z" transform="translate(20 20)"/>
                 <path fill="#000" fill-rule="nonzero" d="M5 13c0-5.088 2.903-9.436 7-11.182C16.097 3.564 19 7.912 19 13c0 .823-.076 1.626-.22 2.403l1.94 1.832c.165.156.204.404.095.603l-2.495 4.575c-.075.139-.212.233-.368.256-.156.022-.314-.03-.425-.142l-2.234-2.234c-.187-.188-.442-.293-.707-.293H9.414c-.265 0-.52.105-.707.293l-2.234 2.234c-.111.112-.269.164-.425.142-.156-.023-.293-.117-.368-.256l-2.495-4.575c-.109-.2-.07-.447.095-.603l1.94-1.832C5.077 14.626 5 13.823 5 13zm1.476 6.696l.817-.817C7.855 18.316 8.618 18 9.414 18h5.172c.796 0 1.559.316 2.121.879l.817.817.982-1.8-1.1-1.04c-.494-.467-.717-1.152-.593-1.82.124-.664.187-1.345.187-2.036 0-3.87-1.995-7.3-5-8.96C8.995 5.7 7 9.13 7 13c0 .691.063 1.372.187 2.037.124.668-.099 1.353-.593 1.82l-1.1 1.039.982 1.8zM12 13c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2z" transform="translate(20 20)"/>
             </g>
+        </g>
+    </svg>
+
+  )
+}
+
+function PolicyIcon() {
+  return(
+    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="24" viewBox="0 0 21 24">
+        <g fill="none" fill-rule="evenodd">
+            <path d="M0 0L20.571 0 20.571 23.657 0 23.657z"/>
+            <path className='main-fill' fill-rule="nonzero" d="M18.514 15.429l-5.143 6.167-9.426.004c-.473.002-.857-.455-.86-1.021V4.107c0-.564.382-1.021.852-1.021h13.726c.47 0 .851.469.851 1.03V15.43zM16.8 5.143h-12v14.4h6.857V14.4c0-.521.325-.96.757-1.021l.1-.008H16.8V5.142zm-.71 10.285H13.37v3.26l2.718-3.26z"/>
+        </g>
+    </svg>
+  )
+}
+
+function ProjectIcon() {
+  return(
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <g fill="none" fill-rule="evenodd">
+            <path d="M0 0L24 0 24 24 0 24z"/>
+            <path fill="#9C9BBB" fill-rule="nonzero" d="M15.502 20c-.662 1.582-1.92 2.84-3.502 3.502-1.582-.662-2.84-1.92-3.502-3.502h2.26c.326.489.747.912 1.242 1.243.495-.33.916-.754 1.243-1.243h2.259zM18 14.805l2 2.268V19H4v-1.927l2-2.268V9c0-3.483 2.504-6.447 6-7.545C15.496 2.553 18 5.517 18 9v5.805zM17.27 17L16 15.56V9c0-2.318-1.57-4.43-4-5.42C9.57 4.57 8 6.681 8 9v6.56L6.73 17h10.54zM12 11c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2z"/>
         </g>
     </svg>
 
