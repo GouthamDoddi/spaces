@@ -1,4 +1,4 @@
-class App::Services::Formulation::BillDecrees < App::Services::Base
+class App::Services::Formulation::Extras < App::Services::Base
 
   def model; Extra; end
 

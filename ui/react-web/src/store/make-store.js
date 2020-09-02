@@ -90,11 +90,12 @@ export default function makeStore(path, { group_by=null, defaultStore={ loading:
     addError(resp.data)
   }
   
-  function load(id, empty=false) {
+  function load(id, cb=null, empty=false) {
     if(empty || store.getState().data?.id != id) { addData(null) }
+    
     if(id !== 'new') { 
       enableLoading('Fetching data')
-      get(toPath(id), { success: assignData, error: assignError }) 
+      get(toPath(id), { success: (resp) => assignData(resp, cb), error: assignError }) 
     }    
   }
   

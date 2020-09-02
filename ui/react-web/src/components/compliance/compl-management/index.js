@@ -22,7 +22,7 @@ import { useStore } from 'effector-react'
 import TaskCard from './task-card'
 
 const projectStore = makeStore(() => `compliance/sections-started`)
-const sectionStore = makeStore(({project_id}) => `compliance/${project_id}/sections/applicable`)
+const sectionStore = makeStore(({project_id}) => `compliance/${project_id}/sections/started`)
 const attributeStore = makeStore(({section_id}) => `compliance/attributes-for-section/${section_id}`)
 
 

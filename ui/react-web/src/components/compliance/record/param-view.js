@@ -21,17 +21,22 @@ const {create, update, addData, changed, selectChange, ...other} = makeStore(({s
     `compliance/section/${section_id}/attr/${attr_id}/parameters/${id}` : `compliance/section/${section_id}/attr/${attr_id}/parameters`))
 
 
-function submitted(section_id, attr_id, id, parameter_id, data) {
+function submitted(section_id, attr_id, id, parameter_id, project_id, data) {
   const cb = (resp) => {
-    load({section_id, attr_id})
+    load({section_id, attr_id}, (resp) => {
+      addData(resp.filter((o) => o.parameter_id == parameter_id)[0])
+    })
+
   }
   data.parameter_id = parameter_id
+  data.project_id = project_id
+
   id ? update({section_id, attr_id, id, data, cb}) : create({section_id, attr_id, data, cb})
 }
        
 export default function(props) {
 
-  const { section_id, attr_id } = useParams()
+  const { section_id, attr_id, project_id } = useParams()
 
   const pStore = useStore(store)
   const sStore = useStore(other.store)
@@ -49,7 +54,7 @@ export default function(props) {
     addData(data[0])
   }
 
-  const { id, user_compliance_type, name, description, user_notes, mandate_level_id, parameter_id, status, approver_notes, approver_compliance_type, doc_group } = sStore.data || {}
+  const { id, user_compliance_type, name, wiki_desc, description, user_notes, mandate_level_id, parameter_id, status, approver_notes, approver_compliance_type, doc_group } = sStore.data || {}
   
   if( rawData && data.length == 0) {
     return <Container> <NoParams> No Parameters</NoParams></Container>
@@ -69,8 +74,8 @@ export default function(props) {
           }
         </Header>
         <Title> { name }</Title>
-        <Description> {description || 'Lorem ipsum dolor sit consectetur adipiscing elit, sed do Lorem ipsum dolor sit consectetur Lorem ipsum dolor sit consectetur adipiscing elit, sed do Lorem ipsum dolor sit consectetur '}</Description>
-        <Forms onSubmit={(data) => submitted(section_id, attr_id, id, parameter_id, data)} store={sStore}>
+        <Description dangerouslySetInnerHTML={{__html: wiki_desc}} />
+        <Forms onSubmit={(data) => submitted(section_id, attr_id, id, parameter_id, project_id, data)} store={sStore}>
           <Left>
             <Attachment label='Attachments' btn='Upload' />
             {
@@ -107,7 +112,7 @@ export default function(props) {
               value={userComplianceTypes[user_compliance_type] || ''} 
             />
   
-            <TextArea label='Notes' name='user_notes' onChange={changed} value={ user_notes || ''} className='field' disabled={ status === 'closed' } /> 
+            <TextArea lab el='Notes' name='user_notes' onChange={changed} value={ user_notes || ''} className='field' disabled={ status === 'closed' } /> 
             { 
               status !== 'closed' ? 
                 <Submit>
@@ -132,7 +137,7 @@ const Title = styled.div`
   font-size: 12px;
   font-weight: 800;
   color: #000000;
-  margin-top: 23px;
+  margin-top: 10px;
 `
 
 const Forms = styled(Form)`
@@ -218,13 +223,13 @@ const Right = styled.div`
 const Description = styled.div`
   font-size: 14px;
   font-weight: 500;
-  line-height: 1.36;
+  // line-height: 1.36;
   color: #98acbe;
-  margin-top: 10px;
+  margin-top: 2px;
 `
 
 const Container = styled.div`
-  padding: 12px 24px;
+  padding: 6px 24px;
 `
 const Header = styled.div`
   display: flex;

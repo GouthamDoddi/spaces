@@ -5,8 +5,11 @@ Sequel.migration do
 
 
       Integer :user_id
-      Integer :applicable_section_id
+      Integer :section_id
+      Integer :attribute_id
+
       Integer :parameter_id
+      Integer :project_id
       
       String :user_notes, text: true
       Integer :user_compliance_type

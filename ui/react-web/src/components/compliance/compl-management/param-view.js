@@ -58,7 +58,7 @@ export default function(props) {
       <Container>
         <Header>
           {
-            data.map((o, i) => (
+            data.filter((o) => o.id).map((o, i) => (
               <Item {...cs['gs']} 
                 key={i}
                 className={o.parameter_id === parameter_id ? 'selected': ''} 

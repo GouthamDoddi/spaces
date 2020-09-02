@@ -49,18 +49,28 @@ class App::Services::Compliance::Sections < App::Services::Base
   end
 
   def started_sections
-    ids = App::Models::Compliance::RecordParameter.select_map(:applicable_section_id).uniq
+    recs = App::Models::Compliance::RecordParameter.eager(:project).where(status: 'open')
 
-    data = project.applicable_sections
     # byebug
-    res = data.map do |section|
+    res = recs.map do |rec|
       
-      { id: section.project.id, title: section.project.name, description: section.project.description, beneficiary: 'Sathish', status: 'Open', user_id: section.user_id}
+      { id: rec.project.id, title: rec.project.name, description: rec.project.description, beneficiary: 'Sathish', status: rec.status, user_id: rec.user_id}
     end
     return_success(res)
   end
 
+  def started_applicable_sections
+    section_ids = App::Models::Compliance::RecordParameter.where(project_id: rp[:project_id]).exclude(status: nil).select_map(:section_id)
+    return_success(PolicySection.where(id: section_ids).map(&:to_pos))
+  end
+
+  def started_applicable_attributes
+    attr_ids = App::Models::Compliance::RecordParameter.where(project_id: rp[:project_id], section_id: rp[:section_id]).exclude(status: nil).select_map(:attribute_id)
+    return_success(PolicySectionAttribute.where(id: attr_ids).map(&:to_pos))
+  end
+
   def attributes
+    # id: project&.applied_attribute_ids
     return_success(PolicySectionAttribute.where(parent_id: r.params[:section_id]).map(&:to_pos))
   end
 
