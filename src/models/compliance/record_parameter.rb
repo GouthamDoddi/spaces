@@ -1,7 +1,7 @@
 class App::Models::Compliance::RecordParameter < Sequel::Model
   one_to_one :wiki_description, class: 'App::Models::SectionContent', key: :parameter_id, primary_key: :parameter_id, conditions: {type: 'steps'}
 
-  one_to_one :project, class: 'App::Models::Compliance::Project', key: :project_id, key: :id
+  one_to_one :project, class: 'App::Models::Compliance::Project', primary_key: :project_id, key: :id
 
   # one_to_many :applicable_sections
 

@@ -23,7 +23,7 @@ import TaskCard from './task-card'
 
 const projectStore = makeStore(() => `compliance/sections-started`)
 const sectionStore = makeStore(({project_id}) => `compliance/${project_id}/sections/started`)
-const attributeStore = makeStore(({section_id}) => `compliance/attributes-for-section/${section_id}`)
+const attributeStore = makeStore(({project_id, section_id}) => `compliance/${project_id}/sections/${section_id}/attributes-started`)
 
 
 

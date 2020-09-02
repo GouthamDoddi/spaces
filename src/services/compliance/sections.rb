@@ -49,9 +49,8 @@ class App::Services::Compliance::Sections < App::Services::Base
   end
 
   def started_sections
-    recs = App::Models::Compliance::RecordParameter.eager(:project).where(status: 'open')
+    recs = App::Models::Compliance::RecordParameter.eager(:project).where(status: 'open').all
 
-    # byebug
     res = recs.map do |rec|
       
       { id: rec.project.id, title: rec.project.name, description: rec.project.description, beneficiary: 'Sathish', status: rec.status, user_id: rec.user_id}

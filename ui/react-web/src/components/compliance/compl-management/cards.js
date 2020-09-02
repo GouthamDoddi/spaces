@@ -9,7 +9,11 @@ import Card from './section-card'
 export default function({store, to,...props}) {
   const params = useParams()
   useEffect(() => {
-    store.load(params)
+    const opts = params
+    if(opts.sp_id) {
+      opts.project_id = opts.sp_id
+    }
+    store.load(opts)
   }, [params])
 
   const lStore = useStore(store.store)

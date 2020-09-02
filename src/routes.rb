@@ -109,10 +109,6 @@ class App::Routes < Roda
 
         r.on Integer do |project_id|
           opt = { project_id: project_id }
-
-          # r.on 'attributes-for-section', Integer do |section_id|
-          #   r.get { Compliance::Sections[r, {section_id: section_id}].attributes }
-          # end
           
           r.on 'possible-questions' do
             klass = Compliance::Projects
@@ -131,8 +127,8 @@ class App::Routes < Roda
             klass = Compliance::Sections
             r.get('applicable') { klass[r, opt].applicable_sections}
             r.get('started') { Compliance::Sections[r, opt].started_applicable_sections }
-            r.get(Integer, 'attributes-started') { |attribute_id|
-              opt[:attribute_id] = attribute_id
+            r.get(Integer, 'attributes-started') { |section_id|
+              opt[:section_id] = section_id
               klass[r, opt].started_applicable_attributes
             }
 
