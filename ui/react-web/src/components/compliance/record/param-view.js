@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 import cs from '../../../utils/colors'
 import Attachment from '../../form/attachment'
+import Uploader from '../../form/upload'
 import Form, {TextArea, Select, toOpt, Submit, Input} from '../../form'
 import { useParams } from 'react-router-dom'
 
@@ -15,7 +16,7 @@ import makeStore from '../../../store/make-store'
 
 import {userComplianceTypes, mandateLevelTypes} from '../../../store/master-data'
 
-const {load, store} = makeStore(({section_id, attr_id}) => `compliance/section/${section_id}/attr/${attr_id}/parameters`)
+const { load, store } = makeStore(({project_id, attr_id}) => `compliance/project/${project_id}/attr/${attr_id}/parameters`)
 
 const {create, update, addData, changed, selectChange, ...other} = makeStore(({section_id, attr_id, id}) => (id ? 
     `compliance/section/${section_id}/attr/${attr_id}/parameters/${id}` : `compliance/section/${section_id}/attr/${attr_id}/parameters`))
@@ -23,7 +24,7 @@ const {create, update, addData, changed, selectChange, ...other} = makeStore(({s
 
 function submitted(section_id, attr_id, id, parameter_id, project_id, data) {
   const cb = (resp) => {
-    load({section_id, attr_id}, (resp) => {
+    load({project_id, attr_id}, (resp) => {
       addData(resp.filter((o) => o.parameter_id == parameter_id)[0])
     })
 
@@ -45,7 +46,7 @@ export default function(props) {
 
   const data = rawData || []
   useEffect(() => {
-    load({section_id, attr_id})
+    load({project_id, attr_id})
     props.brd({ section_id, attr_id })
     addData(null)
   }, [attr_id])
@@ -77,7 +78,9 @@ export default function(props) {
         <Description dangerouslySetInnerHTML={{__html: wiki_desc}} />
         <Forms onSubmit={(data) => submitted(section_id, attr_id, id, parameter_id, project_id, data)} store={sStore}>
           <Left>
-            <Attachment label='Attachments' btn='Upload' />
+            {/* <Attachment label='Attachments' btn='Upload' /> */}
+            { id ? <Uploader param_id={id}/> : null}
+            
             {
               approver_notes ?  <div className='mandate'> <span> Approver Notes: </span> <span className='value'> {approver_notes} </span> </div> : null
             }

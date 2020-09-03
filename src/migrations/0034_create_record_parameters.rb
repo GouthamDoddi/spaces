@@ -14,9 +14,11 @@ Sequel.migration do
       String :user_notes, text: true
       Integer :user_compliance_type
 
+      json :images, default: '{}'
+
       String :approver_notes, text: true
       Integer :approver_compliance_type
-      Integer :aprrover_id
+      Integer :approver_id
 
       String :status
       

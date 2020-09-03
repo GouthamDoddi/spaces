@@ -3,6 +3,7 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
 
   one_to_one :project, class: 'App::Models::Compliance::Project', primary_key: :project_id, key: :id
 
+  one_to_one :parameter, class: 'App::Models::AttributeParameter', primary_key: :parameter_id, key: :id
   # one_to_many :applicable_sections
 
   # def validate

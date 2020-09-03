@@ -3,30 +3,23 @@ class App::Services::Compliance::Parametes < App::Services::Base
   def model; App::Models::Compliance::RecordParameter; end
 
   def list
-    parameters = AttributeParameter.eager(:wiki_description, :user_parameter).where(attribute_id: rp[:attribute_id]).all
-    data = parameters.map do |p| 
-      user_data = p.user_parameter&.as_json || {}
+    parameters = model
+                  .where(attribute_id: rp[:attribute_id], project_id: rp[:project_id])
+                  .reduce({}) {|h, p| h[p.parameter_id] = p; h}
+
+    attr_parameters = AttributeParameter.eager(:wiki_description).where(attribute_id: rp[:attribute_id]).all
+    # ['user_notes', 'user_compliance_type', 'approver_compliance_type',  'status', 'approver_id', 'approver_notes']
+      
+
+    data = attr_parameters.map do |p| 
+      user_data = parameters[p.id]&.as_json || {}
       slice_list = ['user_notes', 'user_compliance_type', 'approver_compliance_type',  'status', 'approver_id', 'approver_notes']
-      p.as_json.merge!(user_data.slice(*slice_list)).merge!(id: p.user_parameter&.id, parameter_id: p.id, wiki_desc: p.wiki_description&.description)
+      p.as_json
+        .merge!(user_data.slice(*slice_list)).merge!(wiki_desc: p.wiki_description&.description)
+        .merge!(id: user_data['id'], parameter_id: p.id)
     end
     return_success(data)
   end
-
-  # def get
-  #   # p = item
-  #   return_success(item.to_pos.merge!(wiki_desc: item.wiki_description&.description))
-  # end
-
-  # def get
-  #   parameters = AttributeParameter.eager(:wiki_description, :user_parameter).where(attribute_id: rp[:attribute_id]).all
-  #   data = parameters.map do |p| 
-  #     user_data = p.user_parameter&.as_json || {}
-  #     slice_list = ['user_notes', 'user_compliance_type', 'approver_compliance_type',  'status', 'approver_id', 'approver_notes']
-  #     p.as_json.merge!(user_data.slice(*slice_list)).merge!(id: p.user_parameter&.id, parameter_id: p.id, wiki_desc: p.wiki_description&.description)
-  #   end
-  #   return_success(data)
-  # end
-
 
   def create
     obj = model.new(data_for(:create))

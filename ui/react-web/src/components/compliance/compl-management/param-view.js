@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import cs from '../../../utils/colors'
 import Attachment from '../../form/attachment'
 import Form, {TextArea, Select, toOpt, Submit} from '../../form'
+import Uploader from '../../form/upload'
 import { useParams } from 'react-router-dom'
 
 import {useStore} from 'effector-react'
@@ -15,33 +16,37 @@ import makeStore from '../../../store/make-store'
 
 import {userComplianceTypes, mandateLevelTypes} from '../../../store/master-data'
 
-const {load, store} = makeStore(({section_id, attr_id}) => `compliance/section/${section_id}/attr/${attr_id}/parameters`)
+const {load, store} = makeStore(({project_id, attr_id}) => `compliance/project/${project_id}/attr/${attr_id}/parameters`)
 
 const {create, update, addData, changed, selectChange, ...other} = makeStore(({section_id, attr_id, id}) => (id ? 
     `compliance/section/${section_id}/attr/${attr_id}/parameters/${id}/approver` : `compliance/section/${section_id}/attr/${attr_id}/parameters`))
 
 
-function submitted(section_id, attr_id, id, parameter_id, data) {
+function submitted(section_id, attr_id, id, parameter_id, project_id, data) {
   const cb = (resp) => {
-    load({section_id, attr_id})
+    load({project_id, attr_id})
   }
   data.parameter_id = parameter_id
+  data.project_id = project_id
   update({section_id, attr_id, id, data, cb})
 }
        
 export default function(props) {
 
-  const { section_id, attr_id } = useParams()
-
+  const { sp_id, section_id, attr_id } = useParams()
+  console.log("spi_id", sp_id)
+  const project_id = sp_id
   const pStore = useStore(store)
   const sStore = useStore(other.store)
 
   const rawData = pStore.data 
 
-  const data = rawData?.filter((o) => o.status != 'closed') || []
+  const data = pStore.data || [] //rawData?.filter((o) => o.status != 'closed') || []
 
+  const { id, user_compliance_type, name, status, description, user_notes, mandate_level_id, parameter_id, approver_notes, approver_compliance_type } = sStore.data || {}
+  
   useEffect(() => {
-    load({section_id, attr_id})
+    load({project_id, attr_id})
     // props.brd({ section_id, attr_id })
   }, [])
 
@@ -49,7 +54,7 @@ export default function(props) {
     addData(data[0])
   }
 
-  const { id, user_compliance_type, name, description, user_notes, mandate_level_id, parameter_id, approver_notes, approver_compliance_type } = sStore.data || {}
+  
   
   if( rawData && data.length == 0) {
     return <Container> <NoParams> No Parameters</NoParams></Container>
@@ -70,9 +75,10 @@ export default function(props) {
         </Header>
         <Title> { name }</Title>
         <Description> {description || 'Lorem ipsum dolor sit consectetur adipiscing elit, sed do Lorem ipsum dolor sit consectetur Lorem ipsum dolor sit consectetur adipiscing elit, sed do Lorem ipsum dolor sit consectetur '}</Description>
-        <Forms onSubmit={(data) => submitted(section_id, attr_id, id, parameter_id, data)} store={sStore}>
+        <Forms onSubmit={(data) => submitted(section_id, attr_id, id, parameter_id, project_id, data)} store={sStore}>
           <Left>
-            <Attachment label='Attachments' btn='Upload' />
+            {/* <Attachment label='Attachments' btn='Upload' /> */}
+            {id ? <Uploader hide_upload param_id={id}/> : null}
             <TextArea label='User Notes' name='user_notes' onChange={changed} value={ user_notes || ''} className='field' disabled /> 
             <div className='exception'>
               <span> Exception Granted: </span>
@@ -94,10 +100,13 @@ export default function(props) {
             />
             
             <TextArea label='Approver Notes' name='approver_notes' onChange={changed} value={ approver_notes || ''} className='field' /> 
-            <Submit>
-              <input type='submit' />
-              <div> { id ? 'Update' : 'Add'} </div>
-            </Submit>
+            { status != 'closed' ? 
+              <Submit>
+                <input type='submit' />
+                <div> { id ? 'Update' : 'Add'} </div>
+              </Submit> : null
+            
+            }
           </Right>
         </Forms>
       </Container>
@@ -138,8 +147,6 @@ const Left = styled.div`
     margin-top: 10px;
   }
   .exception {
-    position: absolute;
-    bottom: 10px;
     font-size: 14px;
     font-weight: 500;
     color: #687c9d;

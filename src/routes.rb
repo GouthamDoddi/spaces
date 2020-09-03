@@ -55,6 +55,10 @@ class App::Routes < Roda
 
 
       r.on 'compliance' do
+        r.on 'parameter', 'files', Integer do |pid|
+          opts = { id: pid }
+          do_crud(Compliance::ParameterFiles, r, 'CRDL', opts)
+        end
         r.on 'sections-started' do
           r.get {Compliance::Sections[r].started_sections }
         end
@@ -63,10 +67,17 @@ class App::Routes < Roda
           r.get { Compliance::Projects[r].report_cards }
         end
 
+        
+
         r.on Integer, 'tasks' do |project_id|
           opts = { project_id: project_id }
           r.get('for-case', Integer) {|case_id| Compliance::Tasks[r, opts.merge!(case_id: case_id)].for_case}
           do_crud(Compliance::Tasks, r, 'CRUDL', opts)
+        end
+
+        r.on 'project', Integer, 'attr', Integer, 'parameters' do |project_id, attribute_id|
+          opts = { project_id: project_id, attribute_id: attribute_id }
+          r.get { Compliance::Parametes[r, opts].list }
         end
         
         r.on 'section', Integer, 'attr', Integer do |section_id, attribute_id|
@@ -74,7 +85,7 @@ class App::Routes < Roda
 
           r.on 'parameters' do
             r.put(Integer, 'approver') {|id|  Compliance::Parametes[r, opts.merge!(id: id)].approver_update }
-            do_crud(Compliance::Parametes, r, 'CRUDL', opts)
+            do_crud(Compliance::Parametes, r, 'CRUD', opts)
           end
 
           r.on 'cases' do
