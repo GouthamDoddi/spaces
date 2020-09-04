@@ -170,8 +170,6 @@ const Left = styled.div`
     }
   }
   .exception {
-    position: absolute;
-    bottom: 10px;
     font-size: 14px;
     font-weight: 500;
     color: #687c9d;
