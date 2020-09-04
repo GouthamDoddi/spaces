@@ -48,7 +48,9 @@ export default function({_files=[], hide_upload=false, param_id, ...props}) {
           maxFiles={1}
           server= {{
             process: function(fieldName, file, metadata, load, error, progress, abort) {
-              S3.uploadFile(file, uuid())
+              const fn = file.name.split('.')
+              fn.pop()
+              S3.uploadFile(file, `${uuid()}-${fn.join('_')}`)
                 .then(data => {
                   addFiles({data: data.key, param_id, setCurrentFiles, load})                
                 })
@@ -62,7 +64,9 @@ export default function({_files=[], hide_upload=false, param_id, ...props}) {
       <Files>
         {
           currentFiles.map((file) => (
-            <File href={`${HOST}/${file}`} target='_blank'> File  </File>
+            <File href={`${HOST}/${file}`} target='_blank'> 
+              <span> {nameFor(file)}  </span>
+            </File>
           ))
         }
       </Files>
@@ -70,10 +74,13 @@ export default function({_files=[], hide_upload=false, param_id, ...props}) {
   )
 }
 
+function nameFor(file) {
+  const possible = file.split('-').pop()
+  return possible.split('.')[0]
+}
 const Files = styled.div`
   display: flex;
   flex-wrap: wrap;
-
 `
 
 const File = styled.a`
@@ -82,7 +89,17 @@ const File = styled.a`
   margin: 5px;
   border: 1px solid #777;
   box-shadow: 0 6px 6px -6px #777;
-  text-align: center;
   color: #000;
-  line-height: 70px;
+  display: flex;
+  font-size: 10px;
+  align-items: center;
+  
+  
+  span {
+    width: 60px;
+    display: inline-block;
+    word-wrap: break-word;
+    align-self: center;
+    text-align: center;
+  }
 `
