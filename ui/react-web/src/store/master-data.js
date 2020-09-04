@@ -182,6 +182,7 @@ export const listOfUsers = {
   10: { value: 10, label: 'yashila@softpathinfotech.com'},
   11: { value: 11, label: 'sireesha@softpathinfotech.com'},
   12: { value: 12, label: 'sandeep.k@softpathinfotech.com'},
+  13: { value: 13, label: 'akshitha@softpathinfotech.com'},
 }
 
 export const kbTypes = {

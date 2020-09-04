@@ -7,6 +7,8 @@ module SequelPlugin
           def allowed(type=:policies, key=:id)
             if((type == :projects && App.cu.user_obj.role == 5 )||  App.cu.user_obj.role == 0)
               where({})
+            elsif (type == :projects && (8..13).include?(App.cu.user_obj.id))
+              where(created_by: (8..13).to_a)
             else
               ids = App.cu.user_obj.auth_data[type].keys.map(&:to_i)
               where(key => ids)
