@@ -20,6 +20,7 @@ import Compliance from './components/compliance'
 import Login from './components/login'
 import Timeline from './components/dashboard/timeline'
 import Kanban from './components/dashboard/kanban'
+import Test from './components/dashboards/test'
 
 import Header from './components/header'
 
@@ -48,6 +49,7 @@ function Routes() {
         <Route path="/activation"> <TP theme={cs.as}> <Activation /> </TP> </Route>
         <Route path="/governance"> <TP theme={cs.gs}> <Governance /> </TP> </Route>
         <Route path="/compliance"> <TP theme={cs.cps}> <Compliance /> </TP> </Route>
+        <Route path="/test"> <TP theme={cs.cps}> <Test /> </TP> </Route>
         <Route exact path="/"> <TP theme={cs.home}> <Dashboard /> </TP></Route>
       </Switch>
     </>

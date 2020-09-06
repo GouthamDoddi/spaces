@@ -21,6 +21,7 @@ export default function(props) {
 
 const Card = styled(Link)`
   display: inline-block;
+  position: relative;
   width: 370px;
   height: 104px;
   border-radius: 3px;
@@ -53,10 +54,13 @@ const Profile = styled.div`
 `
 const Description = styled.div`
   margin-top: 6px;
-  width: 75.6%;
+  width: 98%;
   font-size: 10px;
-  line-height: 1.2;
+  line-height: 1.1;
   color: #98acbe;
+  height: 25px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 const Tags = styled.div`
   display: flex;

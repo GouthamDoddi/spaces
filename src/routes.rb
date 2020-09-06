@@ -57,7 +57,8 @@ class App::Routes < Roda
       r.on 'compliance' do
         r.on 'parameter', 'files', Integer do |pid|
           opts = { id: pid }
-          do_crud(Compliance::ParameterFiles, r, 'CRDL', opts)
+          r.delete {|id| Compliance::ParameterFiles[r, opts].delete }
+          do_crud(Compliance::ParameterFiles, r, 'CL', opts)
         end
         r.on 'sections-started' do
           r.get {Compliance::Sections[r].started_sections }

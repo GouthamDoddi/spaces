@@ -43,7 +43,7 @@ export default function(props) {
 
   const data = pStore.data || [] //rawData?.filter((o) => o.status != 'closed') || []
 
-  const { id, user_compliance_type, name, status, description, user_notes, mandate_level_id, parameter_id, approver_notes, approver_compliance_type } = sStore.data || {}
+  const { id, user_compliance_type, name, status, description, user_notes, wiki_desc, mandate_level_id, parameter_id, approver_notes, approver_compliance_type } = sStore.data || {}
   
   useEffect(() => {
     load({project_id, attr_id})
@@ -74,7 +74,8 @@ export default function(props) {
           }
         </Header>
         <Title> { name }</Title>
-        <Description> {description || 'Lorem ipsum dolor sit consectetur adipiscing elit, sed do Lorem ipsum dolor sit consectetur Lorem ipsum dolor sit consectetur adipiscing elit, sed do Lorem ipsum dolor sit consectetur '}</Description>
+        <Description dangerouslySetInnerHTML={{__html: wiki_desc}} />
+        {/* <Description> {description || 'Lorem ipsum dolor sit consectetur adipiscing elit, sed do Lorem ipsum dolor sit consectetur Lorem ipsum dolor sit consectetur adipiscing elit, sed do Lorem ipsum dolor sit consectetur '}</Description> */}
         <Forms onSubmit={(data) => submitted(section_id, attr_id, id, parameter_id, project_id, data)} store={sStore}>
           <Left>
             {/* <Attachment label='Attachments' btn='Upload' /> */}

@@ -13,6 +13,11 @@ class App::Services::Compliance::ParameterFiles < App::Services::Base
   end
 
   def delete
+    fn = params[:file_name]
+    item.images ||= []
+    item.images.delete(fn)
+    # item.images += params[:files]
+    save(item)
   end
 
   

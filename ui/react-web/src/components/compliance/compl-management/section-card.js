@@ -53,10 +53,13 @@ const Profile = styled.div`
 `
 const Description = styled.div`
   margin-top: 6px;
-  width: 75.6%;
+  width: 100%;
   font-size: 10px;
-  line-height: 1.2;
+  line-height: 1.1;
   color: #98acbe;
+  height: 25px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 const Tags = styled.div`
   display: flex;

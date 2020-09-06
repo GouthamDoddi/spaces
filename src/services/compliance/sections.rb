@@ -49,7 +49,8 @@ class App::Services::Compliance::Sections < App::Services::Base
   end
 
   def started_sections
-    recs = App::Models::Compliance::RecordParameter.distinct(:project_id).eager(:project).where(status: 'open').all
+    recs = App::Models::Compliance::RecordParameter.distinct(:project_id).eager(:project).where(status: 'open')
+    # recs = recs.where(created_by)
 
     res = recs.map do |rec|
       
