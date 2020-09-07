@@ -22,9 +22,10 @@ export const beneficiarySegments = {
 }
 
 export const projectTypes = {
-  1: { value: 1, label: 'Type 1'},
-  2: { value: 2, label: 'Type 2'},
-  3: { value: 3, label: 'Type 3'},
+  1: { value: 1, label: 'Main'},
+  2: { value: 2, label: 'Department'},
+  3: { value: 3, label: 'Micro'},
+  4: { value: 4, label: 'Special Project'},
 }
 
 export const roleTypes = {

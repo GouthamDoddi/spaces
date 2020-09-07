@@ -41,7 +41,7 @@ export default function(props) {
 
   const rawData = pStore.data 
 
-  const data = pStore.data || [] //rawData?.filter((o) => o.status != 'closed') || []
+  const data = (pStore.data || []).filter((o) => o.id) //rawData?.filter((o) => o.status != 'closed') || []
 
   const { id, user_compliance_type, name, status, description, user_notes, wiki_desc, mandate_level_id, parameter_id, approver_notes, approver_compliance_type } = sStore.data || {}
   
@@ -63,7 +63,7 @@ export default function(props) {
       <Container>
         <Header>
           {
-            data.filter((o) => o.id).map((o, i) => (
+            data.map((o, i) => (
               <Item {...cs['gs']} 
                 key={i}
                 className={o.parameter_id === parameter_id ? 'selected': ''} 
