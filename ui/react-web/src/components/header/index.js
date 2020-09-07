@@ -121,6 +121,7 @@ const notifications = [
 export default function (props) {
   const store = useStore(userStore)
   return (
+    <>
     <StyledHeader>
       <div className="header-content">
         <div className="title">MOTC</div>
@@ -175,9 +176,15 @@ export default function (props) {
         </div>
       </div>
     </StyledHeader>
+    <Spacer></Spacer>
+    </>
   )
 }
 
+const Spacer = styled.div`
+  width: 100%;
+  height: 80px;
+`
 const StyledHeader = styled.header`
   width: 100%;
   height: 80px;

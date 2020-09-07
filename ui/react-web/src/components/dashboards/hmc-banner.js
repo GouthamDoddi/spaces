@@ -5,8 +5,7 @@ export default function({type='Participated', item='Entities', count, total, ite
   return (
     <Container className={props.className}>
       <Left>
-        <Type> {type} </Type>
-        <Item color={itemColor}> { item } </Item>
+        <Type> Hamad Medical Corporation </Type>
       </Left>
       <Right>
         36
@@ -17,12 +16,9 @@ export default function({type='Participated', item='Entities', count, total, ite
 
 
 const Container = styled.div`
-  // max-width: 420px;
+  background-image: url(/img/hmc-banner.jpg);
+  background-size: 100% 100%;
   height: 130px;
-  border: solid 1px #dddddd;
-  background-color: #ffffff;
-  display: flex;
-  padding: 20px;
 `
 
 const Left = styled.div`
@@ -42,9 +38,9 @@ const Right = styled.div`
 `
 
 const Type = styled.div`
-  font-size: 24px;
-  line-height: 1.04;
-  color: #666666;
+  font-size: 42px;
+  font-weight: 300;
+  color: #ffffff;
 `
 
 const Item = styled.div`

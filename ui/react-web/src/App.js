@@ -21,6 +21,7 @@ import Login from './components/login'
 import Timeline from './components/dashboard/timeline'
 import Kanban from './components/dashboard/kanban'
 import Test from './components/dashboards/test'
+import Hmc from './components/dashboards/hmc'
 
 import Header from './components/header'
 
@@ -37,20 +38,18 @@ function Routes() {
   // console.log(background)
   return (
     <>
-      <SnackBar />
-      <Header />
-      {/* <Switch location={ background || location }> */}
       <Switch>
-        <Route path="/timeline"> <TP theme={cs.home}> <Timeline /> </TP> </Route>
-        <Route path="/kanban"> <TP theme={cs.home}> <Kanban /> </TP> </Route>
-        <Route path="/dashboard"> <TP theme={cs.home}> <Dashboard /> </TP> </Route>
-        <Route path="/formulation"> <TP theme={cs.fs}> <Formulation /> </TP> </Route>
-        <Route path="/collaboration"> <TP theme={cs.cs}> <Collaboration /> </TP> </Route>
-        <Route path="/activation"> <TP theme={cs.as}> <Activation /> </TP> </Route>
-        <Route path="/governance"> <TP theme={cs.gs}> <Governance /> </TP> </Route>
-        <Route path="/compliance"> <TP theme={cs.cps}> <Compliance /> </TP> </Route>
-        <Route path="/test"> <TP theme={cs.cps}> <Test /> </TP> </Route>
-        <Route exact path="/"> <TP theme={cs.home}> <Dashboard /> </TP></Route>
+        <Route path="/timeline"> <Header /> <TP theme={cs.home}> <Timeline /> </TP> </Route>
+        <Route path="/kanban"> <Header /> <TP theme={cs.home}> <Kanban /> </TP> </Route>
+        <Route path="/dashboard"> <Header /> <TP theme={cs.home}> <Dashboard /> </TP> </Route>
+        <Route path="/formulation"> <Header /> <TP theme={cs.fs}> <Formulation /> </TP> </Route>
+        <Route path="/collaboration"> <Header /> <TP theme={cs.cs}> <Collaboration /> </TP> </Route>
+        <Route path="/activation"> <Header /> <TP theme={cs.as}> <Activation /> </TP> </Route>
+        <Route path="/governance"> <Header /> <TP theme={cs.gs}> <Governance /> </TP> </Route>
+        <Route path="/compliance"> <Header /> <TP theme={cs.cps}> <Compliance /> </TP> </Route>
+        <Route path="/test"> <Header /> <TP theme={cs.cps}> <Test /> </TP> </Route>
+        <Route path="/hmc"> <TP theme={cs.cps}> <Hmc /> </TP> </Route>
+        <Route exact path="/"> <Header /> <TP theme={cs.home}> <Dashboard /> </TP></Route>
       </Switch>
     </>
   )
