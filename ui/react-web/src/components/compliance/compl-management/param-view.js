@@ -48,7 +48,7 @@ export default function(props) {
   useEffect(() => {
     load({project_id, attr_id})
     // props.brd({ section_id, attr_id })
-  }, [])
+  }, [project_id, attr_id])
 
   if(data[0] && sStore.data === null) {
     addData(data[0])
