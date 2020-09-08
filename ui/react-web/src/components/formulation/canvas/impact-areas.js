@@ -6,6 +6,7 @@ import Form, { TextArea, Select, Actions, Container, Input } from '../../form'
 
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
+import { beneficiarySegments } from '../../../store/master-data'
 import { useStore } from 'effector-react'
 import { Table, Header, Row, Add } from '../../tables/small'
 
@@ -52,10 +53,10 @@ export default function(props) {
         <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' required />
 
         <Select name='beneficiary_segment_id' label='Beneficiary Segment' 
-            options={toOpt(bsTypes)}
+            options={toOpt(beneficiarySegments)}
             outerClass='field'
             onChange={selectChange('beneficiary_segment_id')}
-            value={bsTypes[beneficiary_segment_id] || ''} 
+            value={beneficiarySegments[beneficiary_segment_id] || ''} 
         />
         <Select name='impact' label='Impact' 
             options={toOpt(impactTypes)}
@@ -92,7 +93,7 @@ export default function(props) {
                 <Row onClick={() => setSectionId(o.id)} className={ o.id === id ? 'selected row' : 'row'} key={i} columns={columns}> 
                   <div> {o.id} </div>
                   
-                  <div> {bsTypes[o.beneficiary_segment_id]?.label} </div>
+                  <div> {beneficiarySegments[o.beneficiary_segment_id]?.label} </div>
                   <div> {impactCorrelationTypes[o.impact_correlation]?.label} </div>
                   <div> {impactTypes[o.impact]?.label} </div>
                 </Row>
