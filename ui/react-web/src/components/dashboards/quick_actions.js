@@ -7,10 +7,10 @@ export default function({className}) {
       <Left> <span> Quick <br/>Actions </span> </Left>
       <Right> 
         <A>Create New Project</A>
-        <A>Create New Project</A>
-        <A>Create New Project</A>
-        <A>Create New Project</A>
-        <A>Create New Project</A>
+        <A>Add New Member</A>
+        <A>Submit New Case</A>
+        <A>Request Review</A>
+        <A>Generate New Report</A>
       </Right>
     </Container>
   )

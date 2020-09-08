@@ -41,7 +41,7 @@ function Routes() {
       <Switch>
         <Route path="/timeline"> <Header /> <TP theme={cs.home}> <Timeline /> </TP> </Route>
         <Route path="/kanban"> <Header /> <TP theme={cs.home}> <Kanban /> </TP> </Route>
-        <Route path="/dashboard"> <Header /> <TP theme={cs.home}> <Dashboard /> </TP> </Route>
+        <Route path="/dashboard"> <TP theme={cs.home}> <Hmc /> </TP> </Route>
         <Route path="/formulation"> <Header /> <TP theme={cs.fs}> <Formulation /> </TP> </Route>
         <Route path="/collaboration"> <Header /> <TP theme={cs.cs}> <Collaboration /> </TP> </Route>
         <Route path="/activation"> <Header /> <TP theme={cs.as}> <Activation /> </TP> </Route>
@@ -49,7 +49,7 @@ function Routes() {
         <Route path="/compliance"> <Header /> <TP theme={cs.cps}> <Compliance /> </TP> </Route>
         <Route path="/test"> <Header /> <TP theme={cs.cps}> <Test /> </TP> </Route>
         <Route path="/hmc"> <TP theme={cs.cps}> <Hmc /> </TP> </Route>
-        <Route exact path="/"> <Header /> <TP theme={cs.home}> <Dashboard /> </TP></Route>
+        <Route exact path="/"> <TP theme={cs.home}> <Hmc /> </TP></Route>
       </Switch>
     </>
   )

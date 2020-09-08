@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default function({title='Recent Activities', items=[], showAll=true, ...props}) {
+export default function({title='Recent Activities', className, items=[], showAll=true, ...props}) {
   return (
-    <Container>
+    <Container className={className}>
       <TitleBar>
         <span className='title'>
           {title}
@@ -38,7 +38,6 @@ const TitleBar = styled.div`
   }
 `
 const Container = styled.div`
-  width: 370px;
   border: solid 1px #dddddd;
   background-color: #ffffff;
   padding: 18px 20px;
