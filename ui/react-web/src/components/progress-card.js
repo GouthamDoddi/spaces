@@ -17,24 +17,24 @@ function ShowPerc({ progress, max=100, sym='%' }) {
   )
 }
 
-function ShowDays({ days, date, max=30}) {
+function ShowDays({ days, daysText, date, max=30}) {
   return (
     <>
       <progress value={days} max={max}> {days} </progress>
-      <div className='pending days'> Due date is on {date} </div>
+      <div className='pending days'> {daysText} {date} </div>
       <div className='progress-value'> {max - days < 10 ? `0${max - days}` : (max - days)} </div>
       <div className='snippet'>Days Left</div>
     </>
   )
 }
 
-function ProgressCard(props) {
+function ProgressCard({daysText='Due date is on', ...props}) {
   const { className, title, subtitle, progress, days, date, max, sym } = props
   return (
     <div className={className}>
       <div className='title'>{title}</div>
       <div className='subtitle'>{subtitle}</div>
-      { progress ? <ShowPerc progress={progress} max={max} sym={sym} /> : <ShowDays max={max} days={days} date={date}/> }
+      { progress ? <ShowPerc progress={progress} max={max} sym={sym} /> : <ShowDays max={max} days={days} daysText={daysText} date={date}/> }
     </div>
   )
 }

@@ -48,6 +48,15 @@ export default function(props) {
     addData(listData.find(o => o.id === sectionId))
   } else if(sectionId == null && id) { addData(null) }
 
+  var date1 = new Date(); 
+  var date2 = new Date("12/01/2020"); 
+    
+  // To calculate the time difference of two dates 
+  var diff = date2.getTime() - date1.getTime(); 
+    
+  // To calculate the no. of days between two dates 
+  var diffDays = parseInt(diff / (1000 * 3600 * 24)); 
+    
   return (
     <>
       <div className='form-space'>
@@ -101,9 +110,9 @@ export default function(props) {
     </div>
 
       <div className='widgets'>
-      <ProgressCard title='Due Date'
-        subtitle='Due date of selected policy'
-        days={23} color='#fd7635' date='13 April 2020' />
+      <ProgressCard title='Valid Upto&nbsp;  12/2020'
+        subtitle='Validity of the decree'
+        max={diffDays + 10} days={10} color='#fd7635' daysText='Refresh due on' date='01/12/2020' />
     </div>  
     </>
   )
