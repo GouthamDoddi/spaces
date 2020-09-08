@@ -107,7 +107,7 @@ const Content = styled.div`
   background-color: #ffffff;
   padding: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 307px);
+  grid-template-columns: repeat(auto-fit, 360px);
   grid-auto-rows: 108px;
   grid-gap: 18px 10px;
   height: 320px;

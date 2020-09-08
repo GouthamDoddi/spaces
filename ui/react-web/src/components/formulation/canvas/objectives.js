@@ -26,7 +26,7 @@ function submitted(policy_id, id, data) {
   id ? localState.update({policy_id, id, data, cb}) : localState.create({policy_id, data, cb})
 }
 
-const columns = '0.3fr 1fr 2.3fr'
+const columns = '0.3fr 1fr 1fr 2.3fr'
 
 export default function(props) {
 
@@ -70,6 +70,7 @@ export default function(props) {
         <Table className='table'>
           <Header columns={columns}>
             <div>ID</div>
+            <div>Name</div>
             <div>Outcome</div>
             <div>Description</div>
           </Header> 
@@ -78,7 +79,7 @@ export default function(props) {
               listData.map((o, i) => (
                 <Row onClick={() => setSectionId(o.id)} className={ o.id === id ? 'selected row' : 'row'} key={i} columns={columns}> 
                   <div> {o.id} </div>
-                  
+                  <div> {o.name} </div>
                   <div> {outcomeTypes[o.outcome_id]?.label} </div>
                   <div> {o.description} </div>
                 </Row>

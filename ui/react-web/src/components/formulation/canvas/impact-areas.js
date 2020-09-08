@@ -26,7 +26,7 @@ function submitted(policy_id, id, data) {
   id ? localState.update({policy_id, id, data, cb}) : localState.create({policy_id, data, cb})
 }
 
-const columns = '0.3fr 2fr 1fr 1fr'
+const columns = '0.3fr 1.2fr 1.2fr 1fr 1fr'
 export default function(props) {
 
   const { policy_id } = useParams()
@@ -82,6 +82,7 @@ export default function(props) {
         <Table className='table'>
           <Header columns={columns}>
             <div>ID</div>
+            <div>Name</div>
             <div>Beneficiary Segment</div>
             <div>Impact Correlation</div>
             <div>Impact</div>
@@ -92,7 +93,7 @@ export default function(props) {
               listData.map((o, i) => (
                 <Row onClick={() => setSectionId(o.id)} className={ o.id === id ? 'selected row' : 'row'} key={i} columns={columns}> 
                   <div> {o.id} </div>
-                  
+                  <div> {o.name} </div>
                   <div> {beneficiarySegments[o.beneficiary_segment_id]?.label} </div>
                   <div> {impactCorrelationTypes[o.impact_correlation]?.label} </div>
                   <div> {impactTypes[o.impact]?.label} </div>
