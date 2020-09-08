@@ -9,7 +9,7 @@ export default function({type='Participated', item='Entities', count, total, ite
         <Item color={itemColor}> { item } </Item>
       </Left>
       <Right>
-        36
+        {count}
       </Right>
     </Container>
   )

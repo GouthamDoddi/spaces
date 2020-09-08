@@ -12,7 +12,7 @@ import Alerts from './Alerts'
 function NormalLink(props) {
   const { to, className, children, space } = props
   return (
-    hasSpaceAccess(space) ?
+    (!space || hasSpaceAccess(space)) ?
       <NavLink to={to} className={className} activeClassName="selected">
         {children}
         <div> &#x2B24; </div>
@@ -124,7 +124,7 @@ export default function (props) {
     <>
     <StyledHeader>
       <div className="header-content">
-        <div className="title">MOTC</div>
+        <div className="title"><a href='/'> MOTC </a></div>
         <div className="menu">
           <Link color={cs.home.color} to="/dashboard">
             <div> Home </div>

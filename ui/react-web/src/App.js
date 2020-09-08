@@ -22,6 +22,7 @@ import Timeline from './components/dashboard/timeline'
 import Kanban from './components/dashboard/kanban'
 import Test from './components/dashboards/test'
 import Hmc from './components/dashboards/hmc'
+import Pcp from './components/dashboards/pcp'
 
 import Header from './components/header'
 
@@ -49,7 +50,7 @@ function Routes() {
         <Route path="/compliance"> <Header /> <TP theme={cs.cps}> <Compliance /> </TP> </Route>
         <Route path="/test"> <Header /> <TP theme={cs.cps}> <Test /> </TP> </Route>
         <Route path="/hmc"> <TP theme={cs.cps}> <Hmc /> </TP> </Route>
-        <Route exact path="/"> <TP theme={cs.home}> <Hmc /> </TP></Route>
+        <Route exact path="/"> <TP theme={cs.home}> <Pcp /> </TP></Route>
       </Switch>
     </>
   )

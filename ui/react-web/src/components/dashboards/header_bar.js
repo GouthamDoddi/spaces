@@ -12,7 +12,7 @@ import Alerts from '../header/Alerts'
 function NormalLink(props) {
   const { to, className, children, space } = props
   return (
-    hasSpaceAccess(space) ?
+    (!space || hasSpaceAccess(space))  ?
       <NavLink to={to} className={className} activeClassName="selected">
         {children}
         <div> &#x2B24; </div>
@@ -181,6 +181,7 @@ const StyledHeader = styled.header`
   padding-left: 30px;
   z-index: 2000;
   border: solid 1px #dddddd;
+  background-color: #fff;
   .header-content {
     display: grid;
     grid-template-columns: auto 364px;

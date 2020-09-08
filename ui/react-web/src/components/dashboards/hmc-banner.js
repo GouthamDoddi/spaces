@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default function({type='Participated', item='Entities', count, total, itemColor='#257c76', ...props}) {
+export default function({type='Hamad Medical Corporation', size, item='Entities', count, total, hideScore=false, ...props}) {
   return (
     <Container className={props.className}>
       <Left>
-        <Type> Hamad Medical Corporation </Type>
+        <Type size={size}> {type} </Type>
         <Items>
           <Item>Websites: 3</Item>
           <Item>Mobile Apps: 3</Item>
@@ -13,11 +13,14 @@ export default function({type='Participated', item='Entities', count, total, ite
         </Items>
       </Left>
       <Right>
-        <Score>
-          <div>Overall Score</div>
-          <span> 87/100 </span>
-        </Score>
-        <img src='/img/hmc_logo.jpg' />
+        { !hideScore ? 
+          <>
+            <Score>
+              <div>Overall Score</div>
+              <span> 87/100 </span>
+            </Score> <img src='/img/hmc_logo.jpg' /> </> : null
+        }
+        
       </Right>
     </Container>
   )
@@ -52,7 +55,7 @@ const Right = styled.div`
 `
 
 const Type = styled.div`
-  font-size: 42px;
+  font-size: ${p => p.size || '42px'};
   font-weight: 300;
   color: #ffffff;
   margin-top: 30px;

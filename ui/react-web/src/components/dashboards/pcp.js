@@ -13,6 +13,7 @@ import Banner from './hmc-banner'
 
 const columns1 = '2fr .5fr .5fr .5fr .2fr .4fr'
 const columns2 = '1.5fr .5fr'
+const columns3 = '1fr .7fr .3fr'
 export default function(props) {
   return(
     <Layout>
@@ -23,36 +24,36 @@ export default function(props) {
       <Content>
         {/* <Top></Top> */}
         <HeaderBar className='hb' />
-        <Banner className='bnr'>
-
-        </Banner>
-        <SquareBanner className='sb'/>
-        <Status className='st1' count='36' />
-        <Status type='Published' item='Policies' itemColor='#85263a' className='st2' count='13' />
-        <Status type='Under Development' item='Policies'  className='st3' count='67'/>
-
-        <QuickActions className='qa' />
-        <Status className='st4' type='Ongoing' item='Testing' count='14'/>
-
-        <Table className='tbl-mt' title='My Tasks'>
-          <Header columns={columns2} >
-            <div>Name</div>
-            <div>Due</div>
+        <Banner type='Participated Compliance Projects' size='32px' hideScore className='bnr' />
+        <Table className='sb' title='Compliant Entities'>
+          <Header columns={columns3} >
+            <div>Parameter</div>
+            <div>Domain</div>
+            <div>#</div>
           </Header>
-          <Row columns={columns2}>
-            <div> Exception to navigation</div>
-            <div> 14/Oct </div>
+          <Row columns={columns3}>
+            <div> Side Navigation</div>
+            <div> Layout </div>
+            <div> 137 </div>
           </Row>
-          <Row columns={columns2}>
-            <div>Request to excempt</div>
-            <div> 16/Oct </div>
-            
+          <Row columns={columns3}>
+            <div>Logo Background</div>
+            <div> User Interface </div>
+            <div> 53 </div>
           </Row>
-          <Row columns={columns2}>
-            <div>Request to review</div>
-            <div> 26/Oct </div>
+          <Row columns={columns3}>
+            <div>Select to Read </div>
+            <div> Accessibility </div>
+            <div> 11 </div>
           </Row>
         </Table>
+        <Status className='st1' count='36'/>
+        <Status type='Published' item='Policies' itemColor='#85263a' className='st2' count='14'/>
+        <Status type='Under Development' item='Policies'  className='st3' count='03'/>
+
+        <QuickActions className='qa' />
+        <Status className='st4' type='Ongoing' item='Testing' count='52' />
+        <Status className='st5' type='Requested' item='Exceptions' count='41' />
 
         <Table className='tbl' title='Compliance Projects'>
           <Header columns={columns1} >
@@ -135,6 +136,7 @@ const Content = styled.div`
   .st3 { grid-column: 7 / 10};
   .qa { grid-column: 1 / 7};
   .st4 { grid-column: 7 / 10};
+  .st5 { grid-column: 10 / 13 };
   .tbl { 
     grid-column: 1 / 7;
     grid-row: 5 / 7;
@@ -153,7 +155,7 @@ const Content = styled.div`
   }
   .ra { 
     grid-column: 10 / 13;
-    grid-row: 6 / 8;
+    grid-row: 5 / 7;
   }
 
   .hb {
