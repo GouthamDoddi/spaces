@@ -46,7 +46,7 @@ class App::Services::Compliance::Projects < App::Services::Base
   def self.fields
     {
       save: [
-        :name, :sponsor, :description, 
+        :name, :sponsor, :description, :category_id,
         :owner, :type_id, :start_date, :end_date,
       ]
     }

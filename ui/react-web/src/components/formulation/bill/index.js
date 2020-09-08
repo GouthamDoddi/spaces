@@ -102,7 +102,7 @@ export default function(props) {
 
       <div className='widgets'>
       <ProgressCard title='Due Date'
-        subtitle='DUe date of selected policy'
+        subtitle='Due date of selected policy'
         days={23} color='#fd7635' date='13 April 2020' />
     </div>  
     </>

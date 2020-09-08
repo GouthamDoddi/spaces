@@ -15,10 +15,10 @@ export const outcomes = {
 }
 
 export const beneficiarySegments = {
-  1: { value: 1, label: 'BS 1' },
-  2: { value: 2, label: 'BS 2' },
-  3: { value: 3, label: 'BS 3' },
-  4: { value: 3, label: 'BS 4' },
+  1: { value: 1, label: 'Governament' },
+  2: { value: 2, label: 'Business' },
+  3: { value: 3, label: 'Citizens' },
+  4: { value: 3, label: 'Visitors' },
 }
 
 export const projectTypes = {
@@ -26,6 +26,12 @@ export const projectTypes = {
   2: { value: 2, label: 'Department'},
   3: { value: 3, label: 'Micro'},
   4: { value: 4, label: 'Special Project'},
+}
+
+export const projectCategoryTypes = {
+  1: { value: 1, label: 'Website'},
+  2: { value: 2, label: 'Mobile App'},
+  3: { value: 3, label: 'E-Service'}
 }
 
 export const roleTypes = {

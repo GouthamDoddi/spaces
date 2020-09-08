@@ -8,6 +8,7 @@ Sequel.migration do
       String :description, text: true
       String :owner
       Integer :type_id
+      Integer :category_id
 
       Date :start_date
       Date :end_date
