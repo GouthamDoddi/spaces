@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="370" height="133" viewBox="0 0 370 133">
+  <g id="Total_Sales" data-name="Total Sales" transform="translate(-1210 -316)">
+    <g id="BG" transform="translate(1210 316)" fill="#fff" stroke="#e1e1e1" stroke-width="1">
+      <rect width="370" height="133" stroke="none"/>
+      <rect x="0.5" y="0.5" width="369" height="132" fill="none"/>
+    </g>
+    <g id="Naked_Label" data-name="Naked Label" transform="translate(202.201 -44)">
+      <text id="_13.8_" data-name="13.8%" transform="translate(1267.799 449)" fill="#3cc480" font-size="33" font-family="SourceSansPro-Bold, Source Sans Pro" font-weight="700"><tspan x="0" y="0">13.8%</tspan></text>
+      <path id="UpArrow" d="M15.928,19.114V3.186A3.01,3.01,0,0,0,12.743,0h0A3.01,3.01,0,0,0,9.557,3.186V19.114H0L12.743,31.857,25.486,19.114Z" transform="translate(1255.486 453.228) rotate(180)" fill="#3cc480"/>
+    </g>
+    <text id="_253" data-name="253" transform="translate(1230 408)" fill="#4d4f5c" font-size="25" font-family="SourceSansPro-Bold, Source Sans Pro" font-weight="700"><tspan x="0" y="0">253</tspan></text>
+    <text id="Government_Websites_Framework" data-name="Government Websites Framework" transform="translate(1230 353)" fill="#666" font-size="16" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Government Websites Framework</tspan></text>
+    <text id="Survey_Responses" data-name="Survey Responses" transform="translate(1230 425)" fill="#666" font-size="12" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Survey Responses</tspan></text>
+  </g>
+</svg>
