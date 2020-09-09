@@ -21,7 +21,7 @@ export default function(props) {
             {
               ['#', 'Name', 'Short Name', 
                 'Type', 'Websites', 'Mobile', 
-                'E-Services', 'Tested %', 'Defects', 'Fixed', 'Score', 'Ranck'
+                'E-Services', 'Tested %', 'Defects', 'Fixed', 'Score', 'Rank'
               ].map((h, i) => <div className={i > 3 ? 'center' : ''} key={i}>{h}</div>)
             }
               

@@ -29,8 +29,8 @@ import Checklist from './checklist'
 const WorkspaceLinks = [
   { name: 'Policy Canvas', path: 'canvas'},
   { name: 'Bill / Decree', path: 'bill'},
-  { name: 'Frameworks', path: 'frameworks'},
   { name: 'Committees', path: 'committees'},
+  { name: 'Frameworks', path: 'frameworks'},
   { name: 'Beneficiary', path: 'beneficiary'},
   { name: 'Policy Checklist', path: 'checklist'},
   { name: 'Operating Model', path: 'operating-model'},

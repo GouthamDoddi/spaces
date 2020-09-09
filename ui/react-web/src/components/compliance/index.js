@@ -33,9 +33,9 @@ import { useTo } from './util'
 
 const WorkspaceLinks = [
   { name: 'Project Profile', path: 'profile'},
-  { name: 'Framework Question', path: 'framework'},
-  { name: 'Compliance Record', path: 'record'},
+  { name: 'Framework Questions', path: 'framework'},
   { name: 'Compliance Plan', path: 'plan'},
+  { name: 'Compliance Record', path: 'record'},
   { name: 'Compliance Management', path: 'compl-management'},
   { name: 'My Cases', path: 'mycases'},
   { name: 'Case Management', path: 'case-management'},
