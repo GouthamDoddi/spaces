@@ -17,10 +17,10 @@ export default function({title='Recent Activities', except=[], selected='dashboa
       <Links>
         <A to='/a-dashboard' icon='dashboard.svg' {...options('dashboard')}> Dashboard </A>
         <A to='/formulation' icon='policies.svg' {...options('policies')}> Policies </A>
-        <A icon='policies.svg' {...options('entities')}> Entities </A>
+        <A to='/entities' icon='policies.svg' {...options('entities')}> Entities </A>
         <A to='/compliance' icon='projects.svg' {...options('projects')}> Projects </A>
         <A icon='cases.svg' {...options('cases')}> Cases </A>
-        <A to='/entities' icon='my-tasks.svg' {...options('my-tasks')}> My Tasks </A>
+        <A icon='my-tasks.svg' {...options('my-tasks')}> My Tasks </A>
         <A icon='resources.svg' {...options('resources')}> Resources </A>
         <A to='/governance' icon='reports.svg' {...options('reports')} border> Reports </A>
         
