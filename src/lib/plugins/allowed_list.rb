@@ -23,3 +23,18 @@ module SequelPlugin
     end
   end
 end
+
+
+# Board Member - sat@gmail.com(test)
+
+# Policy Maker - user.one@motc.qa(testuser1)
+
+# Test Manager - sai.k@softpathinfotech.com(sai1234)
+# Test Manager - naveen.m@softpathinfotech.com(naveen1234)
+
+# Entity user - yashila@softpathinfotech.com(yashila1234) ----- HMC- Website
+
+# Entity User - sireesha@softpathinfotech.com(sireesha1234) ---- ADLSA
+
+# Test User -  sandeep.k@softpathinfotech.com(sandeep1234) ---- ADLSA, HMC-Website
+

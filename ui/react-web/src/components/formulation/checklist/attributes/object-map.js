@@ -45,7 +45,7 @@ export default function(props) {
   return(
     <Container>
       <BoxGrid>
-        <OptionList title='Objects' description='Lorem ipsum dolor sit amet, consectetur' dataStore={objects.store}
+        <OptionList title='Objects' description='' dataStore={objects.store}
           sectionStore={sectionStore}
           policyStore={policyStore}
           onClicked={(id) => {setOid(id); setSoid(null)}}
@@ -55,7 +55,7 @@ export default function(props) {
           iid={attr_id}
         >  </OptionList>
         <Spacer />
-        <OptionList title='Sub Objects' description='Lorem ipsum dolor sit amet, consectetur'
+        <OptionList title='Sub Objects' description=''
           sectionStore={sectionStore}
           policyStore={policyStore}
           dataStore={subobjects.store}
@@ -65,7 +65,7 @@ export default function(props) {
           iid={attr_id}
           onClicked={setSoid}></OptionList>
         <Spacer />
-        <OptionList title='Questions' description='Lorem ipsum dolor sit amet, consectetur'
+        <OptionList title='Questions' description=''
           sectionStore={sectionStore}
           policyStore={policyStore}        
           dataStore={questions.store}

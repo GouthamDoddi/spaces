@@ -43,7 +43,7 @@ export default function(props) {
       <div className='form-space'>
         <Container>
           <BoxGrid>
-            <OptionList title='Beneficiary' description='Lorem ipsum dolor sit amet, consectetur' dataStore={beneficiaries.store}
+            <OptionList title='Beneficiary' description='' dataStore={beneficiaries.store}
               onClicked={(id) => {setBid(id); setPid(null)}}
               sid={bid}
               path='beneficiary'
@@ -51,7 +51,7 @@ export default function(props) {
               bidsKey='beneficiary_ids'
             >  </OptionList>
             <Spacer />
-            <OptionList title='Profile' description='Lorem ipsum dolor sit amet, consectetur'
+            <OptionList title='Profile' description=''
               dataStore={profiles.store}
               sid={pid}
               path='beneficiary_profile'
@@ -59,7 +59,7 @@ export default function(props) {
               bidsKey='beneficiary_profile_ids'
               onClicked={setPid}></OptionList>
             <Spacer />
-            <OptionList title='Details' description='Lorem ipsum dolor sit amet, consectetur'
+            <OptionList title='Details' description=''
               dataStore={details.store}
               path='profile_detail'
               bidsKey='profile_detail_ids'
