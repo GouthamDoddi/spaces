@@ -110,7 +110,7 @@ export default function(props) {
     </div>
 
       <div className='widgets'>
-      <ProgressCard title='Valid Upto&nbsp;  12/2020'
+      <ProgressCard title='Valid Until&nbsp;  12/2020'
         subtitle='Validity of the decree'
         max={diffDays + 10} days={10} color='#fd7635' daysText='Refresh due on' date='01/12/2020' />
     </div>  
