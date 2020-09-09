@@ -36,10 +36,10 @@ export default function(props) {
               <div className='center'> {o.mobile} </div>
               <div className='center'> {o.eservices} </div>
               <div className='center'> {o.tested}% </div>
-              <div className='center'> {o.defects}% </div>
-              <div className='center'> {o.fixed}% </div>
-              <div className='center'> {o.score}% </div>
-              <div className='center'> {o.rank}% </div>
+              <div className='center'> {o.defects} </div>
+              <div className='center'> {o.fixed} </div>
+              <div className='center'> {o.score} </div>
+              <div className='center'> {o.rank} </div>
             </Row>
 
           ))}
