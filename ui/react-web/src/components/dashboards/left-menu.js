@@ -1,24 +1,40 @@
 import React from 'react'
 import styled from 'styled-components'
+import {Link} from 'react-router-dom'
 
-export default function({title='Recent Activities', items=[], showAll=true, ...props}) {
+
+export default function({title='Recent Activities', except=[], selected='dashboard', items=[], showAll=true, ...props}) {
+  const options = ((res) => {
+     return({ selected: (selected == res), hide: except.includes(res)})
+    }
+  )
+
   return (
     <Container>
       <TitleBar>
         <div className='logo'></div>
       </TitleBar>
       <Links>
-        <A icon='dashboard.svg' selected> Dashboard </A>
-        <A icon='projects.svg'> Projects </A>
-        <A icon='cases.svg'> Cases </A>
-        <A icon='my-tasks.svg'> My Tasks </A>
-        <A icon='reports.svg'> Reports </A>
-
+        <A to='/a-dashboard' icon='dashboard.svg' {...options('dashboard')}> Dashboard </A>
+        <A to='/formulation' icon='policies.svg' {...options('policies')}> Policies </A>
+        <A icon='policies.svg' {...options('entities')}> Entities </A>
+        <A to='/compliance' icon='projects.svg' {...options('projects')}> Projects </A>
+        <A icon='cases.svg' {...options('cases')}> Cases </A>
+        <A to='/entities' icon='my-tasks.svg' {...options('my-tasks')}> My Tasks </A>
+        <A icon='resources.svg' {...options('resources')}> Resources </A>
+        <A to='/governance' icon='reports.svg' {...options('reports')} border> Reports </A>
+        
+        <A2 icon='forums.svg'  show> Forums </A2>
+        <A2 icon='announce.svg' > Announcements </A2>
+        <A2 icon='kb.svg' > Knowledge Base </A2>
+        <A2 icon='learning.svg' > Learning Activities </A2>
+        <A2 icon='one.svg' > Surveys & Petitions </A2>
       </Links>
     </Container>
   )
 }
 // You have created new project
+
 const TitleBar = styled.div`
   margin-bottom: 70px;
   border-bottom: 1px solid #f0f0f0;
@@ -60,8 +76,8 @@ const Links = styled.div`
   flex-direction: column;
   align-items: center;
 `
-const A = styled.a`
-  display: block;
+const A = styled(Link)`
+  display: ${p => p.hide ? 'none' : 'block'};
   position: relative;
   width: 180px;
   height: 20px;
@@ -73,4 +89,8 @@ const A = styled.a`
   background-image: url(/img/icons-lm/${p => p.icon});
   background-size: 20px 20px;
   background-repeat: no-repeat;
+`
+const A2 = styled(A)`
+  color: ${p => p.selected ? '#eb622b' : '#257C76'};
+  margin-top: ${p => p.show ? '40px' : 0};
 `

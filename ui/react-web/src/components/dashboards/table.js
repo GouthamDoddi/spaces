@@ -56,6 +56,9 @@ export const Header = styled.div`
     align-items: center;
     &:first-child { margin-left: 8px;}
   }
+  > .center { justify-content: center; }
+  > .right { justify-content: right; }
+
 `
 
 export const Row = styled(Header)`
@@ -66,6 +69,4 @@ export const Row = styled(Header)`
   text-overflow: ellipsis;
   overflow: hidden;
   grid-auto-rows: 50px;
-  > .center { justify-content: center; }
-  > .right { justify-content: right; }
 `

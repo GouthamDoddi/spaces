@@ -6,7 +6,7 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import { loggedIn } from './store/user'
+import { loggedIn, role } from './store/user'
 
 // import { objects, subobjects, questions, beneficiaries, profiles, details } from './store/master-data'
 import SnackBar from './snackbar'
@@ -23,6 +23,8 @@ import Kanban from './components/dashboard/kanban'
 import Test from './components/dashboards/test'
 import Hmc from './components/dashboards/hmc'
 import Pcp from './components/dashboards/pcp'
+import Bcp from './components/dashboards/bcp'
+import Entity from './components/dashboards/entities'
 
 import Header from './components/header'
 
@@ -42,7 +44,7 @@ function Routes() {
       <Switch>
         <Route path="/timeline"> <Header /> <TP theme={cs.home}> <Timeline /> </TP> </Route>
         <Route path="/kanban"> <Header /> <TP theme={cs.home}> <Kanban /> </TP> </Route>
-        <Route path="/dashboard"> <TP theme={cs.home}> <Hmc /> </TP> </Route>
+        <Route path="/dashboard"> <TP theme={cs.home}> { dbForRole(role())} </TP> </Route>
         <Route path="/formulation"> <Header /> <TP theme={cs.fs}> <Formulation /> </TP> </Route>
         <Route path="/collaboration"> <Header /> <TP theme={cs.cs}> <Collaboration /> </TP> </Route>
         <Route path="/activation"> <Header /> <TP theme={cs.as}> <Activation /> </TP> </Route>
@@ -50,10 +52,29 @@ function Routes() {
         <Route path="/compliance"> <Header /> <TP theme={cs.cps}> <Compliance /> </TP> </Route>
         <Route path="/test"> <Header /> <TP theme={cs.cps}> <Test /> </TP> </Route>
         <Route path="/hmc"> <TP theme={cs.cps}> <Hmc /> </TP> </Route>
-        <Route exact path="/"> <TP theme={cs.home}> <Pcp /> </TP></Route>
+        <Route path="/pcp"> <TP theme={cs.cps}> <Pcp /> </TP> </Route>
+        <Route path="/bcp"> <TP theme={cs.cps}> <Bcp /> </TP> </Route>
+        <Route path="/entities"> <TP theme={cs.cps}> <Entity /> </TP> </Route>
+        <Route path="/a-dashboard"> 
+          <TP theme={cs.cps}> 
+            { dbForRole(role())}
+          </TP> 
+        </Route>
+        <Route exact path="/"> <TP theme={cs.home}> { dbForRole(role())} </TP></Route>
       </Switch>
     </>
   )
+}
+
+
+function dbForRole(role) {
+  if(role == 0) {
+      return <Bcp />
+  } else if( role == 1) {
+    return <Pcp />
+  } else {
+    return <Hmc />
+  }
 }
 function App() {
 

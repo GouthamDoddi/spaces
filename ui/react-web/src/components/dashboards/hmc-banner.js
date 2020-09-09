@@ -1,15 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default function({type='Hamad Medical Corporation', size, item='Entities', count, total, hideScore=false, ...props}) {
+export default function({type='Hamad Medical Corporation', size, websites=3, mobile=3, eservices=30, item='Entities', count, total, hideScore=false, ...props}) {
   return (
     <Container className={props.className}>
       <Left>
         <Type size={size}> {type} </Type>
         <Items>
-          <Item>Websites: 3</Item>
-          <Item>Mobile Apps: 3</Item>
-          <Item>E-Services:: 30</Item>
+          <Item>Websites: {websites} </Item>
+          <Item>Mobile Apps: { mobile }</Item>
+          <Item>E-Services:: { eservices} </Item>
         </Items>
       </Left>
       <Right>
@@ -63,6 +63,7 @@ const Type = styled.div`
 
 const Items = styled.div`
   display: flex;
+  margin-top: 10px;
 `
 
 const Item = styled.div`

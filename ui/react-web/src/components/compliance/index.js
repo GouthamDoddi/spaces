@@ -34,14 +34,14 @@ import { useTo } from './util'
 const WorkspaceLinks = [
   { name: 'Project Profile', path: 'profile'},
   { name: 'Framework Objects', path: 'framework'},
-  { name: 'Compliance Sections', path: 'compl-sections'},
-  { name: 'Compliance Plan', path: 'plan'},
-  { name: 'Knowledge Base', path: 'kb'},
   { name: 'Compliance Record', path: 'record'},
+  { name: 'Compliance Plan', path: 'plan'},
   { name: 'Compliance Management', path: 'compl-management'},
   { name: 'My Cases', path: 'mycases'},
   { name: 'Case Management', path: 'case-management'},
   { name: 'Case Queues', path: 'compl-q'},
+  { name: 'Compliance Sections', path: 'compl-sections'},
+  { name: 'Knowledge Base', path: 'kb'},
 ]
 
 const WorkspaceListLinks = [

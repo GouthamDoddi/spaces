@@ -70,7 +70,7 @@ export default function Element({sections, loadS, ...props}) {
     return(
       <Done>
         <img src='/img/kb/done.svg' alt='done' />
-        <div> Survey Complete! Thankyou for your time. </div>
+        <div> Survey Complete! Thank you for your time. </div>
         <button onClick={() => {setAnswers({}); setRetake(true)}}> Re - Take </button>
       </Done>
     )

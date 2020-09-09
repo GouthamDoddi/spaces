@@ -17,7 +17,7 @@ export default function(props) {
   return(
     <Layout>
       <Left>
-        <LeftMenu></LeftMenu>
+        <LeftMenu except={['policies', 'entities', ]}></LeftMenu>
       </Left>
       
       <Content>
@@ -27,12 +27,12 @@ export default function(props) {
 
         </Banner>
         <SquareBanner className='sb'/>
-        <Status className='st1' count='36' />
-        <Status type='Published' item='Policies' itemColor='#85263a' className='st2' count='13' />
-        <Status type='Under Development' item='Policies'  className='st3' count='67'/>
+        <Status type='Unresolved' item='M1' count='07' itemColor='#85263a' className='st1'/>
+        <Status type='Unresolved' item='M2' itemColor='#257c76' className='st2' count='13' />
+        <Status type='Unresolved' item='M3' itemColor='#1a6b8f' count='67' className='st3' />
 
         <QuickActions className='qa' />
-        <Status className='st4' type='Ongoing' item='Testing' count='14'/>
+        <Status className='st4' type='Ongoing' item='Testing' itemColor='#eb622b' count='14'/>
 
         <Table className='tbl-mt' title='My Tasks'>
           <Header columns={columns2} >
@@ -100,7 +100,12 @@ export default function(props) {
             <div> Open </div>
           </Row>
         </Table>
-        <List className='ra' title='Recent Activities' items={['You have created a new Project', 'You have uploaded a new evidance']}> </List>
+        <List className='ra' title='Recent Activities' items={[
+          'You have created a new Project', 'You have uploaded a new evidance', 'New evidence has been uploaded', 
+          'MOTC approved Ambulance Service Test', 'New Exception has been requested', 'New Exception has been requested']}> </List>
+        <Img className='ts' height='133px' src='/img/icons-lm/sales.svg' />
+        <Img className='te' height='133px' src='/img/icons-lm/earnings.svg' />
+        <Img className='stats' height='296px' src='/img/icons-lm/statistics.svg' />
       </Content>
     </Layout>
   )
@@ -121,6 +126,14 @@ const Left = styled.div`
 //   height: 130px;
 // `
 
+const Img = styled.div`
+  width: 100%;
+  height: ${p => p.height};
+  background-image: ${p => `url(${p.src})`};
+  background-size: 100%;
+  background-repeat: no-repeat;
+  border-bottom: 1px solid #dddddd;
+`
 const Content = styled.div`
   margin: 0 30px;
   margin-bottom: 30px;
@@ -153,11 +166,26 @@ const Content = styled.div`
   }
   .ra { 
     grid-column: 10 / 13;
-    grid-row: 6 / 8;
+    grid-row: 6 / 9;
   }
 
   .hb {
     grid-column: 1 / -1;
+  }
+
+  .ts { 
+    grid-column: 1 / 4;
+    grid-row: 7 / 8;
+  }
+
+  .te { 
+    grid-column: 1 / 4;
+    grid-row: 8 / 9;
+  }
+
+  .stats { 
+    grid-column: 4 / 10;
+    grid-row: 7 / 9;
   }
 `
 

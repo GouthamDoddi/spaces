@@ -69,6 +69,11 @@ export function loggedIn() {
   return token && (token.length > 0)
 }
 
+export function role() {
+  const { info } = store.getState() || {}
+  return info.role
+}
+
 
 export function hasSpaceAccess(space) {
   const { auth } = store.getState()

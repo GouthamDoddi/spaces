@@ -32,13 +32,13 @@ const Left = styled.div`
 `
 
 const Right = styled.div`
-  width: 53px;
-  font-size: 48px;
+  // width: 53px;
+  font-size: 54px;
   font-weight: 300;
   color: #43425d;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: right;
 `
 
 const Type = styled.div`
@@ -50,6 +50,7 @@ const Type = styled.div`
 const Item = styled.div`
   font-size: 42px;
   font-weight: 500;
+  margin-top: 5px;
   color: ${p => p.color};
 `
 
