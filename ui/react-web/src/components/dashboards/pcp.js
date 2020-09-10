@@ -25,7 +25,7 @@ export default function(props) {
       <Content>
         {/* <Top></Top> */}
         <HeaderBar className='hb' />
-        <Banner type='Policies Overview' size='32px' hideScore className='bnr' />
+        <Banner type='Policies Overview' size='32px' hideScore className='bnr' wtxt='Published' mtxt='Under Development' etxt='Under Legalization' />
         <Table className='sb' title='Policies Progress'>
           <Header columns={columns3} >
             <div>Policy</div>

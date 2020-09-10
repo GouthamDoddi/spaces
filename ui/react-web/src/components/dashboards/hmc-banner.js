@@ -1,15 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default function({type='Hamad Medical Corporation', size, websites=3, mobile=3, eservices=30, item='Entities', count, total, hideScore=false, ...props}) {
+export default function({type='Hamad Medical Corporation', size, wtxt='Websites', mtxt='Mobile Apps', etxt='E-Services', websites=3, mobile=3, eservices=30, item='Entities', count, total, hideScore=false, ...props}) {
   return (
     <Container className={props.className}>
       <Left>
         <Type size={size}> {type} </Type>
         <Items>
-          <Item>Websites: {websites} </Item>
-          <Item>Mobile Apps: { mobile }</Item>
-          <Item>E-Services:: { eservices} </Item>
+          <Item>{wtxt}: { websites } </Item>
+          <Item>{mtxt}: { mobile } </Item>
+          <Item>{etxt}: { eservices } </Item>
         </Items>
       </Left>
       <Right>
