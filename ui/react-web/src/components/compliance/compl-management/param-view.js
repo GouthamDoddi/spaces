@@ -89,15 +89,19 @@ export default function(props) {
           <Right>
             <div className='mandate'>
               <span> Mandate: </span>
-              <span className='value'> {mandateLevelTypes[mandate_level_id]?.label} - </span>
-              <span> {userComplianceTypes[user_compliance_type]?.label} </span>
+              <span className='value'> {mandateLevelTypes[mandate_level_id]?.label} </span>
+            </div>
+            <div className='mandate'>
+              <span> User Selected Result Type: </span>
+              <span className='value'> {userComplianceTypes[user_compliance_type]?.label} </span>
             </div>
             
-            <Select name='approver_compliance_type' label='' 
+            <Select name='approver_compliance_type' label='Approver Result Type:' 
               options={toOpt(userComplianceTypes)}
               outerClass='sfield'
               onChange={selectChange('approver_compliance_type')}
               value={userComplianceTypes[approver_compliance_type] || ''} 
+              maxMenuHeight={130}
             />
             
             <TextArea label='Approver Notes' name='approver_notes' onChange={changed} value={ approver_notes || ''} className='field' /> 
@@ -188,7 +192,7 @@ const Right = styled.div`
     margin-right: 10px;
   }
   .sfield {
-    label {display: none;}
+    // label {display: none;}
     margin-bottom: 10px;
   }
 

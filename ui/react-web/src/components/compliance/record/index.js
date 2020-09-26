@@ -76,7 +76,7 @@ export default function (props) {
       <Route path={useLinkTo(':section_id(\\d+)/attr/:attr_id(\\d+)/param')}> 
         <div className='form-space no-background'>
           <RenderBreadcrumb breadcrumb={buildBreadcrumb(useParams())} />
-          <Content><ParamView brd={buildBreadcrumb}/></Content>
+          <Content className='params'><ParamView brd={buildBreadcrumb}/></Content>
         </div>
         <RenderWidget />
       </Route>
@@ -137,6 +137,9 @@ const Content = styled.div`
   border-radius: 3px;
   box-shadow: 0 2px 7px 0 rgba(155, 204, 244, 0.24);
   background-color: #ffffff;
+  &.params {
+    min-height: 700px;
+  }
   > div {
     &:last-child { margin-bottom: 10px;}
   }

@@ -23,6 +23,7 @@ export default function makeStore(path, { group_by=null, defaultStore={ loading:
 
   const changed = createEvent('changed')
   const selectChanged = createEvent('selectChanged')
+  const cbChanged = createEvent('cbChanged')
       
   store.on(changed, (s, o) => {
     
@@ -52,6 +53,13 @@ export default function makeStore(path, { group_by=null, defaultStore={ loading:
   store.on(selectChanged, (s, { name, obj }) => {
     return({ ...s,
       ...{data: {...s.data, [name]: obj.value}}
+    })
+  })
+
+  store.on(cbChanged, (s, { name, val }) => {
+    debugger
+    return({ ...s,
+      ...{data: {...s.data, [name]: val }}
     })
   })
   
@@ -116,7 +124,7 @@ export default function makeStore(path, { group_by=null, defaultStore={ loading:
       del(toPath(others), { data, success: (data) => {assignData(data, cb)}, error: assignError })  
     }
   }
-  return { store, load, create, update, changed, selectChange, addData, remove }
+  return { store, load, create, update, changed, selectChange, cbChanged, addData, remove }
 }
 
 

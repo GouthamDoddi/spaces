@@ -4,7 +4,7 @@ import { Input, Select, Actions, Container, TextArea, toOpt } from '../../form'
 import { reloadAuth } from '../../../store/user'
 import { useParams, Link } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
-import { projectTypes, projectCategoryTypes } from '../../../store/master-data'
+import { projectTypes, projectCategoryTypes, entitiesData } from '../../../store/master-data'
 import { useStore } from 'effector-react'
 
 const { store, load, create, update, addData, changed, selectChange } =  makeStore(({project_id}) => project_id ? `compliance/projects/${project_id}` : 'compliance/projects')
@@ -28,7 +28,7 @@ export default function(props) {
   }, [])
   
   const projectStore = useStore(store)
-  const { name, sponsor, owner, type_id, category_id, start_date, end_date, description } = projectStore.data || {}
+  const { name, owner_id, type_id, category_id, start_date, end_date, description } = projectStore.data || {}
 
   return(
     <Container onSubmit={(data) => submitted(project_id,data)} store={projectStore}>
@@ -36,8 +36,14 @@ export default function(props) {
 
       <div className='container'>
         <Input label='Name' type='text' name='name' onChange={changed} value={name || ''} required/>
-        <Input label='Sponsor' type='text' name='sponsor' onChange={changed} value={sponsor || ''}/>
-        <Input label='Owner' type='text' name='owner' onChange={changed} value={owner || ''}/>
+        {/* <Input label='Sponsor' type='text' name='sponsor' onChange={changed} value={sponsor || ''}/> */}
+        {/* <Input label='Owner' type='text' name='owner' onChange={changed} value={owner || ''}/> */}
+        <Select name='owner_id' label='Owner'
+            options={toOpt(entitiesData)}
+            onChange={selectChange('owner_id')}
+            value={entitiesData[owner_id]}
+            maxMenuHeight={200}
+        />
         <Select name='category_id' label='Project Category' 
             options={toOpt(projectCategoryTypes)}
             onChange={selectChange('category_id')}

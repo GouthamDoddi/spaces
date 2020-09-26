@@ -7,18 +7,18 @@ import styled from 'styled-components'
 import cs from '../../../utils/colors'
 import Attachment from '../../form/attachment'
 import Uploader from '../../form/upload'
-import Form, {TextArea, Select, toOpt, Submit, Input} from '../../form'
+import Form, {TextArea, Select, toOpt, Submit, Input, CheckboxBig} from '../../form'
 import { useParams } from 'react-router-dom'
 
 import {useStore} from 'effector-react'
 
 import makeStore from '../../../store/make-store'
 
-import {userComplianceTypes, mandateLevelTypes} from '../../../store/master-data'
+import {userComplianceTypes, mandateLevelTypes, notTestableReasons} from '../../../store/master-data'
 
 const { load, store } = makeStore(({project_id, attr_id}) => `compliance/project/${project_id}/attr/${attr_id}/parameters`)
 
-const {create, update, addData, changed, selectChange, ...other} = makeStore(({section_id, attr_id, id}) => (id ? 
+const {create, update, addData, changed, selectChange, cbChanged,  ...other} = makeStore(({section_id, attr_id, id}) => (id ? 
     `compliance/section/${section_id}/attr/${attr_id}/parameters/${id}` : `compliance/section/${section_id}/attr/${attr_id}/parameters`))
 
 
@@ -55,7 +55,7 @@ export default function(props) {
     addData(data[0])
   }
 
-  const { id, user_compliance_type, name, wiki_desc, description, user_notes, mandate_level_id, parameter_id, status, approver_notes, approver_compliance_type, doc_group } = sStore.data || {}
+  const { id, user_compliance_type, name, wiki_desc, description, not_testable_reason, not_testable, user_notes, mandate_level_id, parameter_id, status, approver_notes, approver_compliance_type, doc_group } = sStore.data || {}
   
   if( rawData && data.length == 0) {
     return <Container> <NoParams> No Parameters</NoParams></Container>
@@ -107,13 +107,35 @@ export default function(props) {
               <span> Document Group: </span>
               <span className='value'> {doc_group} </span>
             </div>
-            
-            <Select name='user_compliance_type' label='' 
-              options={toOpt(userComplianceTypes)}
-              outerClass='sfield'
-              onChange={status === 'closed' ? (() => {}) : selectChange('user_compliance_type')}
-              value={userComplianceTypes[user_compliance_type] || ''} 
+
+            <Select name='user_compliance_type' label='Result Type:' 
+                options={toOpt(userComplianceTypes)}
+                outerClass='sfield'
+                onChange={status === 'closed' ? (() => {}) : selectChange('user_compliance_type')}
+                value={userComplianceTypes[user_compliance_type] || ''} 
+                maxMenuHeight={130}
             />
+            {/* <CheckboxBig label='Not Testable' name='not_testable' checked={not_testable}  onChange={(val) => cbChanged({name: 'not_testable', val})} />  */}
+            
+            {/* {
+              not_testable ? 
+                <Select name='not_testable_reason' label='Reason (for not able to test)' 
+                  options={toOpt(notTestableReasons)}
+                  outerClass='sfield'
+                  onChange={status === 'closed' ? (() => {}) : selectChange('not_testable_reason')}
+                  value={notTestableReasons[not_testable_reason] || ''} 
+                /> : <Select name='user_compliance_type' label='Compliance Type:' 
+                options={toOpt(userComplianceTypes)}
+                outerClass='sfield'
+                onChange={status === 'closed' ? (() => {}) : selectChange('user_compliance_type')}
+                value={userComplianceTypes[user_compliance_type] || ''} 
+            />
+
+            } */}
+
+
+
+            
   
             <TextArea lab el='Notes' name='user_notes' onChange={changed} value={ user_notes || ''} className='field' disabled={ status === 'closed' } /> 
             { 
@@ -209,7 +231,7 @@ const Right = styled.div`
     margin-right: 10px;
   }
   .sfield {
-    label {display: none;}
+    // label {display: none;}
     margin-bottom: 10px;
   }
 

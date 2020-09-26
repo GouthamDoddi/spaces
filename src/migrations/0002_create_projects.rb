@@ -7,6 +7,7 @@ Sequel.migration do
       String :sponsor, size: 50
       String :description, text: true
       String :owner
+      Integer :owner_id
       Integer :type_id
       Integer :category_id
 
