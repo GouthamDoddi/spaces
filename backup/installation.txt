@@ -1,3 +1,5 @@
+https://tecadmin.net/install-ruby-latest-stable-centos/
+
  1  \curl -sSl https://get.rvm.io | bash
     2  yum install ruby
     3  sudo yum install ruby
