@@ -1,0 +1,46 @@
+psql:/home/appadmin/policy/backup/test1.sql:23: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/btree_gin.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:30: ERROR:  extension "btree_gin" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:37: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/btree_gist.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:44: ERROR:  extension "btree_gist" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:51: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/citext.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:58: ERROR:  extension "citext" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:65: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/cube.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:72: ERROR:  extension "cube" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:79: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/dblink.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:86: ERROR:  extension "dblink" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:93: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/dict_int.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:100: ERROR:  extension "dict_int" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:107: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/dict_xsyn.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:114: ERROR:  extension "dict_xsyn" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:121: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/earthdistance.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:128: ERROR:  extension "earthdistance" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:135: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/fuzzystrmatch.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:142: ERROR:  extension "fuzzystrmatch" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:149: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/hstore.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:156: ERROR:  extension "hstore" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:163: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/intarray.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:170: ERROR:  extension "intarray" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:177: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/ltree.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:184: ERROR:  extension "ltree" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:191: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/pg_stat_statements.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:198: ERROR:  extension "pg_stat_statements" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:205: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/pg_trgm.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:212: ERROR:  extension "pg_trgm" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:219: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/pgcrypto.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:226: ERROR:  extension "pgcrypto" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:233: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/pgrowlocks.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:240: ERROR:  extension "pgrowlocks" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:247: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/pgstattuple.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:254: ERROR:  extension "pgstattuple" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:261: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/tablefunc.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:268: ERROR:  extension "tablefunc" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:275: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/unaccent.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:282: ERROR:  extension "unaccent" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:289: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/uuid-ossp.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:296: ERROR:  extension "uuid-ossp" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:303: ERROR:  could not open extension control file "/usr/pgsql-12/share/extension/xml2.control": No such file or directory
+psql:/home/appadmin/policy/backup/test1.sql:310: ERROR:  extension "xml2" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:322: ERROR:  type "degree_4_level_enum" already exists
+psql:/home/appadmin/policy/backup/test1.sql:325: ERROR:  role "lnhtywgf" does not exist
+psql:/home/appadmin/policy/backup/test1.sql:335: ERROR:  type "degree_enum" already exists
+psql:/home/appadmin/policy/backup/test1.sql:338: ERROR:  role "lnhtywgf" does not exist

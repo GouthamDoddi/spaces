@@ -224,3 +224,110 @@ https://tecadmin.net/install-ruby-latest-stable-centos/
    38   vim /var/lib/pgsql/12/data/postgresql.conf
    39  exit
    40  history
+
+
+
+   ## DB Prod:
+
+   grep -c processor /proc/cpuinfo
+
+       1  sudo yum update
+    2  yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpmyum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+    3  yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+    4  sudo yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+    5  sudo yum install -y postgresql12-server
+    6  sudo /usr/pgsql-12/bin/postgresql-12-setup initdb
+    7  sudo systemctl enable postgresql-12
+    8  sudo systemctl start postgresql-12
+    9  systemctl status postgresql-12
+   10  sudo su - postgres
+   11  psql -c "alter user appadmin with password 'dev123'"
+   12  sudo su - postgres
+   13  psql -U appadmin
+   14  sudo su - postgres
+   15  psql -U appadmin -d lnhtywgf
+   16  git clone https://gitlab.com/pasupunuri/policy.git
+   17  sudo yum install git -y
+   18  git clone https://gitlab.com/pasupunuri/policy.git
+   19  sudo yum install lzop
+   20  cd policy/backup/
+   21  ls
+   22  lzod -cd lnhtywgf.2020-10-18T08_28_44+00_00.sql.lzo > test1.sql
+   23  lzop
+   24  lzop -cd lnhtywgf.2020-10-18T08_28_44+00_00.sql.lzo > test1.sql
+   25  ls
+   26  psql appadmin -d lnhtywgf -f /home/appadmin/policy/backup/test1.sql
+   27  psql -U appadmin -h 127.0.0.1 -d lnhtywgf
+   28  sudo vi /var/lib/pgsql/12/data/postgresql.conf
+   29  sudo vim /var/lib/pgsql/12/data/pg_hba.conf
+   30  ls /var/lib/pgsql/
+   31  sudo ls /var/lib/pgsql/
+   32  sudo ls /var/lib/pgsql/12
+   33  sudo ls /var/lib/pgsql/12/data
+   34  sudo vi /var/lib/pgsql/12/data/pg_hba.conf
+   35  sudo systemctl restart postgresql-12
+   36  sudo systemctl status postgresql-12
+   37  psql -U appadmin -h 127.0.0.1 -d lnhtywgf
+   38  psql -U appadmin -h 0.0.0.0 -d lnhtywgf
+   39  sudo vi /var/lib/pgsql/12/data/pg_hba.conf
+   40  psql -U appadmin -h 0.0.0.0 -d lnhtywgf
+   41  psql -U appadmin -h 127.0.0.1 -d lnhtywgf
+   42  psql appadmin -d lnhtywgf
+   43  psql -U appadmin -h 127.0.0.1 -d lnhtywgf
+   44  psql -U appadmin -h 0.0.0.0 -d lnhtywgf
+   45  psql -U appadmin -h 0.0.0.0
+   46  sudo vi /var/lib/pgsql/12/data/pg_hba.conf
+   47  sudo systemctl stop postgresql-12
+   48  sudo systemctl start postgresql-12
+   49  psql -U appadmin -h 0.0.0.0 -d lnhtywgf
+   50  sudo vi /var/lib/pgsql/12/data/pg_hba.conf
+   51  sudo systemctl stop postgresql-12
+   52  sudo systemctl start postgresql-12
+   53  sudo vi /var/lib/pgsql/12/data/pg_hba.conf
+   54  sudo systemctl stop postgresql-12
+   55  sudo systemctl start postgresql-12
+   56  history
+
+
+
+   WEB server
+
+       1  ls
+    2  clear
+    3  exit
+    4  apt
+    5  sudo dnf update
+    6  ruby -v
+    7  uname
+    8  uname -a
+    9  lsb_release -a
+   10  cat /proc/version
+   11  \curl
+   12  curl --help
+   13  clear
+   14  \curlexit
+   15  exit
+   16  sudo yum update
+   17  ls
+   18  sudo yum install httpd
+   19  sudo apachectl stop
+   20  sudo apachectl start
+   21  curl 172.16.169.132
+   22  ls /etc/httpd/conf.d/
+   23  vim /etc/httpd/conf.d/spaces.conf
+   24  sudo vim /etc/httpd/conf.d/spaces.conf
+   25  sudo apachectl help
+   26  apachectl help
+   27  apachectl --help
+   28  apachectl configtest
+   29  sudo apachectl start
+   30  sudo apachectl status
+   31  sudo vim /etc/httpd/conf.d/spaces.conf
+   32  apachectl configtest
+   33  sudo apachectl stop
+   34  sudo apachectl start
+   35  sudo apachectl status
+   36  curl http://172.16.169.132
+   37  curl http://172.16.169.140:9292
+   38  exit
+   39  history
