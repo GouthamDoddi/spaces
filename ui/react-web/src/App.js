@@ -25,6 +25,7 @@ import Hmc from './components/dashboards/hmc'
 import Pcp from './components/dashboards/pcp'
 import Bcp from './components/dashboards/bcp'
 import Entity from './components/dashboards/entities'
+import Projects from './pages/project/list'
 
 import Header from './components/header'
 
@@ -55,6 +56,7 @@ function Routes() {
         <Route path="/pcp"> <TP theme={cs.cps}> <Pcp /> </TP> </Route>
         <Route path="/bcp"> <TP theme={cs.cps}> <Bcp /> </TP> </Route>
         <Route path="/entities"> <TP theme={cs.cps}> <Entity /> </TP> </Route>
+        <Route path="/projects"> <TP theme={cs.cps}> <Projects /> </TP> </Route>
         <Route path="/a-dashboard"> 
           <TP theme={cs.cps}> 
             { dbForRole(role())}
