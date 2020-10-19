@@ -3,24 +3,30 @@ import React from 'react'
 import styled from 'styled-components'
 import Layout from '../../shared/layout'
 import Table, { Header, Row } from '../../shared/table'
-import Profile from './profile'
+import Project from './index'
 
 import {
   HashRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
+  useParams
 } from 'react-router-dom';
+
+import {projectPath} from '../routes'
 
 const columns1 = ".2fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
 
 const data = [{}]
 export default function(props) {
+  
+  const { project_id } = useParams()
+  
   return (
     <Layout banner={{type: 'Ministry of Commerce and Industries', mobile: 10, websites: 10, eservices: 32}}>
       <Switch>
-        <Route to='/:profile_id(\d+)'><Profile /></Route>
-        <Route to='/'>
+        <Route path={projectPath(project_id)}><Project /></Route>
+        <Route path='/projects'>
           <Table className='tbl' title='Compliance Projects' showAll={false}>
             <Header columns={columns1}>
               {
@@ -46,6 +52,8 @@ export default function(props) {
             ))}
           </Table>
         </Route>
+
+        
         
       </Switch>
 
