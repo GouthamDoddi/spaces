@@ -40,7 +40,7 @@ export function defineFormStore(store) {
 export default function Element({children, onSubmit, store, ...others}) {
   return (
     <form onSubmit={(e) => submitted(e, onSubmit)} {...others}>
-      <Status>{ store && store.loading ? store.loadingMsg : ''} </Status>
+      {/* <Status>{ store && store.loading ? store.loadingMsg : ''} </Status> */}
       {children}
     </form>
   )
@@ -74,7 +74,6 @@ export { Input, TextArea, Checkbox, Search, Select, CheckboxBig, RichText }
 
 const Status = styled.div`
   position: absolute;
-  width: 100%;
   text-align: center;
 `
 

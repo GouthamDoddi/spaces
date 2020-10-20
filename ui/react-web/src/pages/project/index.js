@@ -1,14 +1,14 @@
 import React from 'react'
 
 import styled from 'styled-components'
-import Layout from '../../shared/layout'
+
 import { Tab, EmptyTab } from '../../shared/tabs'
 
 import { Switch, Route, useParams } from 'react-router-dom'
 import {projectProfile, compliance} from '../routes'
 
 import Profile from './profile/index'
-import Compliance from './compliance'
+import Compliance from './compliance/index'
 
 
 export default function(props) {
@@ -17,15 +17,14 @@ export default function(props) {
   return (
     <Wrapper>
       <Tabs>
-        <Tab  to={projectProfile(project_id, true)}> Project Profile </Tab>
-        <Tab to={compliance(project_id, true)}> Compliance</Tab>
-
+        <Tab  to={projectProfile({id: project_id, expand: true})}> Project Profile </Tab>
+        <Tab to={compliance({ id: project_id, expand: true})}> Compliance</Tab>
         <EmptyTab/>
       </Tabs>
       <Content>
         <Switch>
-          <Route to={projectProfile(project_id)}><Profile /></Route>
-          <Route to={compliance(project_id)}><Profile /></Route>
+          <Route path={projectProfile({id: project_id})}><Profile /></Route>
+          <Route path={compliance({id: project_id})}><Compliance /></Route>
           <Route to='/:profile_id(\d+)/cases'><Profile /></Route>
           <Route to='/:profile_id(\d+)/reports'><Profile /></Route>
         </Switch>
@@ -48,6 +47,9 @@ const Tabs = styled.div`
 const Content = styled.div`
   border: solid 1px #bbbbbb;
   border-top: none;
+  padding-bottom: 50px;
+  min-height: 400px;
+  background-color: #fff;
 `
 
 const SubTabs = styled.div`
