@@ -18,7 +18,7 @@ export default function({title='Recent Activities', except=[], selected='dashboa
         <A to='/a-dashboard' icon='dashboard.svg' {...options('dashboard')}> Dashboard </A>
         <A to='/formulation' icon='policies.svg' {...options('policies')}> Policies </A>
         <A to='/entities' icon='policies.svg' {...options('entities')}> Entities </A>
-        <A to='/compliance' icon='projects.svg' {...options('projects')}> Projects </A>
+        <A to='/projects' icon='projects.svg' {...options('projects')}> Projects </A>
         <A icon='cases.svg' {...options('cases')}> Cases </A>
         <A icon='my-tasks.svg' {...options('my-tasks')}> My Tasks </A>
         <A icon='resources.svg' {...options('resources')}> Resources </A>

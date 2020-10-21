@@ -4,7 +4,7 @@ import { Input, Select, Actions2, Container, TextArea, toOpt } from '../../../co
 import { reloadAuth } from '../../../store/user'
 import { useParams, Link } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
-import { projectTypes, projectCategoryTypes, entitiesData } from '../../../store/master-data'
+import { projectTypes, projectCategoryTypes, entitiesData, sponsorOptions } from '../../../store/master-data'
 import { useStore } from 'effector-react'
 
 const { store, load, create, update, addData, changed, selectChange } =  makeStore(({project_id}) => project_id ? `compliance/projects/${project_id}` : 'compliance/projects')
@@ -29,7 +29,7 @@ export default function(props) {
   }, [])
   
   const projectStore = useStore(store)
-  const { name, owner_id, type_id, category_id, start_date, end_date, description } = projectStore.data || {}
+  const { name, owner_id, type_id, category_id, start_date, end_date, sponsor,  description } = projectStore.data || {}
 
   return(
     <Container onSubmit={(data) => submitted(project_id,data)} store={projectStore} saveBtn>
@@ -37,6 +37,12 @@ export default function(props) {
       <div className='container'>
         <Input label='Name' type='text' name='name' onChange={changed} value={name || ''} required/>
         {/* <Input label='Sponsor' type='text' name='sponsor' onChange={changed} value={sponsor || ''}/> */}
+        <Select name='sponsor' label='Sponsor'
+            options={toOpt(sponsorOptions)}
+            onChange={selectChange('sponsor')}
+            value={sponsorOptions[sponsor]}
+            maxMenuHeight={200}
+        />
         {/* <Input label='Owner' type='text' name='owner' onChange={changed} value={owner || ''}/> */}
         <Select name='owner_id' label='Owner'
             options={toOpt(entitiesData)}

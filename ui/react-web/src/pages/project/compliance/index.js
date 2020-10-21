@@ -25,7 +25,7 @@ export default function(props) {
         <Route path={compliance({id: project_id, sub: 'sections' })}><Sections /></Route>
         <Route path={compliance({id: project_id, sub: 'self-test' })}></Route>
         <Route path={compliance({id: project_id, sub: 'test-data' })}></Route>
-        <Route path={compliance({id: project_id})}> <Redirect to={compliance({id: project_id, sub: 'overview', expand: true })}></Redirect> </Route>
+        <Route path={compliance({id: project_id})}> <Redirect to={compliance({id: project_id, sub: 'sections', expand: true })}></Redirect> </Route>
       </Switch>
     </>
   )

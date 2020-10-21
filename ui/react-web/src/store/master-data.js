@@ -210,6 +210,11 @@ export const docGroupTypes = {
   guidelines: { value: 'guidelines', label: 'Guidelines'},
 }
 
+export const sponsorOptions = {
+  'self-test': {value: 'self-test', label: 'Self Test'},
+  'jawda': {value: 'jawda', label: 'Jawda'},
+}
+
 // export const notTestableReasons = {
 //   1: { value: 1, label: 'Unable to Access' },
 //   2: { value: 2, label: 'Missing Test Data ' },
