@@ -2,6 +2,7 @@
 class App::Models::PolicySectionAttribute < Sequel::Model(App.db[:policy_sections].exclude(parent_id: nil))
 
   many_to_one :policy_section, key: :parent_id
+  one_to_many :parameters, class: 'App::Models::AttributeParameter', key: :attribute_id
   
   def validate
     super

@@ -48,6 +48,32 @@ class App::Services::Compliance::Sections < App::Services::Base
     return_success(project.applied_sections.map{|s| s.to_pos})
   end
 
+  def applicable_sections_enhanced
+    attributes = project.applied_attributes
+      .eager(:policy_section).eager(:parameters)
+      .all.group_by(&:parent_id)
+
+    res = attributes.values.collect do |arr|
+      if arr.length > 0
+        section = arr[0].policy_section.to_pos
+        section[:attribute_count] = arr.length
+        section[:parameter_count] = arr.sum{|a| a.parameters.length }
+        section
+      else
+        nil
+      end
+    end.compact
+    return_success(res)
+  end
+
+  def applicable_attributes_enhanced
+    attributes = project.applied_attributes.where(parent_id: rp[:section_id]).eager(:parameters).all
+    res = attributes.collect do |attr|
+      attr.to_pos.merge(parameter_count: attr.parameters.length)
+    end
+    return_success(res)
+  end
+
   def started_sections
     recs = App::Models::Compliance::RecordParameter.distinct(:project_id).eager(:project).where(status: 'open')
     # recs = recs.where(created_by)

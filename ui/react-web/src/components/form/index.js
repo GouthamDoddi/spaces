@@ -10,7 +10,7 @@ import Search from './search'
 import CheckboxBig from './checkbox2'
 import RichText from './rich-text'
 
-import { EditIcon, SaveIcon, TranslateIcon } from './icons.js'
+import { EditIcon, SaveIcon, TranslateIcon, SaveBtn } from './icons.js'
 
 import styled from 'styled-components'
 
@@ -37,14 +37,16 @@ export function defineFormStore(store) {
   return({changed})
 }
 
-export default function Element({children, onSubmit, store, ...others}) {
+export default function Element({children, onSubmit, store, saveBtn, ...others}) {
   return (
     <form onSubmit={(e) => submitted(e, onSubmit)} {...others}>
-      <Status>{ store && store.loading ? store.loadingMsg : ''} </Status>
+      {/* <Status>{ store && store.loading ? store.loadingMsg : ''} </Status> */}
       {children}
+      {saveBtn ? <SaveBtn /> : null}
     </form>
   )
 }
+
 
 function ActionsElem(props) {
   const { className, edit } = props
@@ -62,6 +64,22 @@ export function toOpt(obj) {
   return(Object.values(obj))
 }
 
+export function ActionGroup({className, ...sprops}) {
+  return(
+    <div className={className}>
+      <SaveBtn><input type='submit'/>  Save </SaveBtn>
+    </div>
+      
+  )
+}
+
+export const Actions2 = styled(ActionGroup)`
+  display: flex;
+  justify-content: flex-end;
+  height: 66px;
+  padding: 17px 0 5px 0;
+`
+
 export const Actions = styled(ActionsElem)`
   display: flex;
   justify-content: flex-end;
@@ -74,7 +92,6 @@ export { Input, TextArea, Checkbox, Search, Select, CheckboxBig, RichText }
 
 const Status = styled.div`
   position: absolute;
-  width: 100%;
   text-align: center;
 `
 
@@ -97,12 +114,19 @@ export const Container = styled(Element)`
     > div {
       margin-top: 12px;
     }
+    .big {
+      &textarea {
+        grid-column: 1 / -1;
+        grid-rows: span 2;
+      }
+    }
   }
   &.disable {
     input, textarea, .field, .default__control {
       pointer-events: none;
     }
   }
+
 `
 
 export const Submit = styled.label`
@@ -119,3 +143,21 @@ export const Submit = styled.label`
     line-height: 38px;
   }
 ` 
+
+// export const SaveBtn = styled.div`
+//   background-color: ${p => p.theme.color};
+//   height: 50px;
+//   line-height: 50px;
+//   padding: 0 20px;
+//   color: #fff;
+//   border-radius: 2px;
+//   input[type='submit'] {
+//     display: none;
+    
+//   }
+// `
+export const CancelBtn = styled(SaveBtn)`
+  background-color: #777;
+  border: 1px solid #fff;
+  color: #000;
+`

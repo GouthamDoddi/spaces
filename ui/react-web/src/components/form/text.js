@@ -3,9 +3,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 function Element(props) {
-  const { className, children, label, ...others } = props
+  const { className, children, label, style, ...others } = props
   return(
-    <div className={className}>
+    <div className={className} style={style}>
       <label> {label} </label>
       <textarea {...others} />
     </div>
