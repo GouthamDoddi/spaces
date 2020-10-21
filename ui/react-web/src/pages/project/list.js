@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 import Layout from '../../shared/layout'
@@ -10,22 +10,44 @@ import {
   Switch,
   Route,
   Redirect,
-  useParams
+  useParams,
+  Link as RLink
 } from 'react-router-dom';
 
-import {projectPath} from '../routes'
+import { useStore } from 'effector-react'
 
-const columns1 = ".2fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
+import { policyFamilyTypes, policyStatusTypes, policyOwnerTypes, policyStateTypes } from '../../store/master-data'
+
+import makeStore from '../../store/make-store'
+
+import {hasAction} from '../../store/user'
+
+const { store, load } = makeStore('compliance/projects/list')
+
+import {projectPath, projectProfile} from '../routes'
+
+const columns1 = ".4fr 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
 
 const data = [{}]
 export default function(props) {
-  
   const { project_id } = useParams()
+  useEffect(() => { 
+    // console.log("*********** Project id *********", !!!project_id)
+    if(!!!project_id) {
+      // console.log("*********** Project id *********", !!!project_id)
+      load()
+    }
+  }, [])
+
+
+
+  const listStore = useStore(store)
+  const metadata = listStore.data || []
   
   return (
     <Layout banner={{type: 'Ministry of Commerce and Industries', mobile: 10, websites: 10, eservices: 32}}>
       <Switch>
-        <Route path={projectPath(project_id)}><Project /></Route>
+        <Route path={projectPath()}><Project /></Route>
         <Route path='/projects'>
           <Table className='tbl' title='Compliance Projects' showAll={false}>
             <Header columns={columns1}>
@@ -36,17 +58,17 @@ export default function(props) {
               }
                 
             </Header>
-            { data.map((o, i) => (
+            { metadata.map((o, i) => (
               <Row key={i} columns={columns1} className='row'>
-                <div> {i + 1} </div>
-                <div style={{'padding-right': '20px'}}> {o.name} </div>
-                <div> {o.type} </div>
-                <div className='center'> {o.sponsor} </div>
-                <div className='center'> {o.start_date} </div>
-                <div className='center'> {o.end_date} </div>
-                <div className='center'> {o.progress}% </div>
-                <div className='center'> {o.defects} </div>
-                <div className='center'> {o.fixed} </div>
+                <Link to={projectProfile({id: o.id, expand: true})}> {i + 1} </Link>
+                <Link to={projectProfile({id: o.id, expand: true})} style={{'padding-right': '20px'}}> {o.name} </Link>
+                <Link to={projectProfile({id: o.id, expand: true})}> {o.type} </Link>
+                <Link to={projectProfile({id: o.id, expand: true})}  > {o.sponsor} </Link>
+                <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.start_date} </Link>
+                <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.end_date} </Link>
+                <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.progress}% </Link>
+                <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.defects} </Link>
+                <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.fixed} </Link>
               </Row>
 
             ))}
@@ -61,3 +83,8 @@ export default function(props) {
 
   )
 }
+
+const Link = styled(RLink)`
+  display: block;
+
+`

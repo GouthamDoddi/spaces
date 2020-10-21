@@ -48,7 +48,7 @@ const Content = styled.div`
   border: solid 1px #bbbbbb;
   border-top: none;
   padding-bottom: 50px;
-  min-height: 400px;
+  min-height: 650px;
   background-color: #fff;
 `
 

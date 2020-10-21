@@ -11,6 +11,10 @@ import { useParams } from 'react-router-dom'
 import { Switch, Route, Redirect} from 'react-router-dom'
 
 import Details from './details'
+import Bd from './bene'
+import Objects from './objects'
+import Sh from './sh'
+import Impl from './impl'
 
 
 
@@ -30,10 +34,10 @@ export default function(props) {
 
       <Switch>
         <Route path={path('details', false)}><Details /></Route>
-        <Route path={path('objects', false)}></Route>
-        <Route path={path('benef', false)}></Route>
-        <Route path={path('sh', false)}></Route>
-        <Route path={path('impl', false)}></Route>
+        <Route path={path('objects', false)}><Objects /></Route>
+        <Route path={path('benef', false)}><Bd /></Route>
+        <Route path={path('sh', false)}><Sh /></Route>
+        <Route path={path('impl', false)}><Impl /></Route>
         <Route path={path()}> <Redirect to={path('details')}></Redirect> </Route>
       </Switch>
     </>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { Input, Select, Actions, Container, TextArea, toOpt } from '../../../components/form'
+import { Input, Select, Actions2, Container, TextArea, toOpt } from '../../../components/form'
 import { reloadAuth } from '../../../store/user'
 import { useParams, Link } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
@@ -12,7 +12,7 @@ const { store, load, create, update, addData, changed, selectChange } =  makeSto
 function submitted(project_id, data) {
   const cb = (resp) => {
     reloadAuth()
-    window.location.hash = `/compliance/${resp.id}/profile/index`
+    window.location.hash = `/projects/${resp.id}/profile/details`
   }
   project_id === 'new' ? create({data, cb}) : update({project_id, data, cb}) 
 }
@@ -32,7 +32,7 @@ export default function(props) {
   const { name, owner_id, type_id, category_id, start_date, end_date, description } = projectStore.data || {}
 
   return(
-    <Container onSubmit={(data) => submitted(project_id,data)} store={projectStore}>
+    <Container onSubmit={(data) => submitted(project_id,data)} store={projectStore} saveBtn>
 
       <div className='container'>
         <Input label='Name' type='text' name='name' onChange={changed} value={name || ''} required/>
@@ -56,10 +56,10 @@ export default function(props) {
         />
         <Input label='Project start date' type='date' name='start_date' onChange={changed} value={start_date || ''}/>
         <Input label='Project end date' type='date' name='end_date' onChange={changed} value={end_date || ''}/>
-        <TextArea label='Project Description' value={description || ''} name='description' onChange={changed} />
+        <TextArea style={{gridColumn: '1 / 3', gridRow: 'span 2' }}label='Project Description' value={description || ''} name='description' onChange={changed} />
       </div>
       {
-        project_id === 'new' ? <CancelBtn to='/compliance'> Cancel </CancelBtn> : null
+        project_id === 'new' ? <CancelBtn to='/projects'> Cancel </CancelBtn> : null
       }
       
     </Container>

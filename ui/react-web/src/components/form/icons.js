@@ -38,6 +38,17 @@ export function SaveIcon(props) {
   )
 }
 
+export function SaveBtn(props) {
+  const { onClick } = props
+
+  return (
+    <SaveIconLabelBtn onClick={onClick}>
+      <input type='submit' />
+      Save
+    </SaveIconLabelBtn>
+  )
+}
+
 export function TranslateIcon(props) {
   const { onClick } = props
 
@@ -84,4 +95,15 @@ const SaveIconLabel = styled(IconBase)`
   input[type="submit"] {
     display: none;
   }
+`
+
+const SaveIconLabelBtn = styled(SaveIconLabel)`
+  background-color: ${p => p.theme.color};
+  color: ${p => p.theme.icon};
+  padding: 0 20px;
+  border-radius: 4px;
+  width: 100px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
 `

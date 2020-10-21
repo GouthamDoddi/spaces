@@ -5,6 +5,8 @@ import { Link, SubTabs, SubTab } from '../../../shared/tabs'
 import { compliance } from '../../routes'
 import {useParams, Switch, Route, Redirect} from 'react-router-dom'
 
+import Sections  from './sections'
+
 
 export default function(props) {
   const { project_id } = useParams()
@@ -20,7 +22,7 @@ export default function(props) {
 
       <Switch>
         <Route path={compliance({id: project_id, sub: 'overview' })}></Route>
-        <Route path={compliance({id: project_id, sub: 'sections' })}></Route>
+        <Route path={compliance({id: project_id, sub: 'sections' })}><Sections /></Route>
         <Route path={compliance({id: project_id, sub: 'self-test' })}></Route>
         <Route path={compliance({id: project_id, sub: 'test-data' })}></Route>
         <Route path={compliance({id: project_id})}> <Redirect to={compliance({id: project_id, sub: 'overview', expand: true })}></Redirect> </Route>

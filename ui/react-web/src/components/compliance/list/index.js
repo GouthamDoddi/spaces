@@ -68,6 +68,7 @@ export default function(props) {
   )
 }
 
+
 const Progress = styled.progress`
   &::-webkit-progress-bar { background-color: #e5eff8; }
   &::-webkit-progress-value { background: #f44e76; }

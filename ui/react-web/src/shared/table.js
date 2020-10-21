@@ -50,11 +50,14 @@ export const Header = styled.div`
   grid-template-columns: ${p => p.columns || '.3fr 1fr 1fr 1.5fr'};
   grid-auto-rows: 45px;
   background-color: #f0f0f0;
-  > div {
+  > div, a {
     display: flex;
     justify-content: left;
     align-items: center;
     &:first-child { margin-left: 8px;}
+  }
+  > a {
+    color: black;
   }
   > .center { justify-content: center; }
   > .right { justify-content: right; }

@@ -17,14 +17,14 @@ function converToDraft(data) {
 }
 
 export default function(props) {
-  const { data, name, label, className } = props
+  const { data, name, label, className, style } = props
 
   const [editorState, setEditorState] = useState(converToDraft(data))//EditorState.createEmpty())
   useEffect(() => {
     setEditorState(converToDraft(data))
   }, [data])
   return(
-    <div className={className}>
+    <div className={className} style={style}>
       <Label>
         {label}
       </Label>

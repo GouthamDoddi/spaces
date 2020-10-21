@@ -39,8 +39,8 @@ class App::Routes < Roda
 
       auth_required!
 
-      r.on 'get-section-attr', Integer, [Integer, true] do |id, attr_id|
-        r.get { Formulation::SimpleSections[r, {id: id, attr_id: attr_id}].names }
+      r.on 'get-section-attr', Integer, [Integer, true], [Integer, true] do |id, attr_id, param_id|
+        r.get { Formulation::SimpleSections[r, {id: id, attr_id: attr_id, param_id: param_id}].names }
       end
       r.on 'extras' do
         r.on String, Integer, String do |ref, ref_id, name|
@@ -134,10 +134,11 @@ class App::Routes < Roda
           end
 
           
-          
           r.on 'sections' do
             klass = Compliance::Sections
-            r.get('applicable') { klass[r, opt].applicable_sections}
+            r.get('applicable') { klass[r, opt].applicable_sections }
+            r.get('applicable-enhanced') { klass[r, opt].applicable_sections_enhanced }
+            r.get(Integer, 'attributes') { |section_id|  klass[r, opt.merge(section_id: section_id)].applicable_attributes_enhanced }
             r.get('started') { Compliance::Sections[r, opt].started_applicable_sections }
             r.get(Integer, 'attributes-started') { |section_id|
               opt[:section_id] = section_id
