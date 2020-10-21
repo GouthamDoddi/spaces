@@ -20,11 +20,9 @@ import { policyFamilyTypes, policyStatusTypes, policyOwnerTypes, policyStateType
 
 import makeStore from '../../store/make-store'
 
-import {hasAction} from '../../store/user'
-
-const { store, load } = makeStore('compliance/projects/list')
 
 import {projectPath, projectProfile} from '../routes'
+const { store, load } = makeStore('compliance/projects/list')
 
 const columns1 = ".4fr 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
 

@@ -16,15 +16,14 @@ import {
 
 import { useStore } from 'effector-react'
 
-import { policyFamilyTypes, policyStatusTypes, policyOwnerTypes, mandateLevelTypes, userComplianceTypes } from '../../../store/master-data'
+import {  mandateLevelTypes, userComplianceTypes } from '../../../store/master-data'
 
 import makeStore from '../../../store/make-store'
 
 import ParamsView from './param-view'
 
-const { store, load } = makeStore(({project_id, attr_id}) => `compliance/project/${project_id}/attr/${attr_id}/parameters`)
-
 import {complianceAttr, projectPath, projectProfile} from '../../routes'
+const { store, load } = makeStore(({project_id, attr_id}) => `compliance/project/${project_id}/attr/${attr_id}/parameters`)
 
 const columns1 = ".4fr 2.5fr 1fr 2fr 1fr 1fr 1fr 1fr"
 
