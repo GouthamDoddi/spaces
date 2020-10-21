@@ -10,7 +10,7 @@ class App::Services::Formulation::SimpleSections < App::Services::Base
     end
     return_success(res)
   end
-  
+
   def self.fields
     {
       save: [

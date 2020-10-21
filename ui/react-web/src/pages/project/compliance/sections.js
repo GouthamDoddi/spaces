@@ -19,7 +19,6 @@ export default function(props) {
     <>      
       <Switch>
         <Route path={complianceAttr({sub: ':attr_id(\\d+)/params'})}>
-          <Breadcrumb />
           <ParamsScreen />
         </Route>
         <Route path={complianceAttr()}>
@@ -83,7 +82,7 @@ function SectionsScreen(props) {
   const data = sourceData.data || []
 
   return(
-    <RenderCards title='Attributes' data={data} to={(section_id) => complianceAttr({id: project_id, section_id, expand: true})} />
+    <RenderCards title='Sections' data={data} to={(section_id) => complianceAttr({id: project_id, section_id, expand: true})} />
   )
 }
 

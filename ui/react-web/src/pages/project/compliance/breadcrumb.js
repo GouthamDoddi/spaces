@@ -18,12 +18,15 @@ export default function(props) {
   }, [section_id, attr_id, param_id])
 
   const links = []
-
   if(section_id) {
     links.push(<Link to={complianceAttr({id: project_id, section_id, expand: true })}> > {data[section_id]}</Link>)
   }
   if(attr_id) {
     links.push(<Link to={complianceAttr({id: project_id, section_id, sub: `${attr_id}/params`, expand: true })}> > {data[attr_id]}</Link>)
+  }
+
+  if(param_id) {
+    links.push(<Link to={complianceAttr({id: project_id, section_id, sub: `${attr_id}/params/${param_id}`, expand: true })}> > {data[param_id]}</Link>)
   }
   return (
     <Bd> 
