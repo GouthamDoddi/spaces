@@ -242,6 +242,7 @@ export const entitiesData = {
 }
 
 export const paramVariations = {
+  'web-en': { value: 'web-en', label: 'Web English'},
   'web-ar': { value: 'web-ar', label: 'Web Arabic'},
   'ios-ar': { value: 'ios-ar', label: 'iOS Arabic'},
   'android-ar': { value: 'android-ar', label: ' Android Arabic'},

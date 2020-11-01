@@ -40,7 +40,10 @@ export default function(props) {
     load({project_id, attr_id})
   }, [])
 
-  const link = (id) => complianceAttr({id: project_id, section_id, sub: `${attr_id}/params/${id}`, expand: true})
+  const link = ({id, parameter_id}) => { 
+    const str = id ? `${parameter_id}-${id}` : parameter_id
+    return complianceAttr({id: project_id, section_id, sub: `${attr_id}/params/${str}`, expand: true}) 
+  }
 
   const listStore = useStore(store)
   const metadata = listStore.data || []
@@ -74,7 +77,7 @@ export default function(props) {
 
   return (
     <Switch>
-      <Route path={complianceAttr({id: project_id, section_id, sub: `:attr_id(\\d+)/params/:param_id(\\d+)`})}>
+      <Route path={complianceAttr({id: project_id, section_id, sub: `:attr_id(\\d+)/params/:param_id(\\d+[-]?\\d+)`})}>
         <Breadcrumb />
         <ParamsView data={metadata} />
       </Route>
@@ -91,14 +94,14 @@ export default function(props) {
           </Header>
           { metadata.map((o, i) => (
             <Row key={i} columns={columns1} className='row'>
-              <Link to={() => link(o.parameter_id)}> {i + 1} </Link>
-              <Link to={() => link(o.parameter_id)} style={{'padding-right': '20px'}}> {o.name} {o.variation ? `- ${ paramVariations[o.variation]?.label }` : ''}  </Link>
-              <Link to={() => link(o.parameter_id)}> {mandateLevelTypes[o.mandate_level_parameter_id]?.label} </Link>
-              <Link to={() => link(o.parameter_id)} > {userComplianceTypes[o.user_compliance_type]?.label} </Link>
-              <Link to={() => link(o.parameter_id)} className='center'> {o.status} </Link>
-              <Link to={() => link(o.parameter_id)} className='center'> {o.end_date} </Link>
-              <Link to={() => link(o.parameter_id)} className='center'> {o.progress} </Link>
-              <Link to={() => link(o.parameter_id)} className='center'> {o.fixed} </Link>
+              <Link to={() => link(o)}> {i + 1} </Link>
+              <Link to={() => link(o)} style={{'padding-right': '20px'}}> {o.name} {o.variation ? `- ${ paramVariations[o.variation]?.label }` : ''}  </Link>
+              <Link to={() => link(o)}> {mandateLevelTypes[o.mandate_level_id]?.label} </Link>
+              <Link to={() => link(o)} > {userComplianceTypes[o.user_compliance_type]?.label} </Link>
+              <Link to={() => link(o)} className='center'> {o.status} </Link>
+              <Link to={() => link(o)} className='center'> {o.end_date} </Link>
+              <Link to={() => link(o)} className='center'> {o.progress} </Link>
+              <Link to={() => link(o)} className='center'> {o.fixed} </Link>
               { (variation.length > 0 && variation[0]== i) ? <CreateV obj={o}/> : <Button onClick={() => addVariation([i, o.parameter_id])} className='center'> Add</Button> }
               
             </Row>

@@ -57,7 +57,7 @@ class App::Services::Compliance::Parametes < App::Services::Base
       ],
 
       save: [
-        :user_notes, :user_compliance_type, :project_id
+        :user_notes, :user_compliance_type, :project_id, :variation
       ],
 
       approver_update: [

@@ -14,7 +14,7 @@ import {useStore} from 'effector-react'
 
 import makeStore from '../../../store/make-store'
 
-import {userComplianceTypes, mandateLevelTypes, notTestableReasons} from '../../../store/master-data'
+import {userComplianceTypes, mandateLevelTypes, notTestableReasons, paramVariations} from '../../../store/master-data'
 import Opn from '../../../components/formulation/checklist/tools/opn'
 
 const { load, store } = makeStore(({project_id, attr_id}) => `compliance/project/${project_id}/attr/${attr_id}/parameters`)
@@ -38,19 +38,22 @@ function submitted(section_id, attr_id, id, parameter_id, project_id, data) {
        
 export default function({data, ...props}) {
 
-  const { section_id, attr_id, project_id, param_id } = useParams()
+  const { section_id, attr_id, project_id, param_id: combo_id } = useParams()
+  const [param_id, rp_id] = combo_id.split('-')
 
   const sStore = useStore(other.store)
 
   useEffect(() => {
-    addData(data.find((p) => p.parameter_id == param_id))
-  }, [attr_id, param_id, data])
+    addData(data.find((p) => {
+      return rp_id ? rp_id == p.id && p.parameter_id == param_id : p.parameter_id == param_id
+    }))
+  }, [attr_id, combo_id, data])
 
   if(data[0] && sStore.data === null) {
     addData(data.find((p) => p.parameter_id == param_id))
   }
 
-  const { id, user_compliance_type, name, wiki_desc, description, not_testable_reason, not_testable, user_notes, mandate_level_id, parameter_id, status, approver_notes, approver_compliance_type, doc_group } = sStore.data || {}
+  const { id, user_compliance_type, name, wiki_desc, description, variation, user_notes, mandate_level_id, parameter_id, status, approver_notes, approver_compliance_type, doc_group } = sStore.data || {}
   
   if( data.length == 0) {
     return <Container> <NoParams> No Parameters</NoParams></Container>
@@ -62,8 +65,8 @@ export default function({data, ...props}) {
             data.map((o, i) => (
               <Item {...cs['gs']} 
                 key={i}
-                className={o.parameter_id === parameter_id ? 'selected': ''} 
-                to={() => complianceAttr({id: project_id, section_id, sub: `${attr_id}/params/${o.parameter_id}`, expand: true})}> 
+                className={(o.id ? o.id == rp_id && o.parameter_id === parameter_id : o.parameter_id === parameter_id) ? 'selected': ''} 
+                to={() => complianceAttr({id: project_id, section_id, sub: `${attr_id}/params/${(o.id ? [o.parameter_id, o.id] : [o.parameter_id]).join('-')}`, expand: true})}> 
                   {i + 1}  
               </Item>
             ))
@@ -103,6 +106,14 @@ export default function({data, ...props}) {
               <span> Document Group: </span>
               <span className='value'> {doc_group} </span>
             </div>
+            <Select name='variation' label='Variation ' 
+                options={toOpt(paramVariations)}
+                outerClass='sfield'
+                onChange={status === 'closed' ? (() => {}) : selectChange('variation')}
+                value={paramVariations[variation] || ''} 
+                maxMenuHeight={150}
+            />
+
 
             <Select name='user_compliance_type' label='Result Type:' 
                 options={toOpt(userComplianceTypes)}
