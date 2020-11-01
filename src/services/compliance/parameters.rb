@@ -3,21 +3,23 @@ class App::Services::Compliance::Parametes < App::Services::Base
   def model; App::Models::Compliance::RecordParameter; end
 
   def list
-    parameters = model
-                  .where(attribute_id: rp[:attribute_id], project_id: rp[:project_id])
-                  .reduce({}) {|h, p| h[p.parameter_id] = p; h}
+    parameters = model.where(attribute_id: rp[:attribute_id], project_id: rp[:project_id]).all
+                  .group_by {_1.parameter_id}
 
+    
     attr_parameters = AttributeParameter.eager(:wiki_description).where(attribute_id: rp[:attribute_id]).all
     # ['user_notes', 'user_compliance_type', 'approver_compliance_type',  'status', 'approver_id', 'approver_notes']
       
-
-    data = attr_parameters.map do |p| 
-      user_data = parameters[p.id]&.as_json || {}
-      slice_list = ['user_notes', 'user_compliance_type', 'approver_compliance_type',  'status', 'approver_id', 'approver_notes']
-      p.as_json
-        .merge!(user_data.slice(*slice_list)).merge!(wiki_desc: p.wiki_description&.description)
-        .merge!(id: user_data['id'], parameter_id: p.id)
-    end
+    data = attr_parameters.map do |p|
+      (parameters[p.id] || [nil]).map do |pdata|
+        user_data = pdata&.as_json || {}
+        
+        slice_list = ['user_notes', 'user_compliance_type', 'approver_compliance_type',  'status', 'approver_id', 'approver_notes', 'variation']
+        p.as_json
+          .merge!(user_data.slice(*slice_list)).merge!(wiki_desc: p.wiki_description&.description)
+          .merge!(id: user_data['id'], parameter_id: p.id)
+      end
+    end.flatten
     return_success(data)
   end
 
@@ -51,7 +53,7 @@ class App::Services::Compliance::Parametes < App::Services::Base
   def self.fields
     {
       create: [
-        :user_notes, :user_compliance_type, :parameter_id, :project_id
+        :user_notes, :user_compliance_type, :parameter_id, :project_id, :variation
       ],
 
       save: [

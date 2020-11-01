@@ -15,6 +15,7 @@ import {useStore} from 'effector-react'
 import makeStore from '../../../store/make-store'
 
 import {userComplianceTypes, mandateLevelTypes, notTestableReasons} from '../../../store/master-data'
+import Opn from '../../../components/formulation/checklist/tools/opn'
 
 const { load, store } = makeStore(({project_id, attr_id}) => `compliance/project/${project_id}/attr/${attr_id}/parameters`)
 
@@ -73,7 +74,7 @@ export default function({data, ...props}) {
         <Forms onSubmit={(data) => submitted(section_id, attr_id, id, parameter_id, project_id, data)} store={sStore}>
           <Left>
             {/* <Attachment label='Attachments' btn='Upload' /> */}
-            { id ? <Uploader param_id={id}/> : null}
+            
             
             {
               approver_notes ?  <div className='mandate'> <span> Approver Notes: </span> <span className='value'> {approver_notes} </span> </div> : null
@@ -86,7 +87,8 @@ export default function({data, ...props}) {
                   <span className='value'> {userComplianceTypes[approver_compliance_type]?.label} </span>
               </div> : null
             }
-
+            <div> Operating Notes </div>
+            <Opn onlyUserEditable/>
             <div className='exception'>
               <span> Exception Granted: </span>
               <span className='value'> None</span>
@@ -110,6 +112,7 @@ export default function({data, ...props}) {
                 maxMenuHeight={130}
             />
             <TextArea lab el='Notes' name='user_notes' onChange={changed} value={ user_notes || ''} className='field' disabled={ status === 'closed' } /> 
+            { id ? <Uploader param_id={id}/> : null}
             { 
               status !== 'closed' ? 
                 <Submit>

@@ -240,6 +240,14 @@ export const entitiesData = {
   13: { name: 'Supreme Judiciary Council', short_name: 'SJC', label: 'SJC', value: 13, type: 'Authority', websites: 0, mobile: 1, eservices: 1, tested: 15, defects: 22, fixed: 0, score: 64, rank:  11 },
   14: { name: 'The General Retirement and Social Insurance Authority', short_name: 'GRSIA', label: 'GRSIA', value: 14, type: 'Authority', websites: 0, mobile: 0, eservices: 1, tested: 44, defects: 0, fixed: 0, score: 51, rank:  12 },
 }
+
+export const paramVariations = {
+  'web-ar': { value: 'web-ar', label: 'Web Arabic'},
+  'ios-ar': { value: 'ios-ar', label: 'iOS Arabic'},
+  'android-ar': { value: 'android-ar', label: ' Android Arabic'},
+  'ios-en': { value: 'ios-en', label: 'iOS English'},
+  'android-en': { value: 'android-en', label: 'Andoid English'},
+}
 // export const policyFamilyTypes = {
 //   ICT
 // 	Transport

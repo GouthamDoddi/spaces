@@ -6,11 +6,11 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
   one_to_one :parameter, class: 'App::Models::AttributeParameter', primary_key: :parameter_id, key: :id
   # one_to_many :applicable_sections
 
-  # def validate
-    # super
+  def validate
+    super
     # validates_presence [:name, :owner_id, :type_id]
     # validates_presence [:name]
-    # validates_unique :name
-  # end
+    validates_unique [:parameter_id, :variation]
+  end
 
 end
