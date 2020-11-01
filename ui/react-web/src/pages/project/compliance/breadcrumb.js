@@ -8,7 +8,9 @@ import { get } from '../../../store/api'
 import { complainceAttr, complianceAttr } from '../../routes'
 
 export default function(props) {
-  const { project_id, section_id, attr_id, param_id } = useParams()
+  const { project_id, section_id, attr_id, param_id: combo_id  } = useParams()
+
+  const [param_id, _] = combo_id?.split('-') || []
   const [data, setData] = useState({})
 
   useEffect(() => {
