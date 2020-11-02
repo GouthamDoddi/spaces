@@ -56,7 +56,7 @@ function Routes() {
         <Route path="/pcp"> <TP theme={cs.cps}> <Pcp /> </TP> </Route>
         <Route path="/bcp"> <TP theme={cs.cps}> <Bcp /> </TP> </Route>
         <Route path="/entities"> <TP theme={cs.cps}> <Entity /> </TP> </Route>
-        <Route path="/projects"> <TP theme={cs.cps}> <Projects /> </TP> </Route>
+        <Route path="/projects"> <TP theme={cs.newdesign}> <Projects /> </TP> </Route>
         <Route path="/a-dashboard"> 
           <TP theme={cs.cps}> 
             { dbForRole(role())}

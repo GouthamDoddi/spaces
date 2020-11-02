@@ -24,7 +24,7 @@ function submitted(attr_id, type, id, data) {
   id ? localState.update({attr_id, type, id, data, cb}) : localState.create({attr_id, type, data, cb})
 }
 
-export default function({type='opn', ...props}) {
+export default function({type='opn', bk='#fff', ...props}) {
 
   const { attr_id } = useParams()
 
@@ -45,9 +45,9 @@ export default function({type='opn', ...props}) {
   } else if(sectionId == null && id) { addData(null) }
 const html = (h) => <div>{html}</div>
   return (
-    <CustomContainer onSubmit={(data) => submitted(attr_id, type, id , data)} store={localStore}>      
+    <CustomContainer onSubmit={(data) => submitted(attr_id, type, id , data)} store={localStore} bk={bk}>      
       <div className='fields'>
-        <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' />
+        <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' required/>
         <RichText label='Description' name='description' data={ description || ''} className='field' />
         <label className='submit'>
           <input type='submit' />
@@ -146,6 +146,9 @@ const CustomContainer = styled(Form)`
     }
     .field {
       margin-top: 10px;
+      .rdw-editor-main {
+        background-color: ${p => p.bk };
+      }
     }
     label.submit {
       cursor: pointer;

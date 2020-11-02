@@ -23,5 +23,12 @@ export default {
   cps: {
     color: '#f44e76',
     icon: '#fee5eb'
+  },
+  newdesign: {
+    color: '#eb622b',
+    icon: '#ddd',
+    m1: '#8A1538',
+    m2: '#257C76',
+    m3: '#1A6B8F'
   }
 }

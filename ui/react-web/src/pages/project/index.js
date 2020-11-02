@@ -19,6 +19,7 @@ export default function(props) {
       <Tabs>
         <Tab  to={projectProfile({id: project_id, expand: true})}> Project Profile </Tab>
         <Tab to={compliance({ id: project_id, expand: true})}> Compliance</Tab>
+        {/* <Tab to={compliance({ id: project_id, expand: true})}> Cases</Tab> */}
         <EmptyTab/>
       </Tabs>
       <Content>

@@ -43,7 +43,7 @@ export const SubTabs = styled.div`
 
 export const SubTab = styled(Link)`
   display: block;
-  margin-left: 30px;
+  margin-left: 12px;
   height: 50px;
   line-height: 50px;
   font-size: 18px;

@@ -1,3 +1,19 @@
+// red: 8A1538
+// Green: 257C76
+// M3:blue:1A6B8F
+// http://www.spacesdemo.com/index.html#/projects/17/compliance/sections/13/attrs/14/params/22-1135
+// 1. Cases
+// 2. Parameters, make 2 column ---- Done
+// 3. Change button colors ---- Done
+// 4. Change drop down data. --- Done
+// 5. Add delete to operating notes.
+// 6. Change color of opn text area. --- Done
+// 7. change name size --- Done
+// 8. Overview add  dashboard.
+// 9. self-text, unable to test sub tabs.
+// 10. Entity Tab
+// 11. Mandate levels --- Done.
+
 import React, { useEffect, useState, useRef } from 'react'
 
 import styled from 'styled-components'
@@ -5,6 +21,7 @@ import styled from 'styled-components'
 import Table, { Header, Row } from '../../../shared/table'
 import { Input } from '../../../components/form'
 import Breadcrumb from './breadcrumb'
+import Mandate from './mandate'
 
 import {
   HashRouter as Router,
@@ -85,7 +102,7 @@ export default function(props) {
   return (
     <Switch>
       <Route path={complianceAttr({id: project_id, section_id, sub: `:attr_id(\\d+)/params/:param_id(\\d+[-]?\\d+)`})}>
-        <Breadcrumb />
+        <Breadcrumb bk='#f0f0f0' border='1px solid #cccccc'/>
         <ParamsView data={metadata} />
       </Route>
       <Route path={complianceAttr({id: project_id, section_id, sub: `:attr_id(\\d+)/params`})}>
@@ -104,7 +121,7 @@ export default function(props) {
             <Row key={i} columns={columns1} className='row'>
               <Link to={() => link(o)}> {i + 1} </Link>
               <Link to={() => link(o)} style={{'padding-right': '20px'}}> {o.name} {o.variation ? `- ${ paramVariations[o.variation]?.label }` : ''}  </Link>
-              <Link to={() => link(o)}> {mandateLevelTypes[o.mandate_level_id]?.label} </Link>
+              <Link to={() => link(o)}> <Mandate type={mandateLevelTypes[o.mandate_level_id]?.label} /> </Link>
               <Link to={() => link(o)} > {userComplianceTypes[o.user_compliance_type]?.label} </Link>
               <Link to={() => link(o)} className='center'> {o.status} </Link>
               <Link to={() => link(o)} className='center'> {o.end_date} </Link>

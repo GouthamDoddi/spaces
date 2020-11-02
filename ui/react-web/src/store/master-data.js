@@ -63,12 +63,12 @@ export const userComplianceTypes = {
   1: { value: 1, label: 'Compliance: Fully complied'},
   2: { value: 2, label: 'Compliance: Partially complied'},
   3: { value: 3, label: 'Compliance: Non complied'},
-  4: { value: 4, label: 'Not Testable: Unable to Access' },
-  5: { value: 5, label: 'Not Testable: Missing Test Data ' },
-  6: { value: 6, label: 'Not Testable: Missing Parameter ' },
+  4: { value: 4, label: 'Unable to Test: Unable to Access' },
+  5: { value: 5, label: 'Unable to Test: Missing Test Data ' },
+  // 6: { value: 6, label: 'Not Testable: Missing Parameter ' },
   7: { value: 7, label: 'Not Testable: Content Validation' },
   8: { value: 8, label: 'Not Testable: Support Activity' },
-  9: { value: 9, label: 'Not Testable: Requires Self-testing and Evidence' },
+  9: { value: 9, label: 'Requires Self-testing and Evidence' },
 }
 
 

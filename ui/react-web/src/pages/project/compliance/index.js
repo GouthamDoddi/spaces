@@ -17,7 +17,7 @@ export default function(props) {
         <SubTab to={compliance({id: project_id, sub: 'overview', expand: true })}> Overview </SubTab>
         <SubTab to={compliance({id: project_id, sub: 'sections', expand: true })}> Sections </SubTab>
         <SubTab to={compliance({id: project_id, sub: 'self-test', expand: true })}> Self-Test </SubTab>
-        <SubTab to={compliance({id: project_id, sub: 'test-data', expand: true })}> Test Data </SubTab>
+        <SubTab to={compliance({id: project_id, sub: 'test-data', expand: true })}> Unable to Test </SubTab>
       </SubTabs>
 
       <Switch>

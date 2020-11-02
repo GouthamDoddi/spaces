@@ -16,6 +16,7 @@ import makeStore from '../../../store/make-store'
 
 import {userComplianceTypes, mandateLevelTypes, notTestableReasons, paramVariations} from '../../../store/master-data'
 import Opn from '../../../components/formulation/checklist/tools/opn'
+import Mandate from './mandate'
 
 const { load, store } = makeStore(({project_id, attr_id}) => `compliance/project/${project_id}/attr/${attr_id}/parameters`)
 
@@ -43,6 +44,23 @@ export default function({data, ...props}) {
 
   const sStore = useStore(other.store)
 
+  const paginate = (d, c) => {
+    let s = c - 5;
+    let e = c + 5;
+
+    if (s <= 0) {
+        e -= (s - 1);
+        s = 1;
+    }
+
+    if (e > d.length){
+      e = d.length;
+    }
+    
+    // return([s,e])
+    return {d: (d.slice(s-1, e)), start: s-1}
+  }
+
   useEffect(() => {
     addData(data.find((p) => {
       return rp_id ? rp_id == p.id && p.parameter_id == param_id : p.parameter_id == param_id
@@ -58,27 +76,46 @@ export default function({data, ...props}) {
   if( data.length == 0) {
     return <Container> <NoParams> No Parameters</NoParams></Container>
   } else {
+    const current = data.findIndex((o) => (o.id ? o.id == rp_id && o.parameter_id === parameter_id : o.parameter_id === parameter_id) )
+    // const prev = current > 0
+    // const next = current < data.length - 1
+
+    // console.log(current)
+    // console.log(paginate(data, 2))
+    const pData = paginate(data, current + 1)
     return(
       <Container>
-        <Header>
+        <Nav>
+          {/* <Back> Back </Back>
+          <Prev disable={!prev}> Previous </Prev>
+          <Next disable={!next}> Next </Next> */}
+          <Eclipse> { pData.start > 0 ? '.... ' : ''} </Eclipse>
           {
-            data.map((o, i) => (
+            pData.d.map((o, i) => (
               <Item {...cs['gs']} 
                 key={i}
                 className={(o.id ? o.id == rp_id && o.parameter_id === parameter_id : o.parameter_id === parameter_id) ? 'selected': ''} 
                 to={() => complianceAttr({id: project_id, section_id, sub: `${attr_id}/params/${(o.id ? [o.parameter_id, o.id] : [o.parameter_id]).join('-')}`, expand: true})}> 
-                  {i + 1}  
+                  {i + pData.start + 1}  
               </Item>
             ))
           }
+
+        </Nav>
+        <Header>
         </Header>
-        <Title> { name }</Title>
-        <Description dangerouslySetInnerHTML={{__html: wiki_desc}} />
+        <SubHeader>
+          <Title> { name }</Title>
+          <SubHeaderGrp>
+            <Mandate type={mandateLevelTypes[mandate_level_id]?.label} />
+            <DocGroup>{doc_group}</DocGroup>
+          </SubHeaderGrp>
+        </SubHeader>
         <Forms onSubmit={(data) => submitted(section_id, attr_id, id, parameter_id, project_id, data)} store={sStore}>
           <Left>
             {/* <Attachment label='Attachments' btn='Upload' /> */}
-            
-            
+            <div> Description </div>
+            <Description dangerouslySetInnerHTML={{__html: wiki_desc}} />
             {
               approver_notes ?  <div className='mandate'> <span> Approver Notes: </span> <span className='value'> {approver_notes} </span> </div> : null
             }
@@ -92,7 +129,7 @@ export default function({data, ...props}) {
             }
             <div> Operating Notes </div>
             {/* <OpnContainer> */}
-              <Opn onlyUserEditable/>
+              <Opn onlyUserEditable bk='#efefef' />
             {/* </OpnContainer> */}
             
             <div className='exception'>
@@ -101,14 +138,11 @@ export default function({data, ...props}) {
             </div>
           </Left>
           <Right>
-            <div className='mandate'>
-              <span> Mandate: </span>
-              <span className='value'> {mandateLevelTypes[mandate_level_id]?.label} </span>
-            </div>
-            <div className='mandate'>
+            {/* <div className='mandate'>
               <span> Document Group: </span>
               <span className='value'> {doc_group} </span>
-            </div>
+            </div> */}
+
             <Select name='variation' label='Variation ' 
                 options={toOpt(paramVariations)}
                 outerClass='sfield'
@@ -129,7 +163,7 @@ export default function({data, ...props}) {
             { id ? <Uploader param_id={id}/> : null}
             { 
               status !== 'closed' ? 
-                <Submit>
+                <Submit className='submit'>
                   <input type='submit' />
                   <div> { id ? 'Update' : 'Add'} </div>
                 </Submit> : null
@@ -146,17 +180,92 @@ export default function({data, ...props}) {
 const NoParams = styled.div`
 
 `
+const Eclipse = styled.div`
+  color: #000;
+  margin-right: 6px;
+`
+const Nav = styled.div`
+  position: absolute;
+  right: 10px;
+  top: -32px;
+  display: flex;
+  font-size: 16px;
+  text-align: left;
+  color: #ffffff;
+`
+
+const Back = styled(Link)`
+  width: 81px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #eb622b;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+`
+const Prev = styled(Link)`
+  width: 108px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #aaaaaa;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  pointer-events: ${p => p.disabled ? 'none' : 'auto'};
+`
+const Next = styled(Link)`
+  color: white;
+  width: 79px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #037ebf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: ${p => p.disabled ? 'none' : 'auto'};
+`
+
+const DocGroup = styled.div`
+  margin-left: 15px;
+  height: 25px;
+  border-radius: 10px;
+  background-color: #444444;
+  color: #fff;
+  font-size: 15px;
+  padding: 2px 15px;
+`
+const SubHeader = styled.div`
+  border-bottom: 1px solid #cccccc;
+  padding: 20px 24px;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: left;
+  color: #444444;
+
+`
+const SubHeaderGrp = styled.div`
+  display: flex;
+`
 
 const Title = styled.div`
-  font-size: 12px;
-  font-weight: 800;
-  color: #000000;
-  margin-top: 10px;
+ margin-bottom: 8px;
 `
+
+
 
 const Forms = styled(Form)`
   display: flex;
   margin-top: 23px;
+  padding: 6px 24px;
+
+  .submit {
+    margin-top: 20px;
+    display: block;
+  }
 
 `
 
@@ -238,10 +347,11 @@ const Description = styled.div`
   // line-height: 1.36;
   color: #98acbe;
   margin-top: 2px;
+  padding: 6px 0px;
 `
 
 const Container = styled.div`
-  padding: 6px 24px;
+  position: relative;
 `
 const Header = styled.div`
   display: flex;
@@ -252,14 +362,16 @@ const Item = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 44px;
-  height: 44px;
+  width: 25px;
+  height: 25px;
   border-radius: 12px;
-  background-color: ${p => p.icon};
-  color: ${p => p.color};
+  background-color: #666666;
+  color: #dddddd;
   &.selected {
     border-radius: 12px;
-    box-shadow: 0 2px 4px 0 ${p => p.color};
+    font-weight: bold;
+    color: #fff;
+    box-shadow: 0 2px 4px 0 white;
   }
-  margin-right: 10px;
+  margin-right: 6px;
 `

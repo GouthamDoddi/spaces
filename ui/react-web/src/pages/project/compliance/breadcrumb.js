@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { useParams, Link } from 'react-router-dom'
 
 import { get } from '../../../store/api' 
+
 import { complainceAttr, complianceAttr } from '../../routes'
 
 export default function(props) {
@@ -31,7 +32,7 @@ export default function(props) {
     links.push(<Link to={complianceAttr({id: project_id, section_id, sub: `${attr_id}/params/${param_id}`, expand: true })}> > {data[param_id]}</Link>)
   }
   return (
-    <Bd> 
+    <Bd {...props}> 
       <Link to='/complaince/sections'> Compliance  </Link>
       {links}
     </Bd>
@@ -42,8 +43,11 @@ export default function(props) {
 const Bd = styled.div`
   font-size: 16px;
   text-align: left;
-  margin: 10px 20px;
+  padding: 10px 20px;
   > a {
     color: #666666;
-  }
+  };
+  background-color: ${p => p.bk || '#fff'};
+  border-top: ${p => p.border || 'none'};
+  border-bottom: ${p => p.border || 'none'};
 `
