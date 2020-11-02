@@ -225,20 +225,20 @@ export const sponsorOptions = {
 // }
 
 export const entitiesData = {
-  1: { name: 'General Authority of Customs', short_name: 'GAC', label: 'GAC', value: 1, type: 'Authority', websites: 1, mobile: 1, eservices: 0, tested: 46, defects: 54, fixed: 0, score: 94, rank:  1 },
-  2: { name: 'Hamad Medical Corporation', short_name: 'HMC', label: 'HMC', value: 2, type: 'Agency', websites: 1, mobile: 0, eservices: 0, tested: 78, defects: 22, fixed: 0, score: 93, rank:  2 },
-  3: { name: 'Kahramaa', short_name: 'Kahramaa', label: 'Kahramaa', value: 3, type: 'Agency', websites: 1, mobile: 1, eservices: 3, tested: 75, defects: 34, fixed: 0, score: 91, rank:  3 },
-  4: { name: 'Ministry of Administrative Development, Labour and Social Affairs', short_name: 'ADLSA', label: 'ADLSA', value: 4, type: 'Ministry', websites: 1, mobile: 2, eservices: 3, tested: 33, defects: 45, fixed: 0, score: 88, rank:  4 },
-  5:  { name: 'Ministry of Commerce and Industry', short_name: 'MOCI', label: 'MOCI', value: 5, type: 'MOCI', websites: 1, mobile: 1, eservices: 2, tested: 54, defects: 65, fixed: 0, score: 87, rank:  5 },
-  6:  { name: 'Ministry of Education and Higher Education', short_name: 'MoEHE', label: 'MoEHE', value: 6, type: 'Ministry', websites: 1, mobile: 0, eservices: 5, tested: 27, defects: 44, fixed: 0, score: 87, rank:  5 },
-  7:  { name: 'Ministry of Interior', short_name: 'MOI', label: 'MOI', value: 7, type: 'Ministry', websites: 1, mobile: 2, eservices: 8, tested: 25, defects: 31, fixed: 0, score: 84, rank:  6 },
-  8:  { name: 'Ministry of Justice', short_name: 'MOJ', label: 'MOJ', value: 8, type: 'Ministry', websites: 0, mobile: 1, eservices: 3, tested: 11, defects: 57, fixed: 0, score: 79, rank:  7 },
-  9:  { name: 'Ministry of Municipality and Environment', short_name: 'MME', label: 'MME', value: 9, type: 'Ministry', websites: 1, mobile: 1, eservices: 4, tested: 45, defects: 26, fixed: 0, score: 78, rank:  8 },
-  10: { name: 'Ministry of Public Health', short_name: 'MOPH', label: 'MOPH', value: 10, type: 'Ministry', websites: 1, mobile: 0, eservices: 1, tested: 74, defects: 41, fixed: 0, score: 78, rank:  8 },
-  11: { name: 'Ministry of Transport & Communication', short_name: 'MOTC', label: 'MOTC', value: 11, type: 'Ministry', websites: 0, mobile: 0, eservices: 1, tested: 62, defects: 0, fixed: 0, score: 75, rank:  9 },
-  12: { name: 'Primary Health Care Corporation', short_name: 'PHCC', label: 'PHCC', value: 12, type: 'Agency', websites: 1, mobile: 0, eservices: 0, tested: 25, defects: 18, fixed: 0, score: 71, rank:  10 },
-  13: { name: 'Supreme Judiciary Council', short_name: 'SJC', label: 'SJC', value: 13, type: 'Authority', websites: 0, mobile: 1, eservices: 1, tested: 15, defects: 22, fixed: 0, score: 64, rank:  11 },
-  14: { name: 'The General Retirement and Social Insurance Authority', short_name: 'GRSIA', label: 'GRSIA', value: 14, type: 'Authority', websites: 0, mobile: 0, eservices: 1, tested: 44, defects: 0, fixed: 0, score: 51, rank:  12 },
+  1: {id: 1, name: 'General Authority of Customs', short_name: 'GAC', label: 'GAC', value: 1, type: 'Authority', websites: 1, mobile: 1, eservices: 0, tested: 46, defects: 54, fixed: 0, score: 94, rank:  1 },
+  2: {id: 2, name: 'Hamad Medical Corporation', short_name: 'HMC', label: 'HMC', value: 2, type: 'Agency', websites: 1, mobile: 0, eservices: 0, tested: 78, defects: 22, fixed: 0, score: 93, rank:  2 },
+  3: {id: 3, name: 'Kahramaa', short_name: 'Kahramaa', label: 'Kahramaa', value: 3, type: 'Agency', websites: 1, mobile: 1, eservices: 3, tested: 75, defects: 34, fixed: 0, score: 91, rank:  3 },
+  4: {id: 4, name: 'Ministry of Administrative Development, Labour and Social Affairs', short_name: 'ADLSA', label: 'ADLSA', value: 4, type: 'Ministry', websites: 1, mobile: 2, eservices: 3, tested: 33, defects: 45, fixed: 0, score: 88, rank:  4 },
+  5: {id: 5, name: 'Ministry of Commerce and Industry', short_name: 'MOCI', label: 'MOCI', value: 5, type: 'MOCI', websites: 1, mobile: 1, eservices: 2, tested: 54, defects: 65, fixed: 0, score: 87, rank:  5 },
+  6: {id: 6, name: 'Ministry of Education and Higher Education', short_name: 'MoEHE', label: 'MoEHE', value: 6, type: 'Ministry', websites: 1, mobile: 0, eservices: 5, tested: 27, defects: 44, fixed: 0, score: 87, rank:  5 },
+  7: {id: 7, name: 'Ministry of Interior', short_name: 'MOI', label: 'MOI', value: 7, type: 'Ministry', websites: 1, mobile: 2, eservices: 8, tested: 25, defects: 31, fixed: 0, score: 84, rank:  6 },
+  8: {id: 8, name: 'Ministry of Justice', short_name: 'MOJ', label: 'MOJ', value: 8, type: 'Ministry', websites: 0, mobile: 1, eservices: 3, tested: 11, defects: 57, fixed: 0, score: 79, rank:  7 },
+  9: {id: 9, name: 'Ministry of Municipality and Environment', short_name: 'MME', label: 'MME', value: 9, type: 'Ministry', websites: 1, mobile: 1, eservices: 4, tested: 45, defects: 26, fixed: 0, score: 78, rank:  8 },
+  10: {id: 10, name: 'Ministry of Public Health', short_name: 'MOPH', label: 'MOPH', value: 10, type: 'Ministry', websites: 1, mobile: 0, eservices: 1, tested: 74, defects: 41, fixed: 0, score: 78, rank:  8 },
+  11: {id: 11, name: 'Ministry of Transport & Communication', short_name: 'MOTC', label: 'MOTC', value: 11, type: 'Ministry', websites: 0, mobile: 0, eservices: 1, tested: 62, defects: 0, fixed: 0, score: 75, rank:  9 },
+  12: {id: 12, name: 'Primary Health Care Corporation', short_name: 'PHCC', label: 'PHCC', value: 12, type: 'Agency', websites: 1, mobile: 0, eservices: 0, tested: 25, defects: 18, fixed: 0, score: 71, rank:  10 },
+  13: {id: 13, name: 'Supreme Judiciary Council', short_name: 'SJC', label: 'SJC', value: 13, type: 'Authority', websites: 0, mobile: 1, eservices: 1, tested: 15, defects: 22, fixed: 0, score: 64, rank:  11 },
+  14: {id: 14, name: 'The General Retirement and Social Insurance Authority', short_name: 'GRSIA', label: 'GRSIA', value: 14, type: 'Authority', websites: 0, mobile: 0, eservices: 1, tested: 44, defects: 0, fixed: 0, score: 51, rank:  12 },
 }
 
 export const paramVariations = {

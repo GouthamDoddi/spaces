@@ -18,3 +18,12 @@ export const complianceAttr = ({id, section_id, expand=false, sub=null}={}) => {
   return sub ? `${p}/${sub}` : p
 }
 
+export const entityList = () => '/entities'
+export const entityEnter = ({entity_id, expand=false}={}) => (
+  (expand ? `/entities/${entity_id}` : '/entities/:entity_id(\\d+)')
+)
+export const entityProfile = ({entity_id, expand=false}={}) => (
+  (expand ? `/entities/${entity_id}/profile` : '/entities/:entity_id(\\d+)/profile')
+)
+
+export const entityCommm = ({entity_id, expand=false}={}) => ((expand ? `/entities/${entity_id}/communication` : '/entities/:entity_id(\\d+)/communication'))
