@@ -43,7 +43,7 @@ export default function({type='opn', ...props}) {
   if (sectionId && id !== sectionId) {
     addData(listData.find(o => o.id === sectionId))
   } else if(sectionId == null && id) { addData(null) }
-
+const html = (h) => <div>{html}</div>
   return (
     <CustomContainer onSubmit={(data) => submitted(attr_id, type, id , data)} store={localStore}>      
       <div className='fields'>
@@ -60,7 +60,7 @@ export default function({type='opn', ...props}) {
               listData.map((o, i) => (
                 <Card onClick={() => setSectionId(o.id)} className={ o.id === id ? 'selected row' : 'row'} key={i}> 
                   <Title> {o.name} </Title>
-                  <Description> {o.description} </Description>
+              <Description> {o.description.slice(0,140)} {(o.description || '').length > 140 ? '...' : ''}  </Description>
                   <UpdatedAt> {o.updated_at} </UpdatedAt>
                   
                 </Card>

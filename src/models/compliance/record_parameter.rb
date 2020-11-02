@@ -10,7 +10,7 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
     super
     # validates_presence [:name, :owner_id, :type_id]
     # validates_presence [:name]
-    validates_unique [:parameter_id, :variation]
+    validates_unique [:parameter_id, :variation, :attribute_id, :project_id]
   end
 
 end

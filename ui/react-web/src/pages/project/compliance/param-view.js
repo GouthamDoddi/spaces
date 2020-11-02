@@ -91,7 +91,10 @@ export default function({data, ...props}) {
               </div> : null
             }
             <div> Operating Notes </div>
-            <Opn onlyUserEditable/>
+            {/* <OpnContainer> */}
+              <Opn onlyUserEditable/>
+            {/* </OpnContainer> */}
+            
             <div className='exception'>
               <span> Exception Granted: </span>
               <span className='value'> None</span>
