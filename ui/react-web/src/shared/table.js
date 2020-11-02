@@ -14,6 +14,14 @@ export default function({title='Recent Activities', className, showAll=true, chi
     </Container>
   )
 }
+
+// export function Row({className, children, filter}){
+//   return(
+//     <RowWrapper className={className}>
+//       {children}
+//     </RowWrapper>
+//   )
+// }
 // You have created new project
 const TitleBar = styled.div`
   display: flex;

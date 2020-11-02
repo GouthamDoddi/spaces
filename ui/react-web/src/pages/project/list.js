@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import styled from 'styled-components'
 import Layout from '../../shared/layout'
 import Table, { Header, Row } from '../../shared/table'
+import {Input} from '../../components/form'
 import Project from './index'
 
 import {
@@ -29,6 +30,14 @@ const columns1 = ".4fr 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
 const data = [{}]
 export default function(props) {
   const { project_id } = useParams()
+
+  const [filterVal, setFilterVal] = useState('')
+  const filter = (metadata, { key, value }) => (
+    metadata.filter((o) => o[key]?.toLowerCase()?.includes(value.toLowerCase().trim()))
+  )
+    
+  console.log(filterVal)
+
   useEffect(() => { 
     // console.log("*********** Project id *********", !!!project_id)
     if(!!!project_id) {
@@ -47,7 +56,9 @@ export default function(props) {
       <Switch>
         <Route path={projectPath()}><Project /></Route>
         <Route path='/projects'>
-          <Table className='tbl' title='Compliance Projects' showAll={false}>
+          <>
+            <Input label='Filter' type='text' name='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''}/>
+            <Table className='tbl' title='Compliance Projects' showAll={false}>
             <Header columns={columns1}>
               {
                 ['#', 'Name', 'Type', 'Sponsor', 'Start Date', 'End Date', 
@@ -56,8 +67,8 @@ export default function(props) {
               }
                 
             </Header>
-            { metadata.map((o, i) => (
-              <Row key={i} columns={columns1} className='row'>
+            { filter(metadata, {key: 'name', value: filterVal}).map((o, i) => (
+              <Row key={i} columns={columns1} className='row' filter={{keys: [], val: filterVal}}>
                 <Link to={projectProfile({id: o.id, expand: true})}> {i + 1} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})} style={{'padding-right': '20px'}}> {o.name} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})}> {o.type} </Link>
@@ -71,6 +82,7 @@ export default function(props) {
 
             ))}
           </Table>
+          </>
         </Route>
 
         

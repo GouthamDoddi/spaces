@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 
 import Table, { Header, Row } from '../../../shared/table'
+import { Input } from '../../../components/form'
 import Breadcrumb from './breadcrumb'
 
 import {
@@ -36,6 +37,12 @@ export default function(props) {
 
   const [variation, addVariation] = useState(0)
   const [pselected, setP] = useState([])
+
+  const [filterVal, setFilterVal] = useState('')
+  const filter = (metadata, { key, value }) => (
+    metadata.filter((o) => o[key]?.toLowerCase()?.includes(value.toLowerCase().trim()))
+  )
+
   useEffect(() => { 
     load({project_id, attr_id})
   }, [])
@@ -83,6 +90,7 @@ export default function(props) {
       </Route>
       <Route path={complianceAttr({id: project_id, section_id, sub: `:attr_id(\\d+)/params`})}>
         <Breadcrumb />
+        <CustomInput label='Filter' type='text' name='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''}/>
         <Table className='tbl' title='' showAll={false}>
           <Header columns={columns1}>
             {
@@ -92,7 +100,7 @@ export default function(props) {
             }
               
           </Header>
-          { metadata.map((o, i) => (
+          { filter(metadata, {key: 'name', value: filterVal}).map((o, i) => (
             <Row key={i} columns={columns1} className='row'>
               <Link to={() => link(o)}> {i + 1} </Link>
               <Link to={() => link(o)} style={{'padding-right': '20px'}}> {o.name} {o.variation ? `- ${ paramVariations[o.variation]?.label }` : ''}  </Link>
@@ -120,12 +128,19 @@ const Link = styled(RLink)`
 `
 
 const Button = styled.a`
-  padding: 5px 10px;
+  padding: 10px 10px;
   cursor: pointer;
   background-color: #eb622b;
+  max-width: 80px;
+  justify-self: center;
+  align-self: center;
+  color: #fff;
 `
 
 const AddVariation = styled.div`
   a { margin-left: 5px; }
+`
 
+const CustomInput = styled(Input)`
+  margin: 0 0 10px 20px;
 `
