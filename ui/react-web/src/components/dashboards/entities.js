@@ -1,3 +1,9 @@
+// Options for type:
+// Ministry
+// Agency
+// Authority 
+// Other
+
 import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import HeaderBar from './header_bar'

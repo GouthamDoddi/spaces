@@ -8,7 +8,7 @@ import { get } from '../../../store/api'
 
 import { complainceAttr, complianceAttr } from '../../routes'
 
-export default function(props) {
+export default function({base, ...props}) {
   const { project_id, section_id, attr_id, param_id: combo_id  } = useParams()
 
   const [param_id, _] = combo_id?.split('-') || []
@@ -22,18 +22,18 @@ export default function(props) {
 
   const links = []
   if(section_id) {
-    links.push(<Link to={complianceAttr({id: project_id, section_id, expand: true })}> > {data[section_id]}</Link>)
+    links.push(<Link to={`${base}/${section_id}/attrs`}> > {data[section_id]}</Link>)
   }
   if(attr_id) {
-    links.push(<Link to={complianceAttr({id: project_id, section_id, sub: `${attr_id}/params`, expand: true })}> > {data[attr_id]}</Link>)
+    links.push(<Link to={`${base}/${section_id}/attrs/${attr_id}/params` }> > {data[attr_id]}</Link>)
   }
 
   if(param_id) {
-    links.push(<Link to={complianceAttr({id: project_id, section_id, sub: `${attr_id}/params/${param_id}`, expand: true })}> > {data[param_id]}</Link>)
+    links.push(<Link to={`${base}/${section_id}/attrs/${attr_id}/params/${param_id}`}> > {data[param_id]}</Link>)
   }
   return (
     <Bd {...props}> 
-      <Link to='/complaince/sections'> Compliance  </Link>
+      <Link to={base}> Compliance  </Link>
       {links}
     </Bd>
   )

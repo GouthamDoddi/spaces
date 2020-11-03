@@ -47,26 +47,27 @@ class App::Services::Compliance::Sections < App::Services::Base
   def applicable_sections
     return_success(project.applied_sections.map{|s| s.to_pos})
   end
-
+  # attrs = project.applied_attributes.eager(record_parameters: proc{|ds| ds.where(project_id: 15)}).all
   def applicable_sections_enhanced
-    filter = rp[:filter]
-    puts "Filter #{filter}"
-    attributes = project.applied_attributes
-      .eager(:policy_section).eager(:parameters)
-      .all.group_by(&:parent_id)
-
-    res = attributes.values.collect do |arr|
+    
+    puts "Filter #{pfilter}"
+    attributes = project.applied_attributes.eager(:policy_section).eager(:parameters)
+    if(pfilter.length > 0)
+      attributes = attributes.eager(record_parameters: proc{|ds| ds.where(project_id: project.id, user_compliance_type: pfilter)})
+    end
+    
+    res = attributes.all.group_by(&:parent_id).values.collect do |arr|
       if arr.length > 0
         section = arr[0].policy_section.to_pos
         section[:attribute_count] = arr.length
         section[:parameter_count] = arr.sum{|a| a.parameters.length }
-        section
-        # if filter.to_i > 0 && arr.any?{|attr| attr.parameters.any?{|p| p.user_compliance_type.to_i === filter.to_i}}
-        #   section
-        # else
-        #   nil
-        # end
-     else
+        # section
+        if pfilter.length > 0 
+          arr.any?{|attr| attr.record_parameters.any?{|p| pfilter.include?(p.user_compliance_type.to_i)}} ? section : nil
+        else
+          section
+        end
+      else
         nil
       end
     end.compact
@@ -75,11 +76,21 @@ class App::Services::Compliance::Sections < App::Services::Base
   end
 
   def applicable_attributes_enhanced
-    attributes = project.applied_attributes.where(parent_id: rp[:section_id]).eager(:parameters).all
-    res = attributes.collect do |attr|
-      attr.to_pos.merge(parameter_count: attr.parameters.length)
+    attributes = project.applied_attributes.where(parent_id: rp[:section_id]).eager(:parameters)
+
+    if(pfilter.length > 0)
+      attributes = attributes.eager(record_parameters: proc{|ds| ds.where(project_id: project.id, user_compliance_type: pfilter)})
     end
-    return_success(res)
+    res = attributes.all.collect do |attr|
+      resp = 
+        if pfilter.length > 0 
+          attr.record_parameters.any?{|p| pfilter.include?(p.user_compliance_type.to_i)} ? attr : nil
+        else
+          attr
+        end
+        resp ? resp.to_pos.merge(parameter_count: resp.parameters.length) : nil
+    end
+    return_success(res.compact)
   end
 
   def started_sections
@@ -111,4 +122,6 @@ class App::Services::Compliance::Sections < App::Services::Base
   def project 
     @project ||= App::Models::Compliance::Project.find(id: r.params[:project_id])
   end
+
+  def pfilter; @pfilter ||= (rp[:filter] || '').split(',').map(&:to_i); end
 end

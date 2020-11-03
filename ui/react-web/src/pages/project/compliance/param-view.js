@@ -8,7 +8,7 @@ import cs from '../../../utils/colors'
 import Attachment from '../../../components/form/attachment'
 import Uploader from '../../../components/form/upload'
 import Form, {TextArea, Select, toOpt, Submit, Input, CheckboxBig} from '../../../components/form'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useRouteMatch } from 'react-router-dom'
 import {complianceAttr} from '../../routes'
 import {useStore} from 'effector-react'
 
@@ -41,6 +41,8 @@ export default function({data, ...props}) {
 
   const { section_id, attr_id, project_id, param_id: combo_id } = useParams()
   const [param_id, rp_id] = combo_id.split('-')
+
+  const {url} = useRouteMatch()
 
   const sStore = useStore(other.store)
 
@@ -95,7 +97,7 @@ export default function({data, ...props}) {
               <Item {...cs['gs']} 
                 key={i}
                 className={(o.id ? o.id == rp_id && o.parameter_id === parameter_id : o.parameter_id === parameter_id) ? 'selected': ''} 
-                to={() => complianceAttr({id: project_id, section_id, sub: `${attr_id}/params/${(o.id ? [o.parameter_id, o.id] : [o.parameter_id]).join('-')}`, expand: true})}> 
+                to={() => `${url}/${(o.id ? [o.parameter_id, o.id] : [o.parameter_id]).join('-')}`}> 
                   {i + pData.start + 1}  
               </Item>
             ))

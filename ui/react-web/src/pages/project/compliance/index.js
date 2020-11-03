@@ -19,26 +19,21 @@ export default function(props) {
         <SubTab to={compliance({id: project_id, sub: 'sections', expand: true })}> Sections </SubTab>
         <SubTab to={compliance({id: project_id, sub: 'self-test', expand: true })}> Self-Test </SubTab>
         <SubTab to={compliance({id: project_id, sub: 'test-data', expand: true })}> Unable to Test </SubTab>
+        <SubTab to={compliance({id: project_id, sub: 'not-testable', expand: true })}> Not Testable </SubTab>
       </SubTabs>
 
       <Switch>
         <Route path={compliance({id: project_id, sub: 'overview' })}><Overview /></Route>
         <Route path={compliance({id: project_id, sub: 'sections' })}><Sections /></Route>
-        <Route path={compliance({id: project_id, sub: 'self-test' })}><Empty> No Sections </Empty></Route>
-        <Route path={compliance({id: project_id, sub: 'test-data' })}> <Empty> No Sections </Empty> </Route>
+        <Route path={compliance({id: project_id, sub: 'self-test' })}><Sections filter='9'/></Route>
+        <Route path={compliance({id: project_id, sub: 'test-data' })}> <Sections filter='4,5'/> </Route>
+        <Route path={compliance({id: project_id, sub: 'not-testable' })}> <Sections filter='7,8'/> </Route>
         <Route path={compliance({id: project_id})}> <Redirect to={compliance({id: project_id, sub: 'sections', expand: true })}></Redirect> </Route>
       </Switch>
     </>
   )
 }
 
-
-const Empty = styled.div`
-  display: flex;
-  margin-top: 100px;
-  justify-content: center;
-  font-size: 24px;  
-`
 const Wrapper = styled.div`
   display: flex;
   width: 100%;

@@ -13,7 +13,7 @@ export const compliance = ({id, expand=false, sub=null}={}) => {
 }
 
 export const complianceAttr = ({id, section_id, expand=false, sub=null}={}) => {
-  console.log({section_id})
+  // console.log({section_id})
   const p = (expand ? `/projects/${id}/compliance/sections/${section_id}/attrs` : '/projects/:project_id(\\d+)/compliance/sections/:section_id(\\d+)/attrs')
   return sub ? `${p}/${sub}` : p
 }

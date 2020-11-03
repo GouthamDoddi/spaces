@@ -3,6 +3,8 @@ class App::Models::PolicySectionAttribute < Sequel::Model(App.db[:policy_section
 
   many_to_one :policy_section, key: :parent_id
   one_to_many :parameters, class: 'App::Models::AttributeParameter', key: :attribute_id
+
+  one_to_many :record_parameters, class: 'App::Models::Compliance::RecordParameter', key: :attribute_id
   
   def validate
     super
