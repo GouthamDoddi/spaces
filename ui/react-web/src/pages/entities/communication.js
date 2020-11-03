@@ -1,6 +1,12 @@
 import React from 'react'
-
+import styled from 'styled-components'
+import Opn from '../../components/formulation/checklist/tools/opn'
 
 export default (props) => {
-  return <div>Comm</div>
+  return <Wrapper> <Opn type='chat' /> </Wrapper>
 }
+
+const Wrapper = styled.div`
+  margin: 30px 30px;
+
+`

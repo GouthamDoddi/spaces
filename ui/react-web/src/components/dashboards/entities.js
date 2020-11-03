@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import HeaderBar from './header_bar'
 import Table, { Header, Row } from './table'
@@ -6,7 +6,7 @@ import LeftMenu from './left-menu'
 import Banner from './hmc-banner'
 
 import { entitiesData } from '../../store/master-data'
-import { Link, Route, Switch } from 'react-router-dom'
+import { Link, Route, Switch, useParams } from 'react-router-dom'
 import { entityEnter, entityList  } from '../../pages/routes'
 import {Input} from '../form'
 
@@ -14,11 +14,20 @@ import EntityElem from '../../pages/entities'
 
 const columns1 = '80px 3.5fr 1.5fr repeat(9, 1fr);'
 export default function(props) {
+  const { entity_id } = useParams()
+  
+  const [bannerTitle, setBannerTitle] = useState('')
+
   const data = Object.values(entitiesData)
   const [filterVal, setFilterVal] = useState('')
   const filter = (metadata, { key, value }) => (
     metadata.filter((o) => o[key]?.toLowerCase()?.includes(value.toLowerCase().trim()))
   )
+
+  useEffect(() => {
+    entity_id ? setBannerTitle(entitiesData[entity_id]?.name || 'Entities') : setBannerTitle('Entities')
+  },[entity_id])
+
   return(
     <Layout>
       <Left>
@@ -27,13 +36,14 @@ export default function(props) {
       
       <Content>
         <HeaderBar className='hb' />
-        <Banner type='Entities' size='32px' mobile='10' websites='10' eservices='32' hideScore className='bnr' />
+        {/* <Banner type={bannerTitle} size='32px' mobile='10' websites='10' eservices='32' hideScore className='bnr' /> */}
         <Switch>
           
           <Route path={entityEnter()}>
             <EntityElem />
           </Route>
           <Route path={entityList()} >
+            <Banner type={bannerTitle} size='32px' mobile='10' websites='10' eservices='32' hideScore className='bnr' />
             <CustomInput label='Filter' type='text' name='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''}/>
             <Table className='tbl' title='Entities' showAll={false}>
               <Header columns={columns1}>

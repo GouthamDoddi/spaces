@@ -9,12 +9,16 @@ import {entityProfile, entityCommm} from '../routes'
 
 import Profile from './profile'
 import Communication from './communication'
+import Banner from '../../shared/hmc-banner'
+import { entitiesData } from '../../store/master-data'
 
 
 export default function(props) {
 
   const { entity_id } = useParams()
   return (
+    <>
+    <Banner type={entitiesData[entity_id]?.name || 'Entities'} size='32px' mobile='10' websites='10' eservices='32' hideScore className='bnr' />
     <Wrapper>
       <Tabs>
         <Tab  to={entityProfile({entity_id, expand: true})}> Profile </Tab>
@@ -30,6 +34,7 @@ export default function(props) {
         </Switch>
       </Content>
     </Wrapper>
+    </>
   )
 }
 
@@ -50,6 +55,7 @@ const Content = styled.div`
   padding-bottom: 50px;
   min-height: 650px;
   background-color: #fff;
+  padding-top: 20px;
 `
 
 const SubTabs = styled.div`
