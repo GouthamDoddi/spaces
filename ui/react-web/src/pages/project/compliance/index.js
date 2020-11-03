@@ -24,8 +24,8 @@ export default function(props) {
       <Switch>
         <Route path={compliance({id: project_id, sub: 'overview' })}><Overview /></Route>
         <Route path={compliance({id: project_id, sub: 'sections' })}><Sections /></Route>
-        <Route path={compliance({id: project_id, sub: 'self-test' })}></Route>
-        <Route path={compliance({id: project_id, sub: 'test-data' })}></Route>
+        <Route path={compliance({id: project_id, sub: 'self-test' })}><Empty> No Sections </Empty></Route>
+        <Route path={compliance({id: project_id, sub: 'test-data' })}> <Empty> No Sections </Empty> </Route>
         <Route path={compliance({id: project_id})}> <Redirect to={compliance({id: project_id, sub: 'sections', expand: true })}></Redirect> </Route>
       </Switch>
     </>
@@ -33,6 +33,12 @@ export default function(props) {
 }
 
 
+const Empty = styled.div`
+  display: flex;
+  margin-top: 100px;
+  justify-content: center;
+  font-size: 24px;  
+`
 const Wrapper = styled.div`
   display: flex;
   width: 100%;

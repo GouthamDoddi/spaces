@@ -61,10 +61,16 @@ class App::Services::Compliance::Sections < App::Services::Base
         section[:attribute_count] = arr.length
         section[:parameter_count] = arr.sum{|a| a.parameters.length }
         section
-      else
+        # if filter.to_i > 0 && arr.any?{|attr| attr.parameters.any?{|p| p.user_compliance_type.to_i === filter.to_i}}
+        #   section
+        # else
+        #   nil
+        # end
+     else
         nil
       end
     end.compact
+
     return_success(res)
   end
 

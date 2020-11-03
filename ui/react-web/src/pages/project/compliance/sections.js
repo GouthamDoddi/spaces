@@ -11,8 +11,8 @@ import { compliance, complianceAttr } from '../../routes'
 
 import ParamsScreen from './params'
 
-const sectionStore = makeStore(({project_id}) => `compliance/${project_id}/sections/applicable-enhanced`)
-const attributeStore = makeStore(({project_id, section_id}) => `compliance/${project_id}/sections/${section_id}/attributes`)
+const sectionStore = makeStore(({project_id, filter}) => filter ? `compliance/${project_id}/sections/applicable-enhanced?filter=${filter}` : `compliance/${project_id}/sections/applicable-enhanced`)
+const attributeStore = makeStore(({project_id, section_id, filter}) =>  filter ? `compliance/${project_id}/sections/${section_id}/attributes?filter=${filter}` :  `compliance/${project_id}/sections/${section_id}/attributes`)
 
 export default function(props) {
   return(
@@ -74,7 +74,7 @@ function SectionsScreen(props) {
   const {project_id} = useParams()
   
   useEffect(() => {
-    sectionStore.load({project_id})
+    sectionStore.load({project_id, filter: 2})
   }, [project_id])
 
   const sourceData = useStore(sectionStore.store)
