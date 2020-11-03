@@ -49,6 +49,8 @@ class App::Services::Compliance::Sections < App::Services::Base
   end
 
   def applicable_sections_enhanced
+    filter = rp[:filter]
+    puts "Filter #{filter}"
     attributes = project.applied_attributes
       .eager(:policy_section).eager(:parameters)
       .all.group_by(&:parent_id)
