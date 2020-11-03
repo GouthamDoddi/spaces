@@ -17,7 +17,7 @@ import {
 
 import { useStore } from 'effector-react'
 
-import { policyFamilyTypes, policyStatusTypes, policyOwnerTypes, policyStateTypes } from '../../store/master-data'
+import { policyFamilyTypes, policyStatusTypes, policyOwnerTypes, policyStateTypes, projectCategoryTypes } from '../../store/master-data'
 
 import makeStore from '../../store/make-store'
 
@@ -28,6 +28,12 @@ const { store, load } = makeStore('compliance/projects/list')
 const columns1 = ".4fr 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
 
 const data = [{}]
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+}
 export default function(props) {
   const { project_id } = useParams()
 
@@ -61,7 +67,7 @@ export default function(props) {
             <Table className='tbl' title='Compliance Projects' showAll={false}>
             <Header columns={columns1}>
               {
-                ['#', 'Name', 'Type', 'Sponsor', 'Start Date', 'End Date', 
+                ['#', 'Name', 'Category', 'Sponsor', 'Start Date', 'End Date', 
                   'Progress', 'Defects', 'Fixed'
                 ].map((h, i) => <div className={i > 3 ? 'center' : ''} key={i}>{h}</div>)
               }
@@ -71,11 +77,11 @@ export default function(props) {
               <Row key={i} columns={columns1} className='row' filter={{keys: [], val: filterVal}}>
                 <Link to={projectProfile({id: o.id, expand: true})}> {i + 1} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})} style={{'padding-right': '20px'}}> {o.name} </Link>
-                <Link to={projectProfile({id: o.id, expand: true})}> {o.type} </Link>
+                <Link to={projectProfile({id: o.id, expand: true})}> {projectCategoryTypes[o.category_id]?.label} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})}  > {o.sponsor} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.start_date} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.end_date} </Link>
-                <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.progress}% </Link>
+                <Link to={projectProfile({id: o.id, expand: true})} className='center'> {getRandomInt(51, 65)}% </Link>
                 <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.defects} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.fixed} </Link>
               </Row>

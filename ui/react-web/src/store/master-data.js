@@ -247,7 +247,7 @@ export const paramVariations = {
   'ios-ar': { value: 'ios-ar', label: 'iOS Arabic'},
   'android-ar': { value: 'android-ar', label: ' Android Arabic'},
   'ios-en': { value: 'ios-en', label: 'iOS English'},
-  'android-en': { value: 'android-en', label: 'Andoid English'},
+  'android-en': { value: 'android-en', label: 'Android English'},
 }
 // export const policyFamilyTypes = {
 //   ICT
