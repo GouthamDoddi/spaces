@@ -4,39 +4,37 @@ import { Input, Select, Actions2, Container, TextArea, toOpt } from '../../compo
 import { reloadAuth } from '../../store/user'
 import { useParams, Link } from 'react-router-dom'
 
-import { entitiesData } from '../../store/master-data'
+import { entitiesData, entityTypes } from '../../store/master-data'
+import { useStore } from 'effector-react'
+import makeStore from '../../store/make-store'
+
+const { store, load, create, update, addData, changed, selectChange } =  makeStore(({entity_id}) => `entities/${entity_id}` )
 
 
-
-
-function submitted(project_id, data) {
+function submitted(entity_id, data) {
   const cb = (resp) => {
-    reloadAuth()
-    window.location.hash = `/projects/${resp.id}/profile/details`
+    load({entity_id})
   }
-  // project_id === 'new' ? create({data, cb}) : update({project_id, data, cb}) 
+  update({entity_id, data, cb}) 
 }
 
-// Full EN & AR name, short EN name, parent, focal point name, focal point contact email, focal point mobile, Remarks/Notes
-
-// function changed(e) {
-
-// }
 
 export default function(props) {
 
   const { entity_id } = useParams()
-  const [entity, setEntity] = useState({})
+  
+  const entityStore = useStore(store)
   
   useEffect(() => {
-    setEntity(entitiesData[entity_id])
+    load({entity_id})
   }, [entity_id])
   
-  const changed = (e) => {
-    // setEntity({...entity, { e.target.name: e.target.value}})
-  }
+  // const changed = (e) => {
+  //   // setEntity({...entity, { e.target.name: e.target.value}})
+  // }
 
-  const { id, name, ar_name, short_name, label, type, focal_point_name, focal_point_email, focal_point_mobile, notes } = entity || {}
+
+  const { id, name, ar_name, short_name, label, type_id, focal_point_name, focal_point_email, focal_point_mobile, notes } = entityStore.data || {}
 
   return(
     <Container onSubmit={(data) => submitted(entity_id, data)} saveBtn>
@@ -45,7 +43,12 @@ export default function(props) {
         <Input label='Name' type='text' name='name' onChange={changed} value={name || ''} required/>
         <Input label='Arabic Name' type='text' name='ar_name' onChange={changed} value={ar_name || ''} />
         <Input label='Short Name' type='text' name='short_name' onChange={changed} value={short_name || ''} required/>
-        <Input label='Type' type='text' name='type' onChange={changed} value={type || ''} required/>
+        <Select name='type_id' label='Type'
+            options={toOpt(entityTypes)}
+            onChange={selectChange('type_id')}
+            value={entityTypes[type_id]}
+            maxMenuHeight={200}
+        />
         <Input label='Focal point name' type='text' name='focal_point_name' onChange={changed} value={focal_point_name || ''} />
         <Input label='Focal point email' type='text' name='focal_point_email' onChange={changed} value={focal_point_email || ''} />
         <Input label='Focal point mobile' type='text' name='focal_point_mobile' onChange={changed} value={focal_point_mobile || ''} />

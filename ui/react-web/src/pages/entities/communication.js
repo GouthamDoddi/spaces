@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Opn from '../../components/formulation/checklist/tools/opn'
 
 export default (props) => {
-  return <Wrapper> <Opn type='chat' /> </Wrapper>
+  return <Wrapper> <Opn type='chat' bk='#efefef' /> </Wrapper>
 }
 
 const Wrapper = styled.div`

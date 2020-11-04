@@ -241,6 +241,13 @@ export const entitiesData = {
   14: {id: 14, name: 'The General Retirement and Social Insurance Authority', short_name: 'GRSIA', label: 'GRSIA', value: 14, type: 'Authority', websites: 0, mobile: 0, eservices: 1, tested: 44, defects: 0, fixed: 0, score: 51, rank:  12 },
 }
 
+export const entityTypes = {
+  1 :{ label: 'Ministry', value: 1},
+  2: { label: 'Agency', value: 2},
+  3: { label: 'Authority ', value: 3},
+  4: { label: 'Other', value:4}
+}
+
 export const paramVariations = {
   'web-en': { value: 'web-en', label: 'Web English'},
   'web-ar': { value: 'web-ar', label: 'Web Arabic'},

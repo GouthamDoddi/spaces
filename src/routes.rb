@@ -39,6 +39,14 @@ class App::Routes < Roda
 
       auth_required!
 
+      r.on 'entities' do
+        r.on Integer, 'communication' do |id|
+          do_crud(EntityCommunications, r, 'CRUDL', {id: id})
+        end
+        do_crud(Entities, r, 'CRUDL')
+        
+      end
+
       r.on 'get-section-attr', Integer, [Integer, true], [Integer, true] do |id, attr_id, param_id|
         r.get { Formulation::SimpleSections[r, {id: id, attr_id: attr_id, param_id: param_id}].names }
       end
