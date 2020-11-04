@@ -4,7 +4,7 @@ Sequel.migration do
       primary_key :id
 
       String :name, size: 80
-      Integer :ar_name, size: 80
+      String :ar_name, size: 255
       String :short_name, size: 16
       Integer :type_id
       String :focal_point_name, size: 60
