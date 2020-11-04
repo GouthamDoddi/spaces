@@ -97,7 +97,11 @@ export default function({data, ...props}) {
               <Item {...cs['gs']} 
                 key={i}
                 className={(o.id ? o.id == rp_id && o.parameter_id === parameter_id : o.parameter_id === parameter_id) ? 'selected': ''} 
-                to={() => `${url}/${(o.id ? [o.parameter_id, o.id] : [o.parameter_id]).join('-')}`}> 
+                to={() => {
+                  let u = url.split('/')
+                  u.pop()
+                  return `${u.join('/')}/${(o.id ? [o.parameter_id, o.id] : [o.parameter_id]).join('-')}`}
+                }> 
                   {i + pData.start + 1}  
               </Item>
             ))
@@ -376,4 +380,5 @@ const Item = styled(Link)`
     box-shadow: 0 2px 4px 0 white;
   }
   margin-right: 6px;
+  font-size: 12px;
 `
