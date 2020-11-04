@@ -42,7 +42,7 @@ import makeStore from '../../../store/make-store'
 import ParamsView from './param-view'
 
 import {complianceAttr, projectPath, projectProfile} from '../../routes'
-const { store, load } = makeStore(({project_id, attr_id, filters}) => filters ? `compliance/project/${project_id}/attr/${attr_id}/parameters?filter=${filters}` : `compliance/project/${project_id}/attr/${attr_id}/parameters`)
+const { store, load, addData } = makeStore(({project_id, attr_id, filters}) => filters ? `compliance/project/${project_id}/attr/${attr_id}/parameters?filter=${filters}` : `compliance/project/${project_id}/attr/${attr_id}/parameters`)
 
 const { create } = makeStore(({section_id, attr_id}) => (`compliance/section/${section_id}/attr/${attr_id}/parameters`))
 
@@ -56,15 +56,6 @@ export default function({filters, base, ...props}) {
   const { path, url } = useRouteMatch()
 
 
-  useEffect(() => { 
-    load({project_id, attr_id, filters})
-  }, [])
-
-  const link = ({id, parameter_id}) => { 
-    const str = id ? `${parameter_id}-${id}` : parameter_id
-    return `${url}/${str}` 
-  }
-
   const listStore = useStore(store)
   const metadata = listStore.data || []
 
@@ -77,7 +68,7 @@ export default function({filters, base, ...props}) {
         <ParamsView data={metadata} />
       </Route>
       <Route path={path}>
-        <ParamsList filter={filters} base={base} {...props} />
+        <ParamsList filters={filters} base={base} {...props} />
       </Route>
     </Switch>
   )
@@ -102,6 +93,7 @@ const ParamsList = function({filters, base, ...props}) {
   
     useEffect(() => { 
       load({project_id, attr_id, filters})
+      // return( addData([]))
     }, [])
   
     const link = ({id, parameter_id}) => { 

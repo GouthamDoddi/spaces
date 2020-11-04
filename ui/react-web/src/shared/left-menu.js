@@ -24,11 +24,11 @@ export default function({title='Recent Activities', except=[], selected='dashboa
         <A icon='resources.svg' {...options('resources')}> Resources </A>
         <A to='/governance' icon='reports.svg' {...options('reports')} border> Reports </A>
         
-        <A2 icon='forums.svg'  show> Forums </A2>
-        <A2 icon='announce.svg' > Announcements </A2>
-        <A2 icon='kb.svg' > Knowledge Base </A2>
-        <A2 icon='learning.svg' > Learning Activities </A2>
-        <A2 icon='one.svg' > Surveys & Petitions </A2>
+        <A2 icon='forums.svg' to='/collaboration/forums/general'  show> Forums </A2>
+        <A2 icon='announce.svg' to='/collaboration/announcements' > Announcements </A2>
+        <A2 icon='kb.svg' to='/collaboration/kb' > Knowledge Base </A2>
+        <A2 icon='learning.svg' to='/collaboration/blogs/general' > Learning Activities </A2>
+        <A2 icon='one.svg' to='/collaboration/sp'> Surveys & Petitions </A2>
       </Links>
     </Container>
   )
