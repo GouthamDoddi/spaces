@@ -5,13 +5,14 @@ import Table, { Header, Row } from '../../shared/table'
 import LeftMenu from '../../shared/left-menu'
 import Banner from '../../shared/hmc-banner'
 
-import { entitiesData } from '../../store/master-data'
+import { entitiesData, entityTypes } from '../../store/master-data'
 import { Link, Route, Switch, useParams } from 'react-router-dom'
 import { entityEnter, entityList  } from '../../pages/routes'
 import {Input} from '../../components/form'
 
 import EntityElem from '../../pages/entities'
 import makeStore from '../../store/make-store'
+import { useStore } from 'effector-react'
 
 const { store, load } = makeStore('entities/list')
 
@@ -32,6 +33,10 @@ export default function(props) {
     entity_id ? setBannerTitle(entitiesData[entity_id]?.name || 'Entities') : setBannerTitle('Entities')
   },[entity_id])
 
+  const entityStore = useStore(store)
+
+  const entityData = entityStore.data || []
+
   return(
     <Layout>
       <Left>
@@ -47,7 +52,7 @@ export default function(props) {
             <EntityElem />
           </Route>
           <Route path={entityList()} >
-            <Banner type={bannerTitle} size='32px' mobile='10' websites='10' eservices='32' hideScore className='bnr' />
+            <Banner type={bannerTitle} size='32px' mobile='11' websites='10' eservices='34' prepend={{Entities: 14}} hideScore className='bnr' />
             <CustomInput label='Filter' type='text' name='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''}/>
             <Table className='tbl' title='Entities' showAll={false}>
               <Header columns={columns1}>
@@ -59,20 +64,20 @@ export default function(props) {
                 }
                   
               </Header>
-              { filter(data, {key: 'name', value: filterVal}).map((o, i) => (
+              { filter(entityData, {key: 'name', value: filterVal}).map((o, i) => (
                 <Row key={i} columns={columns1} className='row'>
                   <CLink to={entityEnter({entity_id: o.id, expand: true})}> {i + 1} </CLink>
                   <CLink to={entityEnter({entity_id: o.id, expand: true})} style={{'padding-right': '20px'}}> {o.name} </CLink>
                   <CLink to={entityEnter({entity_id: o.id, expand: true})}> {o.short_name} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})}> {o.type} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {o.websites} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {o.mobile} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {o.eservices} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {o.tested}% </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {o.defects} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {o.fixed} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {o.score} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {o.rank} </CLink>
+                  <CLink to={entityEnter({entity_id: o.id, expand: true})}> {entityTypes[o.type_id]?.label} </CLink>
+                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.websites} </CLink>
+                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.mobile} </CLink>
+                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.eservices} </CLink>
+                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.tested}% </CLink>
+                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.defects} </CLink>
+                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.fixed} </CLink>
+                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.score} </CLink>
+                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.rank} </CLink>
                 </Row>
 
               ))}

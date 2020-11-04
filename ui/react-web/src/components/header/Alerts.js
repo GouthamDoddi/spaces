@@ -6,26 +6,42 @@ export default function (props) {
   return (
     <Alerts>
       <div className="menuHeaderText messageHeaderText">
-        <div>ALERTS</div>
-        <div>view All</div>
+        <div>Notifications</div>
+        
       </div>
       <div className="actionMenuSub">
         <div className="messageAlertBody">
-          {props?.alerts?.map((message, i) => (
-            <div className="messageAlertBar" key={i}>
-              <div className="messageAlertIcon">
-                <img src="/img/exclamation-mark.svg" />
-              </div>
-              <div className="messageAlertContent">
-                <div className="messageAlertMessage">{message?.alertMessage}</div>
-              </div>
-            </div>
-          ))}
+          No notifications
         </div>
       </div>
     </Alerts>
   )
 }
+
+// export default function (props) {
+//   return (
+//     <Alerts>
+//       <div className="menuHeaderText messageHeaderText">
+//         <div>ALERTS</div>
+//         <div>view All</div>
+//       </div>
+//       <div className="actionMenuSub">
+//         <div className="messageAlertBody">
+//           {props?.alerts?.map((message, i) => (
+//             <div className="messageAlertBar" key={i}>
+//               <div className="messageAlertIcon">
+//                 <img src="/img/exclamation-mark.svg" />
+//               </div>
+//               <div className="messageAlertContent">
+//                 <div className="messageAlertMessage">{message?.alertMessage}</div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+//     </Alerts>
+//   )
+// }
 
 const Alerts = styled.div`
   .menuHeaderText {

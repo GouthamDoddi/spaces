@@ -130,9 +130,9 @@ export default function ({className, ...props}) {
           <Link color={cs.fs.color} to="/formulation" space='formulation'>
             <div> Formulation Spaces </div>
           </Link>
-          <Link color={cs.cs.color} to="/collaboration" space='collaboration'>
+          {/* <Link color={cs.cs.color} to="/collaboration" space='collaboration'>
             <div> Collaboration Spaces </div>
-          </Link>
+          </Link> */}
           {/* <Link color={cs.as.color} to='/activation'>
             <div> Activation Spaces </div>
           </Link> */}
@@ -144,18 +144,20 @@ export default function ({className, ...props}) {
           </Link>
         </div>
         <div className="user-actions">
-          <div className="alerts menuWrapper">
+          {/* <div className="alerts menuWrapper">
             <div className="actionMenu messageCenter">
               <Alerts alerts={alerts} />
             </div>
-          </div>
-          <div className="msg menuWrapper">
+          </div> */}
+          {/* <div className="msg menuWrapper">
             <div className="actionMenu messageCenter">
+              <Alerts alerts={alerts} />
               <Notifications notifications={notifications} />
             </div>
-          </div>
+          </div> */}
           <div className="notifications menuWrapper">
-            <div className="actionMenu">Notifications</div>
+            {/* <div className="actionMenu">Notifications</div> */}
+            <div className="actionMenu"><Alerts alerts={alerts} /></div>
           </div>
           <div className="user-icon menuWrapper">
             <div className="actionMenu">
