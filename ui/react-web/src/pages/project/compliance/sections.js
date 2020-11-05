@@ -34,13 +34,23 @@ export default function({filter, ...props}) {
   )
 }
 
-function RenderCards({data, title, to, ...props}) {
+function RenderCards({data, title, to, show='apcn', ...props}) {
   if(!!!data) {
     return (
       <Empty>Loading .... </Empty>
     )
   } else if (data.length === 0) {
     return <Empty>No Sections found. </Empty>
+  }
+
+  const showCounts = (o) => {
+    const counts = []
+    if(show.includes('a')) { counts.push(`Attributes: ${o.attribute_count || 'N/A'}`) }
+    if(show.includes('p')) { counts.push(`Parameters: ${o.parameter_count || 'N/A'}`) }
+    if(show.includes('c')) { counts.push(`Completed: ${o.completed_count || 'N/A'}`) }
+    if(show.includes('n')) { counts.push(`Not Tested: ${o.not_tested_count || 'N/A'}`) }
+    
+    return counts.join(' | ')
   }
   return(
     <Sections>
@@ -53,7 +63,7 @@ function RenderCards({data, title, to, ...props}) {
             <Descr> {o.description} </Descr>
           </Top>
           <Footer>
-            Attributes: {o.attribute_count} | Parameters: {o.parameter_count} | Completed: {o.completed_count} | Not Tested: {o.not_tested_count}
+            {showCounts(o)}
           </Footer>
         </Section>
       ))
@@ -83,7 +93,7 @@ function AttributeScreen({filter, base, ...props}) {
       </Route>
       <Route> 
         <Breadcrumb base={base}/>
-        <RenderCards title='Attributes' data={data} to={(attr_id) => `${url}/${attr_id}/params`} /> 
+        <RenderCards title='Attributes' show='pcn' data={data} to={(attr_id) => `${url}/${attr_id}/params`} /> 
       </Route>
     </Switch>
   )   

@@ -20,6 +20,7 @@ import { useStore } from 'effector-react'
 import { policyFamilyTypes, policyStatusTypes, policyOwnerTypes, policyStateTypes, projectCategoryTypes, entitiesData } from '../../store/master-data'
 
 import makeStore from '../../store/make-store'
+import Banner from '../../shared/hmc-banner'
 
 
 import {projectPath, projectProfile} from '../routes'
@@ -58,11 +59,14 @@ export default function(props) {
   const metadata = listStore.data || []
   
   return (
-    <Layout banner={{type: 'Ministry of Commerce and Industries', mobile: 10, websites: 10, eservices: 32}}>
+    <Layout hideBanner>
       <Switch>
-        <Route path={projectPath()}><Project /></Route>
+        <Route path={projectPath()}>
+          <Project />
+        </Route>
         <Route path='/projects'>
           <>
+            <Banner type='List of Projects' hideItems className='bnr' hideScore />
             <Input label='Filter' type='text' name='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''}/>
             <Table className='tbl' title='Compliance Projects' showAll={false}>
             <Header columns={columns1}>

@@ -63,7 +63,13 @@ class App::Services::Compliance::Sections < App::Services::Base
         section[:parameter_count] = arr.sum{|a| a.parameters.length }
         # section
         if pfilter.length > 0 
-          arr.any?{|attr| attr.record_parameters.any?{|p| pfilter.include?(p.user_compliance_type.to_i)}} ? section : nil
+          res = arr.any?{|attr| attr.record_parameters.any?{|p| pfilter.include?(p.user_compliance_type.to_i)}} ? section : nil
+          if(res) 
+            possible_params = arr.map{|attr| attr.record_parameters.select{pfilter.include?(_1.user_compliance_type.to_i)}}.flatten
+            res[:attribute_count] = possible_params.map{_1.attribute_id}.uniq.length
+            res[:parameter_count] = possible_params.length
+          end
+          res
         else
           section
         end
@@ -82,13 +88,19 @@ class App::Services::Compliance::Sections < App::Services::Base
       attributes = attributes.eager(record_parameters: proc{|ds| ds.where(project_id: project.id, user_compliance_type: pfilter)})
     end
     res = attributes.all.collect do |attr|
+      puts attr
       resp = 
         if pfilter.length > 0 
-          attr.record_parameters.any?{|p| pfilter.include?(p.user_compliance_type.to_i)} ? attr : nil
+          r = attr.record_parameters.any?{|p| pfilter.include?(p.user_compliance_type.to_i)} ? attr : nil
+          if(r)
+            possible_params = r.record_parameters.select{pfilter.include?(_1.user_compliance_type.to_i)}
+            puts "Possible params: #{possible_params.length}"
+            r = r.to_pos.merge(parameter_count: possible_params.length)
+          end
+          r
         else
-          attr
+          attr.to_pos.merge(parameter_count: attr.parameters.length)
         end
-        resp ? resp.to_pos.merge(parameter_count: resp.parameters.length) : nil
     end
     return_success(res.compact)
   end

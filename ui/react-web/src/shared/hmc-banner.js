@@ -1,19 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default function({type='Hamad Medical Corporation', size, wtxt='Websites', mtxt='Mobile Apps', etxt='E-Services', prepend={}, websites=3, mobile=3, eservices=30, item='Entities', count, total, hideScore=false, ...props}) {
+export default function({type='Hamad Medical Corporation', size, hideItems=false, wtxt='Websites', mtxt='Mobile Apps', etxt='E-Services', prepend={}, websites=3, mobile=3, eservices=30, item='Entities', count, total, hideScore=false, ...props}) {
   return (
     <Container className={props.className}>
       <Left>
-        <Type size={size}> {type} </Type>
-        <Items>
-          {
-            Object.keys(prepend).map((k, i) => <Item>{k}: { prepend[k] } </Item>)
-          }
-          <Item>{wtxt}: { websites } </Item>
-          <Item>{mtxt}: { mobile } </Item>
-          <Item>{etxt}: { eservices } </Item>
-        </Items>
+        <Type size={size} hideItems={hideItems}> {type} </Type>
+        {!hideItems ? 
+          <Items>
+            {
+              Object.keys(prepend).map((k, i) => <Item>{k}: { prepend[k] } </Item>)
+            }
+            <Item>{wtxt}: { websites } </Item>
+            <Item>{mtxt}: { mobile } </Item>
+            <Item>{etxt}: { eservices } </Item>
+          </Items> : null
+        }
       </Left>
       <Right>
         { !hideScore ? 
@@ -61,7 +63,7 @@ const Type = styled.div`
   font-size: ${p => p.size || '42px'};
   font-weight: 300;
   color: #ffffff;
-  margin-top: 30px;
+  margin-top: ${p => p.hideItems ? '42px': '30px'};
 `
 
 const Items = styled.div`

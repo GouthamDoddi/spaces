@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import styled from 'styled-components'
 
@@ -9,33 +9,52 @@ import {projectProfile, compliance} from '../routes'
 
 import Profile from './profile/index'
 import Compliance from './compliance/index'
+import makeStore from '../../store/make-store'
+import { useStore } from 'effector-react'
+import Banner from '../../shared/hmc-banner'
 
-
+const { store, load } =  makeStore (({project_id}) => `compliance/projects/${project_id}`)
 export default function(props) {
 
   const { path, url } = useRouteMatch()
 
   const { project_id } = useParams()
+
+  useEffect(() => {
+    load({project_id})
+  },[])
+
+  const data = useStore(store).data || {}
+  // {{type: 'Ministry of Commerce and Industries', mobile: 10, websites: 10, eservices: 32}}
   return (
-    <Wrapper>
-      <Tabs>
-        <Tab  to={projectProfile({id: project_id, expand: true})}> Project Profile </Tab>
-        <Tab to={compliance({ id: project_id, expand: true})}> Compliance</Tab>
-        <Tab to={`${url}/cases`}> Cases</Tab>
-        <EmptyTab/>
-      </Tabs>
-      <Content>
-        <Switch>
-          <Route path={projectProfile({id: project_id})}><Profile /></Route>
-          <Route path={compliance({id: project_id})}><Compliance /></Route>
-          <Route path={`${path}/cases`}></Route>
-          <Route to='/:profile_id(\d+)/cases'></Route>
-        </Switch>
-      </Content>
-    </Wrapper>
+    <>
+      <Banner size='32px' type={data.name || ''} hideItems className='bnr' hideScore />
+      <Wrapper>
+        <Tabs>
+          <Tab  to={projectProfile({id: project_id, expand: true})}> Project Profile </Tab>
+          <Tab to={compliance({ id: project_id, expand: true})}> Compliance</Tab>
+          <Tab to={`${url}/cases`}> Cases</Tab>
+          <EmptyTab/>
+        </Tabs>
+        <Content>
+          <Switch>
+            <Route path={projectProfile({id: project_id})}><Profile /></Route>
+            <Route path={compliance({id: project_id})}><Compliance /></Route>
+            <Route path={`${path}/cases`}> <Empty> No Cases for this project.</Empty></Route>
+            <Route to='/:profile_id(\d+)/cases'></Route>
+          </Switch>
+        </Content>
+      </Wrapper>
+    </>
   )
 }
 
+const Empty = styled.div`
+  display: flex;
+  margin-top: 100px;
+  justify-content: center;
+  font-size: 24px;  
+`
 
 const Wrapper = styled.div`
   display: flex;

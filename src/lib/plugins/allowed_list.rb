@@ -12,7 +12,9 @@ module SequelPlugin
             # elsif(type == :projects && App.cu.user_obj.id == 10)
             #   where(id: 8)
             elsif (type == :projects && (8..13).include?(App.cu.user_obj.id))
-              where(created_by: (8..13).to_a)
+              where(created_by: (8..13).to_a )
+            elsif (type == :projects && App.cu.user_obj.id == 15)
+              where(key => [17])
             else
               ids = App.cu.user_obj.auth_data[type].keys.map(&:to_i)
               where(key => ids)

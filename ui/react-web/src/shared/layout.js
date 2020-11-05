@@ -7,7 +7,7 @@ import Banner from './hmc-banner'
 
 
 const columns1 = '80px 3.5fr 1.5fr repeat(9, 1fr);'
-export default function({children, banner={type: 'Entities', mobile: 10, websites: 10, eservices: 32}, ...props}) {
+export default function({children, banner={type: 'Entities', mobile: 10, websites: 10, eservices: 32}, hideBanner=false, ...props}) {
 
   return(
     <Layout>
@@ -17,7 +17,8 @@ export default function({children, banner={type: 'Entities', mobile: 10, website
       
       <Content>
         <HeaderBar className='hb' />
-        <Banner size='32px' {...banner} hideScore className='bnr' />
+        { !hideBanner ? <Banner size='32px' {...banner} hideScore className='bnr' /> : null}
+        
         {children}
       </Content>
     </Layout>

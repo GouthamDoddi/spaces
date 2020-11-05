@@ -186,7 +186,7 @@ const StyledHeader = styled.header`
   background-color: #fff;
   .header-content {
     display: grid;
-    grid-template-columns: auto 364px;
+    grid-template-columns: auto 250px;
     align-items: center;
     height: 100%;
     background-color: #fff;
@@ -207,7 +207,7 @@ const StyledHeader = styled.header`
       display: flex;
       align-items: center;
       height: 32px;
-      padding-right: 50px;
+      padding-right: 10px;
       .notifications {
         background-image: url(/img/bell.svg);
         background-repeat: round;
