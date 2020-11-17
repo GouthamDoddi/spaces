@@ -39,9 +39,23 @@ export default function(props) {
   const { project_id } = useParams()
 
   const [filterVal, setFilterVal] = useState('')
-  const filter = (metadata, { key, value }) => (
-    metadata.filter((o) => o[key]?.toLowerCase()?.includes(value.toLowerCase().trim()))
-  )
+  const filter = (metadata, { keys, value }) => {
+    if (value?.length * 1 == 0) {
+      return metadata
+    }
+    return metadata.filter((o) => {
+      return keys.some((key) => {
+        if(typeof(key) == 'object') {
+          console.log(key[0], key[1])
+          return key[0][o[key[1]]]?.label?.toLowerCase()?.includes(value.toLowerCase().trim())
+        } else {
+          return o[key]?.toLowerCase()?.includes(value.toLowerCase().trim())
+        }
+      })
+    })
+  }
+
+  
     
   console.log(filterVal)
 
@@ -67,7 +81,8 @@ export default function(props) {
         <Route path='/projects'>
           <>
             <Banner type='List of Projects' hideItems className='bnr' hideScore />
-            <Input label='Filter' type='text' name='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''}/>
+            <Input label='Filter' type='text' name='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''} 
+              placeholder='Name / Category / Owner' />
             <Table className='tbl' title='Compliance Projects' showAll={false}>
             <Header columns={columns1}>
               {
@@ -77,7 +92,7 @@ export default function(props) {
               }
                 
             </Header>
-            { filter(metadata, {key: 'name', value: filterVal}).map((o, i) => (
+            { filter(metadata, {keys: ['name', [projectCategoryTypes, 'category_id'], [entitiesData, 'owner_id']], value: filterVal}).map((o, i) => (
               <Row key={i} columns={columns1} className='row' filter={{keys: [], val: filterVal}}>
                 <Link to={projectProfile({id: o.id, expand: true})}> {i + 1} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})} style={{'padding-right': '20px'}}> {o.name} </Link>

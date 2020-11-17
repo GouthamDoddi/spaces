@@ -26,10 +26,10 @@ export default function(props) {
     <>
       <SubTabs>
         <SubTab to={path('details')}> Details </SubTab>
-        <SubTab to={path('objects')}> Objects </SubTab>
-        <SubTab to={path('benef')}> Beneficiaries </SubTab>
+        <SubTab to={path('objects')}> Frameworks </SubTab>
+        {/* <SubTab to={path('benef')}> Beneficiaries </SubTab> */}
         <SubTab to={path('sh')}> Stakeholders </SubTab>
-        <SubTab to={path('impl')}> Implementation </SubTab>
+        {/* <SubTab to={path('impl')}> Implementation </SubTab> */}
       </SubTabs>
 
       <Switch>

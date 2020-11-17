@@ -63,6 +63,9 @@ export default function({data, ...props}) {
     return {d: (d.slice(s-1, e)), start: s-1}
   }
 
+  const backPath = url.split('/')
+  backPath.pop()
+
   useEffect(() => {
     addData(data.find((p) => {
       return rp_id ? rp_id == p.id && p.parameter_id == param_id : p.parameter_id == param_id
@@ -88,9 +91,10 @@ export default function({data, ...props}) {
     return(
       <Container>
         <Nav>
-          {/* <Back> Back </Back>
+          {/* 
           <Prev disable={!prev}> Previous </Prev>
           <Next disable={!next}> Next </Next> */}
+          <Back to={backPath.join('/')}> Back </Back>
           <Eclipse> { pData.start > 0 ? '.... ' : ''} </Eclipse>
           {
             pData.d.map((o, i) => (
@@ -202,7 +206,7 @@ const Nav = styled.div`
 
 const Back = styled(Link)`
   width: 81px;
-  height: 30px;
+  height: 28px;
   border-radius: 10px;
   background-color: #eb622b;
   margin-right: 10px;
@@ -210,6 +214,7 @@ const Back = styled(Link)`
   justify-content: center;
   align-items: center;
   color: white;
+  margin-top: -2px;
 `
 const Prev = styled(Link)`
   width: 108px;
@@ -368,7 +373,7 @@ const Item = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 25px;
+  width: 35px;
   height: 25px;
   border-radius: 12px;
   background-color: #666666;
@@ -377,6 +382,7 @@ const Item = styled(Link)`
     border-radius: 12px;
     font-weight: bold;
     color: #fff;
+    background-color: ${p => p.theme.color};
     box-shadow: 0 2px 4px 0 white;
   }
   margin-right: 6px;
