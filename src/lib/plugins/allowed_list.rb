@@ -20,6 +20,15 @@ module SequelPlugin
               where(key => ids)
             end
           end
+          
+          def for_current_user
+            if App.cu.admin? || App.cu.entity_ids.blank?
+              puts "Admin or no entity_ids"
+              where({})
+            else
+              where(entity_ids: App.cu.entity_ids)
+            end
+          end
         end        
       end
     end

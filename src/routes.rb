@@ -37,12 +37,29 @@ class App::Routes < Roda
       r.response['Content-Type'] = 'application/json'
       r.post('login') { Session[r].login }
 
+      r.on 'master-data' do
+        r.get(String) do |resource|
+          MasterData[r, {resource: resource}].get_data
+        end
+      end
       auth_required!
 
-      r.on 'entities' do
-        r.on Integer, 'communication' do |id|
-          do_crud(EntityCommunications, r, 'CRUDL', {id: id})
+      r.on 'master-data' do
+        r.get(String) do |resource|
+          MasterData[r, {resource: resource}].get_data
         end
+      end
+
+      r.on 'entities' do
+        r.on Integer, 'users' do |entity_id|
+          do_crud(EntityUsers,r, 'CRUDL', { entity_id: entity_id })
+        end
+        
+        r.on Integer, 'communication' do |entity_id|
+          do_crud(EntityCommunications, r, 'CRUDL', {entity_id: entity_id})
+        end
+
+        
         do_crud(Entities, r, 'CRUDL')
         
       end

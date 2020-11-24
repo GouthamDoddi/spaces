@@ -27,12 +27,14 @@ import Bcp from './components/dashboards/bcp'
 // import Entity from './components/dashboards/entities'
 import Entity from './pages/entities/list'
 import Projects from './pages/project/list'
+import SetPassword from './pages/set-password'
 
 import Header from './components/header'
 
 import { ThemeProvider as TP } from 'styled-components'
 
 import cs from './utils/colors'
+import setPassword from './pages/set-password';
 
 
 // import { Task, Note, Survey, Meeting, Space } from './components/menu-actions'
@@ -58,6 +60,7 @@ function Routes() {
         <Route path="/bcp"> <TP theme={cs.cps}> <Bcp /> </TP> </Route>
         <Route path="/entities"> <TP theme={cs.newdesign}> <Entity /> </TP> </Route>
         <Route path="/projects"> <TP theme={cs.newdesign}> <Projects /> </TP> </Route>
+        <Route path="/set-password/:token"> <TP theme={cs.newdesign}> <SetPassword /> </TP> </Route>
         <Route path="/a-dashboard"> 
           <TP theme={cs.cps}> 
             { dbForRole(role())}

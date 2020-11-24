@@ -292,7 +292,7 @@ https://tecadmin.net/install-ruby-latest-stable-centos/
 
    WEB server
 
-       1  ls
+    1  ls
     2  clear
     3  exit
     4  apt

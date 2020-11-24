@@ -9,9 +9,14 @@ Sequel.migration do
       String :encoded_password, size: 200
       String :username, size: 25
 
+      String :temp_token, size:100
+
       Integer :role
       TrueClass :active, :default => true
 
+      column :entity_ids, 'Integer[]'
+
+      jsonb :auth, default: '{}'
       jsonb :authorization
 
       Integer :created_by

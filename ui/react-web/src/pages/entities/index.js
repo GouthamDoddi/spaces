@@ -9,6 +9,7 @@ import {entityProfile, entityCommm, entityAccess} from '../routes'
 
 import Profile from './profile'
 import Communication from './communication'
+import Access from './access'
 import Banner from '../../shared/hmc-banner'
 import { entitiesData } from '../../store/master-data'
 
@@ -31,7 +32,7 @@ export default function(props) {
         <Switch>
           <Route path={entityProfile({entity_id})}><Profile /></Route>
           <Route path={entityCommm({entity_id})}><Communication /></Route>
-          <Route path={entityAccess({entity_id})}>Access</Route>
+          <Route path={entityAccess({entity_id})}><Access /></Route>
           <Redirect to={entityProfile({entity_id})} />
         </Switch>
       </Content>

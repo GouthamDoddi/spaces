@@ -124,7 +124,7 @@ export default function({data, ...props}) {
         <Forms onSubmit={(data) => submitted(section_id, attr_id, id, parameter_id, project_id, data)} store={sStore}>
           <Left>
             {/* <Attachment label='Attachments' btn='Upload' /> */}
-            <div> Description </div>
+            <div className='title'> Description </div>
             <Description dangerouslySetInnerHTML={{__html: wiki_desc}} />
             {
               approver_notes ?  <div className='mandate'> <span> Approver Notes: </span> <span className='value'> {approver_notes} </span> </div> : null
@@ -289,6 +289,9 @@ const Left = styled.div`
     span { color: white; }
     background-color: ${p => p.theme.color};
   }
+  .title {
+    font-size: 18px;
+  }
   .mandate {
     font-size: 14px;
     font-weight: 500;
@@ -353,12 +356,15 @@ const Right = styled.div`
 
 
 const Description = styled.div`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   // line-height: 1.36;
-  color: #98acbe;
+  color: #222222;
   margin-top: 2px;
-  padding: 6px 0px;
+  padding: 6px 8px;
+  border-bottom: 1px solid #cccccc;
+  margin-bottom: 5px;
+
 `
 
 const Container = styled.div`

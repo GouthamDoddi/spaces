@@ -46,7 +46,7 @@ const { store, load, addData } = makeStore(({project_id, attr_id, filters}) => f
 
 const { create } = makeStore(({section_id, attr_id}) => (`compliance/section/${section_id}/attr/${attr_id}/parameters`))
 
-const columns1 = ".4fr 2.5fr 0.7fr 1fr 1fr 2.5fr 1fr 2.5fr"
+const columns1 = ".4fr 2.5fr 0.7fr 0.8fr 0.7fr 2.5fr 1fr 2.5fr"
 
 
 export default function({filters, base, ...props}) {
@@ -139,7 +139,7 @@ const ParamsList = function({filters, base, ...props}) {
           {
             ['#', 'Name', 'Mandate', 'Doc Group', 'Status', 'Result', 
               'By', 'Variation'
-            ].map((h, i) => <div className={i > 1 ? 'center' : ''} key={i}>{h}</div>)
+            ].map((h, i) => <div className={i > 6 ? 'center' : ''} key={i}>{h}</div>)
           }
             
         </Header>
@@ -147,11 +147,11 @@ const ParamsList = function({filters, base, ...props}) {
           <Row key={i} columns={columns1} className='row'>
             <Link to={() => link(o)}> {i + 1} </Link>
             <Link to={() => link(o)} style={{'padding-right': '20px'}}> {o.name} {o.variation ? `- ${ paramVariations[o.variation]?.label }` : ''}  </Link>
-            <Link to={() => link(o)} className='center'> <Mandate type={mandateLevelTypes[o.mandate_level_id]?.label} /> </Link>
-            <Link to={() => link(o)} className='center'>  {o.doc_group} </Link>
-            <Link to={() => link(o)} className='center'> {o.status} </Link>
-            <Link to={() => link(o)} className='center'> {userComplianceTypes[o.user_compliance_type]?.label} </Link>
-            <Link to={() => link(o)} className='center'> {listOfUsers[o.updated_by]?.label} </Link>
+            <Link to={() => link(o)}> <Mandate type={mandateLevelTypes[o.mandate_level_id]?.label} /> </Link>
+            <Link to={() => link(o)}>  {o.doc_group} </Link>
+            <Link to={() => link(o)}> {o.status} </Link>
+            <Link to={() => link(o)}> {userComplianceTypes[o.user_compliance_type]?.label} </Link>
+            <Link to={() => link(o)}> {listOfUsers[o.updated_by]?.label} </Link>
             { (variation.length > 0 && variation[0]== i) ? <CreateV obj={o}/> : <Button onClick={() => addVariation([i, o.parameter_id])} className='center'> Add</Button> }
             
           </Row>

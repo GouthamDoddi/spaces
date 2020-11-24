@@ -39,8 +39,8 @@ class App::Models::User < Sequel::Model
   # end
 
   # def static_assets
-  ROLES = [0, 1, 2, 3, 4, 5, 6]
-  ROLE_MAPPER = ['Admin', 'Steering Committee', 'Executive Committee', 'Operating Committee', 'Ops Staff', 'Support Staff', 'Beneficiary']
+  ROLES = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  ROLE_MAPPER = ['Admin', 'Steering Committee', 'Executive Committee', 'Operating Committee', 'Ops Staff', 'Support Staff', 'Beneficiary', 'Entity Admin', 'Entity Manager']
 
 
   def current_role_ids
@@ -53,9 +53,9 @@ class App::Models::User < Sequel::Model
 
   def validate
     super
-    validates_presence [:first_name, :email, :role, :encoded_password]
+    validates_presence [:first_name, :email]
     validates_unique :email
-    validates_includes ROLES, :role
+    # validates_includes ROLES, :role
   end
 
   def password
@@ -69,6 +69,16 @@ class App::Models::User < Sequel::Model
 
   def name
     "#{first}"
+  end
+
+  def name=(n)
+    arr = n.split(" ")
+    if(arr.length > 1)
+      self.last_name = arr.pop()
+      self.first_name = arr.join(" ")
+    else
+      self.first_name = n
+    end
   end
 
   def role_name; ROLE_MAPPER[role]; end
@@ -103,6 +113,27 @@ class App::Models::User < Sequel::Model
 
   def add_role(type, type_id, role_id)
     authorization[type][type_id] = role_id
+  end
+
+  def set_entity_id(eid)
+    self.entity_ids ||= []
+    self.entity_ids << eid
+    self.entity_ids.uniq!
+    self.entity_ids
+  end
+
+  # Entities
+
+  def set_entity(eid, erole)
+    self.auth ||= {}
+
+    self.auth['entities'] ||= []
+    self.auth['entities'].push({'eid' => eid, 'role' => erole})
+    self.auth['entities'].uniq!
+  end 
+
+  def to_pos
+    as_json.except('encoded_password').merge!(has_passowrd: encoded_password&.length)
   end
 
 end

@@ -258,6 +258,9 @@ export const paramVariations = {
   'ios-en': { value: 'ios-en', label: 'iOS English'},
   'android-en': { value: 'android-en', label: 'Android English'},
 }
+
+
+export const hostName = `${window.location.protocol}//${window.location.host}`
 // export const policyFamilyTypes = {
 //   ICT
 // 	Transport

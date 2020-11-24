@@ -20,7 +20,7 @@ class App::Helpers::CurrentUser
     end
 
     def space
-      Thread.current[:app_space]
+      Thread.current[:app_space] || {}
     end
 
     def token
@@ -44,6 +44,14 @@ class App::Helpers::CurrentUser
 
     def basic_info
       user_obj.values.slice(:email, :first_name, :last_name, :role)
+    end
+
+    def admin?
+      user_obj&.role === 0
+    end
+
+    def entity_ids
+      user_obj&.entity_ids || []
     end
 
     def encoded_token(user)
