@@ -270,6 +270,13 @@ export const entityCommType = {
   2: { value: 2, label: 'Email'},
   3: { value: 3, label: 'Meeting'},
 }
+
+export const projectIssueStatusTypes = {
+  1: { value: 1, label: 'Open'},
+  2: { value: 2, label: 'In Review'},
+  3: { value: 3, label: 'Closed'},
+
+}
 export const hostName = `${window.location.protocol}//${window.location.host}`
 // export const policyFamilyTypes = {
 //   ICT

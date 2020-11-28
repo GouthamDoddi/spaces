@@ -7,6 +7,7 @@ import {useParams, Switch, Route, Redirect} from 'react-router-dom'
 
 import Sections  from './sections'
 import Overview from './overview'
+import OtherIssues from './other-issues'
 
 
 export default function(props) {
@@ -21,7 +22,8 @@ export default function(props) {
         <SubTab to={compliance({id: project_id, sub: 'partially-complied', expand: true })}> Partially Complied  </SubTab>
         <SubTab to={compliance({id: project_id, sub: 'self-test', expand: true })}> Self-Test </SubTab>
         <SubTab to={compliance({id: project_id, sub: 'test-data', expand: true })}> Unable to Test </SubTab>
-        <SubTab to={compliance({id: project_id, sub: 'not-testable', expand: true })}> Not Testable </SubTab>  
+        <SubTab to={compliance({id: project_id, sub: 'not-testable', expand: true })}> Not Testable </SubTab>
+        <SubTab to={compliance({id: project_id, sub: 'other-issues', expand: true })}> Others Issues </SubTab>  
         
       </SubTabs>
 
@@ -33,6 +35,7 @@ export default function(props) {
         <Route path={compliance({id: project_id, sub: 'self-test' })}><Sections filter='9'/></Route>
         <Route path={compliance({id: project_id, sub: 'test-data' })}> <Sections filter='4,5'/> </Route>
         <Route path={compliance({id: project_id, sub: 'not-testable' })}> <Sections filter='7,8'/> </Route>
+        <Route path={compliance({id: project_id, sub: 'other-issues' })}> <OtherIssues /> </Route>
         <Route path={compliance({id: project_id})}> <Redirect to={compliance({id: project_id, sub: 'sections', expand: true })}></Redirect> </Route>
       </Switch>
     </>

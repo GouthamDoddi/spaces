@@ -37,6 +37,12 @@ class App::Routes < Roda
       r.response['Content-Type'] = 'application/json'
       r.post('login') { Session[r].login }
 
+      r.on 'assets', 'images', String, Integer do |source, source_id|
+        opts = { id: source_id, source: source }
+        r.delete {|id| ImageAssets[r, opts].delete }
+        do_crud(ImageAssets, r, 'CL', opts)
+      end
+      
       r.on 'master-data' do
         r.get(String) do |resource|
           MasterData[r, {resource: resource}].get_data
@@ -95,6 +101,10 @@ class App::Routes < Roda
 
         r.on 'project-report' do
           r.get { Compliance::Projects[r].report_cards }
+        end
+
+        r.on 'project', Integer, 'issues' do |id|
+          do_crud(ProjectIssues, r, 'CRUDL', {project_id: id})
         end
 
         
