@@ -96,7 +96,7 @@ function ListView(props) {
             }
           </RowContainer>
         </Table>
-        <Add onClick={() => location.reload()} />
+        <Add onClick={() => window.location.reload()} />
       </Content>
     
   )
