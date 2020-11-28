@@ -41,6 +41,7 @@ export const CustomContainer = styled(Form)`
   height: 100%;
   display: flex;
   flex-direction: column;
+  min-height: ${p => p.minheight ? p.minheight : 0};
   
   .fields {
     margin: 20px;

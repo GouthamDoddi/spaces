@@ -8,7 +8,7 @@ class App::Services::Compliance::Parametes < App::Services::Base
                   .group_by {_1.parameter_id}
 
     
-    attr_parameters = AttributeParameter.eager(:wiki_description).where(attribute_id: rp[:attribute_id]).all
+    attr_parameters = AttributeParameter.eager(:wiki_description).where(attribute_id: rp[:attribute_id]).order(Sequel.desc(:created_at)).all
     # ['user_notes', 'user_compliance_type', 'approver_compliance_type',  'status', 'approver_id', 'approver_notes']
       
     data = attr_parameters.map do |p|

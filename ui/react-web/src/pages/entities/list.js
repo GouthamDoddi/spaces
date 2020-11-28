@@ -16,7 +16,7 @@ import { useStore } from 'effector-react'
 
 const { store, load } = makeStore('entities/list')
 
-const columns1 = '80px 3.5fr 1.5fr repeat(9, 1fr);'
+const columns1 = '80px 3.5fr 1.5fr repeat(7, 1fr);'
 export default function(props) {
   const { entity_id } = useParams()
   
@@ -59,7 +59,7 @@ export default function(props) {
                 {
                   ['#', 'Name', 'Short Name', 
                     'Type', 'Websites', 'Mobile', 
-                    'E-Services', 'Tested %', 'Defects', 'Fixed', 'Score', 'Rank'
+                    'E-Services', 'Tested %', 'Defects', 'Fixed'
                   ].map((h, i) => <div className={i > 3 ? 'center' : ''} key={i}>{h}</div>)
                 }
                   
@@ -76,8 +76,8 @@ export default function(props) {
                   <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.tested}% </CLink>
                   <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.defects} </CLink>
                   <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.fixed} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.score} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.rank} </CLink>
+                  {/* <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.score} </CLink> */}
+                  {/* <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.rank} </CLink> */}
                 </Row>
 
               ))}

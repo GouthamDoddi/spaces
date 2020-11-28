@@ -39,8 +39,8 @@ class App::Models::User < Sequel::Model
   # end
 
   # def static_assets
-  ROLES = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  ROLE_MAPPER = ['Admin', 'Steering Committee', 'Executive Committee', 'Operating Committee', 'Ops Staff', 'Support Staff', 'Beneficiary', 'Entity Admin', 'Entity Manager']
+  ROLES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  ROLE_MAPPER = ['Admin', 'Steering Committee', 'Executive Committee', 'Operating Committee', 'Ops Staff', 'Support Staff', 'Beneficiary', 'Entity Admin', 'Entity Manager', 'Tester', 'Consultant']
 
 
   def current_role_ids
@@ -128,12 +128,14 @@ class App::Models::User < Sequel::Model
     self.auth ||= {}
 
     self.auth['entities'] ||= []
-    self.auth['entities'].push({'eid' => eid, 'role' => erole})
+    self.auth['entities'].push({'eid' => eid, 'role' => erole.blank? ? 9 : erole.to_i})
     self.auth['entities'].uniq!
   end 
 
   def to_pos
-    as_json.except('encoded_password').merge!(has_passowrd: encoded_password&.length)
+    resp = as_json.except('encoded_password').merge!(has_passowrd: encoded_password&.length)
+    entity_roles = auth['entities'].reduce({}) {|h, e| h.merge!(e['eid'] => e['role'].to_i)}
+    resp.merge!(entity_roles: entity_roles)
   end
 
 end

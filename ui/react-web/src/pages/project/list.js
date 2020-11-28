@@ -24,6 +24,7 @@ import Banner from '../../shared/hmc-banner'
 
 
 import {projectPath, projectProfile} from '../routes'
+import { Add } from '../../components/tables/list'
 const { store, load } = makeStore('compliance/projects/list')
 
 const columns1 = ".4fr 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
@@ -101,13 +102,14 @@ export default function(props) {
                 <Link to={projectProfile({id: o.id, expand: true})} className='center' > {o.sponsor} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.start_date} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.end_date} </Link>
-                <Link to={projectProfile({id: o.id, expand: true})} className='center'> {getRandomInt(51, 65)}% </Link>
+                <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.progress}% </Link>
                 <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.defects} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.fixed || 0} </Link>
               </Row>
 
             ))}
           </Table>
+          <Add to="/projects/new/profile"/>
           </>
         </Route>
 

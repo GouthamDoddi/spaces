@@ -6,7 +6,20 @@ class App::Services::Compliance::Projects < App::Services::Base
 
   def list
     # return_success(model.allowed(:projects).all.map(&:to_pos))
-    return_success(model.for_current_user.all.map(&:to_pos))
+    # : proc{|ds| ds.where(user_compliance_type: [2,3])}
+    uct = [2,3]
+    data = model.for_current_user.eager(:record_parameters).order(Sequel.desc(:created_at)).all.map do |project|
+      # project.to_pos.merge!(defects: project.record_parameters.length)
+      rec = project.record_parameters
+      total = rec.length
+      
+      fixed = rec.sum(0){|r| r.closed? ? 1 : 0}
+      defects = rec.sum(0){|r| uct.include?(r.user_compliance_type) ? 1 : 0}
+      progress = total == 0 ? 100 : (fixed + defects)*100/total
+      
+      project.to_pos.merge!(defects: defects, progress: progress, fixed: fixed)
+    end
+    return_success(data)
   end
 
   def questions

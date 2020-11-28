@@ -8,7 +8,7 @@ class App::Services::Compliance::Sections < App::Services::Base
 
   def list
     # ids = project.possible_section_ids
-    sections = project.possible_sections
+    sections = project.possible_sections.order(Sequel.desc(:created_at))
 
 
 

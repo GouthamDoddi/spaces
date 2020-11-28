@@ -3,30 +3,59 @@ import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useStore } from 'effector-react'
 
-import Table, { Header, Row } from '../../shared/table'
-import { Input } from '../../components/form'
+// import Table, { Header, Row } from '../../shared/table'
+import { Table, Header, Row, Add } from '../../components/tables/small'
+import { Input, Select, toOpt } from '../../components/form'
 
 import makeStore from '../../store/make-store'
 
 import filter from '../../shared/filter'
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import { hostName } from '../../store/master-data'
+import { hostName, entityRoleTypes } from '../../store/master-data'
 
+import { CustomContainer, Content, RowContainer } from '../../components/split-form-container'
+
+
+const { store, load, create, update, changed, selectChange } = makeStore(({entity_id, id}) => id ? `entities/${entity_id}/users/${id}` : `entities/${entity_id}/users`)
 const listStore = makeStore(({entity_id}) => `entities/${entity_id}/users`)
 // const cudStore = makeStore('compliance/projects/list')
 
-const columns1 = ".4fr 1fr 1fr 1fr 1fr"
+const columns = ".4fr 1fr 1fr 1fr 1fr 1fr"
 export default (props) => {
-  return (
-    <Wrapper>  
-      <ListView />
+  const { entity_id } = useParams()
+  const [selectedUser, setSelectedUser] = useState(null)
+  const objStore = useStore(store)
 
-    </Wrapper>  
+  useEffect(() => {
+    if(selectedUser) {
+      load({entity_id, id: selectedUser})
+    }
+  }, [selectedUser])
+
+  const submitted = (data) => {
+    const cb = (resp) => {
+      listStore.load({entity_id})
+    }
+    selectedUser ? update({entity_id, id: selectedUser, data, cb}) : create({entity_id, data, cb})
+  }
+
+  const odata = objStore.data || {}
+  return (
+    
+    <CustomContainer onSubmit={(data) => submitted(data)} store={objStore} minheight='590px'>
+        <AddNew {...odata} selectedUser={selectedUser}/>
+        <ListView setSelectedUser={setSelectedUser} selectedUser={selectedUser} />
+    </CustomContainer>
+
+
+    
   )
 }
 
 function ListView(props) {
   const { entity_id } = useParams()
+
+  const { setSelectedUser, selectedUser } = props
 
   useEffect(() => {
     listStore.load({entity_id})
@@ -36,34 +65,69 @@ function ListView(props) {
 
   const [filterVal, setFilterVal] = useState('')
 
-
+  console.log(data)
 
   return (
-    <>
-      <Input label='Filter' type='text' name='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''} 
-          placeholder='Filter (or) Add' />
-      <Table className='tbl' title='Compliance Projects' showAll={false}>
-        <Header columns={columns1}>
-          {
-            ['#', 'First Name', 'Last Name', 'Email', 'Status'].map((h, i) => <div className={i > 3 ? 'center' : ''} key={i}>{h}</div>)
-          }
-        </Header>
-        { filter(data, {keys: ['first_name', 'last_name', 'email'], value: filterVal}).map((o, i) => (
-          <Row key={i} columns={columns1} className='row' filter={{keys: [], val: filterVal}}>
-            <Link> {i + 1} </Link>
-            <Link> {o.first_name} </Link>
-            <Link> {o.last_name} </Link>
-            <Link> {o.email} </Link>
-            <ShowStatus className='center' obj={o}/>
-          </Row>
-        ))}
-      </Table>
-    </>
+    // <Input label='Filter' type='text' name='filter' className='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''} 
+    // placeholder='Filter (or) Add' />
+    // filter(data, {keys: ['first_name', 'last_name', 'email'], value: filterVal})
+      <Content>
+        <Table className='table'>
+          <Header columns={columns}>
+            <div>#</div>
+            <div>First Name</div>
+            <div>Last Name</div>
+            <div>Email</div>
+            <div>Role</div>
+            <div>Status</div>
+          </Header> 
+
+          <RowContainer>
+            {
+              data.map((o, i) => (
+                <Row onClick={() => setSelectedUser(o.id)} className={ o.id === selectedUser ? 'selected row' : 'row'} key={i} columns={columns}> 
+                  <div> {i+1} </div>
+                  <div> {o.first_name} </div>
+                  <div> {o.last_name} </div>
+                  <div> {o.email} </div>
+                  <div> {entityRoleTypes[o.entity_roles[entity_id]]?.label} </div>
+                  
+                  <ShowStatus className='center' obj={o}/>
+                </Row>
+              ))
+              
+            }
+          </RowContainer>
+        </Table>
+        <Add onClick={() => setSelectedUser(null)} />
+      </Content>
+    
   )
 }
 
 function AddNew(props) {
+  const { entity_id } = useParams()
+  const { id, first_name, last_name, entity_roles={}, email, status, selectedUser } = props
+  const role_id = entity_roles[entity_id]
 
+  return (
+    <div className='fields'>
+      <Input label='First Name' name='first_name' type='text' onChange={changed} value={ first_name || ''} className='field' required />
+      <Input label='Last Name' name='last_name' type='text' onChange={changed} value={ last_name || ''} className='field' required />
+      <Input label='Email' name='email' type='email' onChange={changed} value={ email || ''} className='field' required />
+      <Select name='role_id' label='Role' 
+          options={toOpt(entityRoleTypes)}
+          outerClass='field'
+          onChange={selectChange('role_id')}
+          value={entityRoleTypes[role_id] || ''} 
+      />   
+      
+      <label className='submit'>
+        <input type='submit' />
+        <div> {  selectedUser ? 'Update' : 'Add'} </div>
+      </label>
+    </div>
+  )
 }
 
 function ShowStatus({obj, className, ...props}) {
@@ -91,6 +155,8 @@ function ShowStatus({obj, className, ...props}) {
 }
 
 const Wrapper = styled.div`
-  margin: 30px 30px;
+  .filter {
+    margin: 30px 30px;
+  }
 
 `

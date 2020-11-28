@@ -15,4 +15,6 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
     validates_unique [:parameter_id, :variation, :attribute_id, :project_id]
   end
 
+  def closed?; status == 'closed'; end
+
 end

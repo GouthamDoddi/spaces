@@ -64,9 +64,9 @@ export default function(props) {
         <Input label='Project end date' type='date' name='end_date' onChange={changed} value={end_date || ''}/>
         <TextArea style={{gridColumn: '1 / 3', gridRow: 'span 2' }}label='Project Description' value={description || ''} name='description' onChange={changed} />
       </div>
-      {
+      {/* {
         project_id === 'new' ? <CancelBtn to='/projects'> Cancel </CancelBtn> : null
-      }
+      } */}
       
     </Container>
   )

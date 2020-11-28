@@ -1,6 +1,7 @@
 class App::Models::Compliance::Project < Sequel::Model
 
   # one_to_many :applicable_sections, class: 'App::Models::ApplicableSection'
+  one_to_many :record_parameters, class: 'App::Models::Compliance::RecordParameter'
 
   plugin ::SequelPlugin::AllowedList
 

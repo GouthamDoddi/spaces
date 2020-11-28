@@ -90,7 +90,7 @@ class App::Services::Base
   # Basic Operations
 
   def list
-    return_success(model.all.map(&:to_pos))
+    return_success(model.order(Sequel.desc(:created_at)).all.map(&:to_pos))
   end
 
   def get

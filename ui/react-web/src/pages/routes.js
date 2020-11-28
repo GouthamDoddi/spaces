@@ -1,9 +1,9 @@
 
 
 export const projectList = () => '/projects'
-export const projectPath = () => `/projects/:project_id(\\d+)`
+export const projectPath = () => `/projects/:project_id(\\d+|new)`
 export const projectProfile = ({id, expand=false, sub=null}) => {
-  const p = (expand ? `/projects/${id}/profile` : '/projects/:project_id(\\d+)/profile')
+  const p = (expand ? `/projects/${id}/profile` : '/projects/:project_id(\\d+|new)/profile')
   return sub ? `${p}/${sub}` : p
 }
 

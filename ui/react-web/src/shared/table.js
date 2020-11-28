@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export default function({title='Recent Activities', className, showAll=true, children, ...props}) {
   return (
@@ -80,4 +81,35 @@ export const Row = styled(Header)`
   text-overflow: ellipsis;
   overflow: hidden;
   grid-auto-rows: 50px;
+`
+
+export const Add = styled(Link)`
+  display: block;
+  position: absolute;
+  bottom: 42px;
+  right: 33px;
+  width: 63px;
+  height: 63px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  background-color: ${p => p.theme.color};
+  &:after {
+    content: '+';
+    color: #fff;
+    position: relative;
+    top: 8px;
+    left: 22px;
+    font-size: 32px;
+  }
+
+  div {
+    position: absolute;
+    bottom: -20px;
+    left: 2px;
+    font-size: 8px;
+    font-weight: bold;
+    line-height: 1.5;
+    text-align: center;
+    color: ${p => p.theme.color};
+  } 
 `

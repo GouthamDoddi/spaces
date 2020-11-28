@@ -32,8 +32,13 @@ export default function(props) {
       <Wrapper>
         <Tabs>
           <Tab  to={projectProfile({id: project_id, expand: true})}> Project Profile </Tab>
-          <Tab to={compliance({ id: project_id, expand: true})}> Compliance</Tab>
-          <Tab to={`${url}/cases`}> Cases</Tab>
+          { project_id == 'new' ? null : (
+            <>
+              <Tab to={compliance({ id: project_id, expand: true})}> Compliance</Tab>
+              <Tab to={`${url}/cases`}> Cases</Tab>
+
+            </>
+          )}
           <EmptyTab/>
         </Tabs>
         <Content>

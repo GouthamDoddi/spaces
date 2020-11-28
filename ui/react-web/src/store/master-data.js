@@ -41,6 +41,12 @@ export const roleTypes = {
   4: { value: 3, label: 'Employee' },
 }
 
+export const entityRoleTypes = {
+  8: { value: 8, label: 'Entity Manager' },
+  9: { value: 9, label: 'Tester' },
+  10: { value: 10, label: 'Consultant' }
+}
+
 export const applicationTypes = {
   1: { value: 1, label: 'All' },
   2: { value: 2, label: 'Conditional' },

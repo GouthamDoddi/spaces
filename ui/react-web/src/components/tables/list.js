@@ -44,8 +44,8 @@ export const Row = styled(Header)`
 export const Add = styled(Link)`
   display: block;
   position: absolute;
-  bottom: 42px;
-  right: 33px;
+  top: 270px;
+  right: 50px;
   width: 63px;
   height: 63px;
   border-radius: 50%;

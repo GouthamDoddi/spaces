@@ -26,10 +26,17 @@ export default function(props) {
     <>
       <SubTabs>
         <SubTab to={path('details')}> Details </SubTab>
-        <SubTab to={path('objects')}> Frameworks </SubTab>
+        { project_id == 'new' ? null : (
+          <>
+           <SubTab to={path('objects')}> Frameworks </SubTab>
+           <SubTab to={path('sh')}> Testers </SubTab>
+          </>
+        )}
         {/* <SubTab to={path('benef')}> Beneficiaries </SubTab> */}
-        <SubTab to={path('sh')}> Stakeholders </SubTab>
+        
         {/* <SubTab to={path('impl')}> Implementation </SubTab> */}
+
+       
       </SubTabs>
 
       <Switch>
