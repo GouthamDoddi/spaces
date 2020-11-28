@@ -34,7 +34,7 @@ export default function({filter, ...props}) {
   )
 }
 
-function RenderCards({data, title, to, show='apcn', ...props}) {
+function RenderCards({data, title, to, show='apcni', ...props}) {
   if(!!!data) {
     return (
       <Empty>Loading .... </Empty>
@@ -47,8 +47,9 @@ function RenderCards({data, title, to, show='apcn', ...props}) {
     const counts = []
     if(show.includes('a')) { counts.push(`Attributes: ${o.attribute_count || 'N/A'}`) }
     if(show.includes('p')) { counts.push(`Parameters: ${o.parameter_count || 'N/A'}`) }
-    if(show.includes('c')) { counts.push(`Completed: ${o.completed_count || 'N/A'}`) }
-    if(show.includes('n')) { counts.push(`Not Tested: ${o.not_tested_count || 'N/A'}`) }
+    if(show.includes('c')) { counts.push(`Completed: ${o.completed_count ?? 'N/A'}`) }
+    if(show.includes('i')) { counts.push(`In Review: ${o.in_review_count ?? 'N/A'}`) }
+    if(show.includes('n')) { counts.push(`Not Tested: ${o.not_tested_count ?? 'N/A'}`) }
     
     return counts.join(' | ')
   }
@@ -93,7 +94,7 @@ function AttributeScreen({filter, base, ...props}) {
       </Route>
       <Route> 
         <Breadcrumb base={base}/>
-        <RenderCards title='Attributes' show='pcn' data={data} to={(attr_id) => `${url}/${attr_id}/params`} /> 
+        <RenderCards title='Attributes' show='pcni' data={data} to={(attr_id) => `${url}/${attr_id}/params`} /> 
       </Route>
     </Switch>
   )   

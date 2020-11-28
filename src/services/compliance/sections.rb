@@ -54,24 +54,33 @@ class App::Services::Compliance::Sections < App::Services::Base
     attributes = project.applied_attributes.eager(:policy_section).eager(:parameters)
     if(pfilter.length > 0)
       attributes = attributes.eager(record_parameters: proc{|ds| ds.where(project_id: project.id, user_compliance_type: pfilter)})
+    else
+      attributes = attributes.eager(record_parameters: proc{|ds| ds.where(project_id: project.id)})
     end
     
     res = attributes.all.group_by(&:parent_id).values.collect do |arr|
       if arr.length > 0
         section = arr[0].policy_section.to_pos
+        parameters = arr.map(&:parameters).flatten
         section[:attribute_count] = arr.length
-        section[:parameter_count] = arr.sum{|a| a.parameters.length }
+        section[:parameter_count] = parameters.length
         # section
+        
         if pfilter.length > 0 
           res = arr.any?{|attr| attr.record_parameters.any?{|p| pfilter.include?(p.user_compliance_type.to_i)}} ? section : nil
           if(res) 
             possible_params = arr.map{|attr| attr.record_parameters.select{pfilter.include?(_1.user_compliance_type.to_i)}}.flatten
             res[:attribute_count] = possible_params.map{_1.attribute_id}.uniq.length
             res[:parameter_count] = possible_params.length
+            res.merge!(counts(possible_params, possible_params))
+            # res[:completed] = possible_params.map{|r| r.closed?}.length
+            # res[:in-review] = possible_params.map{|r| r.review?}.length
+            # res[:not-tested] = possible_params.map{|r| r.not_tested?}.length 
           end
           res
         else
-          section
+          possible_params = arr.map(&:record_parameters).flatten
+          section.merge!(counts(possible_params, parameters, false))
         end
       else
         nil
@@ -83,26 +92,39 @@ class App::Services::Compliance::Sections < App::Services::Base
 
   def applicable_attributes_enhanced
     attributes = project.applied_attributes.where(parent_id: rp[:section_id]).eager(:parameters)
-
     if(pfilter.length > 0)
       attributes = attributes.eager(record_parameters: proc{|ds| ds.where(project_id: project.id, user_compliance_type: pfilter)})
+    else
+      attributes = attributes.eager(record_parameters: proc{|ds| ds.where(project_id: project.id)})
     end
     res = attributes.all.collect do |attr|
-      puts attr
+      # puts attr
       resp = 
         if pfilter.length > 0 
           r = attr.record_parameters.any?{|p| pfilter.include?(p.user_compliance_type.to_i)} ? attr : nil
           if(r)
             possible_params = r.record_parameters.select{pfilter.include?(_1.user_compliance_type.to_i)}
             puts "Possible params: #{possible_params.length}"
-            r = r.to_pos.merge(parameter_count: possible_params.length)
+            r = r.to_pos.merge(parameter_count: possible_params.length).merge(counts(possible_params, possible_params))
           end
           r
         else
-          attr.to_pos.merge(parameter_count: attr.parameters.length)
+          attr.to_pos.merge(parameter_count: attr.parameters.length).merge!(counts(attr.record_parameters, attr.parameters, false))
         end
     end
     return_success(res.compact)
+  end
+
+  def counts(rec_params, parameters, ignore=true)
+    res = {}
+    pids = parameters.map(&:id)
+    
+    # selected_recs = rec_params.select{|r| pids.include?(r.parameter_id)}
+    res[:parameter_count] = [pids.length, rec_params.length].max 
+    res[:completed_count] = rec_params.uniq.sum{|r| r.closed? ? 1 : 0}
+    res[:in_review_count] = rec_params.uniq.sum{|r| r.review? ? 1 : 0}
+    res[:not_tested_count] = rec_params.uniq.sum{|r| r.not_tested? ? 1 : 0} + (res[:parameter_count] - res[:in_review_count] - res[:completed_count])
+    res
   end
 
   def started_sections

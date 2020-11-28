@@ -33,7 +33,7 @@ class App::Services::Compliance::Parametes < App::Services::Base
     obj.user_id = App.cu.id
     obj.section_id = rp[:section_id]
     obj.attribute_id = rp[:attribute_id]
-    obj.status = 'open'
+    obj.status = obj.user_compliance_type ? 'in-review' : 'open'
     save(obj)
   end
 

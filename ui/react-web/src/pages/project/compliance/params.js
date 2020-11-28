@@ -149,7 +149,7 @@ const ParamsList = function({filters, base, ...props}) {
             <Link to={() => link(o)} style={{'padding-right': '20px'}}> {o.name} {o.variation ? `- ${ paramVariations[o.variation]?.label }` : ''}  </Link>
             <Link to={() => link(o)}> <Mandate type={mandateLevelTypes[o.mandate_level_id]?.label} /> </Link>
             <Link to={() => link(o)}>  {o.doc_group} </Link>
-            <Link to={() => link(o)}> {o.status} </Link>
+            <Link to={() => link(o)}> {o.status || 'open'} </Link>
             <Link to={() => link(o)}> {userComplianceTypes[o.user_compliance_type]?.label} </Link>
             <Link to={() => link(o)}> {listOfUsers[o.updated_by]?.label} </Link>
             { (variation.length > 0 && variation[0]== i) ? <CreateV obj={o}/> : <Button onClick={() => addVariation([i, o.parameter_id])} className='center'> Add</Button> }

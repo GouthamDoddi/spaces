@@ -16,5 +16,7 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
   end
 
   def closed?; status == 'closed'; end
+  def review?; status == 'in-review'; end
+  def not_tested?; status == 'open'; end
 
 end
