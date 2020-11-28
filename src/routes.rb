@@ -252,6 +252,7 @@ class App::Routes < Roda
         end
 
         r.on 'section-contents', Integer, String do |section_id, type|
+          r.get('all') { Formulation::SectionContents[r, {section_id: section_id, type: type}].all }
           do_crud(Formulation::SectionContents, r, 'CRUDL', {section_id: section_id, type: type})
         end
 

@@ -15,7 +15,8 @@ import {useStore} from 'effector-react'
 import makeStore from '../../../store/make-store'
 
 import {userComplianceTypes, mandateLevelTypes, notTestableReasons, paramVariations} from '../../../store/master-data'
-import Opn from '../../../components/formulation/checklist/tools/opn'
+// import Opn from '../../../components/formulation/checklist/tools/opn'
+import Opn from './opn'
 import Mandate from './mandate'
 
 const { load, store } = makeStore(({project_id, attr_id}) => `compliance/project/${project_id}/attr/${attr_id}/parameters`)
@@ -139,7 +140,7 @@ export default function({data, ...props}) {
             }
             <div> Operating Notes </div>
             {/* <OpnContainer> */}
-              <Opn onlyUserEditable bk='#efefef' />
+              <Opn onlyUserEditable bk='#efefef' param_id={parameter_id} />
             {/* </OpnContainer> */}
             
             <div className='exception'>

@@ -16,12 +16,28 @@ class App::Services::Formulation::SectionContents < App::Services::Base
     end
   end
 
+
+  def all
+    data = model.where(cond)
+    if rp[:parameter_id].to_i > 0
+      data = data.where(parameter_id: rp[:parameter_id].to_i).all.map(&:to_pos)
+      return_success(data)
+    else
+      return_success(data.map(&:to_pos))
+    end
+  end
+
   def create
     obj = model.new(data_for(:create))
     obj.type = cond[:type]
     obj.section_id = cond[:section_id]
     save(obj)
   end
+
+  # def update
+  #   byebug
+  #   super
+  # end
 
 
   def self.fields
@@ -31,7 +47,7 @@ class App::Services::Formulation::SectionContents < App::Services::Base
       ],
 
       save: [
-        :name, :description
+        :name, :description, :parameter_id
       ]
     }
   end
