@@ -59,6 +59,10 @@ class App::Routes < Roda
           do_crud(EntityCommunications, r, 'CRUDL', {entity_id: entity_id})
         end
 
+        r.on Integer, 'services' do |entity_id|
+          do_crud(EntityServices, r, 'CRUDL', {entity_id: entity_id})
+        end
+
         
         do_crud(Entities, r, 'CRUDL')
         

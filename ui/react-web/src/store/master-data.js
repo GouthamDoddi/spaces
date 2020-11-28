@@ -42,7 +42,7 @@ export const roleTypes = {
 }
 
 export const entityRoleTypes = {
-  8: { value: 8, label: 'Entity Manager' },
+  8: { value: 8, label: 'Manager' },
   9: { value: 9, label: 'Tester' },
   10: { value: 10, label: 'Consultant' }
 }
@@ -265,7 +265,11 @@ export const paramVariations = {
   'android-en': { value: 'android-en', label: 'Android English'},
 }
 
-
+export const entityCommType = {
+  1: { value: 1, label: 'Phone'},
+  2: { value: 2, label: 'Email'},
+  3: { value: 3, label: 'Meeting'},
+}
 export const hostName = `${window.location.protocol}//${window.location.host}`
 // export const policyFamilyTypes = {
 //   ICT

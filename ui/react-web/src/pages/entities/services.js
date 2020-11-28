@@ -11,13 +11,13 @@ import makeStore from '../../store/make-store'
 
 import filter from '../../shared/filter'
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import { hostName, entityRoleTypes, projectCategoryTypes, projectTypes, entityCommType } from '../../store/master-data'
+import { hostName, entityRoleTypes, projectCategoryTypes, projectTypes } from '../../store/master-data'
 
 import { CustomContainer, Content, RowContainer } from '../../components/split-form-container'
 
 
-const { store, load, create, update, changed, selectChange } = makeStore(({entity_id, id}) => id ? `entities/${entity_id}/communication/${id}` : `entities/${entity_id}/communication`)
-const listStore = makeStore(({entity_id}) => `entities/${entity_id}/communication`)
+const { store, load, create, update, changed, selectChange } = makeStore(({entity_id, id}) => id ? `entities/${entity_id}/services/${id}` : `entities/${entity_id}/services`)
+const listStore = makeStore(({entity_id}) => `entities/${entity_id}/services`)
 
 
 const columns = ".4fr 1fr 1fr 1fr"
@@ -77,9 +77,9 @@ function ListView(props) {
           <Header columns={columns}>
             <div>#</div>
             <div>Name</div>
-            <div>Date</div>
+            <div>Category</div>
             <div>Type</div>
-            {/* <div>notes</div> */}
+            {/* <div>Description</div> */}
           </Header> 
 
           <RowContainer>
@@ -88,8 +88,8 @@ function ListView(props) {
                 <Row onClick={() => setSelectedService(o.id)} className={ o.id === selectedService ? 'selected row' : 'row'} key={i} columns={columns}> 
                   <div> {i+1} </div>
                   <div> {o.name} </div>
-                  <div> {o.date} </div>
-                  <div> {entityCommType[o.type_id]?.label} </div>
+                  <div> {projectCategoryTypes[o.category_id]?.label} </div>
+                  <div> {projectTypes[o.type_id]?.label} </div>
                 </Row>
               ))
               
@@ -104,18 +104,22 @@ function ListView(props) {
 
 function AddNew(props) {
   const { entity_id } = useParams()
-  const { id, name, type_id, notes, date, selectedService } = props
+  const { id, name, category_id, type_id, description, selectedService } = props
   
   return (
     <div className='fields'>
       <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' required />
-      <Input label='Date' name='date' type='date' onChange={changed} value={ date || ''} className='field' required />
+      <Select name='category_id' label='Project Category' 
+            options={toOpt(projectCategoryTypes)}
+            onChange={selectChange('category_id')}
+            value={projectCategoryTypes[category_id]}
+        />
       <Select name='type_id' label='Project Type' 
-          options={toOpt(entityCommType)}
+          options={toOpt(projectTypes)}
           onChange={selectChange('type_id')}
-          value={entityCommType[type_id]}
+          value={projectTypes[type_id]}
       />
-      <TextArea style={{gridColumn: '1 / 3', gridRow: 'span 2' }} label='Notes' value={notes || ''} name='notes' onChange={changed} ignoreTextAreaHt />
+      <TextArea style={{gridColumn: '1 / 3', gridRow: 'span 2' }}label='Project Description' value={description || ''} name='description' onChange={changed} ignoreTextAreaHt />
       
       <label className='submit'>
         <input type='submit' />

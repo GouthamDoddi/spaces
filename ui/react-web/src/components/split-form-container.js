@@ -52,7 +52,7 @@ export const CustomContainer = styled(Form)`
     grid-column-gap: 90px;
 
     textarea {
-      height: 38px;
+      height: ${p => p.ignoreTextAreaHt ? '100%' : '38px'};
     }
 
     label.submit {

@@ -5,11 +5,12 @@ import styled from 'styled-components'
 import { Tab, EmptyTab } from '../../shared/tabs'
 
 import { Switch, Route, useParams, Redirect } from 'react-router-dom'
-import {entityProfile, entityCommm, entityAccess} from '../routes'
+import {entityProfile, entityCommm, entityAccess, entityService} from '../routes'
 
 import Profile from './profile'
 import Communication from './communication'
 import Access from './access'
+import Services from './services'
 import Banner from '../../shared/hmc-banner'
 import { entitiesData } from '../../store/master-data'
 
@@ -25,6 +26,7 @@ export default function(props) {
         <Tab  to={entityProfile({entity_id, expand: true})}> Profile </Tab>
         <Tab to={entityCommm({ entity_id, expand: true})}> Communication</Tab>
         <Tab to={entityAccess({ entity_id, expand: true})}> Access</Tab>
+        <Tab to={entityService({ entity_id, expand: true})}> Services </Tab>
         {/* <Tab to={compliance({ id: project_id, expand: true})}> Cases</Tab> */}
         <EmptyTab/>
       </Tabs>
@@ -33,6 +35,7 @@ export default function(props) {
           <Route path={entityProfile({entity_id})}><Profile /></Route>
           <Route path={entityCommm({entity_id})}><Communication /></Route>
           <Route path={entityAccess({entity_id})}><Access /></Route>
+          <Route path={entityService({entity_id})}><Services /></Route>
           <Redirect to={entityProfile({entity_id})} />
         </Switch>
       </Content>

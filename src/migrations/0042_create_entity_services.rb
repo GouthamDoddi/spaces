@@ -1,13 +1,14 @@
 Sequel.migration do
   change do
-    create_table(:entity_communications) do
+    create_table(:entity_services) do
       primary_key :id
 
       String :name, size: 80
-      DateTime :date
-      String :notes, text: true
+      Integer :category_id
+      Integer :type_id
+      String :description, text: true
       Integer :entity_id
-      Integer :user_id
+      
       json :extras
 
       TrueClass :active, :default => true
