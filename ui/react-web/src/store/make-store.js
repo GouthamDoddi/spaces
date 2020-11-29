@@ -2,6 +2,9 @@ import { get, put, post, del } from './api'
 
 import { createEvent, createStore } from 'effector'
 
+import {toast} from 'react-toastify'
+
+let toastId = null
 
 export default function makeStore(path, { group_by=null, defaultStore={ loading: false, loadMsg: '', data: null, error: null }}={}) {
     
@@ -24,7 +27,8 @@ export default function makeStore(path, { group_by=null, defaultStore={ loading:
   const changed = createEvent('changed')
   const selectChanged = createEvent('selectChanged')
   const cbChanged = createEvent('cbChanged')
-      
+  
+  
   store.on(changed, (s, o) => {
     
     let e, i
@@ -63,13 +67,20 @@ export default function makeStore(path, { group_by=null, defaultStore={ loading:
     })
   })
   
-  store.on(enableLoading, (store, msg) => (
-    {...store, ...{loading: true, loadingMsg: msg}}
-  ))
+  store.on(enableLoading, (store, msg) => {
+    if(!toastId){
+      toastId = toast(msg)
+    }
+    return {...store, ...{loading: true, loadingMsg: msg}}
+  })
   
-  store.on(disableLoading, (store) => (
-    {...store, ...{loading: false, loadingMsg: ''}}
-  ))
+  store.on(disableLoading, (store) => {
+    if(toastId) {
+      toast.dismiss()
+      toastId = null
+    };
+    return {...store, ...{loading: false, loadingMsg: ''}}
+  })
   
   store.on(addData, (store, data) => {
     // console.log({...store, ...{data}})

@@ -5,6 +5,7 @@ import {
   Route,
   Redirect
 } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { loggedIn, role } from './store/user'
 
@@ -35,6 +36,7 @@ import { ThemeProvider as TP } from 'styled-components'
 
 import cs from './utils/colors'
 import setPassword from './pages/set-password';
+import { ToastContainer } from 'react-toastify';
 
 
 // import { Task, Note, Survey, Meeting, Space } from './components/menu-actions'
@@ -45,6 +47,18 @@ function Routes() {
   // console.log(background)
   return (
     <>
+      <ToastContainer 
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        limit={1}
+      />
       <Switch>
         <Route path="/timeline"> <Header /> <TP theme={cs.home}> <Timeline /> </TP> </Route>
         <Route path="/kanban"> <Header /> <TP theme={cs.home}> <Kanban /> </TP> </Route>
