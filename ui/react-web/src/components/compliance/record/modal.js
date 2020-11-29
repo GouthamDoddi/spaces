@@ -16,13 +16,13 @@ function path({ project_id, section_id, attr_id }) {
     return(`/compliance/${project_id}/record/sec/${section_id}`)
   } 
 }
-function Modal({className, children, title, back}) {
+function Modal({className, children, close, title, back}) {
 
 
   return(
     <div className={className}>
       <Content>
-        <Close to={path(useParams())}>
+        <Close onClick={() => close()}>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
             <g fill="none" fillRule="evenodd">
               <path d="M0 0L24 0 24 24 0 24z" transform="translate(-5 -5)"/>

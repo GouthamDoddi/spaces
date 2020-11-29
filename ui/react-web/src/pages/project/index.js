@@ -12,6 +12,7 @@ import Compliance from './compliance/index'
 import makeStore from '../../store/make-store'
 import { useStore } from 'effector-react'
 import Banner from '../../shared/hmc-banner'
+import CaseList from './cases/list'
 
 const { store, load } =  makeStore (({project_id}) => `compliance/projects/${project_id}`)
 export default function(props) {
@@ -45,7 +46,7 @@ export default function(props) {
           <Switch>
             <Route path={projectProfile({id: project_id})}><Profile /></Route>
             <Route path={compliance({id: project_id})}><Compliance /></Route>
-            <Route path={`${path}/cases`}> <Empty> No Cases for this project.</Empty></Route>
+            <Route path={`${path}/cases`}> <CaseList /></Route>
             <Route to='/:profile_id(\d+)/cases'></Route>
           </Switch>
         </Content>

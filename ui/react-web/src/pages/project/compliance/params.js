@@ -22,6 +22,7 @@ import Table, { Header, Row } from '../../../shared/table'
 import { Input } from '../../../components/form'
 import Breadcrumb from './breadcrumb'
 import Mandate from './mandate'
+import CasesPopup from '../cases/popup'
 
 import {
   HashRouter as Router,
@@ -79,6 +80,8 @@ const ParamsList = function({filters, base, ...props}) {
     // console.log("Filter", tfilter)
     const { project_id, section_id, attr_id, param_id } = useParams()
     const selectBox = useRef(null);
+
+    const [showCases, setShowCases] = useState(false)
   
     const [variation, addVariation] = useState(0)
     const [pselected, setP] = useState([])
@@ -132,7 +135,9 @@ const ParamsList = function({filters, base, ...props}) {
     ) 
   return (
     <>
+      { showCases ? <CasesPopup setShowCases={setShowCases}/> : null }
       <Breadcrumb base={base} />
+      <Button className='cases' onClick={() => setShowCases(true)}>Create Case</Button>
       <CustomInput label='Filter' type='text' name='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''}/>
       <Table className='tbl' title='' showAll={false}>
         <Header columns={columns1}>
@@ -175,6 +180,13 @@ const Button = styled.a`
   justify-self: center;
   align-self: center;
   color: #fff;
+
+  &.cases {
+    position: absolute;
+    max-width: 200px;
+    right: 50px;
+    top: 430px;
+  }
 `
 
 const AddVariation = styled.div`

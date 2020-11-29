@@ -13,6 +13,7 @@ Sequel.migration do
       String :beneficiary_name
 
       Integer :sla
+      Integer :project_id
 
       Integer :type_id
       String :status, default: 'open'

@@ -26,6 +26,7 @@ class App::Services::Compliance::Cases < App::Services::Base
     obj.section_id = rp[:section_id]
     obj.attribute_id = rp[:attribute_id]
     obj.beneficiary_name = App.cu.user_obj.first_name
+    byebug
     save(obj)
   end
 
@@ -40,14 +41,18 @@ class App::Services::Compliance::Cases < App::Services::Base
     @project ||= App::Models::Compliance::Project[rp[:project_id]]
   end
 
+  def for_project
+    return_success(model.where(project_id: rp[:project_id]).order(Sequel.desc(:created_at)).map(&:to_pos))
+  end
+
   def self.fields
     {
       create: [
-        :title, :description, :type_id, :status, :category_id, :priority
+        :title, :description, :type_id, :status, :category_id, :priority, :project_id
       ],
 
       save: [
-        :title, :description, :type_id, :status, :category_id, :priority, :closure_comments
+        :title, :description, :type_id, :status, :category_id, :priority, :closure_comments, :project_id
       ]
     }
   end

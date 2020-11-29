@@ -107,6 +107,10 @@ class App::Routes < Roda
           do_crud(ProjectIssues, r, 'CRUDL', {project_id: id})
         end
 
+        r.on 'project', Integer, 'cases' do |id|
+          Compliance::Cases[r, {project_id: id}].for_project
+        end
+
         
 
         r.on Integer, 'tasks' do |project_id|
