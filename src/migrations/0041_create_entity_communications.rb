@@ -4,10 +4,11 @@ Sequel.migration do
       primary_key :id
 
       String :name, size: 80
-      DateTime :date
+      Date :date
       String :notes, text: true
       Integer :entity_id
       Integer :user_id
+      Integer :type_id
       json :extras
 
       TrueClass :active, :default => true

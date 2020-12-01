@@ -110,7 +110,7 @@ function AddNew(props) {
     <div className='fields'>
       <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' required />
       <Input label='Date' name='date' type='date' onChange={changed} value={ date || ''} className='field' required />
-      <Select name='type_id' label='Project Type' 
+      <Select name='type_id' label='Type' 
           options={toOpt(entityCommType)}
           onChange={selectChange('type_id')}
           value={entityCommType[type_id]}

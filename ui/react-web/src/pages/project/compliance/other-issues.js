@@ -8,7 +8,7 @@ import { Input, Select, toOpt, TextArea, Upload } from '../../../components/form
 
 import makeStore from '../../../store/make-store'
 
-import { projectIssueStatusTypes, projectTypes } from '../../../store/master-data'
+import { projectIssueStatusTypes, projectTypes, supportedLanguages } from '../../../store/master-data'
 
 import { CustomContainer, Content, RowContainer } from '../../../components/split-form-container'
 // 'project', Integer, 'issues'
@@ -100,7 +100,12 @@ function AddNew(props) {
   return (
     <div className='fields'>
       <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' required />
-      <Input label='Language' name='language' type='text' onChange={changed} value={ language || ''} className='field' required />
+
+      <Select name='language' label='Language' 
+          options={toOpt(supportedLanguages)}
+          onChange={selectChange('language')}
+          value={supportedLanguages[language]}
+      />
       <Select name='status' label='Status' 
           options={toOpt(projectIssueStatusTypes)}
           onChange={selectChange('status')}
@@ -108,7 +113,7 @@ function AddNew(props) {
       />
 
       {id ? <Upload param_id={id} source='issues' /> : null }
-      <TextArea style={{gridRow: 'span 2' }}label='Project Description' value={description || ''} name='description' onChange={changed} ignoreTextAreaHt />
+      <TextArea style={{gridRow: 'span 2' }}label='Description' value={description || ''} name='description' onChange={changed} ignoreTextAreaHt />
       
       <label className='submit'>
         <input type='submit' />

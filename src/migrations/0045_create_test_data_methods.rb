@@ -1,15 +1,13 @@
 Sequel.migration do
   change do
-    create_table(:project_issues) do
+    create_table(:test_data_methods) do
       primary_key :id
 
       String :name, size: 80
-      Integer :language
+      String :code, size: 10
+      String :auto_code, size: 15
       String :description, text: true
-      Integer :project_id
-      Integer :status
-      
-      jsonb :images, default: '[]'
+
       json :extras
       
 

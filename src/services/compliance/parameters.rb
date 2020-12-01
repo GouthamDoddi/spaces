@@ -18,7 +18,7 @@ class App::Services::Compliance::Parametes < App::Services::Base
         if pfilter.length > 0 && !pfilter.include?(user_data['user_compliance_type'].to_i)
           nil
         else        
-          slice_list = ['user_notes', 'user_compliance_type', 'approver_compliance_type',  'status', 'approver_id', 'approver_notes', 'variation']
+          slice_list = ['user_notes', 'user_compliance_type', 'approver_compliance_type',  'status', 'approver_id', 'approver_notes', 'variation', 'quality_gate_id', 'test_data_method_id']
           p.as_json
             .merge!(user_data.slice(*slice_list)).merge!(wiki_desc: p.wiki_description&.description)
             .merge!(id: user_data['id'], parameter_id: p.id)
@@ -58,11 +58,11 @@ class App::Services::Compliance::Parametes < App::Services::Base
   def self.fields
     {
       create: [
-        :user_notes, :user_compliance_type, :parameter_id, :project_id, :variation
+        :user_notes, :user_compliance_type, :parameter_id, :project_id, :variation, :test_data_method_id, :quality_gate_id
       ],
 
       save: [
-        :user_notes, :user_compliance_type, :project_id, :variation
+        :user_notes, :user_compliance_type, :project_id, :variation, :test_data_method_id, :quality_gate_id
       ],
 
       approver_update: [

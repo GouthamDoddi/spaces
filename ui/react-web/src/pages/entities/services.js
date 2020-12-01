@@ -109,17 +109,17 @@ function AddNew(props) {
   return (
     <div className='fields'>
       <Input label='Name' name='name' type='text' onChange={changed} value={ name || ''} className='field' required />
-      <Select name='category_id' label='Project Category' 
+      <Select name='category_id' label='Category' 
             options={toOpt(projectCategoryTypes)}
             onChange={selectChange('category_id')}
             value={projectCategoryTypes[category_id]}
         />
-      <Select name='type_id' label='Project Type' 
+      <Select name='type_id' label='Type' 
           options={toOpt(projectTypes)}
           onChange={selectChange('type_id')}
           value={projectTypes[type_id]}
       />
-      <TextArea style={{gridColumn: '1 / 3', gridRow: 'span 2' }}label='Project Description' value={description || ''} name='description' onChange={changed} ignoreTextAreaHt />
+      <TextArea style={{gridColumn: '1 / 3', gridRow: 'span 2' }}label='Description' value={description || ''} name='description' onChange={changed} ignoreTextAreaHt />
       
       <label className='submit'>
         <input type='submit' />

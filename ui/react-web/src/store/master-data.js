@@ -275,8 +275,30 @@ export const projectIssueStatusTypes = {
   1: { value: 1, label: 'Open'},
   2: { value: 2, label: 'In Review'},
   3: { value: 3, label: 'Closed'},
+}
+
+export const testDataMethodTypes = {
+  1: { value: 1, label: "Questionnaire"},
+  2: { value: 2, label: "Testing"},
+  3: { value: 3, label: "Evidence"},
+  4: { value: 4, label: "Interview"},
+  5: { value: 5, label: "Pre Questionnaire"},
+}
+
+export const qualityGateTypes = {
+  1: {value: 1, label: "Pre Engagement"},
+  2: {value: 2, label: "Content Engagement"},
+  3: {value: 3, label: "Service Request"},
+  4: {value: 4, label: "Post Request"},
+  5: {value: 5, label: "Post Fulfilment"}
+}
+
+export const supportedLanguages = {
+  1: { value: 1, label: "English"},
+  2: { value: 2, label: "Arabic"},
 
 }
+
 export const hostName = `${window.location.protocol}//${window.location.host}`
 // export const policyFamilyTypes = {
 //   ICT

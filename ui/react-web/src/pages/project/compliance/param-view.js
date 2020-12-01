@@ -14,7 +14,7 @@ import {useStore} from 'effector-react'
 
 import makeStore from '../../../store/make-store'
 
-import {userComplianceTypes, mandateLevelTypes, notTestableReasons, paramVariations} from '../../../store/master-data'
+import {userComplianceTypes, mandateLevelTypes, notTestableReasons, paramVariations, qualityGateTypes, testDataMethodTypes} from '../../../store/master-data'
 // import Opn from '../../../components/formulation/checklist/tools/opn'
 import Opn from './opn'
 import Mandate from './mandate'
@@ -77,7 +77,8 @@ export default function({data, ...props}) {
     addData(data.find((p) => p.parameter_id == param_id))
   }
 
-  const { id, user_compliance_type, name, wiki_desc, description, variation, user_notes, mandate_level_id, parameter_id, status, approver_notes, approver_compliance_type, doc_group } = sStore.data || {}
+  const { id, user_compliance_type, name, wiki_desc, description, variation, user_notes, mandate_level_id, parameter_id, 
+    status, approver_notes, approver_compliance_type, doc_group, test_data_method_id, quality_gate_id } = sStore.data || {}
   
   if( data.length == 0) {
     return <Container> <NoParams> No Parameters</NoParams></Container>
@@ -159,6 +160,22 @@ export default function({data, ...props}) {
                 outerClass='sfield'
                 onChange={status === 'closed' ? (() => {}) : selectChange('variation')}
                 value={paramVariations[variation] || ''} 
+                maxMenuHeight={150}
+            />
+
+            <Select name='quality_gate_id' label='Quality Gate' 
+                options={toOpt(qualityGateTypes)}
+                outerClass='sfield'
+                onChange={status === 'closed' ? (() => {}) : selectChange('quality_gate_id')}
+                value={qualityGateTypes[quality_gate_id] || ''} 
+                maxMenuHeight={150}
+            />
+
+            <Select name='test_data_method_id' label='Test Data Method' 
+                options={toOpt(testDataMethodTypes)}
+                outerClass='sfield'
+                onChange={status === 'closed' ? (() => {}) : selectChange('test_data_method_id')}
+                value={testDataMethodTypes[test_data_method_id] || ''} 
                 maxMenuHeight={150}
             />
 

@@ -13,6 +13,8 @@ Sequel.migration do
       
       String :user_notes, text: true
       Integer :user_compliance_type
+      Integer :test_data_method_id
+      Integer :quality_gate_id
 
       json :images, default: '{}'
 

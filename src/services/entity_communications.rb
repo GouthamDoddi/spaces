@@ -9,7 +9,7 @@ class App::Services::EntityCommunications < App::Services::Base
 
   def self.fields
     {
-      save: [ :name, :notes, :date ]
+      save: [ :name, :notes, :date, :entity_id, :type_id ]
     }
   end
 end
