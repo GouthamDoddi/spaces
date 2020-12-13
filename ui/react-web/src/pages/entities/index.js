@@ -23,10 +23,14 @@ export default function(props) {
     <Banner type={entitiesData[entity_id]?.name || 'Entities'} size='32px' mobile='10' websites='10' eservices='32' hideScore className='bnr' />
     <Wrapper>
       <Tabs>
-        <Tab  to={entityProfile({entity_id, expand: true})}> Profile </Tab>
-        <Tab to={entityCommm({ entity_id, expand: true})}> Communication</Tab>
-        <Tab to={entityAccess({ entity_id, expand: true})}> Access</Tab>
-        <Tab to={entityService({ entity_id, expand: true})}> Services </Tab>
+        <Tab to={entityProfile({entity_id, expand: true})}> Profile </Tab>
+        { entity_id != 'new' ? 
+          <>
+            <Tab to={entityCommm({ entity_id, expand: true})}> Communication</Tab>
+            <Tab to={entityAccess({ entity_id, expand: true})}> Access</Tab>
+            <Tab to={entityService({ entity_id, expand: true})}> Services </Tab>
+          </> : null
+        }
         {/* <Tab to={compliance({ id: project_id, expand: true})}> Cases</Tab> */}
         <EmptyTab/>
       </Tabs>

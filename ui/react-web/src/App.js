@@ -29,6 +29,7 @@ import Bcp from './components/dashboards/bcp'
 import Entity from './pages/entities/list'
 import Projects from './pages/project/list'
 import SetPassword from './pages/set-password'
+import Qg from './pages/dashboards/qg'
 
 import Header from './components/header'
 
@@ -80,6 +81,8 @@ function Routes() {
             { dbForRole(role())}
           </TP> 
         </Route>
+
+        <Route path="/qg"> <TP theme={cs.newdesign}> <Qg /> </TP> </Route>
         <Route exact path="/"> <TP theme={cs.home}> { dbForRole(role())} </TP></Route>
       </Switch>
     </>

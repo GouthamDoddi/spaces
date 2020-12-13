@@ -9,6 +9,7 @@ import { entitiesData, entityTypes } from '../../store/master-data'
 import { Link, Route, Switch, useParams } from 'react-router-dom'
 import { entityEnter, entityList  } from '../../pages/routes'
 import {Input} from '../../components/form'
+import { Button } from '../../shared/button'
 
 import EntityElem from '../../pages/entities'
 import makeStore from '../../store/make-store'
@@ -53,6 +54,7 @@ export default function(props) {
           </Route>
           <Route path={entityList()} >
             <Banner type={bannerTitle} size='32px' mobile='11' websites='10' eservices='34' prepend={{Entities: 14}} hideScore className='bnr' />
+            <Button top='295px' className='right' href="#/entities/new">Create Entity</Button>
             <CustomInput label='Filter' type='text' name='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''}/>
             <Table className='tbl' title='Entities' showAll={false}>
               <Header columns={columns1}>

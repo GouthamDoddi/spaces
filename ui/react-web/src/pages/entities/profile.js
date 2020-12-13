@@ -8,14 +8,17 @@ import { entitiesData, entityTypes } from '../../store/master-data'
 import { useStore } from 'effector-react'
 import makeStore from '../../store/make-store'
 
-const { store, load, create, update, addData, changed, selectChange } =  makeStore(({entity_id}) => `entities/${entity_id}` )
+const { store, load, create, update, addData, changed, selectChange } =  makeStore(({entity_id}) => entity_id ? `entities/${entity_id}` : `entities`)
 
 
 function submitted(entity_id, data) {
   const cb = (resp) => {
-    load({entity_id})
+    const id = resp.id
+    window.location = `/#/entities/${id}/profile`
   }
-  update({entity_id, data, cb}) 
+
+  entity_id == 'new' ? create({data, cb}) : update({entity_id, data, cb})
+  
 }
 
 

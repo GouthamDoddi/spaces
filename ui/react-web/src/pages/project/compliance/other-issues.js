@@ -68,8 +68,8 @@ function ListView(props) {
           <Header columns={columns}>
             <div>#</div>
             <div>Name</div>
-            <div>Category</div>
-            <div>Type</div>
+            <div>Language</div>
+            <div>Status</div>
             {/* <div>Description</div> */}
           </Header> 
 
@@ -79,7 +79,7 @@ function ListView(props) {
                 <Row onClick={() => setSelectedService(o.id)} className={ o.id === selectedService ? 'selected row' : 'row'} key={i} columns={columns}> 
                   <div> {i+1} </div>
                   <div> {o.name} </div>
-                  <div> {o.language} </div>
+                  <div> {supportedLanguages[o.language]?.label} </div>
                   <div> {projectIssueStatusTypes[o.status]?.label } </div>
                 </Row>
               ))
