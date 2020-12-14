@@ -15,6 +15,7 @@ import Bd from './bene'
 import Objects from './objects'
 import Sh from './sh'
 import Impl from './impl'
+import Fq from './fq'
 
 
 
@@ -29,6 +30,7 @@ export default function(props) {
         { project_id == 'new' ? null : (
           <>
            <SubTab to={path('objects')}> Frameworks </SubTab>
+           <SubTab to={path('framework-questions')}> Framework Questions </SubTab>
            <SubTab to={path('sh')}> Testers </SubTab>
           </>
         )}
@@ -42,6 +44,7 @@ export default function(props) {
       <Switch>
         <Route path={path('details', false)}><Details /></Route>
         <Route path={path('objects', false)}><Objects /></Route>
+        <Route path={path('framework-questions', false)}><Fq /></Route>
         <Route path={path('benef', false)}><Bd /></Route>
         <Route path={path('sh', false)}><Sh /></Route>
         <Route path={path('impl', false)}><Impl /></Route>
