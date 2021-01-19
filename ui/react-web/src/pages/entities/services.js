@@ -16,11 +16,11 @@ import { hostName, entityRoleTypes, projectCategoryTypes, projectTypes } from '.
 import { CustomContainer, Content, RowContainer } from '../../components/split-form-container'
 
 
-const { store, load, create, update, changed, selectChange } = makeStore(({entity_id, id}) => id ? `entities/${entity_id}/services/${id}` : `entities/${entity_id}/services`)
+const { store, load, create, update, changed, selectChange, remove } = makeStore(({entity_id, id}) => id ? `entities/${entity_id}/services/${id}` : `entities/${entity_id}/services`)
 const listStore = makeStore(({entity_id}) => `entities/${entity_id}/services`)
 
 
-const columns = ".4fr 1fr 1fr 1fr"
+const columns = ".4fr 1fr 1fr 1fr 1fr"
 export default (props) => {
   const { entity_id } = useParams()
   const [selectedService, setSelectedService] = useState(null)
@@ -79,7 +79,7 @@ function ListView(props) {
             <div>Name</div>
             <div>Category</div>
             <div>Type</div>
-            {/* <div>Description</div> */}
+            <div>Actions</div>
           </Header> 
 
           <RowContainer>
@@ -90,6 +90,7 @@ function ListView(props) {
                   <div> {o.name} </div>
                   <div> {projectCategoryTypes[o.category_id]?.label} </div>
                   <div> {projectTypes[o.type_id]?.label} </div>
+                  <div onClick={() => remove({entity_id, id: o.id, cb: () => listStore.load({entity_id})})}> &#128465; </div>
                 </Row>
               ))
               
