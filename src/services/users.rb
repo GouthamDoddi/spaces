@@ -29,7 +29,7 @@ class App::Services::Users < App::Services::Base
   
   def self.fields
     {
-      save: [ :first_name, :last_name, :email, :password, :username ]
+      save: [ :first_name, :last_name, :email, :password, :username, :phone ]
     }
   end
 end

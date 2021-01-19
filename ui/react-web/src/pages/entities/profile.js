@@ -44,7 +44,7 @@ export default function(props) {
 
       <div className='container'>
         <Input label='Name' type='text' name='name' onChange={changed} value={name || ''} required/>
-        <Input label='Arabic Name' type='text' name='ar_name' onChange={changed} value={ar_name || ''} style={{direction: 'rtl'}} />
+        <Input label='Arabic Name' type='text' name='ar_name' onChange={changed} value={ar_name || ''} style={{direction: 'rtl'}} required />
         <Input label='Short Name' type='text' name='short_name' onChange={changed} value={short_name || ''} required/>
         <Select name='type_id' label='Type'
             options={toOpt(entityTypes)}

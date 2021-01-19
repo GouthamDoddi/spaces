@@ -54,7 +54,7 @@ class App::Models::User < Sequel::Model
   def validate
     super
     validates_presence [:first_name, :email]
-    validates_unique :email
+    validates_unique(:email){|ds| ds.where(:active)}
     # validates_includes ROLES, :role
   end
 

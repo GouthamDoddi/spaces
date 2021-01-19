@@ -61,17 +61,22 @@ export default function makeStore(path, { group_by=null, defaultStore={ loading:
   })
 
   store.on(cbChanged, (s, { name, val }) => {
-    debugger
     return({ ...s,
       ...{data: {...s.data, [name]: val }}
     })
   })
   
   store.on(enableLoading, (store, msg) => {
+    let dsp = msg
     if(!toastId){
-      toastId = toast(msg)
+      let type;
+      if(typeof(msg) == 'object' && msg != null) {
+        dsp = msg.msg
+        type = msg.type
+      }
+      toastId = type ? toast[type](dsp) : toast(dsp)
     }
-    return {...store, ...{loading: true, loadingMsg: msg}}
+    return {...store, ...{loading: true, loadingMsg: dsp}}
   })
   
   store.on(disableLoading, (store) => {
@@ -88,9 +93,14 @@ export default function makeStore(path, { group_by=null, defaultStore={ loading:
     return {...store, ...{data}}
   })
   
-  store.on(addError, (store, error) => (
-    {...store, ...{error}}
-  ))
+  store.on(addError, (store, error) => {
+    if(error && typeof(error) == 'object' && Object.keys(error).length > 0) {
+      const msg = Object.keys(error).map((k) => `${k} - ${error[k]}`)
+      enableLoading({msg: msg.join(', '), type: 'error'})
+    }
+    
+    return {...store, ...{error}}
+  })
   
   function selectChange(name) {
     return (obj) => selectChanged({name, obj})

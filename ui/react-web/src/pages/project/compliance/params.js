@@ -56,7 +56,10 @@ export default function({filters, base, ...props}) {
 
   const { path, url } = useRouteMatch()
 
-
+  useEffect(() => { 
+    load({project_id, attr_id, filters})
+    // return( addData([]))
+  }, [])
   const listStore = useStore(store)
   const metadata = listStore.data || []
 

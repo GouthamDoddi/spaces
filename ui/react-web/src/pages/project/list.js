@@ -17,7 +17,7 @@ import {
 
 import { useStore } from 'effector-react'
 
-import { policyFamilyTypes, policyStatusTypes, policyOwnerTypes, policyStateTypes, projectCategoryTypes, entitiesData } from '../../store/master-data'
+import { policyFamilyTypes, policyStatusTypes, policyOwnerTypes, policyStateTypes, projectCategoryTypes, entitiesData, sponsorOptions } from '../../store/master-data'
 
 import makeStore from '../../store/make-store'
 import Banner from '../../shared/hmc-banner'
@@ -99,7 +99,7 @@ export default function(props) {
                 <Link to={projectProfile({id: o.id, expand: true})} style={{'padding-right': '20px'}}> {o.name} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})}> {projectCategoryTypes[o.category_id]?.label} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})}> {entitiesData[o.owner_id]?.label} </Link>
-                <Link to={projectProfile({id: o.id, expand: true})} className='center' > {o.sponsor} </Link>
+                <Link to={projectProfile({id: o.id, expand: true})} className='center' > {sponsorOptions[o.sponsor]?.label} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.start_date} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.end_date} </Link>
                 <Link to={projectProfile({id: o.id, expand: true})} className='center'> {o.progress}% </Link>

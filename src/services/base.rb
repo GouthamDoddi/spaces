@@ -117,6 +117,11 @@ class App::Services::Base
     return_errors!(e.message, 400)
   end
 
+  def remove
+    item.active = false
+    save(item)
+  end
+
   def item(id=rp[:id])
     @item ||= begin
       model[id] || return_errors!("No #{model.class} found with id: #{id}", 404)

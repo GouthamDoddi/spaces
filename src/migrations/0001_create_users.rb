@@ -8,6 +8,7 @@ Sequel.migration do
       String :email, size: 100
       String :encoded_password, size: 200
       String :username, size: 25
+      String :phone, size: 20
 
       String :temp_token, size:100
 

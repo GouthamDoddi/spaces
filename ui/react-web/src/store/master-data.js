@@ -29,7 +29,7 @@ export const projectTypes = {
 }
 
 export const projectCategoryTypes = {
-  1: { value: 1, label: 'Website'},
+  1: { value: 1, label: 'Website / Portals'},
   2: { value: 2, label: 'Mobile App'},
   3: { value: 3, label: 'E-Service'}
 }
@@ -43,7 +43,7 @@ export const roleTypes = {
 
 export const entityRoleTypes = {
   8: { value: 8, label: 'Manager' },
-  9: { value: 9, label: 'Tester' },
+  9: { value: 9, label: 'Quality Controller' },
   10: { value: 10, label: 'Consultant' }
 }
 
@@ -173,9 +173,9 @@ export const caseCategoryTypes = {
 }
 
 export const casePriorityTypes = {
-  1: { value: 1, label: 'Priority P1'},
-  2: { value: 2, label: 'Priority P2'},
-  3: { value: 3, label: 'Priority P3'},
+  1: { value: 1, label: 'High (P1)'},
+  2: { value: 2, label: 'Medium (P2)'},
+  3: { value: 3, label: 'Low (P3)'},
 }
 
 export const statusTypes = {

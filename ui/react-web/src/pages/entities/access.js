@@ -16,11 +16,11 @@ import { hostName, entityRoleTypes } from '../../store/master-data'
 import { CustomContainer, Content, RowContainer } from '../../components/split-form-container'
 
 
-const { store, load, create, update, changed, selectChange } = makeStore(({entity_id, id}) => id ? `entities/${entity_id}/users/${id}` : `entities/${entity_id}/users`)
+const { store, load, create, update, changed, selectChange, remove } = makeStore(({entity_id, id}) => id ? `entities/${entity_id}/users/${id}` : `entities/${entity_id}/users`)
 const listStore = makeStore(({entity_id}) => `entities/${entity_id}/users`)
 // const cudStore = makeStore('compliance/projects/list')
 
-const columns = ".4fr 1fr 1fr 1fr 1fr 1fr"
+const columns = ".4fr 1fr 1fr 1fr 1fr 1fr 1fr"
 export default (props) => {
   const { entity_id } = useParams()
   const [selectedUser, setSelectedUser] = useState(null)
@@ -65,7 +65,7 @@ function ListView(props) {
 
   const [filterVal, setFilterVal] = useState('')
 
-  console.log(data)
+  // console.log(data)
 
   return (
     // <Input label='Filter' type='text' name='filter' className='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''} 
@@ -80,6 +80,7 @@ function ListView(props) {
             <div>Email</div>
             <div>Role</div>
             <div>Status</div>
+            <div> Actions </div>
           </Header> 
 
           <RowContainer>
@@ -91,8 +92,8 @@ function ListView(props) {
                   <div> {o.last_name} </div>
                   <div> {o.email} </div>
                   <div> {entityRoleTypes[o.entity_roles[entity_id]]?.label} </div>
-                  
                   <ShowStatus className='center' obj={o}/>
+                  <div onClick={() => remove({entity_id, id: o.id, cb: () => listStore.load({entity_id})})}> &#128465; </div>
                 </Row>
               ))
               
@@ -107,14 +108,17 @@ function ListView(props) {
 
 function AddNew(props) {
   const { entity_id } = useParams()
-  const { id, first_name, last_name, entity_roles={}, email, status, selectedUser } = props
-  const role_id = entity_roles[entity_id]
+  const { id, first_name, last_name, entity_roles={}, email, status, phone, selectedUser } = props
+  const role_id = entity_roles[entity_id] || props.role_id
+
+  console.log(entityRoleTypes, role_id)
 
   return (
     <div className='fields'>
       <Input label='First Name' name='first_name' type='text' onChange={changed} value={ first_name || ''} className='field' required />
       <Input label='Last Name' name='last_name' type='text' onChange={changed} value={ last_name || ''} className='field' required />
       <Input label='Email' name='email' type='email' onChange={changed} value={ email || ''} className='field' required />
+      <Input label='Phone' name='phone' type='phone' onChange={changed} value={ phone || ''} className='field' />
       <Select name='role_id' label='Role' 
           options={toOpt(entityRoleTypes)}
           outerClass='field'
