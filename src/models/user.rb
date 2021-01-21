@@ -134,7 +134,7 @@ class App::Models::User < Sequel::Model
 
   def to_pos
     resp = as_json.except('encoded_password').merge!(has_passowrd: encoded_password&.length)
-    entity_roles = auth['entities'].reduce({}) {|h, e| h.merge!(e['eid'] => e['role'].to_i)}
+    entity_roles = (auth || {})['entities']&.reduce({}) {|h, e| h.merge!(e['eid'] => e['role'].to_i)} || []
     resp.merge!(entity_roles: entity_roles)
   end
 

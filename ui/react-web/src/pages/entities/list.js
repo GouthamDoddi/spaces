@@ -53,7 +53,7 @@ export default function(props) {
             <EntityElem />
           </Route>
           <Route path={entityList()} >
-            <Banner type={bannerTitle} size='32px' mobile='11' websites='10' eservices='34' prepend={{Entities: 14}} hideScore className='bnr' />
+            <Banner type={bannerTitle} size='32px' hideItems hideScore className='bnr' />
             <Button top='295px' className='right' href="#/entities/new">Create Entity</Button>
             <CustomInput label='Filter' type='text' name='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''}/>
             <Table className='tbl' title='Entities' showAll={false}>

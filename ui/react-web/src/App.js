@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   HashRouter as Router,
   Switch,
@@ -8,6 +8,8 @@ import {
 import 'react-toastify/dist/ReactToastify.css';
 
 import { loggedIn, role } from './store/user'
+import { masterData } from './store/api'
+import { resetData } from './store/master-data'
 
 // import { objects, subobjects, questions, beneficiaries, profiles, details } from './store/master-data'
 import SnackBar from './snackbar'
@@ -46,6 +48,19 @@ function Routes() {
   // const location = useLocation();
   // const background = location.state && location.state.background
   // console.log(background)
+
+  const [loaded, setLoaded] = useState(false)
+  useEffect(() => {
+    if(!window.mdata) masterData(null, () => {
+      setLoaded(true)
+      // resetData()
+    })
+  }, [])
+
+  return loaded ? <AllRoutes /> : null
+}
+
+function AllRoutes(props) {
   return (
     <>
       <ToastContainer 
@@ -85,9 +100,9 @@ function Routes() {
         <Route path="/qg"> <TP theme={cs.newdesign}> <Qg /> </TP> </Route>
         <Route exact path="/"> <TP theme={cs.home}> { dbForRole(role())} </TP></Route>
       </Switch>
-    </>
-  )
+    </>)
 }
+
 
 
 function dbForRole(role) {

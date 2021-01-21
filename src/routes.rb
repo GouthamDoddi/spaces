@@ -43,14 +43,21 @@ class App::Routes < Roda
         do_crud(ImageAssets, r, 'CL', opts)
       end
       
-      r.on 'master-data' do
-        r.get(String) do |resource|
-          MasterData[r, {resource: resource}].get_data
-        end
-      end
+      # r.on 'master-data' do
+      #   r.get('list', [String, true]) do |list|
+      #     MasterData[r, {list: list}].get_multi
+      #   end
+
+      #   r.get(String) do |resource|
+      #     MasterData[r, {resource: resource}].get_data
+      #   end
+      # end
       auth_required!
 
       r.on 'master-data' do
+        r.get('list', String) do |list|
+          MasterData[r, {list: list}].get_multi
+        end
         r.get(String) do |resource|
           MasterData[r, {resource: resource}].get_data
         end

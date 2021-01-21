@@ -1,5 +1,6 @@
 // const URL = 'http://'
 
+import { resetData } from './master-data'
 import store, { loggedIn, logout } from './user'
 
 const path = (p) => p.includes('http') ? p : `/api/${p}`
@@ -55,4 +56,18 @@ function del(url, options={}) {
   fetchWithAuth(url, options)
 }
 
-export { post, get, put, del }
+function masterData(res=null, cb=() =>{}) {
+  fetchWithAuth((res ? `master-data/list/${res}` : 'master-data/list'), {
+    success: (res) => {
+      window.mdata = {...window.mdata, ...(res.data)}
+      resetData()
+      cb()
+    },
+    error: (res) => {
+      console.error(res)
+      cb()
+    }
+  })
+}
+
+export { post, get, put, del, masterData }

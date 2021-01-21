@@ -5,14 +5,29 @@ class App::Services::MasterData < App::Services::Base
   def get_data
     except = (rp[:except] || '').split(',')
     if model
-      data = 
-        model[:m].exclude(except).select(*model[:flds]).all.reduce({}){|h,o|
-          h.merge!(o.send(model[:pkey]) => o.to_pos)
-        }
-      return_success(data)
+      return_success(build_data(model, except))
     else
       return_errors!("Invalid resource", 404)
     end
+  end
+
+  def get_multi
+    res = (rp[:list] || '').split('-')
+    data = (res.present? ? resources.keys & res : resources.keys).reduce({}) do |h, o| 
+      h.merge!(o => build_data(resources[o]))
+    end
+    return_success(data)
+  end
+
+  def build_data(modl, except=[])
+    label = modl[:label]
+    data = 
+      modl[:m].exclude(except).select(*modl[:flds]).all.reduce({}){|h,o|
+        h.merge!(o.send(modl[:pkey]) => o.to_pos.merge!(
+          label: label.is_a?(Symbol) ? o.send(label) : label.call(o),
+          value: o.send(modl[:pkey])
+        ))
+      }
   end
 
 
@@ -22,8 +37,9 @@ class App::Services::MasterData < App::Services::Base
 
   def self.resources
     @resources ||= {
-      users: {m: User, flds: [:id, :email], pkey: 'id'}
-  }.with_indifferent_access
+      users: {m: User, flds: [:id, :email], pkey: 'id', label: Proc.new{|o| "#{o.first_name} #{o.last_name}"} },
+      entities: {m: Entity, flds: [:id, :name, :short_name], pkey: 'id', label: :short_name},
+    }.with_indifferent_access
   end
   
 end

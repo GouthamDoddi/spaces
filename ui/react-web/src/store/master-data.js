@@ -232,7 +232,7 @@ export const sponsorOptions = {
 //   6: { value: 6, label: 'Requires Self-testing and Evidence' },
 // }
 
-export const entitiesData = {
+export let entitiesData = {
   1: {id: 1, name: 'General Authority of Customs', short_name: 'GAC', label: 'GAC', value: 1, type: 'Authority', websites: 1, mobile: 1, eservices: 0, tested: 46, defects: 54, fixed: 0, score: 94, rank:  1 },
   2: {id: 2, name: 'Hamad Medical Corporation', short_name: 'HMC', label: 'HMC', value: 2, type: 'Agency', websites: 1, mobile: 0, eservices: 0, tested: 78, defects: 22, fixed: 0, score: 93, rank:  2 },
   3: {id: 3, name: 'Kahramaa', short_name: 'Kahramaa', label: 'Kahramaa', value: 3, type: 'Agency', websites: 1, mobile: 1, eservices: 3, tested: 75, defects: 34, fixed: 0, score: 91, rank:  3 },
@@ -248,6 +248,14 @@ export const entitiesData = {
   13: {id: 13, name: 'Supreme Judiciary Council', short_name: 'SJC', label: 'SJC', value: 13, type: 'Authority', websites: 0, mobile: 1, eservices: 1, tested: 15, defects: 22, fixed: 0, score: 64, rank:  11 },
   14: {id: 14, name: 'The General Retirement and Social Insurance Authority', short_name: 'GRSIA', label: 'GRSIA', value: 14, type: 'Authority', websites: 0, mobile: 0, eservices: 1, tested: 44, defects: 0, fixed: 0, score: 51, rank:  12 },
 }
+
+// export let entitiesData = entitiesData1
+
+export const resetData = () => {
+  entitiesData = window.mdata.entities
+}
+
+// export const enti
 
 export const entityTypes = {
   1 :{ label: 'Ministry', value: 1},

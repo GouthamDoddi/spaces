@@ -26,6 +26,7 @@ export default function(props) {
     
     if(project_id && project_id !== 'new') { load({project_id}) }
     if(project_id === 'new') { addData(null)}
+    // debugger
   }, [])
   
   const projectStore = useStore(store)

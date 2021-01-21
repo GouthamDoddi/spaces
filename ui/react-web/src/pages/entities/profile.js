@@ -5,6 +5,7 @@ import { reloadAuth } from '../../store/user'
 import { useParams, Link } from 'react-router-dom'
 
 import { entitiesData, entityTypes } from '../../store/master-data'
+import { masterData } from '../../store/api'
 import { useStore } from 'effector-react'
 import makeStore from '../../store/make-store'
 
@@ -13,6 +14,7 @@ const { store, load, create, update, addData, changed, selectChange } =  makeSto
 
 function submitted(entity_id, data) {
   const cb = (resp) => {
+    masterData('entities')
     const id = resp.id
     window.location = `/#/entities/${id}/profile`
   }

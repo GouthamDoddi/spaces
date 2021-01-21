@@ -22,7 +22,7 @@ class App::Services::Entities < App::Services::Base
   def update(data=nil)
     data ||= data_for(:save)
     item.set_fields(data, data.keys)
-    (user = set_user(item)) && (user.errors.blank?) ? save(item) : return_errors!(user.errors, 400) 
+    ((user = set_user(item)) && (user.errors.blank?)) || user.nil? ? save(item) : return_errors!(user.errors, 400)
   end
 
   def  add_user
@@ -37,6 +37,7 @@ class App::Services::Entities < App::Services::Base
     if obj.focal_point_email.present?
       user = User.find(email: obj.focal_point_email) || User.new(name: obj.focal_point_name, email: obj.focal_point_email, temp_token: SecureRandom.uuid)
       user.set_entity(obj.id, 8)
+      # byebug
       if(!user.save)
         puts "Unable to save user #{user.errors}"
       end
