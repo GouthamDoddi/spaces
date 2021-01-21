@@ -20,7 +20,7 @@ export default function(props) {
   const { entity_id } = useParams()
   return (
     <>
-    <Banner type={entitiesData[entity_id]?.name || 'Entities'} size='32px' mobile='10' websites='10' eservices='32' hideScore className='bnr' />
+    <Banner type={entitiesData[entity_id]?.name || 'Entities'} size='32px' mobile='10' websites='10' eservices='32' hideItems hideScore className='bnr' />
     <Wrapper>
       <Tabs>
         <Tab to={entityProfile({entity_id, expand: true})}> Profile </Tab>

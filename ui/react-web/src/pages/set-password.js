@@ -12,6 +12,8 @@ const { store, changed } =  makeStore('')
 function submitted(data) {
   if(data.password != data.confirm_password) {
     alert("Passwords do not match. Try again!")
+  } else if(data.password.length < 8 || !(/[A-Z]/.test(data.password))) {
+    alert("Password must be minimum of 8 letters & must include an Uppercase letter.")
   }
   const cb = (resp) => {
     window.location.hash = `/projects/${resp.id}/profile/details`
