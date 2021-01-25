@@ -26,7 +26,8 @@ class App::Services::ImageAssets < App::Services::Base
 
   def self.sources
     @sources ||= {
-      issues: ProjectIssue
+      issues: ProjectIssue,
+      'entity-services': EntityService,
   }.with_indifferent_access
   end
   

@@ -5,7 +5,8 @@ import { useStore } from 'effector-react'
 
 // import Table, { Header, Row } from '../../shared/table'
 import { Table, Header, Row, Add } from '../../components/tables/small'
-import { Input, Select, toOpt, TextArea, DeleteIcon } from '../../components/form'
+import { Input, Select, toOpt, TextArea, DeleteIcon, Upload } from '../../components/form'
+
 
 import makeStore from '../../store/make-store'
 
@@ -43,7 +44,7 @@ export default (props) => {
   const odata = objStore.data || {}
   return (
     
-    <CustomContainer onSubmit={(data) => submitted(data)} store={objStore} minheight='590px' ignoreTextAreaHt>
+    <CustomContainer onSubmit={(data) => submitted(data)} store={objStore} minheight='850px' ignoreTextAreaHt>
         <AddNew {...odata} selectedService={selectedService}/>
         <ListView setSelectedService={setSelectedService} selectedService={selectedService} />
     </CustomContainer>
@@ -121,8 +122,14 @@ function AddNew(props) {
           onChange={selectChange('type_id')}
           value={projectTypes[type_id]}
       />
-      <TextArea style={{gridColumn: '1 / 3', gridRow: 'span 2' }}label='Description' value={description || ''} name='description' onChange={changed} ignoreTextAreaHt />
-      
+
+      <TextArea style={{gridColumn: '1 / 3', gridRow: 'span 2' }} label='Description' value={description || ''} name='description' onChange={changed} ignoreTextAreaHt />
+      {id ? 
+        <div style={{ gridColumn: '1 / 3', gridRow: 'span 3', marginTop: '20px'}}> 
+          <Upload param_id={id} source='entity-services' /> 
+        </div> : null 
+      }      
+
       <label className='submit'>
         <input type='submit' />
         <div> {  selectedService ? 'Update' : 'Add'} </div>
