@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 
-import Form, { TextArea, Select, Input } from '../../form'
+import Form, { TextArea, Select, Input, DeleteIcon } from '../../form'
 
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
@@ -96,7 +96,7 @@ export default function(props) {
                     <div> {o.number} </div>
                     <div> {o.effective_date} </div>
                     <div> {o.passed_by} </div>
-                    <div onClick={() => remove({id: o.id, policy_id: policy_id, cb: () => load({policy_id})})}> &#128465; </div>
+                    <div onClick={() => remove({id: o.id, policy_id: policy_id, cb: () => load({policy_id})})}> <DeleteIcon/> </div>
                   </Row>
                 ))
                 

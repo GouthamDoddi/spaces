@@ -37,7 +37,7 @@ class App::Services::MasterData < App::Services::Base
 
   def self.resources
     @resources ||= {
-      users: {m: User, flds: [:id, :email], pkey: 'id', label: Proc.new{|o| "#{o.first_name} #{o.last_name}"} },
+      users: {m: User, flds: [:id, :email, :first_name, :last_name], pkey: 'id', label: Proc.new{|o| "#{o.first_name} #{o.last_name}"} },
       entities: {m: Entity, flds: [:id, :name, :short_name], pkey: 'id', label: :short_name},
     }.with_indifferent_access
   end

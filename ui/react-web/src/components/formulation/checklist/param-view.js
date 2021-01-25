@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 
-import Form, { TextArea, Select, Actions, Container, Input } from '../../form'
+import Form, { TextArea, Select, Actions, Container, Input, DeleteIcon } from '../../form'
 
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
@@ -115,7 +115,7 @@ export default function(props) {
                     <div> {o.name} </div>
                     <div> {docGroupTypes[o.doc_group?.toLowerCase()]?.label} </div>
                     <div className='center'> {mandateLevelTypes[o.mandate_level_id]?.label} </div>
-                    <div className='center' onClick={() => remove({id: o.id, attr_id, cb: () => {load({attr_id}); setSectionId(null)}})}> &#128465; </div>
+                    <div className='center' onClick={() => remove({id: o.id, attr_id, cb: () => {load({attr_id}); setSectionId(null)}})}> <DeleteIcon /> </div>
                   </Row>
                 ))
                 

@@ -5,7 +5,7 @@ import { useStore } from 'effector-react'
 
 // import Table, { Header, Row } from '../../shared/table'
 import { Table, Header, Row, Add } from '../../components/tables/small'
-import { Input, Select, toOpt } from '../../components/form'
+import { DeleteIcon, Input, Select, toOpt } from '../../components/form'
 
 import makeStore from '../../store/make-store'
 
@@ -93,7 +93,7 @@ function ListView(props) {
                   <div> {o.email} </div>
                   <div> {entityRoleTypes[o.entity_roles[entity_id]]?.label} </div>
                   <ShowStatus className='center' obj={o}/>
-                  <div onClick={() => remove({entity_id, id: o.id, cb: () => listStore.load({entity_id})})}> &#128465; </div>
+                  <div onClick={() => remove({entity_id, id: o.id, cb: () => listStore.load({entity_id})})}> <DeleteIcon /> </div>
                 </Row>
               ))
               
@@ -143,7 +143,7 @@ function ShowStatus({obj, className, ...props}) {
   }
   if(obj.temp_token) {
     return(
-      <a className={className}>
+      <a className={className} style={{'line-height': '40px'}}>
         <CopyToClipboard text={`${hostName}/#/set-password/${obj.temp_token}`}> 
           <span> Copy {obj.has_password ? 'Reset' : 'Invitation'} Link  </span>
         </CopyToClipboard>

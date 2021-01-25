@@ -11,6 +11,7 @@ import userStore from '../../../store/user'
 import { riskTypes, userRoleTypes, listOfUsers } from '../../../store/master-data'
 import { useStore } from 'effector-react'
 import { Table, Header, Row, Add } from '../../tables/small'
+import { DeleteIcon } from '../../form/icons'
 
 // const { store, load  } =  makeStore(({policy_id, id}) => `formulation/${policy_id}/risk`)
 
@@ -107,7 +108,7 @@ export default function({type, ...props}) {
                   <div> {o.first_name} </div>
                   <div> {o.last_name} </div>
                   <div> {o.email} </div>
-                  <div onClick={() => remove({policy_id: policy_id, data: {user_id: o.id}, cb: () => load({policy_id})})}> &#128465; </div>
+                  <div onClick={() => remove({policy_id: policy_id, data: {user_id: o.id}, cb: () => load({policy_id})})}> <DeleteIcon /> </div>
                 </Row>
               ))
               

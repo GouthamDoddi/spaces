@@ -181,6 +181,7 @@ export const casePriorityTypes = {
 export const statusTypes = {
   open: { value: 'open', label: 'Open'},
   review: { value: 'review', label: 'In Review'},
+  'in-review': { value: 'in-review', label: 'In Review'},
   close: { value: 'close', label: 'Close'},
 }
 
@@ -189,7 +190,7 @@ export const userRoleTypes = {
   3: { value: 3, label: 'Operational Committee'},
 }
 
-export const listOfUsers = {
+export let listOfUsers = {
   2: { value: 2, label: 'user.one@motc.qa'},
   3: { value: 3, label: 'user.two@motc.qa'},
   4: { value: 4, label: 'user.three@motc.qa'},
@@ -253,6 +254,7 @@ export let entitiesData = {
 
 export const resetData = () => {
   entitiesData = window.mdata.entities
+  listOfUsers = window.mdata.users
 }
 
 // export const enti

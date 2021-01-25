@@ -54,9 +54,9 @@ export default function(props) {
             value={entityTypes[type_id]}
             maxMenuHeight={200}
         />
-        <Input label='Focal point name' type='text' name='focal_point_name' onChange={changed} value={focal_point_name || ''} />
-        <Input label='Focal point email' type='text' name='focal_point_email' onChange={changed} value={focal_point_email || ''} />
-        <Input label='Focal point mobile' type='text' name='focal_point_mobile' onChange={changed} value={focal_point_mobile || ''} />
+        <Input label='Focal Point Name' type='text' name='focal_point_name' onChange={changed} value={focal_point_name || ''} />
+        <Input label='Focal Point Email' type='text' name='focal_point_email' onChange={changed} value={focal_point_email || ''} />
+        <Input label='Focal Point Mobile' type='text' name='focal_point_mobile' onChange={changed} value={focal_point_mobile || ''} />
 
         {/* <Input label='Sponsor' type='text' name='sponsor' onChange={changed} value={sponsor || ''}/> */}
 

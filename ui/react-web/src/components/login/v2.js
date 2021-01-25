@@ -116,17 +116,17 @@ const Icons = styled.div`
   flex-direction: column;
   justify-content: center;
   align-self: center;
-  width: 350px;
+  width: 256px;
+  
   .logo1 {
-    margin-left: 30px;
-    width: 300px;
-    height: 93.9px;
+    margin-left: 8px;
+    width: 256px;
     object-fit: contain;
     margin-bottom: 40px;
   }
   .logo2 {
-    width: 350px;
-    height: 109.4px;
+    width: 256px;
+    height: 100%;
     object-fit: contain;
   }
 `

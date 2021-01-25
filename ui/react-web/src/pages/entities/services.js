@@ -5,7 +5,7 @@ import { useStore } from 'effector-react'
 
 // import Table, { Header, Row } from '../../shared/table'
 import { Table, Header, Row, Add } from '../../components/tables/small'
-import { Input, Select, toOpt, TextArea } from '../../components/form'
+import { Input, Select, toOpt, TextArea, DeleteIcon } from '../../components/form'
 
 import makeStore from '../../store/make-store'
 
@@ -90,7 +90,7 @@ function ListView(props) {
                   <div> {o.name} </div>
                   <div> {projectCategoryTypes[o.category_id]?.label} </div>
                   <div> {projectTypes[o.type_id]?.label} </div>
-                  <div onClick={() => remove({entity_id, id: o.id, cb: () => listStore.load({entity_id})})}> &#128465; </div>
+                  <div onClick={() => remove({entity_id, id: o.id, cb: () => listStore.load({entity_id})})}> <DeleteIcon /> </div>
                 </Row>
               ))
               
@@ -103,6 +103,7 @@ function ListView(props) {
   )
 }
 
+// &#128465;
 function AddNew(props) {
   const { entity_id } = useParams()
   const { id, name, category_id, type_id, description, selectedService } = props

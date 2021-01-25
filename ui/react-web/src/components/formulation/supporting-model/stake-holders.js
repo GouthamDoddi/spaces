@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 
-import Form, { Input, Select } from '../../form'
+import Form, { DeleteIcon, Input, Select } from '../../form'
 
 import { useParams } from 'react-router-dom'
 import makeStore from '../../../store/make-store'
@@ -86,7 +86,7 @@ export default function(props) {
                   <div> {roleTypes[o.role_id]?.label} </div>
                   <div> {o.email} </div>
                   <div> {o.status} </div>
-                  <div onClick={() => remove({id: o.id, policy_id: policy_id, cb: () => {load({policy_id}); setSectionId(null)}})}> &#128465; </div>
+                  <div onClick={() => remove({id: o.id, policy_id: policy_id, cb: () => {load({policy_id}); setSectionId(null)}})}> <DeleteIcon /> </div>
                 </Row>
               ))
               
