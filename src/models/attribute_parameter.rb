@@ -8,6 +8,8 @@ class App::Models::AttributeParameter < Sequel::Model
     ds.where(user_id: App.cu.id)
   end
 
+  many_to_one :policy_section_attribute, key: :attribute_id
+
   def validate
     super
     # validates_presence [:name, :date]

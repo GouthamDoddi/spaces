@@ -33,7 +33,16 @@ class App::Routes < Roda
       r.redirect '/index.html' 
     end
 
+
+
     r.on 'api' do
+      
+      r.on 'download/parameters' do
+        r.get do 
+          Utils[r, {}].parameters
+        end
+      end
+
       r.response['Content-Type'] = 'application/json'
       r.post('login') { Session[r].login }
 
