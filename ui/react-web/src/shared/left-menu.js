@@ -21,7 +21,7 @@ export default function({title='Recent Activities', except=[], selected='dashboa
         <A to='/projects' icon='projects.svg' {...options('projects')}> Projects </A>
         <A icon='cases.svg' {...options('cases')}> Cases </A>
         <A icon='my-tasks.svg' {...options('my-tasks')}> My Tasks </A>
-        <A icon='resources.svg' {...options('resources')}> Resources </A>
+        <A to='/resources' icon='resources.svg' {...options('resources')}> Resources </A>
         <A to='/governance' icon='reports.svg' {...options('reports')} border> Reports </A>
         
         <A2 icon='forums.svg' to='/collaboration/forums/general'  show> Forums </A2>

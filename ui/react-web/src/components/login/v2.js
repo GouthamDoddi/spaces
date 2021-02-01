@@ -30,6 +30,7 @@ export default function() {
                 <Input label='Email' type='text' name='email' className='email'/>
                 <Input label='Password' type='password' name='password'/>
                 <input type='submit' name='Login' className='submit' />
+                <a href='mailto:support@jawda.gov.in'> Contact Us </a>
               </Form>
               {store.error ? <div>{store.error}</div> : ''}
             </Login>
@@ -107,6 +108,12 @@ const Login = styled.div`
     border-radius: 2px;
     background-color: #eb622b;
     border: none;
+  }
+
+  a {
+    margin-top: 10px;
+    color: #777;
+    text-decoration: none;
   }
 
 `

@@ -119,7 +119,8 @@ function AddNew(props) {
       <Input label='Last Name' name='last_name' type='text' onChange={changed} value={ last_name || ''} className='field' required />
       <Input label='Email' name='email' type='email' onChange={changed} value={ email || ''} className='field' required />
       <Input label='Phone' name='phone' type='phone' onChange={changed} value={ phone || ''} className='field' />
-      <Select name='role_id' label='Role' 
+      <Select name='role_id' label='Role'
+          info="info about roles"
           options={toOpt(entityRoleTypes)}
           outerClass='field'
           onChange={selectChange('role_id')}

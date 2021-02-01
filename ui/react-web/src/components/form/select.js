@@ -1,6 +1,7 @@
 import React from 'react'
 import Select from 'react-select'
 import styled from 'styled-components'
+import Info from './info'
 
 const customStyles = ({width='208px', height='45px', border='solid 1px #dedede', backgroundColor='#efefef', color="#000"}) => ({
   // control: (provided) => ({
@@ -26,10 +27,13 @@ const customStyles = ({width='208px', height='45px', border='solid 1px #dedede',
 })
 
 export default function(props) {
-  const { options=[], outerClass, className='default', label, ...others } = props
+  const { options=[], outerClass, className='default', label, info,  ...others } = props
   return (
     <Container className={outerClass}>
-      <label> {label} </label>
+      <label> 
+        {label}
+        { info ? <Info> Role descriptions </Info> : null}
+      </label>
       <Select 
         styles = { customStyles({}) }
         options = { options }
