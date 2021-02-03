@@ -2,11 +2,11 @@ import React from 'react'
 
 import styled from 'styled-components'
 
-export default function({children, ...props}) {
+export default function({data, ...props}) {
   return (
     <Info>
       ⓘ
-      <Text> {children} </Text>
+      <Text dangerouslySetInnerHTML={{__html: data}}></Text>
     </Info>
   )
 }
@@ -25,12 +25,12 @@ const Info = styled.div`
 `
 const Text = styled.div`
   visibility: hidden;
-  width: 120px;
+  width: 350px;
   background-color: black;
   color: #fff;
   text-align: center;
   border-radius: 6px;
-  padding: 5px 0;
+  padding: 10px;
   position: absolute;
   z-index: 1;
 `

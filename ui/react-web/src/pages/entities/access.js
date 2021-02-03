@@ -120,7 +120,9 @@ function AddNew(props) {
       <Input label='Email' name='email' type='email' onChange={changed} value={ email || ''} className='field' required />
       <Input label='Phone' name='phone' type='phone' onChange={changed} value={ phone || ''} className='field' />
       <Select name='role_id' label='Role'
-          info="info about roles"
+          info="<div style='width: 300px;'><b>Manager</b> : Manage and Monitor access, roles, projects, and entity profile.<br/>
+          <b>Quality Contoller</b>: Quality tester within the entity, validate the applications against policies.<br/>
+          <b>Consultant</b>: Quality tester outside the entity, validate the applications against policies.<br/></div>"
           options={toOpt(entityRoleTypes)}
           outerClass='field'
           onChange={selectChange('role_id')}

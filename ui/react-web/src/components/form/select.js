@@ -32,7 +32,7 @@ export default function(props) {
     <Container className={outerClass}>
       <label> 
         {label}
-        { info ? <Info> Role descriptions </Info> : null}
+        { info ? <Info data={info}> </Info> : null}
       </label>
       <Select 
         styles = { customStyles({}) }
