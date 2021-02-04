@@ -30,7 +30,7 @@ export default function() {
                 <Input label='Email' type='text' name='email' className='email'/>
                 <Input label='Password' type='password' name='password'/>
                 <input type='submit' name='Login' className='submit' />
-                <a href='mailto:support@jawda.gov.in'> Contact Us </a>
+                <a href='mailto:support@jawda.gov.qa'> Contact Us </a>
               </Form>
               {store.error ? <div>{store.error}</div> : ''}
             </Login>
