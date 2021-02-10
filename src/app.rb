@@ -78,3 +78,4 @@ module App
   module Router; end
 end
 
+# db_url = "postgres://appadmin:dev123@172.16.169.228:5432/lnhtywgf"
