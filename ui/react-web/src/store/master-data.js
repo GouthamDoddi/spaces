@@ -288,19 +288,21 @@ export const projectIssueStatusTypes = {
 }
 
 export const testDataMethodTypes = {
-  1: { value: 1, label: "Questionnaire"},
-  2: { value: 2, label: "Testing"},
+  1: { value: 1, label: "Testing"},
+  2: { value: 2, label: "Questionnaire"},
   3: { value: 3, label: "Evidence"},
   4: { value: 4, label: "Interview"},
   5: { value: 5, label: "Pre Questionnaire"},
 }
+
 
 export const qualityGateTypes = {
   1: {value: 1, label: "Pre Engagement"},
   2: {value: 2, label: "Content Engagement"},
   3: {value: 3, label: "Service Request"},
   4: {value: 4, label: "Post Request"},
-  5: {value: 5, label: "Post Fulfilment"}
+  5: {value: 5, label: "Post Fulfilment"},
+  6: {value: 6, label: "Questionnaire"},
 }
 
 export const supportedLanguages = {

@@ -13,7 +13,7 @@ import Modal from './modal'
 
 import { Switch, Route, Redirect } from 'react-router-dom'
 
-import { mandateLevelTypes, HMLTypes, docGroupTypes } from '../../../store/master-data'
+import { mandateLevelTypes, HMLTypes, docGroupTypes, testDataMethodTypes, qualityGateTypes } from '../../../store/master-data'
 import Breadcrumb from './breadcrumb'
 import { useTo } from '../util'
 import ToolsForm from './tools-form'
@@ -58,7 +58,7 @@ export default function(props) {
   const localStore = useStore(localState.store)
 
   const listData = listStore.data || []
-  let {id, mandate_level_id, description, name, weightage, doc_group} = localStore.data || {}
+  let {id, mandate_level_id, description, name, weightage, doc_group, test_method} = localStore.data || {}
 
   if (sectionId && id !== sectionId) {
     addData(listData.find(o => o.id === sectionId))
@@ -83,6 +83,19 @@ export default function(props) {
               onChange={selectChange('mandate_level_id')}
               value={mandateLevelTypes[mandate_level_id] || ''} 
           />
+
+          <Select name='test_method' label='Test Method' 
+              options={toOpt(testDataMethodTypes)}
+              outerClass='field'
+              onChange={selectChange('test_method')}
+              value={testDataMethodTypes[test_method] || ''} 
+          />
+          {/* <Select name='quality_gates' label='Mandate Level' 
+              options={toOpt(qualityGateTypes)}
+              outerClass='field'
+              onChange={selectChange('mandate_level_id')}
+              value={mandateLevelTypes[mandate_level_id] || ''} 
+          /> */}
           {/* <Select name='weightage' label='Weightage' 
               options={toOpt(HMLTypes)}
               outerClass='field'

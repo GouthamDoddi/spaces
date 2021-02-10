@@ -10,6 +10,8 @@ Sequel.migration do
       Integer :attribute_id
       Integer :order
       Integer :weightage
+      Integer :test_method
+      column :quality_gates, 'Integer[]', default: []
 
       TrueClass :active, :default => true
 

@@ -163,23 +163,6 @@ export default function({data, ...props}) {
                 maxMenuHeight={150}
             />
 
-            <Select name='quality_gate_id' label='Quality Gate' 
-                options={toOpt(qualityGateTypes)}
-                outerClass='sfield'
-                onChange={status === 'closed' ? (() => {}) : selectChange('quality_gate_id')}
-                value={qualityGateTypes[quality_gate_id] || ''} 
-                maxMenuHeight={150}
-            />
-
-            <Select name='test_data_method_id' label='Test Data Method' 
-                options={toOpt(testDataMethodTypes)}
-                outerClass='sfield'
-                onChange={status === 'closed' ? (() => {}) : selectChange('test_data_method_id')}
-                value={testDataMethodTypes[test_data_method_id] || ''} 
-                maxMenuHeight={150}
-            />
-
-
             <Select name='user_compliance_type' label='Result Type:' 
                 options={toOpt(userComplianceTypes)}
                 outerClass='sfield'

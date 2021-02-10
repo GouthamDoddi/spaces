@@ -24,6 +24,21 @@ class App::Services::Utils < App::Services::Base
 
   end
 
+  def upload_test_gates
+    csv = CSV.new(File.read("/Users/pasupunuri/Downloads/fileg.csv"))
+    data = []
+    csv.each_with_index do |row, i|
+      next if i == 0
+      next if row[0].blank?
+      test_method = row[-2] ? App::Models::AttributeParameter::TestMethods.index(row[-2]) + 1 : nil
+      quality_gates = row[-1].split(',').map{App::Models::AttributeParameter::Gates.index(_1.strip) + 1}
+      data.push({ id: row[0].to_i, test_method: test_method , quality_gates: quality_gates})
+    end
+
+    data.each{|r| o = App::Models::AttributeParameter[r[:id]]; o.test_method = r[:test_method]; o.quality_gates = r[:quality_gates]; o.save}
+
+  end
+
   def self.fields
     {
     }

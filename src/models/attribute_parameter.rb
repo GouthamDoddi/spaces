@@ -10,6 +10,9 @@ class App::Models::AttributeParameter < Sequel::Model
 
   many_to_one :policy_section_attribute, key: :attribute_id
 
+  Gates = ["Pre Engagement", "Content Engagement", "Service Request", "Post Request", "Post Fulfilment", "Questionnaire",]
+  TestMethods = ["Testing", "Questionnaire", "Evidence", "Interview"]
+
   def validate
     super
     # validates_presence [:name, :date]

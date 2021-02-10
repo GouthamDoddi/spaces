@@ -16,11 +16,11 @@ class App::Services::Formulation::AttributeParams < App::Services::Base
   def self.fields
     {
       create: [
-        :name, :mandate_level_id, :description, :attribute_id, :weightage, :doc_group, :order
+        :name, :mandate_level_id, :description, :attribute_id, :weightage, :doc_group, :order, :test_method
       ],
 
       save: [
-        :name, :mandate_level_id, :description, :weightage, :doc_group, :order
+        :name, :mandate_level_id, :description, :weightage, :doc_group, :order, :test_method
       ]
     }
   end
