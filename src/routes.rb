@@ -61,6 +61,10 @@ class App::Routes < Roda
       #     MasterData[r, {resource: resource}].get_data
       #   end
       # end
+
+      r.post('forgot-password-email') { Users[r].reset_password }
+      r.post('update_password') { Users[r].update_password }
+
       auth_required!
 
       r.on 'master-data' do

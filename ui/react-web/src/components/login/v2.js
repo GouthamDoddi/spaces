@@ -5,6 +5,8 @@ import Form, { Input } from '../form'
 import userStore, {login} from '../../store/user'
 import {useStore} from 'effector-react'
 
+import { Link } from 'react-router-dom'
+
 
 async function submitted(data) {
   login(data)
@@ -31,6 +33,7 @@ export default function() {
                 <Input label='Password' type='password' name='password'/>
                 <input type='submit' name='Login' className='submit' />
                 <a href='mailto:support@jawda.gov.qa'> Contact Us </a>
+                <Link to='/forgot-password'> Forgot Password </Link>
               </Form>
               {store.error ? <div>{store.error}</div> : ''}
             </Login>

@@ -23,7 +23,17 @@ class App::Services::Users < App::Services::Base
   end
 
   def reset_password
+    user = User.find(email: params[:email])
+    if(user)
+      user.temp_token = SecureRandom.uuid
+      if(user.save)
+        SendEmail.send(:forgot_password, {o: user})
+      else
+        return_errors!("Unable to reset. Please contact support.")
+      end
+    end
 
+    return_success("Done")
   end
 
   

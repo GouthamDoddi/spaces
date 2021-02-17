@@ -138,4 +138,8 @@ class App::Models::User < Sequel::Model
     resp.merge!(entity_roles: entity_roles)
   end
 
+  def reset_password_link
+    "http://172.16.169.196/#/set-password/#{temp_token}"
+  end
+
 end

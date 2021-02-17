@@ -32,6 +32,7 @@ import Entity from './pages/entities/list'
 import Resources from './pages/resources'
 import Projects from './pages/project/list'
 import SetPassword from './pages/set-password'
+import ForgotPassword from './pages/forgot-password'
 import Qg from './pages/dashboards/qg'
 
 import Header from './components/header'
@@ -91,7 +92,6 @@ function AllRoutes(props) {
         <Route path="/bcp"> <TP theme={cs.cps}> <Bcp /> </TP> </Route>
         <Route path="/entities"> <TP theme={cs.newdesign}> <Entity /> </TP> </Route>
         <Route path="/projects"> <TP theme={cs.newdesign}> <Projects /> </TP> </Route>
-        <Route path="/set-password/:token"> <TP theme={cs.newdesign}> <SetPassword /> </TP> </Route>
         <Route path="/resources"> <TP theme={cs.newdesign}> <Resources /> </TP> </Route>
         <Route path="/a-dashboard"> 
           <TP theme={cs.cps}> 
@@ -125,6 +125,8 @@ function App() {
     <Router>
       <Switch>
         <Route path='/login'><Login /></Route>
+        <Route path="/set-password/:token"> <TP theme={cs.newdesign}> <SetPassword /> </TP> </Route>
+        <Route path="/forgot-password"> <TP theme={cs.newdesign}> <ForgotPassword /> </TP> </Route>
         <Route path='/'
                 render={({ location }) =>
                 loggedIn() ? (
