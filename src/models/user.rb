@@ -68,7 +68,7 @@ class App::Models::User < Sequel::Model
   end
 
   def name
-    "#{first}"
+    "#{first_name} #{last_name}"
   end
 
   def name=(n)
