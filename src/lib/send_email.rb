@@ -4,7 +4,7 @@ class SendEmail
     resp = Net::SMTP.start('172.30.31.228', 25) do |smtp|
       smtp.send_message template[:forgot_password].(opts), 'support@jawda.gov.qa', opts[:o].email
     end
-    console.log(resp)
+    puts(resp)
     resp
   end
 
