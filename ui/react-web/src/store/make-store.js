@@ -128,9 +128,9 @@ export default function makeStore(path, { group_by=null, defaultStore={ loading:
     }    
   }
   
-  function create({ data, cb, ...others }) {
+  function create({ data, cb, auth, ...others }) {
     enableLoading('Creating')
-    post(toPath(others), { data, success: (data) => {assignData(data, cb)}, error: assignError })
+    post(toPath(others), { data, auth, success: (data) => {assignData(data, cb)}, error: assignError })
   }
   
   function update({ data, cb, ...others }) {

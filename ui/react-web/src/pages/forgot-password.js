@@ -15,7 +15,7 @@ function submitted(data) {
     window.location.hash = `/login`
   }
 
-  create({data, cb})
+  create({data, cb, auth: false})
 }
 
 
