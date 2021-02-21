@@ -308,7 +308,12 @@ export const qualityGateTypes = {
 export const supportedLanguages = {
   1: { value: 1, label: "English"},
   2: { value: 2, label: "Arabic"},
+}
 
+export const serviceStatusTypes = {
+  1: { value: 1, label: 'Online'},
+  2: { value: 2, label: 'Offline / Down'},
+  3: { value: 3, label: 'Not Accessible'},
 }
 
 export const hostName = `${window.location.protocol}//${window.location.host}`

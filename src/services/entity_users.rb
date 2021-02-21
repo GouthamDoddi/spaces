@@ -18,7 +18,9 @@ class App::Services::EntityUsers < App::Services::Base
       obj = model.new(data_for(:save))
       obj.temp_token = SecureRandom.uuid
       obj.set_entity(rp[:entity_id], params[:role_id])
-      save(obj)
+      save(obj) { |o|
+        SendEmail.send(:welcome_email, {o: o})
+      }
     else
       return_errors!('Unauthorized to add', 401)
     end

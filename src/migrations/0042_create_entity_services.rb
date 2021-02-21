@@ -8,6 +8,7 @@ Sequel.migration do
       Integer :type_id
       String :description, text: true
       Integer :entity_id
+      Integer :service_status
       
       jsonb :images, default: '[]'
       json :extras

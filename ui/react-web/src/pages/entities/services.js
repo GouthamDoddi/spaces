@@ -12,7 +12,7 @@ import makeStore from '../../store/make-store'
 
 import filter from '../../shared/filter'
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import { hostName, entityRoleTypes, projectCategoryTypes, projectTypes } from '../../store/master-data'
+import { hostName, entityRoleTypes, projectCategoryTypes, projectTypes, serviceStatusTypes } from '../../store/master-data'
 
 import { CustomContainer, Content, RowContainer } from '../../components/split-form-container'
 
@@ -107,7 +107,7 @@ function ListView(props) {
 // &#128465;
 function AddNew(props) {
   const { entity_id } = useParams()
-  const { id, name, category_id, type_id, description, selectedService } = props
+  const { id, name, category_id, type_id, description, service_status,  selectedService } = props
   
   return (
     <div className='fields'>
@@ -121,6 +121,12 @@ function AddNew(props) {
           options={toOpt(projectTypes)}
           onChange={selectChange('type_id')}
           value={projectTypes[type_id]}
+      />
+
+      <Select name='service_status' label='Service Status' 
+          options={toOpt(serviceStatusTypes)}
+          onChange={selectChange('service_status')}
+          value={serviceStatusTypes[service_status]}
       />
 
       <TextArea style={{gridColumn: '1 / 3', gridRow: 'span 2' }} label='Description' value={description || ''} name='description' onChange={changed} ignoreTextAreaHt />

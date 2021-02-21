@@ -55,7 +55,7 @@ class App::Services::Base
 
   def save(obj, &block)
     if obj.save
-      block_given? ? yield : return_success(obj.to_pos)
+      block_given? ? yield(obj) : return_success(obj.to_pos)
     else
       return_errors!(obj.errors, 400)
     end

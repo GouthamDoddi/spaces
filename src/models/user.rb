@@ -39,8 +39,10 @@ class App::Models::User < Sequel::Model
   # end
 
   # def static_assets
-  ROLES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  ROLE_MAPPER = ['Admin', 'Steering Committee', 'Executive Committee', 'Operating Committee', 'Ops Staff', 'Support Staff', 'Beneficiary', 'Entity Admin', 'Entity Manager', 'Tester', 'Consultant']
+  ROLES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  ROLE_MAPPER = ['Admin', 'Steering Committee', 'Executive Committee', 'Operating Committee', 'Ops Staff', 
+    'Support Staff', 'Beneficiary', 'Entity Admin',
+    'Entity Manager', 'Tester', 'Consultant', 'Jawda Tester', 'Jawda Test Manager']
 
 
   def current_role_ids

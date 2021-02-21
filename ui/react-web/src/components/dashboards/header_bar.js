@@ -130,9 +130,9 @@ export default function ({className, ...props}) {
           <Link color={cs.fs.color} to="/formulation" space='formulation'>
             <div> Formulation Spaces </div>
           </Link>
-          <Link color={cs.cs.color} to="/collaboration" space='collaboration'>
+          {/* <Link color={cs.cs.color} to="/collaboration" space='collaboration'>
             <div> Collaboration Spaces </div>
-          </Link>
+          </Link> */}
           {/* <Link color={cs.as.color} to='/activation'>
             <div> Activation Spaces </div>
           </Link> */}

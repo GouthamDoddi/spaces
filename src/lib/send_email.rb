@@ -10,7 +10,8 @@ class SendEmail
 
   def self.template
     {
-      forgot_password: Proc.new{ | options | "Hi #{options[:o].name}, Please click on link to reset password: #{options[:o].reset_password_link}"}
+      forgot_password: Proc.new{ | options | "Hi #{options[:o].name}, Please click on link to reset password: #{options[:o].reset_password_link}"},
+      welcome_email: Proc.new{ | options | "Hi #{options[:o].name}, Welcome to Jawda application, Please click on link to reset password: #{options[:o].reset_password_link}"}
     }
   end
 end

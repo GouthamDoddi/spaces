@@ -12,7 +12,7 @@ class App::Services::EntityServices < App::Services::Base
 
   def self.fields
     {
-      save: [ :name, :description, :category_id, :type_id, :entity_id ]
+      save: [ :name, :description, :category_id, :type_id, :entity_id, :service_status ]
     }
   end
 end
