@@ -20,7 +20,7 @@ const { store, load, create, update, changed, selectChange, remove } = makeStore
 const listStore = makeStore(({entity_id}) => `entities/${entity_id}/users`)
 // const cudStore = makeStore('compliance/projects/list')
 
-const columns = ".4fr 1fr 1fr 1fr 1fr 1fr"
+const columns = ".3fr 1fr 1fr 1fr 1fr 1fr 0.3fr"
 export default (props) => {
   const { entity_id } = useParams()
   const [selectedUser, setSelectedUser] = useState(null)
@@ -79,6 +79,7 @@ function ListView(props) {
             <div>Last Name</div>
             <div>Email</div>
             <div>Role</div>
+            <div>Phone</div>
             {/* <div>Status</div> */}
             <div> Actions </div>
           </Header> 
@@ -93,6 +94,7 @@ function ListView(props) {
                   <div> {o.email} </div>
                   <div> {entityRoleTypes[o.entity_roles[entity_id]]?.label} </div>
                   {/* <ShowStatus className='center' obj={o}/> */}
+                  <div> {o.phone} </div>
                   <div onClick={() => remove({entity_id, id: o.id, cb: () => listStore.load({entity_id})})}> <DeleteIcon /> </div>
                 </Row>
               ))

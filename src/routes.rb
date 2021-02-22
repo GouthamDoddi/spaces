@@ -67,6 +67,10 @@ class App::Routes < Roda
 
       auth_required!
 
+      r.on('audit-logs', String, Integer) { |resource, resource_id|
+        App::Models::AuditLog.where(resource: resource, resource_id: resource_id).all.as_json
+      }
+
       r.on 'master-data' do
         r.get('list', [String, true]) do |list|
           MasterData[r, {list: list}].get_multi

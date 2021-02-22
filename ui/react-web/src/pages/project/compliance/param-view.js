@@ -11,13 +11,15 @@ import Form, {TextArea, Select, toOpt, Submit, Input, CheckboxBig} from '../../.
 import { useParams, Link, useRouteMatch } from 'react-router-dom'
 import {complianceAttr} from '../../routes'
 import {useStore} from 'effector-react'
+import Modal from '../../../shared/modal'
 
 import makeStore from '../../../store/make-store'
 
-import {userComplianceTypes, mandateLevelTypes, notTestableReasons, paramVariations, qualityGateTypes, testDataMethodTypes} from '../../../store/master-data'
+import {userComplianceTypes, mandateLevelTypes, notTestableReasons, paramVariations, qualityGateTypes, testDataMethodTypes, listOfUsers} from '../../../store/master-data'
 // import Opn from '../../../components/formulation/checklist/tools/opn'
 import Opn from './opn'
 import Mandate from './mandate'
+import { get } from '../../../store/api'
 
 const { load, store } = makeStore(({project_id, attr_id}) => `compliance/project/${project_id}/attr/${attr_id}/parameters`)
 
@@ -46,6 +48,8 @@ export default function({data, ...props}) {
   const {url} = useRouteMatch()
 
   const sStore = useStore(other.store)
+
+  const [showLogs, setShowLogs] = useState(false)
 
   const paginate = (d, c) => {
     let s = c - 5;
@@ -182,12 +186,72 @@ export default function({data, ...props}) {
 
           </Right>
         </Forms>
+        <Logs onClick={() => setShowLogs(true)}> Logs </Logs>
+        { showLogs ? <ShowLogs close={() => setShowLogs(false)} id={id} /> : null}
       </Container>
   
     )
   }
 }
 
+
+function messageForKey(key, obj) {
+  const user = listOfUsers[obj.created_by]?.label || 'Anonymous'
+  if(key == 'user_compliance_type') {
+    const to = obj.changes[key][1] ? userComplianceTypes[obj.changes[key][1]]?.label : 'Null'
+    return `${user} changed result type to ${ to } `
+  } else {
+    const to = obj.changes[key][1] ? obj.changes[key][1] : 'Null'
+    return `${user} changed ${key} to ${to}`
+  }
+}
+
+{/* <div key={i}> {k} changed from {o.changes[k][0]} to {o.changes[k][1]} by {listOfUsers[o.created_by]?.label} </div>  */}
+function ShowLogs({close, id, ...props}) {
+  const [data, setData] = useState(null)
+  useEffect(() => {
+    get(`audit-logs/record_parameter/${id}`, {success: (json) => {setData(json)}, error: () => {setData([]); alert('failed to load logs')}})
+  }, [])
+
+  console.log(close)
+  return (
+    <Modal close={close} title='Logs'>
+      {
+        data ? data.map((o, i) => (
+          <div>
+            {            
+              o.changes ? Object.keys(o.changes).map((k, i) => (
+                <Change key={k}> {messageForKey(k, o)} </Change>
+              )) : null 
+            }
+          </div>
+        )) : 'Loading...'
+      }
+    </Modal>
+  )
+}
+
+const Change = styled.div`
+  margin: 10px;
+  padding: 5px 10px;
+  background-color: #ccc;
+`
+
+
+const Logs = styled.div`
+  background-color: green;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 10px;
+  line-height: 60px;
+  text-align: center;
+  right: 50px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+`
 const NoParams = styled.div`
 
 `

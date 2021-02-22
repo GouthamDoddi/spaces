@@ -110,7 +110,6 @@ class App::Models::User < Sequel::Model
         authorization[key].reduce({}) {|h, (i, r)|
         h.merge(i => roles_by_id[r]&.values&.slice(:name, :permissions, :id))} 
       }
-      byebug
       { policies: data.('policies').merge!(default_policies), projects: data.('projects').merge!(default_projects), 
         self: (rl > 0 ? roles_by_id[rl]&.values&.slice(:name, :permissions) : {name: 'Super Admin', permissions: {all: true} })  }
 
