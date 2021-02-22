@@ -147,6 +147,10 @@ class App::Models::User < Sequel::Model
     @all_roles ||= [role, *((auth || {})['entities'] || []).map{_1['role']}].compact.uniq
   end
 
+  def auth_entity_ids
+    (auth['entities'] || []).map{_1['eid']}
+  end
+
   def reset_password_link
     "http://172.16.169.196/#/set-password/#{temp_token}"
   end

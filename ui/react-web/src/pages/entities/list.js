@@ -14,6 +14,7 @@ import { Button } from '../../shared/button'
 import EntityElem from '../../pages/entities'
 import makeStore from '../../store/make-store'
 import { useStore } from 'effector-react'
+import { hasMenuAccess } from '../../store/user'
 
 const { store, load } = makeStore('entities/list')
 
@@ -54,7 +55,7 @@ export default function(props) {
           </Route>
           <Route path={entityList()} >
             <Banner type={bannerTitle} size='32px' hideItems hideScore className='bnr' />
-            <Button top='295px' className='right' href="#/entities/new">Create Entity</Button>
+            { hasMenuAccess(['entity', 'profile'], 'C') ? <Button top='295px' className='right' href="#/entities/new">Create Entity</Button> : null }
             <CustomInput label='Filter' type='text' name='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''}/>
             <Table className='tbl' title='Entities' showAll={false}>
               <Header columns={columns1}>

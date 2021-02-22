@@ -8,6 +8,7 @@ class App::Services::Compliance::Projects < App::Services::Base
     # return_success(model.allowed(:projects).all.map(&:to_pos))
     # : proc{|ds| ds.where(user_compliance_type: [2,3])}
     uct = [2,3]
+    # byebug
     data = model.for_current_user.eager(:record_parameters).order(Sequel.desc(:created_at)).all.map do |project|
       # project.to_pos.merge!(defects: project.record_parameters.length)
       rec = project.record_parameters

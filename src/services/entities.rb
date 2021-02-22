@@ -2,10 +2,14 @@ class App::Services::Entities < App::Services::Base
 
   def model; Entity; end
 
-  # def list
-  #   byebug
-  #   super
-  # end
+  def list
+    if App.cu.role == 0
+      super
+    else
+      entity_ids = App.cu.user_obj.auth_entity_ids
+      return_success( entity_ids.present? ? model.where(id: entity_ids).order(Sequel.desc(:created_at)).all.map(&:to_pos) : [])
+    end
+  end
 
   def create
     obj = model.new(data_for(:save))

@@ -22,11 +22,11 @@ module SequelPlugin
           end
           
           def for_current_user
-            if App.cu.admin? || App.cu.entity_ids.blank?
+            if App.cu.admin?
               puts "Admin or no entity_ids"
               where({})
             else
-              where(entity_ids: App.cu.entity_ids)
+              where(owner_id: App.cu.user_obj.auth_entity_ids)
             end
           end
         end        
