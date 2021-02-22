@@ -25,6 +25,7 @@ import Banner from '../../shared/hmc-banner'
 
 import {projectPath, projectProfile} from '../routes'
 import { Add } from '../../components/tables/list'
+import { hasMenuAccess } from '../../store/user'
 const { store, load } = makeStore('compliance/projects/list')
 
 const columns1 = ".4fr 2.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"
@@ -109,7 +110,7 @@ export default function(props) {
 
             ))}
           </Table>
-          <Add to="/projects/new/profile"/>
+          { hasMenuAccess(['compliance', 'project', 'details'], 'C') ? <Add to="/projects/new/profile"/> : null }
           </>
         </Route>
 

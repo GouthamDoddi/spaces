@@ -4,7 +4,7 @@ class App::Models::User < Sequel::Model
   # one_to_many :created_policies, class: 'App::Models::Policy', key: :created_by
 
   def roles
-    App::Models::Role.where(id: current_role_ids)
+    App::Models::Role.where(id: all_roles)
   end
 
   def created_policy_ids
@@ -83,7 +83,9 @@ class App::Models::User < Sequel::Model
     end
   end
 
-  def role_name; ROLE_MAPPER[role]; end
+  def role_name
+    ROLE_MAPPER[all_roles[0]]; 
+  end
 
   def basic_info
     data = as_json(only: [:id, :email, :first_name, :last_name, :role])
@@ -92,23 +94,25 @@ class App::Models::User < Sequel::Model
   end
 
   def default_policies
-    (role == 0 || roles_by_id[role].has_action?('create_policy')) ? 
+    (role == 0 || roles_by_id[role]&.has_action?('create_policy')) ? 
       created_policy_ids.reduce({}){|h, pid| h.merge!( pid => {name: 'Creator', permissions: {formulation: {all: true}} })} : {}
   end
 
   def default_projects
-    (role == 0 || roles_by_id[role].has_action?('create_project')) ? 
+    (role == 0 || roles_by_id[role]&.has_action?('create_project')) ? 
       created_project_ids.reduce({}){|h, pid| h.merge!( pid => {name: 'Creator', permissions: {compliance: {all: true}} })} : {}
   end
 
   def auth_data
     @auth_data ||= begin
+      rl = all_roles[0]
       data = -> (key) { 
         authorization[key].reduce({}) {|h, (i, r)|
-        h.merge(i => roles_by_id[r].values.slice(:name, :permissions, :id))} 
+        h.merge(i => roles_by_id[r]&.values&.slice(:name, :permissions, :id))} 
       }
+      byebug
       { policies: data.('policies').merge!(default_policies), projects: data.('projects').merge!(default_projects), 
-        self: (role > 0 ? roles_by_id[role].values.slice(:name, :permissions) : {name: 'Super Admin', permissions: {all: true} })  }
+        self: (rl > 0 ? roles_by_id[rl]&.values&.slice(:name, :permissions) : {name: 'Super Admin', permissions: {all: true} })  }
 
     end
   end
@@ -138,6 +142,10 @@ class App::Models::User < Sequel::Model
     resp = as_json.except('encoded_password').merge!(has_passowrd: encoded_password&.length)
     entity_roles = (auth || {})['entities']&.reduce({}) {|h, e| h.merge!(e['eid'] => e['role'].to_i)} || []
     resp.merge!(entity_roles: entity_roles)
+  end
+
+  def all_roles
+    @all_roles ||= [role, *((auth || {})['entities'] || []).map{_1['role']}].compact.uniq
   end
 
   def reset_password_link

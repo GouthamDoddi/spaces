@@ -7,7 +7,7 @@ import HeaderBar from './header_bar'
 import QuickActions from './quick_actions'
 import List from './list'
 import Table, { Header, Row } from './table'
-import LeftMenu from './left-menu'
+import LeftMenu from '../../shared/left-menu'
 import SquareBanner from './square-banner'
 import Banner from './hmc-banner'
 

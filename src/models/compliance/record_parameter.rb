@@ -8,6 +8,11 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
   many_to_one :attribute, class: 'App::PolicySectionAttribute', primary_key: :attribute_id, key: :id
   # one_to_many :applicable_sections
 
+  def after_save
+    super
+    App::Models::AuditLog.create(changes: previous_changes, resource: 'record_parameter', resource_id: id)    
+  end
+
   def validate
     super
     # validates_presence [:name, :owner_id, :type_id]

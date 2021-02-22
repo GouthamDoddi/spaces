@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Input, Select, Actions2, Container, TextArea, toOpt } from '../../components/form'
-import { reloadAuth } from '../../store/user'
+import { hasMenuAccess, reloadAuth } from '../../store/user'
 import { useParams, Link } from 'react-router-dom'
 
 import { entitiesData, entityTypes } from '../../store/master-data'
@@ -42,7 +42,7 @@ export default function(props) {
   const { id, name, ar_name, short_name, label, type_id, focal_point_name, focal_point_email, focal_point_mobile, notes } = entityStore.data || {}
 
   return(
-    <Container onSubmit={(data) => submitted(entity_id, data)} saveBtn>
+    <Container onSubmit={(data) => submitted(entity_id, data)}  saveBtn={hasMenuAccess(['entity', 'profile'], 'U')} >
 
       <div className='container'>
         <Input label='Name' type='text' name='name' onChange={changed} value={name || ''} required/>

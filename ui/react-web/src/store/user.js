@@ -1,6 +1,7 @@
 import localStore from './local-store'
 import { createEvent } from 'effector'
 import { post } from './api'
+import { any, path} from 'rambda'
 
 const defaultData = {token: null, info: {}}
 const store = localStore('user-data', defaultData)
@@ -105,6 +106,16 @@ export function reloadAuth() {
     error: handleErrorLogin,
   })
 }
+
+export function hasMenuAccess(p, access='R') {
+  const { all_roles } = store.getState()
+  if(all_roles.includes(0)) { return true }
+  return any((role) => (path([role, ...p], window.basicAuth) || '').includes(access), all_roles)
+}
+
+window.pth = path
+window.any = any
+window.hasM = hasMenuAccess
 export default store;
 // export function token() {
 
