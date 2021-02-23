@@ -86,7 +86,7 @@ class App::Models::Compliance::Project < Sequel::Model
     @applicable_policies ||= begin
       ocond = :object_ids.pg_array.overlaps(object_ids)
       scond = :subobject_ids.pg_array.overlaps(subobject_ids)
-      App::Models::Policy.where(ocond).where(scond).all
+      App::Models::Policy.where(ocond).where(scond).exclude(id: [1, 2, 3]).all
     end
   end
 
