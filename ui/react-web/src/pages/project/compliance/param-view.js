@@ -30,7 +30,7 @@ const {create, update, addData, changed, selectChange, cbChanged,  ...other} = m
 function submitted(section_id, attr_id, id, parameter_id, project_id, data) {
   const cb = (resp) => {
     load({project_id, attr_id}, (resp) => {
-      addData(resp.filter((o) => o.parameter_id == parameter_id)[0])
+      addData(resp.filter((o) => o.parameter_id == parameter_id && o.id == id)[0])
     })
 
   }
@@ -199,10 +199,10 @@ function messageForKey(key, obj) {
   const user = listOfUsers[obj.created_by]?.label || 'Anonymous'
   if(key == 'user_compliance_type') {
     const to = obj.changes[key][1] ? userComplianceTypes[obj.changes[key][1]]?.label : 'Null'
-    return `${user} changed result type to ${ to } `
+    return `${user} - changed result type to "${ to }" at ${ obj.updated_at }`
   } else {
     const to = obj.changes[key][1] ? obj.changes[key][1] : 'Null'
-    return `${user} changed ${key} to ${to}`
+    return `${user} changed ${key} to "${to}" at ${ obj.updated_at }`
   }
 }
 
@@ -210,7 +210,10 @@ function messageForKey(key, obj) {
 function ShowLogs({close, id, ...props}) {
   const [data, setData] = useState(null)
   useEffect(() => {
-    get(`audit-logs/record_parameter/${id}`, {success: (json) => {setData(json)}, error: () => {setData([]); alert('failed to load logs')}})
+    if(id) {
+      get(`audit-logs/record_parameter/${id}`, {success: (json) => {setData(json)}, error: () => {setData([]); alert('failed to load logs')}})
+    } else { setData([])}
+
   }, [])
 
   console.log(close)
