@@ -20,10 +20,12 @@ const { store, load } = makeStore('entities/list')
 const columns1 = '80px 3.5fr 1.5fr repeat(7, 1fr);'
 
 const data = [
-  { name: 'File 1', url: '/resources/file1.pdf' },
-  { name: 'File 2', url: '/resources/file1.pdf' },
-  { name: 'File 3', url: '/resources/file1.pdf' },
-  { name: 'File 4', url: '/resources/file1.pdf' },
+  { name: 'Government Mobile Applications Framework [AR] v1.1.4.pdf', url: '/resources/file1.pdf' },
+  { name: 'Government Mobile Applications Framework [EN] v1.1.4.pdf', url: '/resources/file1.pdf' },
+  { name: 'Government Websites Framework [AR] v1.1.4.pdf', url: '/resources/file1.pdf' },
+  { name: 'Government Websites Framework [EN] v1.1.4.pdf', url: '/resources/file1.pdf' },
+  { name: 'Government eServices Framework [AR] v1.1.4.pdf', url: '/resources/file1.pdf' },
+  
 ]
 export default function(props) {
 
