@@ -1,8 +1,9 @@
 import React from 'react'
 import Header from '../shared/header'
 import styled from 'styled-components'
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Pie, PieChart, Cell } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Pie, PieChart, Cell, ResponsiveContainer } from 'recharts';
 import { qualityGateTypes } from '../../../store/master-data';
+import { Select } from '../../../components/form'
 
 // import Card from '../shared/card'
 
@@ -10,18 +11,38 @@ export default function() {
   const data = [
     {
       name: 'Page A',
-      dt1: 400,
-      dt2: 700,
+      dataset1: 2400,
+      dataset2: 2400,
     },
     {
       name: 'Page B',
-      dt1: 1400,
-      dt2: 1600,
+      dataset1: 1398,
+      dataset2: 2210,
     },
     {
       name: 'Page C',
-      dt1: 2400,
-      dt2: 2500,
+      dataset1: 9800,
+      dataset2: 2290,
+    },
+    {
+      name: 'Page D',
+      dataset1: 3908,
+      dataset2: 2000,
+    },
+    {
+      name: 'Page E',
+      dataset1: 4800,
+      dataset2: 2181,
+    },
+    {
+      name: 'Page F',
+      dataset1: 3800,
+      dataset2: 2500,
+    },
+    {
+      name: 'Page G',
+      dataset1: 4300,
+      dataset2: 2100,
     },
   ];
 
@@ -60,11 +81,50 @@ export default function() {
     { name: 'Group B', value: 300 },
     { name: 'Group C', value: 300 },
   ];
+
+  const statusData = [
+    {mandatory: 'M1', snippet: 'Mandate Level 1', overall: '60%'}, 
+    { mandatory: 'M2', snippet: 'Mandate Level 2', overall: '48%'}, 
+    {mandatory: 'M3', snippet: 'Mandate Level 3', overall: '53%'}
+  ]
+
+  const leaderBoardData = {
+    "High Performing Entities": [
+      {name: 'Security and Privacy', score: 12},
+      {name: 'E-Service Technical Standards', score: 20},
+      {name: 'E-Services Functionality', score: 32},
+      {name: 'Stylesheet', score: 30},
+      {name: 'Support (chat/helpline)', score: 17},
+    ],
+    'Least Performing Entities': [
+      {name: 'Search', score: 12},
+      {name: 'E-Payment', score: 20},
+      {name: 'Search Engine Optimization (SEO)', score: 14},
+      {name: 'E-Services Management', score: 30},
+      {name: 'Layout', score: 8},
+    ]
+  }
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   return (
     <Layout>
-      <Header></Header>
+      <Header> <a style={{marginLeft: '100px'}} href='/'> Back </a> </Header>
       <Content>
+        <Filters>
+          <div> <Select label='Filter By Entity'></Select> </div>
+          
+          <div><Select label='Filter By Project'></Select></div>
+        </Filters>
+        <MainInfo>
+          <div className='logo'> Logo </div>
+          <div className='info'>
+            <div className='title'> Entity Name </div>
+            <div className='description'> Complete entity Description goes here. </div>
+          </div>
+          <div className='progress'>
+            <div className='round'>74%</div>
+          </div>
+          <Spacer />
+        </MainInfo>
         <CardHolder>
           <ProgressStatus> 
             <div> 38.7% Completed </div>
@@ -115,24 +175,29 @@ export default function() {
 
         <FlexWrapper>
           <Graph>
-              <div className='header'></div>
+              <div className='header'><Select></Select></div>
               <div className='info'>
-
+                <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
-                    width={500}
+                    width={600}
                     height={400}
                     data={data}
                     margin={{
                       top: 10,
                       right: 30,
-                      left: 30,
+                      left: 0,
                       bottom: 0,
                     }}
                   >
+                    
+                    <XAxis dataKey="name1" />
+                    <YAxis />
                     <Tooltip />
-                    <Area type="monotone" dataKey="dt1" stackId="1" stroke="#005CC8" fill="#005CC8" />
-                    <Area type="monotone" dataKey="dt2" stackId="1" stroke="#FFBF00" fill="#FFBF00" />
+                    <Area type="monotone" dataKey="dataset1" stackId="1" stroke="#8884d8" fill="#8884d8" />
+                    <Area type="monotone" dataKey="dataset2" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
                   </AreaChart>
+                </ResponsiveContainer>
+
 
               </div>
             </Graph>
@@ -140,45 +205,75 @@ export default function() {
               <div className='header'>
                 <span class='title'> Leaderboard</span>
               </div>
+              <div className='info'>
+                <div className='title'> High Performing Entities </div>
+                {leaderBoardData['High Performing Entities'].map((o, i) => (
+                  <>
+                    <div>{i + 1}</div>
+                    <div>{o.name}</div>
+                    <div>{o.score}</div>
+                  </>
+                ))}
+                <div className='title'> Least Performing Entities </div>
+                {leaderBoardData['Least Performing Entities'].map((o, i) => (
+                  <>
+                    <div>{i + 1}</div>
+                    <div>{o.name}</div>
+                    <div>{o.score}</div>
+                  </>
+                ))}
+              </div>
             </LeaderBoard>
             <Spacer />
         </FlexWrapper>
 
-        <CurrentStatusBox>
-          <div className='label'>
-            <SvgSBOrange />
-          </div>
-          <div className='label-text'>
-            M1
-          </div>
-          <div className='title'> Compliance</div>
-          <div className='info'>
-            <div className='graph'>
-              <PieChart width={200} height={200}>
-                <Pie
-                  data={pieData}
-                  cx={100}
-                  cy={100}
-                  innerRadius={60}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  paddingAngle={5}
-                  dataKey="value"
-                >
-                  {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </div>
-            <div className='graph-labels'>
-              <LabelSquare color={COLORS[0]}> <div className='box'/>45% Fully Compliant </LabelSquare>
-              <LabelSquare color={COLORS[1]}> <div className='box'/>36% Partially Compliant </LabelSquare>
-              <LabelSquare color={COLORS[2]}> <div className='box'/>37% Non Compliant </LabelSquare>
-            </div>
-          </div>
-          <div className='mandate'> Mandate Level 1</div>
-        </CurrentStatusBox>             
+        <FlexWrapper>
+          {
+            statusData.map((o,i) => {
+
+              return (
+                <CurrentStatusBox>
+                  <div className='label'>
+                    <SvgSBOrange />
+                  </div>
+                  <div className='label-text'>
+                    {o.mandatory}
+                  </div>
+                  <div className='title'> {o.overall} Compliance</div>
+                  <div className='info'>
+                    <div className='graph'>
+                      <PieChart width={200} height={200}>
+                        <Pie
+                          data={pieData}
+                          cx={100}
+                          cy={100}
+                          innerRadius={60}
+                          outerRadius={80}
+                          fill="#8884d8"
+                          paddingAngle={5}
+                          dataKey="value"
+                        >
+                          {pieData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Pie>
+                      </PieChart>
+                    </div>
+                    <div className='graph-labels'>
+                      <LabelSquare color={COLORS[0]}> <div className='box'/>45% Fully Compliant </LabelSquare>
+                      <LabelSquare color={COLORS[1]}> <div className='box'/>36% Partially Compliant </LabelSquare>
+                      <LabelSquare color={COLORS[2]}> <div className='box'/>37% Non Compliant </LabelSquare>
+                    </div>
+                  </div>
+                  <div className='mandate'> {o.snippet } </div>
+                </CurrentStatusBox> 
+              )
+            })
+          }
+ 
+
+        </FlexWrapper>
+
       </Content>
     </Layout>
   )
@@ -359,7 +454,7 @@ const Graph = styled.div`
     height: 73px;
     background: #EEEEEE 0% 0% no-repeat padding-box;
     border: 1px solid #BBBBBB;
-    opacity: 1;  
+    padding: 8px 25px;
   }
 
   > .info {
@@ -390,6 +485,22 @@ const LeaderBoard = styled.div`
       line-height: 89px;
     }
   }
+
+  > .info {
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 50px 1fr 50px;
+    grid-row-gap: 20px;
+    > .title {
+      grid-column: 1 / -1;
+      text-align: left;
+      font-size: 18px;
+      font-weight: 600;
+      color: #000000;
+      margin-bottom: 10px;
+    }
+  }
+
 `
 
 const CurrentStatusBox = styled.div`
@@ -399,8 +510,7 @@ const CurrentStatusBox = styled.div`
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 1px solid #DDDDDD;
   position: relative;
-  margin-left: 70px;
-
+  margin-right: 40px;
   > .label {
     position: absolute;
     top: 0;
@@ -462,6 +572,66 @@ const LabelSquare = styled.div`
   // margin-top: 14px;
   &:first-child {
     margin-top: 35px;
+  }
+`
+
+const MainInfo = styled.div`
+  height: 200px;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #DDDDDD;
+  display: flex;
+  padding-top: 40px;
+  > .logo {
+    margin-left: 100px;
+    width: 120px;
+    height: 120px;
+    background: #EB622B 0% 0% no-repeat padding-box;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    line-height: 120px;
+    text-align: center;
+  }
+  > .info {
+    flex: 1;
+    color: #000000;
+    margin-left: 20px;
+    > .title {
+      font-weight: bold;
+      font-size: 20px;
+    }
+    > .description {
+      margin-top: 13px;
+      height: 40px;
+      font-weight: normal;
+      font-size: 15px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #DDDDDD;
+    }
+  }
+  > .progress {
+    margin-left: 20px;
+    > .round {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 8px solid #EB622B;
+      line-height: 74px;
+      text-align: center;
+    }
+  }
+`
+
+const Filters = styled.div`
+  height: 121px;
+  background: #F7FAFD 0% 0% no-repeat padding-box;
+  padding-left: 100px;
+  padding-top: 25px;
+  display: flex;
+  > div {
+    margin-right: 40px;
   }
 `
 

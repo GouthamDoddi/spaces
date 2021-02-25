@@ -38,7 +38,7 @@ export default function(props) {
   return(
     <Container>
       <BoxGrid>
-        <OptionList title='Objects' description='Lorem ipsum dolor sit amet, consectetur' dataStore={objects.store}
+        <OptionList title='Objects' description='' dataStore={objects.store}
           projectStore={projectStore}
           onClicked={(id) => {setOid(id)}}
           sid={oid}
@@ -46,7 +46,7 @@ export default function(props) {
           bidsKey='object_ids'
         >  </OptionList>
         <Spacer />
-        <OptionList title='Sub Objects' description='Lorem ipsum dolor sit amet, consectetur'
+        <OptionList title='Sub Objects' description=''
           projectStore={projectStore}
           dataStore={subobjects.store}
           path='subobject'
