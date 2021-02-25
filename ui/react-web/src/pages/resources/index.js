@@ -21,10 +21,10 @@ const columns1 = '80px 3.5fr 1.5fr repeat(7, 1fr);'
 
 const data = [
   { name: 'Government Mobile Applications Framework [AR] v1.1.4.pdf', url: '/resources/file1.pdf' },
-  { name: 'Government Mobile Applications Framework [EN] v1.1.4.pdf', url: '/resources/file1.pdf' },
-  { name: 'Government Websites Framework [AR] v1.1.4.pdf', url: '/resources/file1.pdf' },
-  { name: 'Government Websites Framework [EN] v1.1.4.pdf', url: '/resources/file1.pdf' },
-  { name: 'Government eServices Framework [AR] v1.1.4.pdf', url: '/resources/file1.pdf' },
+  { name: 'Government Mobile Applications Framework [EN] v1.1.4.pdf', url: '/resources/file2.pdf' },
+  { name: 'Government Websites Framework [AR] v1.1.4.pdf', url: '/resources/file3.pdf' },
+  { name: 'Government Websites Framework [EN] v1.1.4.pdf', url: '/resources/file4.pdf' },
+  { name: 'Government eServices Framework [AR] v1.1.4.pdf', url: '/resources/file5.pdf' },
   
 ]
 export default function(props) {
