@@ -73,10 +73,11 @@ const Data = styled.div`
   width: 100%;
   grid-column: 1 / -1;
   height: 500px;
-  padding: 20px;
+  padding: 20px 40px;
+  
   a {
     width: 60px;
-    margin-right: 20px;
+    margin-right: 100px;
     color: #e40017;
     text-decoration: none;
     span {
