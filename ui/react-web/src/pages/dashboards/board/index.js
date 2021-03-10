@@ -38,12 +38,30 @@ export default function(props) {
   const [gates, setGates] = useState([])
   const [entityFilter, EntityFilterInput] = useInput({})
   const [entitiesForSelect, setEntitiesForSelect] = useState([])
+  const [leaderBoardData, setLeaderBoardData] = useState({"High Performing Entities":[{"name":"Ministry of Space","score":40},{"name":"Ministry of Justice","score":45},{"name":"Ministry of Public Health","score":62},{"name":"Supreme Judiciary Council","score":67},{"name":"Kahramaa","score":71}],"Least Performing Entities":[{"name":"Hamad Medical Corporation","score":32},{"name":"Ministry of Commerce and Industry","score":20},{"name":"Ministry of Transport & Communication","score":30},{"name":"Qatar Foundation","score":17},{"name":"Qatar University","score":12}]})
   
   useEffect(() => {
     console.log(get)
     get('reports/entities', {success: (json) => { 
       setGates(json.data)
       setEntitiesForSelect([{label: 'All', value: 'All'}, ...json.data.map((o) => ({label: o.name, value: o.name}))])
+      const scores = {23: 12, 5: 20, 2: 32, 11: 30, 22: 17, 25: 40, 8: 45, 10: 62, 13: 67, 3: 71, 7: 79 }
+      const least = [23,5,2,11, 22]
+      const most= [25, 8, 10, 13, 3]
+      let ld = {'High Performing Entities': [], 'Least Performing Entities': []}
+
+      if(leaderBoardData['High Performing Entities'].length == 0 ) {
+        json.data.forEach((o) => {
+          if(least.includes(o.id)) {
+            ld['Least Performing Entities'].push({name: o.name, score: scores[o.id]})
+          } else if(most.includes(o.id)) {
+            ld['High Performing Entities'].push({name: o.name, score: scores[o.id]})
+          }
+          console.log(ld)
+          setLeaderBoardData(ld)
+        })        
+      }
+
     }, error: () => []})
   }, [])
 
@@ -61,22 +79,22 @@ export default function(props) {
     {mandatory: 'M3', snippet: 'Mandate Level 3', overall: '53%'}
   ]
 
-  const leaderBoardData = {
-    "High Performing Entities": [
-      {name: 'Security and Privacy', score: 12},
-      {name: 'E-Service Technical Standards', score: 20},
-      {name: 'E-Services Functionality', score: 32},
-      {name: 'Stylesheet', score: 30},
-      {name: 'Support (chat/helpline)', score: 17},
-    ],
-    'Least Performing Entities': [
-      {name: 'Search', score: 12},
-      {name: 'E-Payment', score: 20},
-      {name: 'Search Engine Optimization (SEO)', score: 14},
-      {name: 'E-Services Management', score: 30},
-      {name: 'Layout', score: 8},
-    ]
-  }
+  // const leaderBoardData = {
+  //   "High Performing Entities": [
+  //     {name: 'Security and Privacy', score: 12},
+  //     {name: 'E-Service Technical Standards', score: 20},
+  //     {name: 'E-Services Functionality', score: 32},
+  //     {name: 'Stylesheet', score: 30},
+  //     {name: 'Support (chat/helpline)', score: 17},
+  //   ],
+  //   'Least Performing Entities': [
+  //     {name: 'Search', score: 12},
+  //     {name: 'E-Payment', score: 20},
+  //     {name: 'Search Engine Optimization (SEO)', score: 14},
+  //     {name: 'E-Services Management', score: 30},
+  //     {name: 'Layout', score: 8},
+  //   ]
+  // }
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   console.log("gates", gates)
   return (
@@ -129,7 +147,7 @@ export default function(props) {
           <Cards>
             {
               gates.map((k, i) => {
-                console.log(entityFilter.trim().length , k.name.toLowerCase())
+                // console.log(entityFilter.trim().length , k.name.toLowerCase())
                 if(entityFilter.trim().length > 0 && !k.name.toLowerCase().includes(entityFilter.toLowerCase())){
                   return null
                 }
@@ -140,7 +158,10 @@ export default function(props) {
                       <div className='info'>
                         <div className='logo'> Logo</div>
                         <div className='title'> {k.name }</div>
-                        <div className='chart'> <StatusChart /> </div>
+                        <div className='chart'> 
+                          <div className='data'> {k.prog}</div>
+                          <StatusChart prog={k.prog}/> 
+                        </div>
                       </div>
                       <div className='status'>
                         <div className='title'> Projects</div>
@@ -673,7 +694,7 @@ const MainInfo = styled.div`
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      border: 8px solid #EB622B;
+      border: 8px solid #FFBF00;
       line-height: 74px;
       text-align: center;
     }
@@ -787,8 +808,19 @@ const StatusCard = styled.div`
       flex: 1;
     }
     > .chart {
+      position: relative;
+      left: 0;
+      top: 0;
       width: 50px;
       height: 50px;
+      > .data {
+        position: absolute;
+        top: 9px;
+        left: 10px;
+        font: normal normal bold 15px/22px Muli;
+        color: #000000;
+
+      }
     }
   }
 
@@ -842,7 +874,7 @@ const StatusCard = styled.div`
 
 `
 
-function StatusChart({width=50, height=50, innerRadius=14, outerRadius= 20, value=200, ...props}) {
+function StatusChart({width=50, height=50, innerRadius=14, outerRadius= 20, value=200, prog,...props}) {
 
   return (
     <PieChart width={50} height={50}>
@@ -854,7 +886,7 @@ function StatusChart({width=50, height=50, innerRadius=14, outerRadius= 20, valu
         outerRadius={outerRadius}
         fill="#FFBF00"
         startAngle={90}
-        endAngle={-195}
+        endAngle={90-prog/100*360}
       ></Pie>
     </PieChart>
   //   <PieChart width={800} height={400}>

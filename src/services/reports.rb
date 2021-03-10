@@ -9,7 +9,8 @@ class App::Services::Reports < App::Services::Base
         description: e.notes, 
         completed: rand(1..20), 
         wip: rand(1..30), 
-        not_started: rand(1..30) 
+        not_started: rand(1..30),
+        prog: rand(50..90) 
       }
     end
     return_success(data)

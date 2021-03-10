@@ -117,8 +117,8 @@ export default function() {
         <MainInfo>
           <div className='logo'> Logo </div>
           <div className='info'>
-            <div className='title'> Entity Name </div>
-            <div className='description'> Complete entity Description goes here. </div>
+            <div className='title'> Project Name </div>
+            <div className='description'> Complete Project Description goes here. </div>
           </div>
           <div className='progress'>
             <div className='round'>74%</div>
