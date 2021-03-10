@@ -67,6 +67,10 @@ class App::Routes < Roda
 
       auth_required!
 
+      r.on('reports') {
+        r.get('entities') {Reports[r, {}].entities}
+      }
+
       r.on('audit-logs', String, Integer) { |resource, resource_id|
         App::Models::AuditLog.where(resource: resource, resource_id: resource_id).all.as_json
       }
