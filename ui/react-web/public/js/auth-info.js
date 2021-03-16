@@ -46,13 +46,61 @@ window.basicAuth = {
     }
   },
   10: {
-
+    formulation: {
+      resources: 'R'
+    }, 
+    governance: {
+      dashboards: 'R',
+    },
+    compliance: {
+      project: {
+        details: 'R',
+        parameter: 'UR',
+        other_issues: 'CRUD',
+        overview: 'R'
+      },
+      cases: {
+        
+      }
+    }
   },
   11: {
-
+    formulation: {
+      resources: 'R'
+    }, 
+    governance: {
+      dashboards: 'R',
+    },
+    compliance: {
+      project: {
+        details: 'R',
+        parameter: 'UR',
+        other_issues: 'CRUD',
+        overview: 'R'
+      },
+      cases: {
+        
+      }
+    }
   },
   12: {
-
+    formulation: {
+      resources: 'R'
+    }, 
+    governance: {
+      dashboards: 'R',
+    },
+    compliance: {
+      project: {
+        details: 'R',
+        parameter: 'UR',
+        other_issues: 'CRUD',
+        overview: 'R'
+      },
+      cases: {
+        
+      }
+    }
   },
   13: {
 

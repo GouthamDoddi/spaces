@@ -35,6 +35,7 @@ import SetPassword from './pages/set-password'
 import ForgotPassword from './pages/forgot-password'
 import Qg from './pages/dashboards/qg'
 import Board from './pages/dashboards/board'
+import Agency from './pages/dashboards/agency'
 
 import Header from './components/header'
 
@@ -127,6 +128,7 @@ function App() {
       <Switch>
         <Route path="/qg"> <TP theme={cs.newdesign}> <Qg /> </TP> </Route>
         <Route path="/board"> <TP theme={cs.newdesign}> <Board /> </TP> </Route>
+        <Route path="/agency"> <TP theme={cs.newdesign}> <Agency /> </TP> </Route>
         <Route path='/login'><Login /></Route>
         <Route path="/set-password/:token"> <TP theme={cs.newdesign}> <SetPassword /> </TP> </Route>
         <Route path="/forgot-password"> <TP theme={cs.newdesign}> <ForgotPassword /> </TP> </Route>
