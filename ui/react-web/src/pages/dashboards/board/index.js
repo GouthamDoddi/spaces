@@ -9,6 +9,7 @@ import { Select } from '../../../components/form'
 import {Input } from '../../../components/form'
 import { get } from '../../../store/api'
 import { useEffect } from 'react';
+import { SVGCrown } from '../shared/icons'
 // import Card from '../shared/card'
 
 function useInput({ type='text' /*...*/ }) {
@@ -99,19 +100,23 @@ export default function(props) {
   console.log("gates", gates)
   return (
     <Layout>
-      <Header> <a style={{marginLeft: '100px'}} href='/'> Back </a> </Header>
+      <Header></Header>
       <Content>
         <Filters>
-          <div> 
-
-            <Select label='Filter By Entity'
-              options={entitiesForSelect}
-              onChange={(e) => ''}
-              value={entityFilter || 'All'}
-            />
+          <div className='selectors'>
+            <div> 
+              <Select label='Filter By Entity'
+                options={entitiesForSelect}
+                onChange={(e) => ''}
+                value={entityFilter || 'All'}
+              />
+            </div>
+            <div><Select label='Filter By Project'></Select></div>
           </div>
-          
-          <div><Select label='Filter By Project'></Select></div>
+          <div className='actions'>
+            <div> Reset </div> 
+            <div> View Dashboard </div>
+          </div>
         </Filters>
         <MainInfo>
           <div className='logo'> Logo </div>
@@ -127,7 +132,7 @@ export default function(props) {
             </div>
           </div>
           <div className='progress'>
-            <div className='round'>74%</div>
+            <div className='round'>74</div>
           </div>
           <Spacer />
         </MainInfo>
@@ -236,7 +241,7 @@ export default function(props) {
                 <div className='title'> High Performing Entities </div>
                 {leaderBoardData['High Performing Entities'].map((o, i) => (
                   <>
-                    <div>{i + 1}</div>
+                    <div>{i == 0 ? <SVGCrown left='-6px' /> : i + 1}</div>
                     <div>{o.name}</div>
                     <div>{o.score}</div>
                   </>
@@ -695,8 +700,10 @@ const MainInfo = styled.div`
       height: 100px;
       border-radius: 50%;
       border: 8px solid #FFBF00;
-      line-height: 74px;
+      line-height: 82px;
       text-align: center;
+      font-size: 32px;
+
     }
   }
 `
@@ -705,10 +712,32 @@ const Filters = styled.div`
   height: 121px;
   background: #F7FAFD 0% 0% no-repeat padding-box;
   padding-left: 100px;
-  padding-top: 25px;
+
   display: flex;
-  > div {
-    margin-right: 40px;
+  justify-content: space-between;
+
+  .selectors {
+    align-self: center;
+    display: flex;
+    > div {
+      margin-right: 40px;
+    }
+  }
+
+  .actions {
+    align-self: center;
+    display: flex;
+    margin-right: 100px;
+    > div:first-child {
+      padding: 10px;
+      margin-right: 25px;
+    }
+    > div:last-child {
+      padding: 10px;
+      background-color: #EB622B;
+      color: #fff;
+      border-radius: 4px;
+    }
   }
 `
 

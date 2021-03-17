@@ -107,7 +107,7 @@ export default function() {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   return (
     <Layout>
-      <Header> <a style={{marginLeft: '100px'}} href='/'> Back </a> </Header>
+      <Header> </Header>
       <Content>
         <Filters>
           <div> <Select label='Filter By Entity'></Select> </div>
