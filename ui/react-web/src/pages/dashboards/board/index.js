@@ -10,6 +10,7 @@ import {Input } from '../../../components/form'
 import { get } from '../../../store/api'
 import { useEffect } from 'react';
 import { SVGCrown } from '../shared/icons'
+import Filters from '../shared/filters'
 // import Card from '../shared/card'
 
 function useInput({ type='text' /*...*/ }) {
@@ -35,17 +36,21 @@ function dataSections() {
       ]
   )
 }
+
+const defaultSelectedEntity = {label: 'All', value: 0}
+const defaultSelectedProject = {label: 'All', value: 0}
 export default function(props) {
   const [gates, setGates] = useState([])
   const [entityFilter, EntityFilterInput] = useInput({})
   const [entitiesForSelect, setEntitiesForSelect] = useState([])
+  const [selectedEntity, setSelectedEntity] = useState(defaultSelectedEntity)
   const [leaderBoardData, setLeaderBoardData] = useState({"High Performing Entities":[{"name":"Ministry of Space","score":40},{"name":"Ministry of Justice","score":45},{"name":"Ministry of Public Health","score":62},{"name":"Supreme Judiciary Council","score":67},{"name":"Kahramaa","score":71}],"Least Performing Entities":[{"name":"Hamad Medical Corporation","score":32},{"name":"Ministry of Commerce and Industry","score":20},{"name":"Ministry of Transport & Communication","score":30},{"name":"Qatar Foundation","score":17},{"name":"Qatar University","score":12}]})
   
   useEffect(() => {
     console.log(get)
     get('reports/entities', {success: (json) => { 
       setGates(json.data)
-      setEntitiesForSelect([{label: 'All', value: 'All'}, ...json.data.map((o) => ({label: o.name, value: o.name}))])
+      setEntitiesForSelect([defaultSelectedEntity, ...json.data.map((o) => ({label: o.name, value: o.id}))])
       const scores = {23: 12, 5: 20, 2: 32, 11: 30, 22: 17, 25: 40, 8: 45, 10: 62, 13: 67, 3: 71, 7: 79 }
       const least = [23,5,2,11, 22]
       const most= [25, 8, 10, 13, 3]
@@ -102,22 +107,7 @@ export default function(props) {
     <Layout>
       <Header></Header>
       <Content>
-        <Filters>
-          <div className='selectors'>
-            <div> 
-              <Select label='Filter By Entity'
-                options={entitiesForSelect}
-                onChange={(e) => ''}
-                value={entityFilter || 'All'}
-              />
-            </div>
-            <div><Select label='Filter By Project'></Select></div>
-          </div>
-          <div className='actions'>
-            <div> Reset </div> 
-            <div> View Dashboard </div>
-          </div>
-        </Filters>
+        <Filters entities={gates} projects={[]} />
         <MainInfo>
           <div className='logo'> Logo </div>
           <div className='info'>
@@ -708,38 +698,38 @@ const MainInfo = styled.div`
   }
 `
 
-const Filters = styled.div`
-  height: 121px;
-  background: #F7FAFD 0% 0% no-repeat padding-box;
-  padding-left: 100px;
+// const Filters = styled.div`
+//   height: 121px;
+//   background: #F7FAFD 0% 0% no-repeat padding-box;
+//   padding-left: 100px;
 
-  display: flex;
-  justify-content: space-between;
+//   display: flex;
+//   justify-content: space-between;
 
-  .selectors {
-    align-self: center;
-    display: flex;
-    > div {
-      margin-right: 40px;
-    }
-  }
+//   .selectors {
+//     align-self: center;
+//     display: flex;
+//     > div {
+//       margin-right: 40px;
+//     }
+//   }
 
-  .actions {
-    align-self: center;
-    display: flex;
-    margin-right: 100px;
-    > div:first-child {
-      padding: 10px;
-      margin-right: 25px;
-    }
-    > div:last-child {
-      padding: 10px;
-      background-color: #EB622B;
-      color: #fff;
-      border-radius: 4px;
-    }
-  }
-`
+//   .actions {
+//     align-self: center;
+//     display: flex;
+//     margin-right: 100px;
+//     > div:first-child {
+//       padding: 10px;
+//       margin-right: 25px;
+//     }
+//     > div:last-child {
+//       padding: 10px;
+//       background-color: #EB622B;
+//       color: #fff;
+//       border-radius: 4px;
+//     }
+//   }
+// `
 
 function SvgQuestion() {
   return (

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../shared/header'
 import styled from 'styled-components'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Pie, PieChart, Cell, ResponsiveContainer } from 'recharts';
@@ -9,7 +9,9 @@ import { Select } from '../../../components/form'
 import StatusChart from '../shared/status-chart'
 import Download from '../shared/downloads'
 import { SVGCrown } from '../shared/icons'
-// import Card from '../shared/card'
+import Filters from '../shared/filters'
+import { get } from '../../../store/api'
+ // import Card from '../shared/card'
 
 
 function dataSections() {
@@ -29,7 +31,39 @@ function dataSections() {
   )
 }
 
-export default function() {
+export default function(props) {
+
+  // const [gates, setGates] = useState([])
+  // const [entityFilter, EntityFilterInput] = useInput({})
+  const [entitiesForSelect, setEntitiesForSelect] = useState([])
+  // const [selectedEntity, setSelectedEntity] = useState(defaultSelectedEntity)
+  // const [leaderBoardData, setLeaderBoardData] = useState({"High Performing Entities":[{"name":"Ministry of Space","score":40},{"name":"Ministry of Justice","score":45},{"name":"Ministry of Public Health","score":62},{"name":"Supreme Judiciary Council","score":67},{"name":"Kahramaa","score":71}],"Least Performing Entities":[{"name":"Hamad Medical Corporation","score":32},{"name":"Ministry of Commerce and Industry","score":20},{"name":"Ministry of Transport & Communication","score":30},{"name":"Qatar Foundation","score":17},{"name":"Qatar University","score":12}]})
+  
+  useEffect(() => {
+    console.log(get)
+    get('reports/entities', {success: (json) => { 
+      // setGates(json.data)
+      // setEntitiesForSelect([defaultSelectedEntity, ...json.data.map((o) => ({label: o.name, value: o.id}))])
+      const scores = {23: 12, 5: 20, 2: 32, 11: 30, 22: 17, 25: 40, 8: 45, 10: 62, 13: 67, 3: 71, 7: 79 }
+      const least = [23,5,2,11, 22]
+      const most= [25, 8, 10, 13, 3]
+      let ld = {'High Performing Entities': [], 'Least Performing Entities': []}
+
+      if(leaderBoardData['High Performing Entities'].length == 0 ) {
+        json.data.forEach((o) => {
+          if(least.includes(o.id)) {
+            ld['Least Performing Entities'].push({name: o.name, score: scores[o.id]})
+          } else if(most.includes(o.id)) {
+            ld['High Performing Entities'].push({name: o.name, score: scores[o.id]})
+          }
+          console.log(ld)
+          setLeaderBoardData(ld)
+        })        
+      }
+
+    }, error: () => []})
+  }, [])
+
   const data = [
     {
       name: 'Page A',
@@ -117,11 +151,7 @@ export default function() {
     <Layout>
       <Header> <a style={{marginLeft: '100px'}} href='/'> Back </a> </Header>
       <Content>
-        <Filters>
-          <div> <Select label='Filter By Entity'></Select> </div>
-          
-          <div><Select label='Filter By Project'></Select></div>
-        </Filters>
+        <Filters entities={entitiesForSelect}/>
         <MainInfo>
           <div className='logo'> Logo </div>
           <div className='info'>
@@ -723,17 +753,6 @@ padding-top: 40px;
     text-align: center;
   }
 }
-`
-
-const Filters = styled.div`
-  height: 121px;
-  background: #F7FAFD 0% 0% no-repeat padding-box;
-  padding-left: 100px;
-  padding-top: 25px;
-  display: flex;
-  > div {
-    margin-right: 40px;
-  }
 `
 
 function SvgQuestion() {

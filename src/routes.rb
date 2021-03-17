@@ -69,6 +69,7 @@ class App::Routes < Roda
 
       r.on('reports') {
         r.get('entities') {Reports[r, {}].entities}
+        r.get(Integer, 'projects') { |entity_id| Reports[r, {entity_id: entity_id}].projects}
       }
 
       r.on('audit-logs', String, Integer) { |resource, resource_id|

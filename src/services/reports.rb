@@ -15,6 +15,16 @@ class App::Services::Reports < App::Services::Base
     end
     return_success(data)
   end
+
+  def projects
+    data = Compliance::Project.where(owner_id: rp[:entity_id]).map do |e|
+      { 
+        name: e.name,
+        id: e.id, 
+      }
+    end
+    return_success(data)
+  end
   
 
 
