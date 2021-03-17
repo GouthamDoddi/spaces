@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Header from '../shared/header'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Pie, PieChart, Cell, ResponsiveContainer } from 'recharts';
 
 import { BarChart, Bar, Legend } from 'recharts';
@@ -8,9 +8,10 @@ import { qualityGateTypes } from '../../../store/master-data';
 import { Select } from '../../../components/form'
 import StatusChart from '../shared/status-chart'
 import Download from '../shared/downloads'
-import { SVGCrown } from '../shared/icons'
+import { SVGCheck, SVGCrown, SVGSolution, SVGCancel } from '../shared/icons'
 import Filters from '../shared/filters'
 import { get } from '../../../store/api'
+import { BarProgressCard, CircularProgressCard } from '../shared/progress-card'
  // import Card from '../shared/card'
 
 
@@ -57,7 +58,7 @@ export default function(props) {
             ld['High Performing Entities'].push({name: o.name, score: scores[o.id]})
           }
           console.log(ld)
-          setLeaderBoardData(ld)
+          // setLeaderBoardData(ld)
         })        
       }
 
@@ -149,7 +150,7 @@ export default function(props) {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   return (
     <Layout>
-      <Header> <a style={{marginLeft: '100px'}} href='/'> Back </a> </Header>
+      <Header> </Header>
       <Content>
         <Filters entities={entitiesForSelect}/>
         <MainInfo>
@@ -160,21 +161,28 @@ export default function(props) {
               Entity Description
               </div>
             <div className='status'>
-              <div> 45 Completed </div>
-              <div> 27 Running </div>
-              <div> 74% Adoption Rate </div>
+              <div> <SVGCheck /> <span> 45 Completed </span> </div>
+              <div> <SVGSolution /> <span> 27 Running </span> </div>
+              <div> <SVGCancel /> <span> Not Started </span> </div>
             </div>
           </div>
           <div className='progress'>
-            <div className='round'>74%</div>
+            <div className='round'>74</div>
           </div>
           <Spacer />
         </MainInfo>
         <CardHolder>
-          <ProgressStatus> 
-            <div> 38.7% Completed </div>
-            <Progress value={39} max={100} color='#3FBF11'> {38} </Progress>
-          </ProgressStatus>
+          <div className='header'>
+            <ProgressStatus> 
+              <div> 38.7% Completed </div>
+              <Progress value={39} max={100} color='#3FBF11' > 38 </Progress>
+            </ProgressStatus>
+            <div className='search'>
+              <div className='showing'> Showing {gates.length} Projects</div>
+              <div className='spacer'></div>
+            </div>
+          </div>
+
           <Cards>
             {
               gates.map((k) => (
@@ -182,7 +190,12 @@ export default function(props) {
                   <CardInfo>
                     <div className='info'>
                       <div className='logo'> Logo</div>
-                      <div className='title'> {k.name }</div>
+                      <div className='title'> 
+                        <div> {k.name } </div>
+                        <div className='progress'> 
+                          <Progress value={39} height='5px' max={100} bkcolor='#DCDFE8'  color='#EB622B' showTag />  
+                        </div>
+                      </div>
                       <div className='chart'> 
                         <div className='data'> {k.prog}</div>
                         <StatusChart prog={k.prog}/> 
@@ -319,6 +332,9 @@ export default function(props) {
         </FlexWrapper>
 
         <Download />
+
+        <CircularProgressCard />
+        <BarProgressCard />
       </Content>
     </Layout>
   )
@@ -365,9 +381,30 @@ const CardHolder = styled.div`
   // background: transparent url('img/Rectangle 24.png') 0% 0% no-repeat padding-box;
   // background-color: #CA3F07;
   // background-image: linear-gradient(#CA3F07, #a83304);
-  background-image: url('/img/agency_cards_bk.jpg');
+  background: url('/img/agency_cards_bk.jpg') left top repeat, url('/img/dashboards/dots-vertical.png') 30px 0px no-repeat;
+
   opacity: 1;
   padding-left: 100px;
+  > .header {
+    display: flex;
+    justify-content: space-between;
+    > .search {
+      padding-top: 25px;
+      display: flex;
+      > .showing {
+        font: normal normal bold 20px/30px Muli;
+        color: #FFFFFF;
+        margin-right: 30px;
+        padding-top: 12px;
+      }
+      > .search {
+
+      }
+      > .spacer {
+        width: 36px;
+      }
+    }
+  }
 `
 
 const ProgressStatus = styled.div`
@@ -391,6 +428,8 @@ const ProgressStatus = styled.div`
 `
 
 const Progress = styled.progress`
+  position: relative;
+  height: ${p => p.height || '8px'};
   &::-webkit-progress-bar { 
     background-color: ${p => p.bkcolor || '#fff'};
     border-radius: 10px;
@@ -405,6 +444,25 @@ const Progress = styled.progress`
   }
   -webkit-appearance: none;
   border-radius: 10px;
+
+  ${p => p.showTag && css`
+    &::after {
+      width: 38px;
+      height: 16px;
+      background: #FFEDE6 0% 0% no-repeat padding-box;
+      border-radius: 3px;
+      content: "${p => p.value}%";
+      position: absolute;
+      top: -16px;
+      left: 0;
+      text-align: center;
+      width: 38px;
+      font: normal normal normal 10px/15px Muli;
+      letter-spacing: 0px;
+      color: #EB622B;
+    }
+  `}
+  
 `
 
 const Card = styled.div`
@@ -449,7 +507,7 @@ const CardInfo = styled.div`
     > .logo {
       width: 50px;
       height: 50px;
-      background: #1A6B8F 0% 0% no-repeat padding-box;
+      background: #EB622B 0% 0% no-repeat padding-box;
       border-radius: 3px;
       text-align: center;
       font: normal normal bold 12px/18px Muli;
@@ -463,6 +521,12 @@ const CardInfo = styled.div`
       font: normal normal bold 15px/22px Muli;
       color: #000000;
       flex: 1;
+      > div:first-child {
+        height: 33px;
+      }
+      > .progress {
+        
+      }
     }
     > .chart {
       position: relative;
@@ -533,6 +597,7 @@ const Graph = styled.div`
     height: 73px;
     background: #EEEEEE 0% 0% no-repeat padding-box;
     border: 1px solid #BBBBBB;
+    border-bottom: none;
     padding-left: 40px;
     font: normal normal bold 20px/30px Muli;
     color: #666666;
@@ -691,7 +756,7 @@ padding-top: 40px;
   margin-left: 100px;
   width: 120px;
   height: 120px;
-  background: #1A6B8F 0% 0% no-repeat padding-box;
+  background: #EB622B 0% 0% no-repeat padding-box;
   border-radius: 3px;
   font-weight: bold;
   font-size: 20px;
@@ -722,13 +787,19 @@ padding-top: 40px;
     > div {
       width: 145px;
       height: 30px;
+      display: flex;
+      // flex-direction: column;
+      align-items: center;
       border-radius: 15px;
-      padding-top: 6px;
+      
       padding-left: 15px;
       font: normal normal bold 12px/18px Muli;
       color: #FFFFFF;
       box-shadow: 0px 1px 2px #00000029;  
       margin-right: 15px;
+      span {
+        margin-left: 10px;
+      }
       &:first-child {
         background: #3FBF11 0% 0% no-repeat padding-box;
       }  
@@ -736,8 +807,9 @@ padding-top: 40px;
         background: #FFBF00 0% 0% no-repeat padding-box;
       }
       &:nth-child(3) {
-        background: #FFFFFF 0% 0% no-repeat padding-box;
-        color: #000000;
+        background: #CFCFCF 0% 0% no-repeat padding-box;
+        color: #FFF;
+
       }
     }
   }
@@ -749,8 +821,9 @@ padding-top: 40px;
     height: 100px;
     border-radius: 50%;
     border: 8px solid #FFBF00;
-    line-height: 74px;
+    padding-top: 17px;
     text-align: center;
+    font: normal normal bold 35px/51px Muli;
   }
 }
 `
