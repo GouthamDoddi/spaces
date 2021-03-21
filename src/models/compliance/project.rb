@@ -13,6 +13,28 @@ class App::Models::Compliance::Project < Sequel::Model
   #   @applicable_sections ||= App::Models::PolicySectionAttribute.where(id: applied_attributes.to_a || []).select_map(:parent_id).uniq
   # end
 
+  # one_to_many :applied_attributes_obj, class: 'App::Models::PolicySectionAttribute', 
+  #   dataset: (proc do
+  #       App::Models::PolicySectionAttribute.where(id: applied_attribute_ids_val)
+  #   end)
+  # one_to_many :applied_attributes_obj, class: 'App::Models::PolicySectionAttribute',  key_column: :id, primary_key_method: :applied_attribute_ids_val, key_method: :applied_attribute_ids_val
+  # many_to_many :applied_attributes_obj, class: 'App::Models::PolicySectionAttribute',  key_column: :id, primary_key_method: :applied_attribute_ids_val, key_method: :applied_attribute_ids_val
+  #primary_key: :applied_attribute_ids_val, key: :id
+  # dataset: (proc do
+  #     App::Models::PolicySectionAttribute.where(id: applied_attribute_ids_val)
+  # end)
+  # , eager_loader: (lambda do |eo|
+  #   id_map = {}
+  #   eo[:rows].each do |n| 
+  #     # Initialize an empty array of child associations for each parent node
+  #     n.associations[:children] = []
+  #     # Populate identity map of nodes
+  #     id_map[n.pk] = n 
+  #   end
+  # end)
+
+    #primary_key: :applied_attribute_ids_val, key: :id
+
   def validate
     super
     # validates_presence [:name, :owner_id, :type_id]
@@ -131,6 +153,31 @@ class App::Models::Compliance::Project < Sequel::Model
   #     applicable_sections.map(&:question_ids).flatten - 
   #     applicable_attributes.map(&:question_ids).flatten).uniq
   # end
+
+
+  def applicable_parameters
+    @applicable_parameters ||= applied_attributes.eager(:parameters).all.reduce([]){|s, o| s += o.parameters }    
+  end
+
+  def variations_count
+    pids = project.record_parameters.map(&:parameter_id)
+    pids.length - pids.uniq.length
+  end
+
+
+  def completed?
+    (applicable_parameters.map(&:id) - record_parameters.map(&:parameter_id)).length == 0 &&
+    record_parameters.select{_1.not_tested?}.length == 0
+    # record_parameters.select{ !_1.closed? && !_.1.review?}.length == 0
+  end
+
+  def wip?
+    !completed? && record_parameters.length > 0
+  end
+
+  def not_started?
+    record_parameters.length == 0
+  end
 
 end
 

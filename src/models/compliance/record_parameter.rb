@@ -8,6 +8,24 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
   many_to_one :attribute, class: 'App::PolicySectionAttribute', primary_key: :attribute_id, key: :id
   # one_to_many :applicable_sections
 
+
+  def self.mandate_wt
+    @mandate_scores ||= { 1 => 5, 2 => 4, 3 => 3 }
+  end
+
+  def self.compliance_wt
+    @compliance_wt ||= {1 => 2, 2 => 1, 3 => 0, 4 => 1, 5 => 1, 7 => 1, 8 => 1}
+  end
+
+
+  def mandate_wt
+    self.class.mandate_wt
+  end
+
+  def compliance_wt
+    self.class.compliance_wt
+  end
+
   def after_save
     super
     App::Models::AuditLog.create(changes: previous_changes, resource: 'record_parameter', resource_id: id)    
@@ -23,5 +41,9 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
   def closed?; status == 'closed'; end
   def review?; status == 'in-review'; end
   def not_tested?; status == 'open'; end
+
+  def compliance_score
+    ((mandate_wt[parameter.mandate_level_id] * (compliance_wt[user_compliance_type] || 2)) / (5 * 2).to_f) * 10
+  end
 
 end
