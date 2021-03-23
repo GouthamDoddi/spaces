@@ -65,12 +65,24 @@ class App::Routes < Roda
       r.post('forgot-password-email') { Users[r].reset_password }
       r.post('update_password') { Users[r].update_password }
 
-      auth_required!
-
       r.on('reports') {
         r.get('entities') {Reports[r, {}].entities}
         r.get(Integer, 'projects') { |entity_id| Reports[r, {entity_id: entity_id}].projects}
+
+        r.get('state') { Reports[r, {}].state_report }
+        r.get('entity', Integer) { |id| Reports[r, {entity_id: id}].entity_report }
+        r.get('project', Integer) { |id| Reports[r, {project_id: id}].project_report }
       }
+      auth_required!
+
+      # r.on('reports') {
+      #   r.get('entities') {Reports[r, {}].entities}
+      #   r.get(Integer, 'projects') { |entity_id| Reports[r, {entity_id: entity_id}].projects}
+
+      #   r.get('state') { Reports[r, {}].state_report }
+      #   r.get('entity', Integer) { |id| Reports[r, {entity_id: id}].entity_report }
+      #   r.get('project', Integer) { |id| Reports[r, {project_id: id}].project_report }
+      # }
 
       r.on('audit-logs', String, Integer) { |resource, resource_id|
         App::Models::AuditLog.where(resource: resource, resource_id: resource_id).all.as_json

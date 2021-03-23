@@ -5,6 +5,11 @@ class App::Models::PolicySectionAttribute < Sequel::Model(App.db[:policy_section
   one_to_many :parameters, class: 'App::Models::AttributeParameter', key: :attribute_id
 
   one_to_many :record_parameters, class: 'App::Models::Compliance::RecordParameter', key: :attribute_id
+
+  def after_save
+    super
+    expire_cache
+  end
   
   def validate
     super
@@ -35,5 +40,17 @@ class App::Models::PolicySectionAttribute < Sequel::Model(App.db[:policy_section
 
   def possible_object_ids
     policy_section.policy.object_ids_val - policy_section.object_ids_val - object_ids_val
+  end
+
+
+  def self.cache
+    @cache ||= eager(:parameters).all.reduce({}) {|h, o|
+      h[o.id] = o
+      h
+    }
+  end
+
+  def self.expire_cache
+    @cache = nil
   end
 end

@@ -22,6 +22,23 @@ function useInput({ type='text' /*...*/ }) {
 }
 
 
+function dataSections() {
+  return (
+    [
+        {name: 'Layout', 'Fully Compliant': 60, 'Partially Compliant': 14, 'Non Compliant': 10},
+        {name: 'Authentication', 'Fully Compliant': 65, 'Partially Compliant': 7, 'Non Compliant': 2},
+        {name: 'Website Registration', 'Fully Compliant': 50, 'Partially Compliant': 2, 'Non Compliant': 6},
+        {name: 'Content: Information', 'Fully Compliant': 45, 'Partially Compliant': 10, 'Non Compliant': 8},
+        {name: 'Search', 'Fully Compliant': 70, 'Partially Compliant': 8, 'Non Compliant': 4},
+        {name: 'Accessibility', 'Fully Compliant': 12, 'Partially Compliant': 9, 'Non Compliant': 3},
+        {name: 'ePayment', 'Fully Compliant': 54, 'Partially Compliant': 15, 'Non Compliant': 7},
+        {name: 'Support', 'Fully Compliant': 78, 'Partially Compliant': 23, 'Non Compliant': 6},
+        {name: 'General Requirements', 'Fully Compliant': 56, 'Partially Compliant': 12, 'Non Compliant': 1},
+        {name: 'Security and Privacy', 'Fully Compliant': 70, 'Partially Compliant': 11, 'Non Compliant': 4},
+      ]
+  )
+}
+
 const defaultSelectedEntity = {label: 'All', value: 0}
 const defaultSelectedProject = {label: 'All', value: 0}
 export default function(props) {
@@ -30,8 +47,6 @@ export default function(props) {
   const [entitiesForSelect, setEntitiesForSelect] = useState([])
   const [selectedEntity, setSelectedEntity] = useState(defaultSelectedEntity)
   const [leaderBoardData, setLeaderBoardData] = useState({"High Performing Entities":[{"name":"Ministry of Space","score":40},{"name":"Ministry of Justice","score":45},{"name":"Ministry of Public Health","score":62},{"name":"Supreme Judiciary Council","score":67},{"name":"Kahramaa","score":71}],"Least Performing Entities":[{"name":"Hamad Medical Corporation","score":32},{"name":"Ministry of Commerce and Industry","score":20},{"name":"Ministry of Transport & Communication","score":30},{"name":"Qatar Foundation","score":17},{"name":"Qatar University","score":12}]})
-
-  const [report, setReport] = useState({})
   
   useEffect(() => {
     console.log(get)
@@ -56,10 +71,6 @@ export default function(props) {
       }
 
     }, error: () => []})
-
-    get('reports/state', {success: (json) => {
-      setReport(json.data)
-    }})
   }, [])
 
   
@@ -102,18 +113,18 @@ export default function(props) {
         <MainInfo>
           <div className='logo'> Logo </div>
           <div className='info'>
-            <div className='title'> {report.name} </div>
+            <div className='title'> Jawda </div>
             <div className='description'> 
-              {report.description}
+              Jawda is center of excellence for adoption & compliance of  online services and policies 
               </div>
             <div className='status'>
-              <div> <SVGCheck /> <span> {report.overall_projects_completed} Completed </span> </div>
-              <div> <SVGSolution /> <span> {report.overall_projects_wip} Running </span> </div>
-              <div> {Math.ceil(report.overall_projects_completed / report.overall_projects_wip * 100)}% <span> Adoption rate </span> </div>
+              <div> <SVGCheck /> <span> 45 Completed </span> </div>
+              <div> <SVGSolution /> <span> 27 Running </span> </div>
+              <div> 74% <span> Adoption rate </span> </div>
             </div>
           </div>
           <div className='progress'>
-            <div className='round'>{Math.ceil(report.overall_score)}</div>
+            <div className='round'>74</div>
             <div> Compliance Score</div>
           </div>
           <Spacer />
@@ -121,8 +132,8 @@ export default function(props) {
         <CardHolder>
           <div className='header'>
             <ProgressStatus> 
-              <div> {Math.ceil(report.overall_progress)}% Completed </div>
-              <Progress color='#3FBF11' value={Math.ceil(report.overall_progress)} max={100}> {38} </Progress>
+              <div> 38.7% Completed </div>
+              <Progress color='#3FBF11' value={39} max={100}> {38} </Progress>
             </ProgressStatus>
             <div className='search'>
               <div className='showing'> Showing {gates.length} Entities</div>
@@ -133,7 +144,7 @@ export default function(props) {
 
           <Cards>
             {
-              (report.entities || []).map((k, i) => {
+              gates.map((k, i) => {
                 // console.log(entityFilter.trim().length , k.name.toLowerCase())
                 if(entityFilter.trim().length > 0 && !k.name.toLowerCase().includes(entityFilter.toLowerCase())){
                   return null
@@ -147,13 +158,13 @@ export default function(props) {
                         <div className='title'> 
                           <div className='name'> {k.name } </div>
                           <div className='progress'> 
-                            <Progress value={Math.ceil(k.progress)} height='5px' max={100} bkcolor='#DCDFE8' width='90%' 
+                            <Progress value={39} height='5px' max={100} bkcolor='#DCDFE8' width='90%' 
                               color='#0064FE' tagBkColor='#EBF4FF' showTag tagColor='#0064FE' />  
                           </div>
                         </div>
                         <div className='chart'> 
-                          <div className='data'> {Math.ceil(k.progress) < 10 ? `0${Math.ceil(k.progress)}` : Math.ceil(k.progress)}</div>
-                          <StatusChart prog={Math.ceil(k.progress)}/> 
+                          <div className='data'> {k.prog}</div>
+                          <StatusChart prog={k.prog}/> 
                         </div>
                       </div>
 
@@ -161,14 +172,14 @@ export default function(props) {
                         <div className='title'> Projects</div>
                         <div className='info'>
                           <div className='status'>
-                            <div className='value'> {k.projects.completed} </div>
+                            <div className='value'> {k.completed} </div>
                             <div className='label'> Completed 
                               <BarB color='#3FBF11' />
                             </div>
                             
                           </div>
                           <div className='status'>
-                            <div className='value'> {k.projects.wip} </div>
+                            <div className='value'> {k.wip} </div>
                             <div className='label'> 
                               WIP 
                               <BarB color='#FFBF00' />
@@ -176,10 +187,10 @@ export default function(props) {
                             
                           </div>
                           <div className='status'>
-                            <div className='value'> {k.projects.not_started} </div>
+                            <div className='value'> {k.not_started} </div>
                             <div className='label'> 
                               Not Started 
-                              <BarB color='#999999' />
+                              <BarB color='#FFBF00' />
                             </div>
 
                           </div>
@@ -202,7 +213,7 @@ export default function(props) {
                 <div className='sections'>
                   <div className='title'> Sections </div>
                   <ol>
-                    { report.section_wise_compliance?.map((o, i) => (
+                    { dataSections().map((o, i) => (
                       <li key={i}>{o.name}</li>
                     ))}
                     
@@ -210,10 +221,9 @@ export default function(props) {
                 </div>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
-                    
                     width={500}
                     height={300}
-                    data={report.section_wise_compliance || []}
+                    data={dataSections()}
                     margin={{
                       top: 20,
                       right: 30,
@@ -222,8 +232,8 @@ export default function(props) {
                     }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <YAxis  />
-                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => (report.section_wise_compliance[i]?.name)}/>
+                    <YAxis />
+                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => (dataSections()[i]?.name)}/>
                     <Legend />
                     <Bar dataKey="Fully Compliant" stackId="a" fill="#008000" barSize={20} />
                     <Bar dataKey="Partially Compliant" stackId="a" fill="#005CC8" barSize={20} />
@@ -234,7 +244,7 @@ export default function(props) {
 
               </div>
             </Graph>
-            <LeaderBoard leaderBoardData={{'Least Performing Entities': (report.low_entities || []),  'High Performing Entities': (report.high_entities || [])}} />
+            <LeaderBoard leaderBoardData={leaderBoardData} />
             <Spacer />
         </FlexWrapper>
 
@@ -486,8 +496,6 @@ const Graph = styled.div`
       }
       > ol {
         padding-top: 20px;
-        height: 510px;
-        overflow: scroll;
         margin: 0;
         li {
           margin-top: 15px;
@@ -804,8 +812,7 @@ const StatusCard = styled.div`
     border-radius: 5px;
     padding: 19px 16px;
     > .logo {
-      min-width: 50px;
-      max-width: 50px;
+      width: 50px;
       height: 50px;
       background: #1A6B8F 0% 0% no-repeat padding-box;
       border-radius: 3px;
@@ -910,21 +917,10 @@ function StatusChart({width=50, height=50, innerRadius=14, outerRadius= 20, valu
         cy={15}
         innerRadius={innerRadius}
         outerRadius={outerRadius}
-        fill="#DCDFE8"
-        startAngle={90-prog/100*360}
-        endAngle={450}
-      ></Pie>
-      <Pie
-        data={[{name: '', value: value}]}
-        cx={15}
-        cy={15}
-        innerRadius={innerRadius}
-        outerRadius={outerRadius}
         fill="#FFBF00"
         startAngle={90}
         endAngle={90-prog/100*360}
       ></Pie>
-
     </PieChart>
   //   <PieChart width={800} height={400}>
   //   <Pie

@@ -43,7 +43,8 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
   def not_tested?; status == 'open'; end
 
   def compliance_score
-    ((mandate_wt[parameter.mandate_level_id] * (compliance_wt[user_compliance_type] || 2)) / (5 * 2).to_f) * 10
+    return 0 unless parameter_id
+    ((mandate_wt[App::Models::AttributeParameter.by_id[parameter_id][:ml]] * (compliance_wt[user_compliance_type] || 2)) / (5 * 2).to_f) * 10
   end
 
 end

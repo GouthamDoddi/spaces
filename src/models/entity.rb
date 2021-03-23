@@ -9,8 +9,15 @@ class App::Models::Entity < Sequel::Model
   end
 
 
-  def self.for_report(id)
-    eager(:projects => [{record_parameters: :attribute_parameters}, :applied_attributes_obj])[id]
+  def self.for_report(id=nil)
+    ds = eager(:projects => {record_parameters: :parameter})
+    id ? ds[id] : ds.all
+  end
+
+  def projects_info
+    projects.map do |p|
+      { name: p.name, description: p.description, score: p.score, progress: p.progress, sections: p.section_wise_compliance_count }
+    end
   end
 
   def projects_status
@@ -25,5 +32,41 @@ class App::Models::Entity < Sequel::Model
       h
     end
   end
+
+
+
+  def section_wise_compliance
+    projects.reduce({}) do |h, p|
+      p.section_wise_compliance_count.each do |s|
+        if h[s[:id]]
+          h[s[:id]]['Fully Compliant'] += s['Fully Compliant']
+          h[s[:id]]['Partially Compliant'] += s['Partially Compliant']
+          h[s[:id]]['Non Compliant'] += s['Non Compliant']
+        else
+          h[s[:id]] = s
+        end
+      end
+      h
+    end
+
+  end
+
+
+  def self.section_wise_compliance_for_entities(entities)
+    entities.reduce({}) do | h, p|
+      p.section_wise_compliance.values.each do |s|
+        if h[s[:id]]
+          h[s[:id]]['Fully Compliant'] += s['Fully Compliant']
+          h[s[:id]]['Partially Compliant'] += s['Partially Compliant']
+          h[s[:id]]['Non Compliant'] += s['Non Compliant']
+        else
+          h[s[:id]] = s
+        end
+      end
+      h
+    end
+  end
 end
 
+# e = App::Models::Entity.for_report
+# e.map{|oe| oe.projects.map {|p| p.section_wise_score(true)}}

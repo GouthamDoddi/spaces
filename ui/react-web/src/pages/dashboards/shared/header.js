@@ -2,14 +2,23 @@ import styled from 'styled-components'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export default function({children, ...props}) {
+export default function({children, viewType, viewName,  ...props}) {
   return(
     <Outline>
       <div className='logo'>
         <img src='/img/logo-jawda.jpg' />
+        <div> 
+          <div className='view'>{viewType}</div>
+          <div className='name'>{viewName}</div>
+        </div>
       </div>
       {children}
-      <div> <Link to='/dashboard'> Application </Link> </div>
+      <div className='menu'> 
+        <Link to='/'> Home </Link> 
+        <Link to='/dashboard'> Dashboards </Link> 
+        <Link to='/entities'> Entities </Link> 
+        <Link to='/projects'> Projects </Link> 
+      </div>
     </Outline>
   )
 }
@@ -25,21 +34,38 @@ const Outline = styled.div`
   display: flex;
   justify-content: space-between;
 
-  .logo {
+  > .logo {
     margin-left: 100px;
     margin-top: 10px;
-    
+    display: flex;
     img {
       width: 128px;
       height: 40px;
+      margin-right: 40px;
+    }
+
+    > div {
+      border-left: 1px solid #CFCFCF;
+      // line-height: 40px;
+      height: 40px;
+      padding-left: 30px;
+      > .view {
+        font: normal normal normal 14px/18px Muli;
+        color: #999999;  
+      }
+      > .name {
+        font: normal normal bold 15px/22px Muli;
+        color: #000000;
+      }
     }
   }
-  div {
+  > .menu {
     margin-right: 50px;
     a {
       padding: 10px;
-      background-color: #EB622B;
-      color: #fff;
+      // background-color: #EB622B;
+      // color: #fff;
+      color: #666666;
       border-radius: 4px;
     }
   }

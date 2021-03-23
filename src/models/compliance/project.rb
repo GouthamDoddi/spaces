@@ -2,6 +2,12 @@ class App::Models::Compliance::Project < Sequel::Model
 
   # one_to_many :applicable_sections, class: 'App::Models::ApplicableSection'
   one_to_many :record_parameters, class: 'App::Models::Compliance::RecordParameter'
+  # many_to_many :applied_section_objs, 
+  one_to_many :applied_attributes_obj, eager: :parameters, class: 'App::Models::PolicySectionAttribute', 
+      dataset: (proc do
+        App::Models::PolicySectionAttribute.where(id: applied_attribute_ids_val)
+    end)
+
 
   plugin ::SequelPlugin::AllowedList
 
@@ -166,7 +172,7 @@ class App::Models::Compliance::Project < Sequel::Model
 
 
   def completed?
-    (applicable_parameters.map(&:id) - record_parameters.map(&:parameter_id)).length == 0 &&
+    (total_parameters.map(&:id) - record_parameters.map(&:parameter_id)).length == 0 &&
     record_parameters.select{_1.not_tested?}.length == 0
     # record_parameters.select{ !_1.closed? && !_.1.review?}.length == 0
   end
@@ -177,6 +183,102 @@ class App::Models::Compliance::Project < Sequel::Model
 
   def not_started?
     record_parameters.length == 0
+  end
+
+
+  def attributes_with_parameters
+    # @attributes_with_parameters ||= applied_attributes.eager(:parameters).all
+    App::Models::PolicySectionAttribute.cache.slice(*applied_attribute_ids_val).values
+    # @attributes_with_parameters ||= applied_attributes_obj
+  end
+
+  def policy_sections
+    # @policy_sections ||= App::Models::PolicySection.where(id: attributes_with_parameters.map(&:parent_id)).all
+    App::Models::PolicySection.cache.slice(*attributes_with_parameters.map(&:parent_id)).values
+  end
+  
+
+  def total_parameters
+    @total_parameters ||= attributes_with_parameters.reduce([]){|arr, attr| arr += attr.parameters }
+  end
+
+  def count_of_total_parameters
+    rpids = record_parameters.map(&:parameter_id)
+    [total_parameter_ids - rpids].length + (rpids.length - rpids.uniq.length)
+  end
+
+  def progress_counts
+    @progress_counts ||= record_parameters.reduce({completed: 0, not_started: 0}) do |h, rp|
+      h[:completed] += 1 if rp.closed? || rp.review?
+      h[:not_started] += 1 if rp.not_tested?
+      h
+    end
+  end
+
+  def completed_count; progress_counts[:completed]; end
+
+
+  def total_parameter_ids
+    @total_parameter_ids ||= total_parameters.map(&:id)
+  end
+
+  def section_wise_score(include_count=false)
+
+    rp_sections = record_parameters.group_by(&:section_id)
+        
+    section_wise = attributes_with_parameters.group_by(&:parent_id)
+
+    policy_sections.map do |section|
+      # section = section.first
+      res = { name: section.name, score: 0 }
+      if rp_sections[section.id]
+        rpids = (rp_sections[section.id] || []).map(&:parameter_id)
+        variations_count = rpids.length - rpids.uniq.length
+        total_parameter_ids = section_wise[section.id].reduce([]){|t, a| t += a.parameters.map(&:id) }
+        total_parameter_count = [total_parameter_ids - rpids].length + variations_count
+
+        res = { name: section.name, score: rp_sections[section.id].sum{|rp| rp.compliance_score} / total_parameter_count }
+      end
+      if include_count
+        res.merge!(compliance_count_for_section(section, rp_sections[section.id]))
+      end
+      res
+    end
+    
+  end
+
+  def score
+    ss = section_wise_score
+    ss.present?  ? ss.sum{|o| o[:score]} / ss.length : 0
+  end
+
+  def progress
+    completed_count / count_of_total_parameters.to_f
+  end
+
+  def compliance_count_for_section(section, rps)
+    default = {'Fully Compliant' => 0, 'Partially Compliant' => 0, 'Non Compliant' => 0}
+    if(rps)
+      rps.reduce(default) do |h, rp|
+        if rp.user_compliance_type == 1
+          h['Fully Compliant'] += 1
+        elsif rp.user_compliance_type == 1
+          h['Partially Compliant'] += 1
+        elsif rp.user_compliance_type.nil? || rp.user_compliance_type < 8
+          h['Non Compliant'] += 1
+        end
+        h
+      end
+    else
+      default
+    end
+  end
+
+  def section_wise_compliance_count(rp_sections=nil)
+    rp_sections ||= record_parameters.group_by(&:section_id)
+    policy_sections.map do |section|
+      {id: section.id, name: section.name}.merge!(compliance_count_for_section(section, rp_sections[section.id]))
+    end
   end
 
 end

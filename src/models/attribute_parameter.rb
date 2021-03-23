@@ -13,6 +13,10 @@ class App::Models::AttributeParameter < Sequel::Model
   Gates = ["Pre Engagement", "Content Engagement", "Service Request", "Post Request", "Post Fulfilment", "Questionnaire",]
   TestMethods = ["Testing", "Questionnaire", "Evidence", "Interview"]
 
+  def self.by_id
+    @mandate_levels ||= all.reduce({}){|h, p| h.merge!(p.id => {ml: p.mandate_level_id}, gates: p.quality_gates)}
+  end
+
   def validate
     super
     # validates_presence [:name, :date]

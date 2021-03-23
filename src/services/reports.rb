@@ -47,9 +47,37 @@ class App::Services::Reports < App::Services::Base
 
 
   def entity_report
-    # App::
+    entity = Entity.for_report(rp[:entity_id])
+
+    resp = { name: entity.name, description: entity.description, projects: entity.projects_info }
   end
 
+
+  def state_report
+    resp = { name: 'Jawda', description: 'Qatar Digital Government (QDG) is a cross-governmental, stakeholder-led initiative formed to foster cooperation and champion the cause of digital government in Qatar.'}
+    entities = Entity.for_report
+    
+    
+    resp[:entities] = entities.map do |entity|
+      { id: entity.id, name: entity.name, description: entity.description, 
+        projects: entity.projects_status,
+        score: entity.projects.present? ? (entity.projects.sum{|p| p.score} / entity.projects.length) : 0,
+        progress: entity.projects.present? ? (entity.projects.sum{|p| p.progress} / entity.projects.length) : 0
+      }
+    end
+
+    resp[:overall_progress] = (resp[:entities].sum{|o| o[:progress] } / resp[:entities].length)
+    resp[:overall_score] = (resp[:entities].sum{|o| o[:score]} / resp[:entities].length)
+    resp[:overall_projects_completed] = resp[:entities].sum{ |p| p[:projects] ? p[:projects][:completed] : 0}
+    resp[:overall_projects_wip] = resp[:entities].sum{|p| p[:projects] ? p[:projects][:wip] : 0}
+    resp[:section_wise_compliance] = Entity.section_wise_compliance_for_entities(entities).values
+
+    sorted = resp[:entities].sort{|a,b| a[:score] <=> b[:score]}
+
+    resp[:low_entities] = sorted[0..5]
+    resp[:high_entities] = sorted.reverse[0..5]
+    return_success(resp)
+  end
   
   def self.fields
     {
