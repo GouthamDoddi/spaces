@@ -10,7 +10,7 @@ class App::Models::Entity < Sequel::Model
 
 
   def self.for_report(id=nil)
-    ds = eager(:projects => {record_parameters: :parameter})
+    ds = eager(:projects => {record_parameters: :parameter}).where(id: [1,2,3,4,5,6,7,8,9,10,11,12,13,14])
     id ? ds[id] : ds.all
   end
 

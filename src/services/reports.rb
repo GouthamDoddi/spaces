@@ -3,7 +3,7 @@ class App::Services::Reports < App::Services::Base
   
 
   def entities
-    data = Entity.map do |e|
+    data = Entity.where(id: [1,2,3,4,5,6,7,8,9,10,11,12,13,14]).map do |e|
       { name: e.name,
         id: e.id, 
         description: e.notes, 
