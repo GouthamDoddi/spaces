@@ -238,7 +238,7 @@ class App::Models::Compliance::Project < Sequel::Model
         total_parameter_count = [total_parameter_ids - rpids].length + rpids.compact.length
         sum_of_all_mandate_levels = rp_sections[section.id].sum{|rp| rp.mandate_level_wt}
 
-        res = { name: section.name, score: (rp_sections[section.id].sum{|rp| (rp.mandate_level_wt / sum_of_all_mandate_levels) * rp.compliance_score} )}
+        res = { name: section.name, score: (rp_sections[section.id].sum{|rp| (rp.mandate_level_wt / sum_of_all_mandate_levels.to_f) * rp.compliance_score} )}
       end
       if include_count
         res.merge!(compliance_count_for_section(section, rp_sections[section.id]))
