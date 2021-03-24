@@ -263,7 +263,7 @@ class App::Models::Compliance::Project < Sequel::Model
       rps.reduce(default) do |h, rp|
         if rp.user_compliance_type == 1
           h['Fully Compliant'] += 1
-        elsif rp.user_compliance_type == 1
+        elsif rp.user_compliance_type == 2
           h['Partially Compliant'] += 1
         elsif rp.user_compliance_type.nil? || rp.user_compliance_type < 8
           h['Non Compliant'] += 1

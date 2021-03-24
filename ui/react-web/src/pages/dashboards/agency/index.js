@@ -12,6 +12,7 @@ import { SVGCheck, SVGCrown, SVGSolution, SVGCancel } from '../shared/icons'
 import Filters from '../shared/filters'
 import { get } from '../../../store/api'
 import { BarProgressCard, CircularProgressCard } from '../shared/progress-card'
+import { useParams } from 'react-router';
  // import Card from '../shared/card'
 
 
@@ -40,6 +41,9 @@ export default function(props) {
   // const [selectedEntity, setSelectedEntity] = useState(defaultSelectedEntity)
   // const [leaderBoardData, setLeaderBoardData] = useState({"High Performing Entities":[{"name":"Ministry of Space","score":40},{"name":"Ministry of Justice","score":45},{"name":"Ministry of Public Health","score":62},{"name":"Supreme Judiciary Council","score":67},{"name":"Kahramaa","score":71}],"Least Performing Entities":[{"name":"Hamad Medical Corporation","score":32},{"name":"Ministry of Commerce and Industry","score":20},{"name":"Ministry of Transport & Communication","score":30},{"name":"Qatar Foundation","score":17},{"name":"Qatar University","score":12}]})
   
+  const [report, setReport] = useState({})
+
+  const { entity_id } = useParams()
   useEffect(() => {
     console.log(get)
     get('reports/entities', {success: (json) => { 
@@ -63,7 +67,12 @@ export default function(props) {
       }
 
     }, error: () => []})
-  }, [])
+
+
+    get(`reports/entity/${entity_id}`, {success: (json) => {
+      setReport(json.data)
+    }})
+  }, [entity_id])
 
   const data = [
     {
@@ -156,9 +165,9 @@ export default function(props) {
         <MainInfo>
           <div className='logo'> Logo </div>
           <div className='info'>
-            <div className='title'> Entity Name </div>
+            <div className='title'> {report.name} </div>
             <div className='description'> 
-              Entity Description
+              { report. description }
               </div>
             <div className='status'>
               <div> <SVGCheck /> <span> 45 Completed </span> </div>
@@ -174,35 +183,35 @@ export default function(props) {
         <CardHolder>
           <div className='header'>
             <ProgressStatus> 
-              <div> 38.7% Completed </div>
-              <Progress value={39} max={100} color='#3FBF11' > 38 </Progress>
+              <div> {report.progress?.toFixed(2)}% Completed </div>
+              <Progress value={report.progress?.toFixed(2)} max={100} color='#3FBF11' > 38 </Progress>
             </ProgressStatus>
             <div className='search'>
-              <div className='showing'> Showing {gates.length} Projects</div>
+              <div className='showing'> Showing {report.projects?.length || 0} Projects</div>
               <div className='spacer'></div>
             </div>
           </div>
 
           <Cards>
             {
-              gates.map((k) => (
-              <Card key={k}>
+              (report.projects || []).map((k, i) => (
+              <Card key={i}>
                   <CardInfo>
                     <div className='info'>
                       <div className='logo'> Logo</div>
                       <div className='title'> 
                         <div> {k.name } </div>
                         <div className='progress'> 
-                          <Progress value={39} height='5px' max={100} bkcolor='#DCDFE8'  color='#EB622B' showTag />  
+                          <Progress value={k.progress?.toFixed(2)} height='5px' max={100} bkcolor='#DCDFE8'  color='#EB622B' showTag />  
                         </div>
                       </div>
                       <div className='chart'> 
-                        <div className='data'> {k.prog}</div>
-                        <StatusChart prog={k.prog}/> 
+                        <div className='data'> {Math.ceil(k.score) < 10 ? `0${Math.ceil(k.score)}` : Math.ceil(k.score)} </div>
+                        <StatusChart prog={Math.ceil(k.score)}/> 
                       </div>
                     </div>
                     <div className='description'>
-                      This is Description, This is Description, This is Description,This is Description, This is Description, This is Description, This is Description, This is Description, This is Description, This is Description, This is Description, This is Description, This is Description, This is Description
+                      {k.description}
                     </div>
                   </CardInfo>
                   <CardFooter>
@@ -263,7 +272,7 @@ export default function(props) {
                 <span class='title'> Leaderboard</span>
               </div>
               <div className='info'>
-                <div className='title'> High Performing Entities </div>
+                <div className='title'> High Performing Projects </div>
                 {leaderBoardData['High Performing Entities'].map((o, i) => (
                   <>
                     <div>{i == 0 ? <SVGCrown left='-6px' /> : i + 1}</div>
@@ -271,7 +280,7 @@ export default function(props) {
                     <div>{o.score}</div>
                   </>
                 ))}
-                <div className='title'> Least Performing Entities </div>
+                <div className='title'> Least Performing Projects </div>
                 {leaderBoardData['Least Performing Entities'].map((o, i) => (
                   <>
                     <div>{i + 1}</div>

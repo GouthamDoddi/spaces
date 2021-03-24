@@ -49,16 +49,24 @@ class App::Services::Reports < App::Services::Base
   def entity_report
     entity = Entity.for_report(rp[:entity_id])
 
-    resp = { name: entity.name, description: entity.description }
+    resp = { name: entity.name, description: entity.description, 
+      progress: entity.progress, score: entity.score  
+    }
 
     resp[:projects] = entity.projects.map do |p|
       {
         id: p.id,
         name: p.name, description: p.description,
-        progress: p.progress, score: p.score
+        progress: p.progress, score: p.score,
+
       }
     end
-    resp
+
+    sorted = resp[:projects].sort{|a,b| a[:score] <=> b[:score]}
+
+    resp[:low_projects] = sorted[0..4]
+    resp[:high_projects] = sorted.reverse[0..4]
+    return_success(resp)
   end
 
 
@@ -83,8 +91,8 @@ class App::Services::Reports < App::Services::Base
 
     sorted = resp[:entities].sort{|a,b| a[:score] <=> b[:score]}
 
-    resp[:low_entities] = sorted[0..5]
-    resp[:high_entities] = sorted.reverse[0..5]
+    resp[:low_entities] = sorted[0..4]
+    resp[:high_entities] = sorted.reverse[0..4]
     return_success(resp)
   end
   

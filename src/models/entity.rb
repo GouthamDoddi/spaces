@@ -66,6 +66,14 @@ class App::Models::Entity < Sequel::Model
       h
     end
   end
+
+  def score
+    projects.present? ? (projects.sum{|p| p.score} / projects.length) : 0
+  end
+
+  def progress
+    projects.present? ? (projects.sum{|p| p.progress} / projects.length) : 0
+  end
 end
 
 # e = App::Models::Entity.for_report

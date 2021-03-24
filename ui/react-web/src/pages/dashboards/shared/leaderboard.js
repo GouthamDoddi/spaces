@@ -56,6 +56,7 @@ const LeaderBoard = styled.div`
   > .info {
     padding: 30px;
     display: grid;
+    height: 654px;
     max-width: 429px;
     grid-template-columns: 50px 1fr 50px;
     grid-row-gap: 20px;

@@ -486,7 +486,7 @@ const Graph = styled.div`
       }
       > ol {
         padding-top: 20px;
-        height: 510px;
+        height: 600px;
         overflow: scroll;
         margin: 0;
         li {
@@ -497,7 +497,7 @@ const Graph = styled.div`
         
       }
     }
-    height: 572px;
+    height: 654px;
     background: #FFFFFF 0% 0% no-repeat padding-box;
     border: 1px solid #BBBBBB;
   }
