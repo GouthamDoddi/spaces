@@ -235,8 +235,7 @@ class App::Models::Compliance::Project < Sequel::Model
         rpids = (rp_sections[section.id] || []).map(&:parameter_id)
         variations_count = rpids.length - rpids.uniq.length
         total_parameter_ids = section_wise[section.id].reduce([]){|t, a| t += a.parameters.map(&:id) }
-        total_parameter_count = [total_parameter_ids - rpids].length + variations_count
-
+        total_parameter_count = [total_parameter_ids - rpids].length + rpids.compact.length
         res = { name: section.name, score: rp_sections[section.id].sum{|rp| rp.compliance_score} / total_parameter_count }
       end
       if include_count
