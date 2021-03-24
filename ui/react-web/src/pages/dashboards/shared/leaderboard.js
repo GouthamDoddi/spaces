@@ -11,19 +11,19 @@ export default function({leaderBoardData, ...props}) {
       </div>
       <div className='info'>
         <div className='title'> High Performing Entities </div>
-        {leaderBoardData['High Performing Entities'].map((o, i) => (
+        {leaderBoardData['High Performing Entities']?.map((o, i) => (
           <>
             <div>{i == 0 ? <SVGCrown left='-6px' /> : i + 1}</div>
             <div>{o.name}</div>
-            <div>{o.score.toFixed(2)}</div>
+            <div>{o.score?.toFixed(2)}</div>
           </>
         ))}
         <div className='title'> Least Performing Entities </div>
-        {leaderBoardData['Least Performing Entities'].map((o, i) => (
+        {leaderBoardData['Least Performing Entities']?.map((o, i) => (
           <>
             <div>{i + 1}</div>
             <div>{o.name}</div>
-            <div>{o.score.toFixed(2)}</div>
+            <div>{o.score?.toFixed(2)}</div>
           </>
         ))}
       </div>

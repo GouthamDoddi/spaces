@@ -126,7 +126,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/qg"> <TP theme={cs.newdesign}> <Qg /> </TP> </Route>
+        <Route path="/qg/:entity_id/:project_id"> <TP theme={cs.newdesign}> <Qg /> </TP> </Route>
         <Route path="/board"> <TP theme={cs.newdesign}> <Board /> </TP> </Route>
         <Route path="/agency/:entity_id"> <TP theme={cs.newdesign}> <Agency /> </TP> </Route>
         <Route path='/login'><Login /></Route>

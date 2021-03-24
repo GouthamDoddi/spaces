@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../shared/header'
 import styled from 'styled-components'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Pie, PieChart, Cell, ResponsiveContainer } from 'recharts';
@@ -9,6 +9,8 @@ import LeaderBoard from '../shared/leaderboard'
 import Insights from '../shared/insights';
 import { CircularProgressCard } from '../shared/progress-card';
 import Downloads from '../shared/downloads';
+import { useParams } from 'react-router';
+import { get } from '../../../store/api';
 
 // import Card from '../shared/card'
 
@@ -31,6 +33,17 @@ function dataSections() {
 }
 
 export default function() {
+
+  const { entity_id, project_id } = useParams()
+
+  const [report, setReport] = useState({})
+
+  useEffect(() => {
+    get(`reports/${entity_id}/db_project/${project_id}`, {success: (json) => {
+      setReport(json.data)
+    }})
+  }, [entity_id, project_id])
+
   const data = [
     {
       name: 'Page A',
@@ -140,23 +153,23 @@ export default function() {
         <MainInfo>
           <div className='logo'> Logo </div>
           <div className='info'>
-            <div className='title'> Project Name </div>
-            <div className='description'> Complete Project Description goes here. </div>
+            <div className='title'> {report.name} </div>
+            <div className='description'> { report.description } </div>
             <div className='status'>
-              <div>Date of Release: 12-Jan-2021</div>
-              <div>Next Date of Release: 23-Mar-2021</div>
+              <div>Date of Start: {report.start_date}</div>
+              <div>Date of Release: {report.end_date}</div>
             </div>
           </div>
           <div className='progress'>
-            <div className='round'>74</div>
+            <div className='round'>{report.total_score}</div>
             <div>Compliance Score</div>
           </div>
           <Spacer />
         </MainInfo>
         <CardHolder>
           <ProgressStatus> 
-            <div> 38.7% Completed </div>
-            <Progress value={39} max={100}> {38} </Progress>
+            <div> {((report.total_completed_parameters / (report.total_parameters * 1.0)) * 100).toFixed(2)} % Completed </div>
+            <Progress value={(report.total_completed_parameters / (report.total_parameters * 1.0)) * 100} max={100}> {38} </Progress>
           </ProgressStatus>
           <Cards>
             {
@@ -209,7 +222,7 @@ export default function() {
                 <div className='sections'>
                   <div className='title'> Sections </div>
                   <ol>
-                    { dataSections().map((o, i) => (
+                    { report.extras?.map((o, i) => (
                       <li key={i}>{o.name}</li>
                     ))}
                     
@@ -219,7 +232,7 @@ export default function() {
                   <BarChart
                     width={500}
                     height={300}
-                    data={dataSections()}
+                    data={report.extras}
                     margin={{
                       top: 20,
                       right: 30,
@@ -229,7 +242,7 @@ export default function() {
                   >
                     <CartesianGrid strokeDasharray="3 3" />
                     <YAxis />
-                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => (dataSections()[i]?.name)}/>
+                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => ((report.extras || [])[i]?.name)}/>
                     <Legend />
                     <Bar dataKey="Fully Compliant" stackId="a" fill="#008000" barSize={20} />
                     <Bar dataKey="Partially Compliant" stackId="a" fill="#005CC8" barSize={20} />
@@ -241,28 +254,10 @@ export default function() {
               </div>
             </Graph>
           
-            <LeaderBoard leaderBoardData={leaderBoardData}>
-              <div className='header'>
-                <span class='title'> Leaderboard</span>
-              </div>
-              <div className='info'>
-                <div className='title'> High Performing Entities </div>
-                {leaderBoardData['High Performing Entities'].map((o, i) => (
-                  <>
-                    <div>{i + 1}</div>
-                    <div>{o.name}</div>
-                    <div>{o.score}</div>
-                  </>
-                ))}
-                <div className='title'> Least Performing Entities </div>
-                {leaderBoardData['Least Performing Entities'].map((o, i) => (
-                  <>
-                    <div>{i + 1}</div>
-                    <div>{o.name}</div>
-                    <div>{o.score}</div>
-                  </>
-                ))}
-              </div>
+            <LeaderBoard leaderBoardData={{
+              'High Performing Entities': report.score_by_section?.slice(0, 5).map((a) => ({name: a[0], score: a[1]}) ),
+              'Least Performing Entities': report.score_by_section?.reverse()?.slice(0,5).map((a) => ({name: a[0], score: a[1]}))
+            }}>
             </LeaderBoard>
             <Spacer />
         </FlexWrapper>

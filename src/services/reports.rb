@@ -96,6 +96,13 @@ class App::Services::Reports < App::Services::Base
     resp[:high_entities] = sorted.reverse[0..4]
     return_success(resp)
   end
+
+  def db_project_report
+    rec = App::Models::DbProject[rp[:project_id]]
+    rec.score_by_section = rec.score_by_section.sort{|(a,v1), (b, v2)| v1 <=> v2}
+    return_success(rec.as_json)
+    
+  end
   
   def self.fields
     {
