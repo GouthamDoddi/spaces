@@ -64,8 +64,8 @@ export function BarProgressCard(props) {
 }
 
 const Box = styled.div`
-  margin-left: 100px;
-  margin-top: 30px;
+  
+  margin-bottom: 30px;
   width: 454px;
   height: 255px;
   background: #FFFFFF 0% 0% no-repeat padding-box;

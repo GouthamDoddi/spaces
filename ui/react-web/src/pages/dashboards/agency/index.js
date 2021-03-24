@@ -13,6 +13,9 @@ import Filters from '../shared/filters'
 import { get } from '../../../store/api'
 import { BarProgressCard, CircularProgressCard } from '../shared/progress-card'
 import { useParams } from 'react-router';
+import Insights from '../shared/insights';
+import Downloads from '../shared/downloads';
+
  // import Card from '../shared/card'
 
 
@@ -53,18 +56,6 @@ export default function(props) {
       const least = [23,5,2,11, 22]
       const most= [25, 8, 10, 13, 3]
       let ld = {'High Performing Entities': [], 'Least Performing Entities': []}
-
-      if(leaderBoardData['High Performing Entities'].length == 0 ) {
-        json.data.forEach((o) => {
-          if(least.includes(o.id)) {
-            ld['Least Performing Entities'].push({name: o.name, score: scores[o.id]})
-          } else if(most.includes(o.id)) {
-            ld['High Performing Entities'].push({name: o.name, score: scores[o.id]})
-          }
-          console.log(ld)
-          // setLeaderBoardData(ld)
-        })        
-      }
 
     }, error: () => []})
 
@@ -140,26 +131,11 @@ export default function(props) {
     {mandatory: 'M3', snippet: 'Mandate Level 3', overall: '53%'}
   ]
 
-  const leaderBoardData = {
-    "High Performing Entities": [
-      {name: 'Security and Privacy', score: 12},
-      {name: 'E-Service Technical Standards', score: 20},
-      {name: 'E-Services Functionality', score: 32},
-      {name: 'Stylesheet', score: 30},
-      {name: 'Support (chat/helpline)', score: 17},
-    ],
-    'Least Performing Entities': [
-      {name: 'Search', score: 12},
-      {name: 'E-Payment', score: 20},
-      {name: 'Search Engine Optimization (SEO)', score: 14},
-      {name: 'E-Services Management', score: 30},
-      {name: 'Layout', score: 8},
-    ]
-  }
+
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   return (
     <Layout>
-      <Header> </Header>
+      <Header viewType='Entity View'></Header>
       <Content>
         <Filters entities={entitiesForSelect}/>
         <MainInfo>
@@ -176,7 +152,8 @@ export default function(props) {
             </div>
           </div>
           <div className='progress'>
-            <div className='round'>74</div>
+            <div className='round'>{Math.ceil(report.score)}</div>
+            <div> Compliance Score </div>
           </div>
           <Spacer />
         </MainInfo>
@@ -272,83 +249,64 @@ export default function(props) {
                 <span class='title'> Leaderboard</span>
               </div>
               <div className='info'>
-                <div className='title'> High Performing Projects </div>
-                {leaderBoardData['High Performing Entities'].map((o, i) => (
+                <div className='title'> High Performing Sections </div>
+                {report.high_sections?.map((o, i) => (
                   <>
                     <div>{i == 0 ? <SVGCrown left='-6px' /> : i + 1}</div>
                     <div>{o.name}</div>
-                    <div>{o.score}</div>
+                    <div>{o.score.toFixed(2)}</div>
                   </>
                 ))}
-                <div className='title'> Least Performing Projects </div>
-                {leaderBoardData['Least Performing Entities'].map((o, i) => (
-                  <>
-                    <div>{i + 1}</div>
-                    <div>{o.name}</div>
-                    <div>{o.score}</div>
-                  </>
-                ))}
+
+                <>
+                  <div className='title'> Least Performing Sections </div>
+                    {report.low_sections?.map((o, i) => (
+                      <>
+                        <div>{i + 1}</div>
+                        <div>{o.name}</div>
+                        <div>{o.score.toFixed(2)}</div>
+                      </>
+                    ))}
+                </>
+                : null}
               </div>
             </LeaderBoard>
             <Spacer />
         </FlexWrapper>
 
         <FlexWrapper>
-          {
-            statusData.map((o,i) => {
-
-              return (
-                <CurrentStatusBox>
-                  <div className='label'>
-                    <SvgSBOrange />
-                  </div>
-                  <div className='label-text'>
-                    {o.mandatory}
-                  </div>
-                  <div className='title'> {o.overall} Compliance</div>
-                  <div className='info'>
-                    <div className='graph'>
-                      <PieChart width={200} height={200}>
-                        <Pie
-                          data={pieData}
-                          cx={100}
-                          cy={100}
-                          innerRadius={60}
-                          outerRadius={80}
-                          fill="#8884d8"
-                          paddingAngle={5}
-                          dataKey="value"
-                        >
-                          {pieData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                          ))}
-                        </Pie>
-                      </PieChart>
-                    </div>
-                    <div className='graph-labels'>
-                      <LabelSquare color={COLORS[0]}> <div className='box'/>45% Fully Compliant </LabelSquare>
-                      <LabelSquare color={COLORS[1]}> <div className='box'/>36% Partially Compliant </LabelSquare>
-                      <LabelSquare color={COLORS[2]}> <div className='box'/>37% Non Compliant </LabelSquare>
-                    </div>
-                  </div>
-                  <div className='mandate'> {o.snippet } </div>
-                </CurrentStatusBox> 
-              )
-            })
-          }
- 
+          <SmallCards>
+            <div><CircularProgressCard /></div>
+            <div><CircularProgressCard /></div>
+            <div><CircularProgressCard /></div>
+            <div><CircularProgressCard /></div>
+          </SmallCards>
+          
+          <InsightsContainer>
+            <Insights />
+          </InsightsContainer>
+          
 
         </FlexWrapper>
-
-        <Download />
-
-        <CircularProgressCard />
-        <BarProgressCard />
       </Content>
     </Layout>
   )
 }
 {/* <style>.a{fill:#d3dde5;}.b{fill:#1a6b8f;}</style> */}
+
+const InsightsContainer = styled.div`
+  margin-right: 30px;
+`
+
+const SmallCards = styled.div`
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-content: baseline;
+  > div {
+    padding-right: 20px;
+  }
+`
 
 const Layout = styled.div`
   display: flex;
@@ -824,8 +782,10 @@ padding-top: 40px;
   }
 }
 > .progress {
+  
   margin-left: 20px;
   > .round {
+    margin-left: 30px;
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -833,6 +793,10 @@ padding-top: 40px;
     padding-top: 17px;
     text-align: center;
     font: normal normal bold 35px/51px Muli;
+    margin-bottom: 10px;
+  }
+  > div:last-child {
+    text-transform: uppercase;
   }
 }
 `

@@ -80,7 +80,7 @@ const Wrapper = styled.div`
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 1px solid #BBBBBB;
   padding-bottom: 25px;
-  margin-left: 70px;
+  padding-right: 0;
   margin-top: 40px;
   > header {
     width: 100%;

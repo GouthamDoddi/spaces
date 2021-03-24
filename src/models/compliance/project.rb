@@ -282,6 +282,30 @@ class App::Models::Compliance::Project < Sequel::Model
     end
   end
 
+
+  def score_by_type(arr)
+    compl_type_map = { 1=> 'fully', 2 => 'partial', 3 => 'non'}
+
+    res = arr.group_by(&:user_compliance_type)
+    result = {}
+    calc = Proc.new {|arr| 
+      ((arr || []).sum{|o| o.final_compl_score} / arr.length.to_f) * 100
+    }
+    result[:fully] = calc.(res.delete(1))
+    result[:partial] = calc.(res.delete(2) || [])
+    result[:non] = calc.((res.delete(3) || []) + (res.delete(4) || []) + (res.delete(5) || []) + (res.delete(7) || []) + (res.delete(8) || []))
+    result[:overall] = (result[:fully] + result[:partial] + result[:non]) / 3
+    result
+  end
+
+  def level_wise_compliance
+    grp = record_parameters.group_by(&:mandate_level)
+    resp = {l1: {fully: [], partial: [], non: []}}
+    
+    { m1: score_by_type(grp[1]), m2: score_by_type(grp[2]), m3: score_by_type(grp[3]) }
+
+  end
+
 end
 
 

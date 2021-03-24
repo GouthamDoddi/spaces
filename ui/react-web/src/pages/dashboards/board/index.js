@@ -13,6 +13,8 @@ import { SVGCrown, SVGCheck, SVGSolution, SVGCancel } from '../shared/icons'
 import Progress from '../shared/progress'
 import Filters from '../shared/filters'
 import LeaderBoard from '../shared/leaderboard'
+import Insights from '../shared/insights'
+import { BarProgressCard, CircularProgressCard } from '../shared/progress-card'
 // import Card from '../shared/card'
 
 function useInput({ type='text' /*...*/ }) {
@@ -239,57 +241,38 @@ export default function(props) {
         </FlexWrapper>
 
         <FlexWrapper>
-          {
-            statusData.map((o,i) => {
-
-              return (
-                <CurrentStatusBox>
-                  <div className='label'>
-                    <SvgSBOrange />
-                  </div>
-                  <div className='label-text'>
-                    {o.mandatory}
-                  </div>
-                  <div className='title'> {o.overall} Compliance</div>
-                  <div className='info'>
-                    <div className='graph'>
-                      <PieChart width={200} height={200}>
-                        <Pie
-                          data={pieData}
-                          cx={100}
-                          cy={100}
-                          innerRadius={60}
-                          outerRadius={80}
-                          fill="#8884d8"
-                          paddingAngle={5}
-                          dataKey="value"
-                        >
-                          {pieData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                          ))}
-                        </Pie>
-                      </PieChart>
-                    </div>
-                    <div className='graph-labels'>
-                      <LabelSquare color={COLORS[0]}> <div className='box'/>45% Fully Compliant </LabelSquare>
-                      <LabelSquare color={COLORS[1]}> <div className='box'/>36% Partially Compliant </LabelSquare>
-                      <LabelSquare color={COLORS[2]}> <div className='box'/>37% Non Compliant </LabelSquare>
-                    </div>
-                  </div>
-                  <div className='mandate'> {o.snippet } </div>
-                </CurrentStatusBox> 
-              )
-            })
-          }
- 
+          <SmallCards>
+            <div><CircularProgressCard /></div>
+            <div><CircularProgressCard /></div>
+            <div><CircularProgressCard /></div>
+            <div><CircularProgressCard /></div>
+          </SmallCards>
+          
+          <InsightsContainer>
+            <Insights />
+          </InsightsContainer>
+          
 
         </FlexWrapper>
-
       </Content>
     </Layout>
   )
 }
 {/* <style>.a{fill:#d3dde5;}.b{fill:#1a6b8f;}</style> */}
+
+const InsightsContainer = styled.div`
+  margin-right: 30px;
+`
+
+const SmallCards = styled.div`
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-content: baseline;
+  > div {
+    padding-right: 20px;
+  }
+`
 
 const Layout = styled.div`
   display: flex;

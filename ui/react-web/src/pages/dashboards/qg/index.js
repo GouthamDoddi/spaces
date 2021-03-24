@@ -2,10 +2,33 @@ import React from 'react'
 import Header from '../shared/header'
 import styled from 'styled-components'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Pie, PieChart, Cell, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, Legend } from 'recharts';
 import { qualityGateTypes } from '../../../store/master-data';
 import { Select } from '../../../components/form'
+import LeaderBoard from '../shared/leaderboard'
+import Insights from '../shared/insights';
+import { CircularProgressCard } from '../shared/progress-card';
+import Downloads from '../shared/downloads';
 
 // import Card from '../shared/card'
+
+
+function dataSections() {
+  return (
+    [
+        {name: 'Layout', 'Fully Compliant': 60, 'Partially Compliant': 14, 'Non Compliant': 10},
+        {name: 'Authentication', 'Fully Compliant': 65, 'Partially Compliant': 7, 'Non Compliant': 2},
+        {name: 'Website Registration', 'Fully Compliant': 50, 'Partially Compliant': 2, 'Non Compliant': 6},
+        {name: 'Content: Information', 'Fully Compliant': 45, 'Partially Compliant': 10, 'Non Compliant': 8},
+        {name: 'Search', 'Fully Compliant': 70, 'Partially Compliant': 8, 'Non Compliant': 4},
+        {name: 'Accessibility', 'Fully Compliant': 12, 'Partially Compliant': 9, 'Non Compliant': 3},
+        {name: 'ePayment', 'Fully Compliant': 54, 'Partially Compliant': 15, 'Non Compliant': 7},
+        {name: 'Support', 'Fully Compliant': 78, 'Partially Compliant': 23, 'Non Compliant': 6},
+        {name: 'General Requirements', 'Fully Compliant': 56, 'Partially Compliant': 12, 'Non Compliant': 1},
+        {name: 'Security and Privacy', 'Fully Compliant': 70, 'Partially Compliant': 11, 'Non Compliant': 4},
+      ]
+  )
+}
 
 export default function() {
   const data = [
@@ -107,7 +130,7 @@ export default function() {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   return (
     <Layout>
-      <Header> </Header>
+      <Header viewType='Project View'></Header>
       <Content>
         <Filters>
           <div> <Select label='Filter By Entity'></Select> </div>
@@ -119,9 +142,14 @@ export default function() {
           <div className='info'>
             <div className='title'> Project Name </div>
             <div className='description'> Complete Project Description goes here. </div>
+            <div className='status'>
+              <div>Date of Release: 12-Jan-2021</div>
+              <div>Next Date of Release: 23-Mar-2021</div>
+            </div>
           </div>
           <div className='progress'>
-            <div className='round'>74%</div>
+            <div className='round'>74</div>
+            <div>Compliance Score</div>
           </div>
           <Spacer />
         </MainInfo>
@@ -174,34 +202,46 @@ export default function() {
         </CardHolder> 
 
         <FlexWrapper>
-          <Graph>
-              <div className='header'><Select></Select></div>
+        <Graph>
+              
+              <div className='header'>Sectionwise Compliance Trend Analysis</div>
               <div className='info'>
+                <div className='sections'>
+                  <div className='title'> Sections </div>
+                  <ol>
+                    { dataSections().map((o, i) => (
+                      <li key={i}>{o.name}</li>
+                    ))}
+                    
+                  </ol>
+                </div>
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart
-                    width={600}
-                    height={400}
-                    data={data}
+                  <BarChart
+                    width={500}
+                    height={300}
+                    data={dataSections()}
                     margin={{
-                      top: 10,
+                      top: 20,
                       right: 30,
-                      left: 0,
-                      bottom: 0,
+                      left: 20,
+                      bottom: 5,
                     }}
                   >
-                    
-                    <XAxis dataKey="name1" />
+                    <CartesianGrid strokeDasharray="3 3" />
                     <YAxis />
-                    <Tooltip />
-                    <Area type="monotone" dataKey="dataset1" stackId="1" stroke="#8884d8" fill="#8884d8" />
-                    <Area type="monotone" dataKey="dataset2" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
-                  </AreaChart>
+                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => (dataSections()[i]?.name)}/>
+                    <Legend />
+                    <Bar dataKey="Fully Compliant" stackId="a" fill="#008000" barSize={20} />
+                    <Bar dataKey="Partially Compliant" stackId="a" fill="#005CC8" barSize={20} />
+                    <Bar dataKey="Non Compliant" stackId="a" fill="#EB622B" barSize={20} />
+                  </BarChart>
                 </ResponsiveContainer>
 
 
               </div>
             </Graph>
-            <LeaderBoard>
+          
+            <LeaderBoard leaderBoardData={leaderBoardData}>
               <div className='header'>
                 <span class='title'> Leaderboard</span>
               </div>
@@ -228,49 +268,18 @@ export default function() {
         </FlexWrapper>
 
         <FlexWrapper>
-          {
-            statusData.map((o,i) => {
-
-              return (
-                <CurrentStatusBox>
-                  <div className='label'>
-                    <SvgSBOrange />
-                  </div>
-                  <div className='label-text'>
-                    {o.mandatory}
-                  </div>
-                  <div className='title'> {o.overall} Compliance</div>
-                  <div className='info'>
-                    <div className='graph'>
-                      <PieChart width={200} height={200}>
-                        <Pie
-                          data={pieData}
-                          cx={100}
-                          cy={100}
-                          innerRadius={60}
-                          outerRadius={80}
-                          fill="#8884d8"
-                          paddingAngle={5}
-                          dataKey="value"
-                        >
-                          {pieData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                          ))}
-                        </Pie>
-                      </PieChart>
-                    </div>
-                    <div className='graph-labels'>
-                      <LabelSquare color={COLORS[0]}> <div className='box'/>45% Fully Compliant </LabelSquare>
-                      <LabelSquare color={COLORS[1]}> <div className='box'/>36% Partially Compliant </LabelSquare>
-                      <LabelSquare color={COLORS[2]}> <div className='box'/>37% Non Compliant </LabelSquare>
-                    </div>
-                  </div>
-                  <div className='mandate'> {o.snippet } </div>
-                </CurrentStatusBox> 
-              )
-            })
-          }
- 
+          <SmallCards>
+            <div><CircularProgressCard /></div>
+            <div><CircularProgressCard /></div>
+            <div><CircularProgressCard /></div>
+            <div><CircularProgressCard /></div>
+            <div><Downloads /></div>
+          </SmallCards>
+          
+          <InsightsContainer>
+            <Insights />
+          </InsightsContainer>
+          
 
         </FlexWrapper>
 
@@ -445,7 +454,6 @@ const FlexWrapper = styled.div`
   // background-color: 
 
 `
-
 const Graph = styled.div`
   flex: 1;
   // background-color: #fff;
@@ -454,53 +462,47 @@ const Graph = styled.div`
     height: 73px;
     background: #EEEEEE 0% 0% no-repeat padding-box;
     border: 1px solid #BBBBBB;
-    padding: 8px 25px;
+    padding-left: 40px;
+    font: normal normal bold 20px/30px Muli;
+    color: #666666;
+    line-height: 73px;
   }
 
   > .info {
-    height: 572px;
+    display: flex;
+    > .sections {
+      min-width: 250px;
+      background-color: rgb(243, 245, 251);
+      margin-right: 20px;
+      border-right: 1px solid #BBBBBB;
+      .title {
+        font: normal normal 600 18px/26px Muli;
+        color: #000000;
+        margin-top: 23px;
+        padding-left: 23px;
+      }
+      > ol {
+        padding-top: 20px;
+        height: 600px;
+        overflow: scroll;
+        margin: 0;
+        li {
+          margin-top: 15px;
+          font: normal normal normal 12px/17px;
+          color: #000000;
+        }
+        
+      }
+    }
+    height: 654px;
     background: #FFFFFF 0% 0% no-repeat padding-box;
     border: 1px solid #BBBBBB;
   }
 `
 
-const LeaderBoard = styled.div`
-  margin-left: 40px;
-  border: 1px solid #BBBBBB;
-  background-color: #fff;
-  > .header {
-    width: 429px;
-    min-width: 429px;
-    height: 89px;
-    background: #EEEEEE 0% 0% no-repeat padding-box;
-    padding-left: 40px;
-    opacity: 1;
-    > .title {
-      height: 23px;
-      text-align: left;
-      font-size: 18px;
-      font-weight: 600;
-      color: #666666;
-      opacity: 1;
-      line-height: 89px;
-    }
-  }
 
-  > .info {
-    padding: 30px;
-    display: grid;
-    grid-template-columns: 50px 1fr 50px;
-    grid-row-gap: 20px;
-    > .title {
-      grid-column: 1 / -1;
-      text-align: left;
-      font-size: 18px;
-      font-weight: 600;
-      color: #000000;
-      margin-bottom: 10px;
-    }
-  }
-
+const InsightsContainer = styled.div`
+  margin-right: 30px;
 `
 
 const CurrentStatusBox = styled.div`
@@ -510,7 +512,7 @@ const CurrentStatusBox = styled.div`
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 1px solid #DDDDDD;
   position: relative;
-  margin-right: 40px;
+  // margin-right: 40px;
   > .label {
     position: absolute;
     top: 0;
@@ -610,16 +612,32 @@ const MainInfo = styled.div`
       padding-bottom: 5px;
       border-bottom: 1px solid #DDDDDD;
     }
+    > .status {
+      font: normal normal bold 15px/22px Muli;
+      letter-spacing: 0px;
+      color: #000000;
+      opacity: 1;
+      display: flex;
+      margin-top: 22px;
+      > div:first-child {
+        margin-right: 30px;
+      }
+    }
   }
   > .progress {
     margin-left: 20px;
     > .round {
+      margin-left: 20px;
       width: 100px;
       height: 100px;
       border-radius: 50%;
       border: 8px solid #EB622B;
       line-height: 74px;
       text-align: center;
+      font-size: 24px;
+      padding-top: 4px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
   }
 `
@@ -632,6 +650,16 @@ const Filters = styled.div`
   display: flex;
   > div {
     margin-right: 40px;
+  }
+`
+
+const SmallCards = styled.div`
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-content: baseline;
+  > div {
+    padding-right: 20px;
   }
 `
 

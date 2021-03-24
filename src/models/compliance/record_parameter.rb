@@ -47,8 +47,22 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
     mandate_wt[App::Models::AttributeParameter.by_id[parameter_id][:ml]]
   end
 
+  def mandate_level; App::Models::AttributeParameter.by_id[parameter_id][:ml]; end
+
   def compliance_score
     ( (compliance_wt[user_compliance_type] || 1) / 5.0) * 100
+  end
+
+  def score
+    ( (compliance_wt[user_compliance_type] || 1) * mandate_level_wt)
+  end
+
+  def max_score
+    5 * mandate_level_wt
+  end
+
+  def final_compl_score
+    score / max_score.to_f
   end
 
 end

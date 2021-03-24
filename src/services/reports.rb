@@ -62,6 +62,7 @@ class App::Services::Reports < App::Services::Base
       }
     end
 
+    resp[:sections]
     sorted = resp[:projects].sort{|a,b| a[:score] <=> b[:score]}
 
     resp[:low_projects] = sorted[0..4]
