@@ -10,7 +10,7 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
 
 
   def self.mandate_wt
-    @mandate_scores ||= { 1 => 3, 2 => 2, 3 => 1 }
+    @mandate_scores ||= { 1 => 1, 2 => 2, 3 => 3 }
   end
 
   def self.compliance_wt
