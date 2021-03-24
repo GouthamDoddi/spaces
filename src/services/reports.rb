@@ -62,7 +62,7 @@ class App::Services::Reports < App::Services::Base
       { id: entity.id, name: entity.name, description: entity.description, 
         projects: entity.projects_status,
         score: entity.projects.present? ? (entity.projects.sum{|p| p.score} / entity.projects.length) : 0,
-        progress: entity.projects.present? ? (entity.projects.sum{|p| p.progress} / entity.projects.length) * 100 : 0
+        progress: entity.projects.present? ? (entity.projects.sum{|p| p.progress} / entity.projects.length) : 0
       }
     end
 

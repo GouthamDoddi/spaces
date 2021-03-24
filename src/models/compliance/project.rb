@@ -253,7 +253,7 @@ class App::Models::Compliance::Project < Sequel::Model
   end
 
   def progress
-    (completed_count / count_of_total_parameters.to_f)*100
+    (completed_count / count_of_total_parameters.to_f) * 100
   end
 
   def compliance_count_for_section(section, rps)

@@ -147,13 +147,13 @@ export default function(props) {
                         <div className='title'> 
                           <div className='name'> {k.name } </div>
                           <div className='progress'> 
-                            <Progress value={Math.ceil(k.progress)} height='5px' max={100} bkcolor='#DCDFE8' width='90%' 
+                            <Progress value={k.progress.toFixed(2)} height='5px' max={100} bkcolor='#DCDFE8' width='90%' 
                               color='#0064FE' tagBkColor='#EBF4FF' showTag tagColor='#0064FE' />  
                           </div>
                         </div>
                         <div className='chart'> 
-                          <div className='data'> {Math.ceil(k.progress) < 10 ? `0${Math.ceil(k.progress)}` : Math.ceil(k.progress)}</div>
-                          <StatusChart prog={Math.ceil(k.progress)}/> 
+                          <div className='data'> {Math.ceil(k.score) < 10 ? `0${Math.ceil(k.score)}` : Math.ceil(k.score)}</div>
+                          <StatusChart prog={Math.ceil(k.score)}/> 
                         </div>
                       </div>
 
