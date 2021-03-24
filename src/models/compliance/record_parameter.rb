@@ -10,11 +10,11 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
 
 
   def self.mandate_wt
-    @mandate_scores ||= { 1 => 5, 2 => 4, 3 => 3 }
+    @mandate_scores ||= { 1 => 3, 2 => 2, 3 => 1 }
   end
 
   def self.compliance_wt
-    @compliance_wt ||= {1 => 2, 2 => 1, 3 => 0, 4 => 1, 5 => 1, 7 => 1, 8 => 1}
+    @compliance_wt ||= {1 => 5, 2 => 3, 3 => 0, 4 => 1, 5 => 1, 7 => 1, 8 => 1, 9 => 4}
   end
 
 
@@ -42,9 +42,13 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
   def review?; status == 'in-review'; end
   def not_tested?; status == 'open'; end
 
-  def compliance_score
+  def mandate_level_wt
     return 0 unless parameter_id
-    ((mandate_wt[App::Models::AttributeParameter.by_id[parameter_id][:ml]] * (compliance_wt[user_compliance_type] || 2)) / (5 * 2).to_f) * 10
+    mandate_wt[App::Models::AttributeParameter.by_id[parameter_id][:ml]]
+  end
+
+  def compliance_score
+    ( (compliance_wt[user_compliance_type] || 1) / 5.0) * 100
   end
 
 end

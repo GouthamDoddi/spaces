@@ -236,7 +236,9 @@ class App::Models::Compliance::Project < Sequel::Model
         variations_count = rpids.length - rpids.uniq.length
         total_parameter_ids = section_wise[section.id].reduce([]){|t, a| t += a.parameters.map(&:id) }
         total_parameter_count = [total_parameter_ids - rpids].length + rpids.compact.length
-        res = { name: section.name, score: rp_sections[section.id].sum{|rp| rp.compliance_score} / total_parameter_count }
+        sum_of_all_mandate_levels = rp_sections[section.id].sum{|rp| rp.mandate_level_wt}
+
+        res = { name: section.name, score: (rp_sections[section.id].sum{|rp| (rp.mandate_level_wt / sum_of_all_mandate_levels) * rp.compliance_score} )}
       end
       if include_count
         res.merge!(compliance_count_for_section(section, rp_sections[section.id]))

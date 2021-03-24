@@ -15,3 +15,7 @@ class SendEmail
     }
   end
 end
+
+# resp = Net::SMTP.start('172.30.31.228', 25) do |smtp|
+#   smtp.send_message "Hi Sathish, Welcome to Jawda. PLease use following link to reset your password. http://172.169.16.196/reset/uhgbnhk-4skjhyu", 'support@jawda.gov.qa', 'sathish@bizraums.com'
+# end

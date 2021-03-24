@@ -49,7 +49,16 @@ class App::Services::Reports < App::Services::Base
   def entity_report
     entity = Entity.for_report(rp[:entity_id])
 
-    resp = { name: entity.name, description: entity.description, projects: entity.projects_info }
+    resp = { name: entity.name, description: entity.description }
+
+    resp[:projects] = entity.projects.map do |p|
+      {
+        id: p.id,
+        name: p.name, description: p.description,
+        progress: p.progress, score: p.score
+      }
+    end
+    resp
   end
 
 
