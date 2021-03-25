@@ -256,8 +256,9 @@ export default function() {
           
             <LeaderBoard leaderBoardData={{
               'High Performing Entities': report.score_by_section?.slice(0, 5).map((a) => ({name: a[0], score: a[1]}) ),
-              'Least Performing Entities': report.score_by_section?.reverse()?.slice(0,5).map((a) => ({name: a[0], score: a[1]}))
-            }}>
+              'Least Performing Entities': report.score_by_section?.reverse()?.slice(0,5).map((a) => ({name: a[0], score: a[1]})),
+              
+            }} type='Sections'>
             </LeaderBoard>
             <Spacer />
         </FlexWrapper>

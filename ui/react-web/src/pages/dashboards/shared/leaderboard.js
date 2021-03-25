@@ -3,14 +3,14 @@ import React from 'react'
 import styled from 'styled-components'
 import { SVGCrown} from './icons'
 
-export default function({leaderBoardData, ...props}) {
+export default function({leaderBoardData, type='Entities',  ...props}) {
   return (
     <LeaderBoard>
       <div className='header'>
         <span class='title'> Leaderboard</span>
       </div>
       <div className='info'>
-        <div className='title'> High Performing Entities </div>
+        <div className='title'> High Performing {type} </div>
         {leaderBoardData['High Performing Entities']?.map((o, i) => (
           <>
             <div>{i == 0 ? <SVGCrown left='-6px' /> : i + 1}</div>
@@ -18,7 +18,7 @@ export default function({leaderBoardData, ...props}) {
             <div>{o.score?.toFixed(2)}</div>
           </>
         ))}
-        <div className='title'> Least Performing Entities </div>
+        <div className='title'> Least Performing {type} </div>
         {leaderBoardData['Least Performing Entities']?.map((o, i) => (
           <>
             <div>{i + 1}</div>
