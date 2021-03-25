@@ -15,15 +15,23 @@ export default function(props) {
         </Filter>
         <Cards>
           <Card color='#EB622B'>
-            <div className='bc'> Text <span> > </span> </div>
+            <div className='bc'> ADLSA <span> > </span> </div>
             <div className='title'>Two-factor authentication to make private, E-mail after registration so that I can confirm ….</div>
             <div className='footer'>
-              <div className='tag'> Test</div>
+              <div className='tag'> Loading</div>
               <div className='date'> 10/12/2021</div>
             </div>
           </Card>
           <Card color='#EB622B'>
-            <div className='bc'> Text <span> > </span> </div>
+            <div className='bc'> ADLSA Portal<span> > </span> </div>
+            <div className='title'>Two-factor authentication to make private, E-mail after registration so that I can confirm ….</div>
+            <div className='footer'>
+              <div className='tag'> Error</div>
+              <div className='date'> 10/12/2021</div>
+            </div>
+          </Card>
+          <Card color='#005CC8'>
+            <div className='bc'> ADLSA <span> > </span> </div>
             <div className='title'>Two-factor authentication to make private, E-mail after registration so that I can confirm ….</div>
             <div className='footer'>
               <div className='tag'> Test</div>
@@ -31,7 +39,7 @@ export default function(props) {
             </div>
           </Card>
           <Card color='#005CC8'>
-            <div className='bc'> Text <span> > </span> </div>
+            <div className='bc'> ADLSA <span> > </span> </div>
             <div className='title'>Two-factor authentication to make private, E-mail after registration so that I can confirm ….</div>
             <div className='footer'>
               <div className='tag'> Test</div>
@@ -39,15 +47,7 @@ export default function(props) {
             </div>
           </Card>
           <Card color='#005CC8'>
-            <div className='bc'> Text <span> > </span> </div>
-            <div className='title'>Two-factor authentication to make private, E-mail after registration so that I can confirm ….</div>
-            <div className='footer'>
-              <div className='tag'> Test</div>
-              <div className='date'> 10/12/2021</div>
-            </div>
-          </Card>
-          <Card color='#005CC8'>
-            <div className='bc'> Text <span> > </span> </div>
+            <div className='bc'> ADLSA Mobile <span> > </span> </div>
             <div className='title'>Two-factor authentication to make private, E-mail after registration so that I can confirm ….</div>
             <div className='footer'>
               <div className='tag'> Test</div>

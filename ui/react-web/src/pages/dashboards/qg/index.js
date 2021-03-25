@@ -11,6 +11,7 @@ import { CircularProgressCard } from '../shared/progress-card';
 import Downloads from '../shared/downloads';
 import { useParams } from 'react-router';
 import { get } from '../../../store/api';
+import Filters from '../shared/filters'
 
 // import Card from '../shared/card'
 
@@ -145,11 +146,7 @@ export default function() {
     <Layout>
       <Header viewType='Project View'></Header>
       <Content>
-        <Filters>
-          <div> <Select label='Filter By Entity'></Select> </div>
-          
-          <div><Select label='Filter By Project'></Select></div>
-        </Filters>
+        <Filters />
         <MainInfo>
           <div className='logo'> Logo </div>
           <div className='info'>
@@ -173,29 +170,29 @@ export default function() {
           </ProgressStatus>
           <Cards>
             {
-              Object.keys(gates).map((k) => (
+              Object.keys(gates).map((k, i) => (
               <Card key={k}>
-                  <CardHeader> {qualityGateTypes[k]?.label} </CardHeader>
+                  <CardHeader> {qualityGateTypes[k]?.label} - {((report[`qgate${i+1}`]?.total || 0).toFixed(2) * 100)}% </CardHeader>
                   <CardInfo>
                     <div>
                       <div className='icon'> <WebFramework /></div>
                       <div className='progress'> 
                         <span> Website Framework </span>
-                        <Progress value={39} max={100} color='#0064FE' bkcolor='#DCDFE8'></Progress>
+                        <Progress value={report[`qgate${i+1}`]?.Website * 100} max={100} color='#0064FE' bkcolor='#DCDFE8'></Progress>
                       </div>
                     </div>
                     <div>
                       <div className='icon'> <MobileFramework /></div>
                       <div className='progress'> 
                         <span> Mobile Framework </span>
-                        <Progress value={39} max={100} color='#FF7F31' bkcolor='#DCDFE8'></Progress>
+                        <Progress value={(report[`qgate${i+1}`] || {})['Mobile App'] * 100} max={100} color='#FF7F31' bkcolor='#DCDFE8'></Progress>
                       </div>
                     </div>
                     <div>
                       <div className='icon'> <EserviceFramework /></div>
                       <div className='progress'> 
                         <span> E-Service Framework </span>
-                        <Progress value={39} max={100} color='#043555' bkcolor='#DCDFE8'></Progress>
+                        <Progress value={(report[`qgate${i+1}`] || {})['E-Service'] * 100} max={100} color='#043555' bkcolor='#DCDFE8'></Progress>
                       </div>
                     </div>
 
@@ -265,10 +262,9 @@ export default function() {
 
         <FlexWrapper>
           <SmallCards>
-            <div><CircularProgressCard /></div>
-            <div><CircularProgressCard /></div>
-            <div><CircularProgressCard /></div>
-            <div><CircularProgressCard /></div>
+            <div><CircularProgressCard level={1} full={30} par={20} non={40} total={60}/></div>
+            <div><CircularProgressCard level={2} full={32} par={30} non={200} total={45}/></div>
+            <div><CircularProgressCard level={3} full={40} par={20} non={50} total={67}/></div>
             <div><Downloads /></div>
           </SmallCards>
           
@@ -635,17 +631,6 @@ const MainInfo = styled.div`
       font-weight: bold;
       margin-bottom: 10px;
     }
-  }
-`
-
-const Filters = styled.div`
-  height: 121px;
-  background: #F7FAFD 0% 0% no-repeat padding-box;
-  padding-left: 100px;
-  padding-top: 25px;
-  display: flex;
-  > div {
-    margin-right: 40px;
   }
 `
 

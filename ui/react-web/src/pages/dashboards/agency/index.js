@@ -244,42 +244,15 @@ export default function(props) {
 
               </div>
             </Graph>
-            <LeaderBoard>
-              <div className='header'>
-                <span class='title'> Leaderboard</span>
-              </div>
-              <div className='info'>
-                <div className='title'> High Performing Sections </div>
-                {report.high_sections?.map((o, i) => (
-                  <>
-                    <div>{i == 0 ? <SVGCrown left='-6px' /> : i + 1}</div>
-                    <div>{o.name}</div>
-                    <div>{o.score.toFixed(2)}</div>
-                  </>
-                ))}
-
-                <>
-                  <div className='title'> Least Performing Sections </div>
-                    {report.low_sections?.map((o, i) => (
-                      <>
-                        <div>{i + 1}</div>
-                        <div>{o.name}</div>
-                        <div>{o.score.toFixed(2)}</div>
-                      </>
-                    ))}
-                </>
-                : null}
-              </div>
-            </LeaderBoard>
+            <LeaderBoard leaderBoardData={{'Least Performing Entities': (report.low_entities || []),  'High Performing Entities': (report.high_entities || [])}} />
             <Spacer />
         </FlexWrapper>
 
         <FlexWrapper>
           <SmallCards>
-            <div><CircularProgressCard /></div>
-            <div><CircularProgressCard /></div>
-            <div><CircularProgressCard /></div>
-            <div><CircularProgressCard /></div>
+            <div><CircularProgressCard level={1} full={30} par={20} non={40} total={60}/></div>
+            <div><CircularProgressCard level={2} full={32} par={30} non={200} total={45}/></div>
+            <div><CircularProgressCard level={3} full={40} par={20} non={50} total={67}/></div>
           </SmallCards>
           
           <InsightsContainer>

@@ -11,10 +11,10 @@ const pieData = [
 
 const COLORS = ['#0064FE', '#FFBF00', '#D3DDE5', '#FF8042'];
 
-export function CircularProgressCard(props) {
+export function CircularProgressCard({ level=1, full=30, par=20, non=40, total=60, ...props}) {
   return (
     <Box>
-      <Banner color='#EB622B'> Mandate Level 1 </Banner>
+      <Banner color='#EB622B'> Mandate Level {level} </Banner>
       <Info>
         <div className='chart'>
           <PieChart width={200} height={200}>
@@ -35,18 +35,18 @@ export function CircularProgressCard(props) {
           </PieChart>
         </div>
         <div className='legend'>
-          <Score> 64% Compliance </Score>
+          <Score> {total}% Compliance </Score>
           <Legend>
             <SmallBox color={COLORS[0]} /> 
-            <span> 67% Fully Compliant</span>
+            <span> {full}% Fully Compliant</span>
           </Legend>
           <Legend>
             <SmallBox color={COLORS[1]} /> 
-            <span> 22% Partially Compliant</span>
+            <span> {par}% Partially Compliant</span>
           </Legend>
           <Legend>
             <SmallBox color={COLORS[2]} /> 
-            <span> 21% Non Compliant</span>
+            <span> {non}% Non Compliant</span>
           </Legend>
         </div>
       </Info>

@@ -316,6 +316,439 @@ export const serviceStatusTypes = {
   3: { value: 3, label: 'Not Accessible'},
 }
 
+export const cleanedEntities = {
+    0: {label: 'All', value: 0},
+    3: {id: 3, name: "Kahramaa", short_name: "KM", type_id: 2, focal_point_name: "Alhanouf Almohannadi", focal_point_email: "amalmohannadi@km.qa", focal_point_mobile: "44845116", notes: "آلاء المنهالي - 44845742 - aalmenhali@km.qa\r\nعبير الخزاعي - 44845369 - aalkhuzaei@km.qa", extras: null, active: true, created_by: null, updated_by: 1, created_at: "2020-11-04T10:59:39.716+00:00", updated_at: "2020-11-04T10:59:39.716+00:00", ar_name: "كهرماء", description: "KAHRAMAA has been meticulously planning to come up to the expectations of the decision- makers, stakeholders and its valued customers by investing in world- class projects to raise its capacities and resources.", description_ar: null, label: "Kahramaa", value: 3}, 
+    4: {id: 4, name: "Ministry of Administrative Development, Labour and Social Affairs", short_name: "ADLSA", type_id: 1, focal_point_name: "Maryam Al-Mehaiza", focal_point_email: "mmehaiza@ADLSA.gov.qa", focal_point_mobile: "40288439", notes: "", extras: null, active: true, created_by: null, updated_by: 1, created_at: "2020-11-04T10:59:39.716+00:00", updated_at: "2020-11-04T10:59:39.716+00:00", ar_name: "وزارة التنمية الادارية والعمل والشؤون الاجتماعية", description: "The Ministry of Administrative Development, Labour & Social Affairs has undertaken the responsibility of achieving public objectives of administrative development, labour and employment affairs and social protection of citizens in State of Qatar. ", description_ar: null, label: "Ministry of Administrative Development, Labour and Social Affairs", value: 4}
+}
+
+
+export const issuesByGroup = {
+  3: {
+      4: [
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "Layout",
+              "compl": "NC",
+              "category": "Refresh",
+              "description": "The website is not refreshed post previous policy",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "Search",
+              "compl": "NC",
+              "category": "Technical Issue",
+              "description": "It is technically difficult to implement the policy condition",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "Search",
+              "compl": "PC",
+              "category": "Tools",
+              "description": "Not enough tools to implement the condition",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "Navigation, Content Structure, Sitemap",
+              "compl": "PC",
+              "category": "Refresh",
+              "description": "The website is not refreshed post previous policy",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "Accessibility",
+              "compl": "NC",
+              "category": "Awareness",
+              "description": "Not aware of ecosystem services that can be used for compliance",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "Accessibility",
+              "compl": "PC",
+              "category": "Guidelines",
+              "description": "No clear guidelines on what or how to implement",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "Search Engine Optimization",
+              "compl": "NC",
+              "category": "Tools",
+              "description": "Not enough tools to implement the condition",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "Content: Information",
+              "compl": "NC",
+              "category": "Update",
+              "description": "Content is not updated",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "Content: Graphics and Multimedia",
+              "compl": "NC",
+              "category": "Update",
+              "description": "Content is not updated",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "Support",
+              "compl": "NC",
+              "category": "Before Mandate",
+              "description": "Implemented before mandate is introduced",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "Securtiy & Privacy",
+              "compl": "NC",
+              "category": "Oversight",
+              "description": "Policy criteria was not implemented",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "ePayment",
+              "compl": "NC",
+              "category": "Oversight",
+              "description": "Policy criteria was not implemented",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "General Requirements",
+              "compl": "PC",
+              "category": "Oversight",
+              "description": "Policy criteria was not implemented",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "eServices Profile",
+              "compl": "NC",
+              "category": "Before Mandate",
+              "description": "Implemented before mandate is introduced",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "eServices Information",
+              "compl": "NC",
+              "category": "Before Mandate",
+              "description": "Implemented before mandate is introduced",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "eServices Functionality",
+              "compl": "NC",
+              "category": "Before Mandate",
+              "description": "Implemented before mandate is introduced",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "eServices Functionality",
+              "compl": "PC",
+              "category": "Clarity",
+              "description": "The policy criteria is ambiguous and not clear",
+              "date": "29-Aug-2020"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "4",
+              "project_name": "Kahramaa-Site",
+              "section_name": "eServices Management",
+              "compl": "NC",
+              "category": "Before Mandate",
+              "description": "Implemented before mandate is introduced",
+              "date": "29-Aug-2020"
+          }
+      ],
+      5: [
+          {
+              "entity_id": "3",
+              "project_id": "5",
+              "project_name": "Kahramaa-Mobile",
+              "section_name": "Layout",
+              "compl": "NC",
+              "category": "Before Mandate",
+              "description": "Implemented before mandate is introduced",
+              "date": "02-Sep-20220"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "5",
+              "project_name": "Kahramaa-Mobile",
+              "section_name": "Layout",
+              "compl": "NC",
+              "category": "Guidelines",
+              "description": "No clear guidelines on what or how to implement",
+              "date": "02-Sep-20220"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "5",
+              "project_name": "Kahramaa-Mobile",
+              "section_name": "Content-Information",
+              "compl": "NC",
+              "category": "Before Mandate",
+              "description": "Implemented before mandate is introduced",
+              "date": "02-Sep-20220"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "5",
+              "project_name": "Kahramaa-Mobile",
+              "section_name": "Support: Chat, Helpline",
+              "compl": "PC",
+              "category": "Oversight",
+              "description": "Policy criteria was not implemented",
+              "date": "02-Sep-20220"
+          },
+          {
+              "entity_id": "3",
+              "project_id": "5",
+              "project_name": "Kahramaa-Mobile",
+              "section_name": "General Requirements",
+              "compl": "NC",
+              "category": "Before Mandate",
+              "description": "Implemented before mandate is introduced",
+              "date": "02-Sep-20220"
+          }
+      ]
+  },
+  4: {
+      1: [
+          {
+              "entity_id": "4",
+              "project_id": "1",
+              "project_name": "ADLSA-Site",
+              "section_name": "Layout",
+              "compl": "NC",
+              "category": "Refresh",
+              "description": "The website is not refreshed post previous policy",
+              "date": "11-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "1",
+              "project_name": "ADLSA-Site",
+              "section_name": "Search",
+              "compl": "NC",
+              "category": "Technical Issue",
+              "description": "It is technically difficult to implement the policy condition",
+              "date": "11-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "1",
+              "project_name": "ADLSA-Site",
+              "section_name": "Search",
+              "compl": "PC",
+              "category": "Tools",
+              "description": "Not enough tools to implement the condition",
+              "date": "11-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "1",
+              "project_name": "ADLSA-Site",
+              "section_name": "Navigation, Content Structure, Sitemap",
+              "compl": "PC",
+              "category": "Refresh",
+              "description": "The website is not refreshed post previous policy",
+              "date": "11-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "1",
+              "project_name": "ADLSA-Site",
+              "section_name": "Accessibility",
+              "compl": "NC",
+              "category": "Awareness",
+              "description": "Not aware of ecosystem services that can be used for compliance",
+              "date": "11-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "1",
+              "project_name": "ADLSA-Site",
+              "section_name": "Accessibility",
+              "compl": "PC",
+              "category": "Guidelines",
+              "description": "No clear guidelines on what or how to implement",
+              "date": "11-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "1",
+              "project_name": "ADLSA-Site",
+              "section_name": "Search Engine Optimization",
+              "compl": "NC",
+              "category": "Tools",
+              "description": "Not enough tools to implement the condition",
+              "date": "11-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "1",
+              "project_name": "ADLSA-Site",
+              "section_name": "Content: Information",
+              "compl": "NC",
+              "category": "Update",
+              "description": "Content is not updated",
+              "date": "11-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "1",
+              "project_name": "ADLSA-Site",
+              "section_name": "Content: Graphics and Multimedia",
+              "compl": "NC",
+              "category": "Update",
+              "description": "Content is not updated",
+              "date": "11-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "1",
+              "project_name": "ADLSA-Site",
+              "section_name": "Support",
+              "compl": "NC",
+              "category": "Before Mandate",
+              "description": "Implemented before mandate is introduced",
+              "date": "11-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "1",
+              "project_name": "ADLSA-Site",
+              "section_name": "Securtiy & Privacy",
+              "compl": "NC",
+              "category": "Oversight",
+              "description": "Policy criteria was not implemented",
+              "date": "11-Jul-2020"
+          }
+      ],
+      2: [
+          {
+              "entity_id": "4",
+              "project_id": "2",
+              "project_name": "AMERNI-Mobile",
+              "section_name": "Layout",
+              "compl": "NC",
+              "category": "Before Mandate",
+              "description": "Implemented before mandate is introduced",
+              "date": "16-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "2",
+              "project_name": "AMERNI-Mobile",
+              "section_name": "Layout",
+              "compl": "NC",
+              "category": "Guidelines",
+              "description": "No clear guidelines on what or how to implement",
+              "date": "16-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "2",
+              "project_name": "AMERNI-Mobile",
+              "section_name": "General Requirements",
+              "compl": "NC",
+              "category": "Before Mandate",
+              "description": "Implemented before mandate is introduced",
+              "date": "16-Jul-2020"
+          }
+      ],
+      3: [
+          {
+              "entity_id": "4",
+              "project_id": "3",
+              "project_name": "Mawared-Mobile",
+              "section_name": "Layout",
+              "compl": "NC",
+              "category": "Before Mandate",
+              "description": "Implemented before mandate is introduced",
+              "date": "16-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "3",
+              "project_name": "Mawared-Mobile",
+              "section_name": "Layout",
+              "compl": "NC",
+              "category": "Guidelines",
+              "description": "No clear guidelines on what or how to implement",
+              "date": "16-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "3",
+              "project_name": "Mawared-Mobile",
+              "section_name": "General Requirements",
+              "compl": "NC",
+              "category": "Before Mandate",
+              "description": "Implemented before mandate is introduced",
+              "date": "16-Jul-2020"
+          },
+          {
+              "entity_id": "4",
+              "project_id": "3",
+              "project_name": "Mawared-Mobile",
+              "section_name": "Support: Chat, Helpline",
+              "compl": "PC",
+              "category": "Oversight",
+              "description": "Policy criteria was not implemented",
+              "date": "16-Jul-2020"
+          }
+      ]
+  }
+}
 export const hostName = `${window.location.protocol}//${window.location.host}`
 // export const policyFamilyTypes = {
 //   ICT

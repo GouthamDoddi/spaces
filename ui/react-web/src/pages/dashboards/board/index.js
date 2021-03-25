@@ -236,16 +236,15 @@ export default function(props) {
 
               </div>
             </Graph>
-            <LeaderBoard leaderBoardData={{'Least Performing Entities': (report.low_entities || []),  'High Performing Entities': (report.high_entities || [])}} />
+            <LeaderBoard leaderBoardData={{'Least Performing Entities': (report.low_projects || []),  'High Performing Entities': (report.high_projects || [])}} />
             <Spacer />
         </FlexWrapper>
 
         <FlexWrapper>
           <SmallCards>
-            <div><CircularProgressCard /></div>
-            <div><CircularProgressCard /></div>
-            <div><CircularProgressCard /></div>
-            <div><CircularProgressCard /></div>
+            <div><CircularProgressCard level={1} full={30} par={20} non={40} total={60}/></div>
+            <div><CircularProgressCard level={2} full={32} par={30} non={200} total={45}/></div>
+            <div><CircularProgressCard level={3} full={40} par={20} non={50} total={67}/></div>
           </SmallCards>
           
           <InsightsContainer>

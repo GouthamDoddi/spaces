@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import styled from 'styled-components'
-import { Select, toOpt } from '../../../components/form'
+import { Select } from '../../../components/form'
 import { get } from '../../../store/api'
 import { cleanedEntities } from '../../../store/master-data'
 
@@ -19,10 +19,7 @@ export default function({entities=[], projects=[], ...props}) {
     console.log("inside use effect")
     setEntitiesForSelect([defaultSelectedEntity, ...entities.map((o) => ({label: o.name, value: o.id}))])
     getProjects(entity_id)
-
-    if(entity_id) setSelectedEntity(cleanedEntities[entity_id])
-
-  }, [entity_id, project_id])
+  }, [entities, entity_id, project_id])
   
   const getProjects = (entity_id) => {
     if(!entity_id) return;
@@ -36,17 +33,14 @@ export default function({entities=[], projects=[], ...props}) {
   }
 
   const viewDashboard = () => {
-    const eid = selectedEntity?.value >= 0 ? selectedEntity?.value : entity_id
-    const pid = selectedProject?.value >= 0 ?  selectedProject?.value : project_id
-    alert(`pid: ${pid},eid: ${eid}`)
-    // console.log("Clicked", eid, pid)
+    const eid = selectedEntity?.value || entity_id
+    const pid = selectedProject?.value || project_id
+
     if(eid > 0 && pid > 0) {
       window.location.hash = `/qg/${eid}/${pid}`
     } else if (eid > 0){
-      // alert(`pid: ${pid},eid: ${eid}`)
       window.location.hash = `/agency/${eid}`
     } else {
-      // alert(`pid: ${pid},eid: ${eid}`)
       window.location.hash = '/board'
     }
   }
@@ -56,12 +50,9 @@ export default function({entities=[], projects=[], ...props}) {
       <div className='selectors'>
         <div> 
           <Select label='Filter By Entity'
-            options={toOpt(cleanedEntities)}
+            options={entitiesForSelect}
             onChange={(e, ...args) => {
-              console.log("hi", e)
               setSelectedEntity(e)
-              console.log(selectedEntity)
-              setSelectedProject(defaultSelectedProject)
               getProjects(e.value)
             }}
             value={selectedEntity}

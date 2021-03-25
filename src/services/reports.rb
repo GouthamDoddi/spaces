@@ -17,7 +17,7 @@ class App::Services::Reports < App::Services::Base
   end
 
   def projects
-    data = Compliance::Project.where(owner_id: rp[:entity_id]).map do |e|
+    data = DbProject.where(entity_id: rp[:entity_id].to_s).map do |e|
       { 
         name: e.name,
         id: e.id, 
@@ -25,6 +25,15 @@ class App::Services::Reports < App::Services::Base
     end
     return_success(data)
   end
+  # def projects
+  #   data = Compliance::Project.where(owner_id: rp[:entity_id]).map do |e|
+  #     { 
+  #       name: e.name,
+  #       id: e.id, 
+  #     }
+  #   end
+  #   return_success(data)
+  # end
   
   def project_report
     project = Compliance::Project.eager(:record_parameters)[rp[:project_id]]
@@ -62,11 +71,23 @@ class App::Services::Reports < App::Services::Base
       }
     end
 
-    resp[:sections]
+    # resp[:sections]
     sorted = resp[:projects].sort{|a,b| a[:score] <=> b[:score]}
 
-    resp[:low_projects] = sorted[0..4]
-    resp[:high_projects] = sorted.reverse[0..4]
+    resp[:low_projects] = [
+      {name: 'Search', score: 12},
+      {name: 'E-Payment', score: 20},
+      {name: 'Search Engine Optimization (SEO)', score: 14},
+      {name: 'E-Services Management', score: 30},
+      {name: 'Layout', score: 8},
+    ]
+    resp[:high_projects] = [
+      {name: 'Security and Privacy', score: 12},
+      {name: 'E-Service Technical Standards', score: 20},
+      {name: 'E-Services Functionality', score: 32},
+      {name: 'Stylesheet', score: 30},
+      {name: 'Support (chat/helpline)', score: 17},
+    ]
     return_success(resp)
   end
 
