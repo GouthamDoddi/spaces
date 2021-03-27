@@ -110,7 +110,7 @@ export default function(props) {
                 }
                 return (
                   
-                  <CardWrapper>
+                  <CardWrapper onClick={() => {window.location.hash=`/agency/${k.id}`}} >
                     <StatusCard key={i}>
                       <div className='info'>
                         <div className='logo'> Logo</div>

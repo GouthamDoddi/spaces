@@ -144,7 +144,7 @@ export default function() {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   return (
     <Layout>
-      <Header viewType='Project View'></Header>
+      <Header viewType='Project View' viewName={report.name}></Header>
       <Content>
         <Filters />
         <MainInfo>
@@ -262,12 +262,18 @@ export default function() {
 
         <FlexWrapper>
           <SmallCards>
-            <div><CircularProgressCard level={1} full={30} par={20} non={40} total={60}/></div>
-            <div><CircularProgressCard level={2} full={32} par={30} non={200} total={45}/></div>
-            <div><CircularProgressCard level={3} full={40} par={20} non={50} total={67}/></div>
-            <div><Downloads /></div>
+            {
+              [1, 2, 3].map((level) => {
+                const l = ((report.compliance_by_mandate_level || {})[level] || {})
+                return <div key={level}>
+                  <CircularProgressCard level={level} 
+                    full={Math.ceil(l["Fully Compliant"])} 
+                    par={Math.ceil(l['Partially Compliant'])} 
+                    non={Math.ceil(l['Non Compliant'])} total={Math.ceil((l['Fully Compliant']+l['Partially Compliant']*.5).toFixed(2))}/>
+                </div>    
+              })
+            }
           </SmallCards>
-          
           <InsightsContainer>
             <Insights />
           </InsightsContainer>

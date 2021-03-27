@@ -50,6 +50,8 @@ export default function({entities=[], projects=[], ...props}) {
     }
   }
 
+  
+
   return (
     <Filters>
       <div className='selectors'>

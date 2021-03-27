@@ -15,6 +15,7 @@ import { BarProgressCard, CircularProgressCard } from '../shared/progress-card'
 import { useParams } from 'react-router';
 import Insights from '../shared/insights';
 import Downloads from '../shared/downloads';
+import LeaderBoard from '../shared/leaderboard'
 
  // import Card from '../shared/card'
 
@@ -135,7 +136,7 @@ export default function(props) {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   return (
     <Layout>
-      <Header viewType='Entity View'></Header>
+      <Header viewType='Entity View' viewName={report.name}></Header>
       <Content>
         <Filters entities={entitiesForSelect}/>
         <MainInfo>
@@ -172,7 +173,7 @@ export default function(props) {
           <Cards>
             {
               (report.projects || []).map((k, i) => (
-              <Card key={i} >
+              <Card key={i}  onClick={() => { window.location.hash = `/qg/${entity_id}/${k.id}`}}>
                   <CardInfo>
                     <div className='info'>
                       <div className='logo'> Logo</div>
@@ -213,7 +214,7 @@ export default function(props) {
                 <div className='sections'>
                   <div className='title'> Sections </div>
                   <ol>
-                    { report.section_wise_status?.map((o, i) => (
+                    { report.extras?.map((o, i) => (
                       <li key={i}>{o.name}</li>
                     ))}
                     
@@ -224,7 +225,7 @@ export default function(props) {
                     
                     width={500}
                     height={300}
-                    data={report.section_wise_status || []}
+                    data={report.extras || []}
                     margin={{
                       top: 20,
                       right: 30,
@@ -234,7 +235,7 @@ export default function(props) {
                   >
                     <CartesianGrid strokeDasharray="3 3" />
                     <YAxis  />
-                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => (report.section_wise_status[i]?.name)}/>
+                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => (report.extras[i]?.name)}/>
                     <Legend />
                     <Bar dataKey="Fully Compliant" stackId="a" fill="#008000" barSize={20} />
                     <Bar dataKey="Partially Compliant" stackId="a" fill="#005CC8" barSize={20} />
@@ -245,8 +246,8 @@ export default function(props) {
 
               </div>
             </Graph>
-          <LeaderBoard leaderBoardData={{'Least Performing Entities': (report.low_projects || []),  'High Performing Entities': (report.high_projects || [])}}  />
-            <LeaderBoard leaderBoardData={{'Least Performing Entities': (report.low_projects || []),  'High Performing Entities': (report.high_projects || [])}}  />
+            <LeaderBoard leaderBoardData={{'Least Performing Entities': (report.low_sections || []),  'High Performing Entities': (report.high_sections || [])}}/>
+            
             <Spacer />
         </FlexWrapper>
 
@@ -575,46 +576,6 @@ const Graph = styled.div`
     border: 1px solid #BBBBBB;
   }
 `
-const LeaderBoard = styled.div`
-  margin-left: 40px;
-  border: 1px solid #BBBBBB;
-  background-color: #fff;
-  > .header {
-    width: 429px;
-    min-width: 429px;
-    height: 73px;
-    background: #EEEEEE 0% 0% no-repeat padding-box;
-    padding-left: 40px;
-    border-bottom: 1px solid #BBBBBB;
-    > .title {
-      height: 23px;
-      text-align: left;
-      font-size: 18px;
-      font-weight: 600;
-      color: #666666;
-      line-height: 73px;
-      
-    }
-  }
-
-  > .info {
-    padding: 30px;
-    display: grid;
-    max-width: 429px;
-    grid-template-columns: 50px 1fr 50px;
-    grid-row-gap: 20px;
-    > .title {
-      grid-column: 1 / -1;
-      text-align: left;
-      font-size: 18px;
-      font-weight: 600;
-      color: #000000;
-      margin-bottom: 10px;
-    }
-  }
-
-`
-
 const CurrentStatusBox = styled.div`
   min-width: 454px;
   width: 454px;

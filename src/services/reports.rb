@@ -121,7 +121,14 @@ class App::Services::Reports < App::Services::Base
 
   def db_entity_report
     entity = App::Models::Entity.eager(:projects_for_db)[rp[:entity_id]]
-    return_success(entity_report_for(entity) )
+    resp = entity_report_for(entity) 
+    sorted = resp[:score_by_section].sort{|(_,a),(_,b)| a <=> b}
+
+    resp[:low_sections] = sorted[0..4].map{|(k,v)| {name: k, score: v}}
+    
+    resp[:high_sections] = sorted.reverse[0..4].map{|(k,v)| {name: k, score: v}}
+
+    return_success(resp)
   end
 
 
@@ -140,6 +147,7 @@ class App::Services::Reports < App::Services::Base
       total_progress += details[:total_progress]
       total_score += details[:total_score]
       {
+        id: entity.id,
         name: entity.name,
         description: entity.description,
         progress: details[:total_progress].round(2),
@@ -188,9 +196,9 @@ class App::Services::Reports < App::Services::Base
 
 
   def entity_report_for(entity)
-    resp = { name: entity.name, description: entity.description }
+    resp = { name: entity.name, description: entity.description, id: entity.id }
     projects = entity.projects_for_db
-    resp[:projects] = projects.map{_1.as_pos(only: [:name, :description, :progress, :total_score, :total_parameters, :total_completed_parameters])}
+    resp[:projects] = projects.map{_1.as_pos(only: [:name, :description, :progress, :total_score, :total_parameters, :total_completed_parameters, :id])}
     resp[:score_by_section] = sum_hash_with_avg(projects, :score_by_section)
     resp[:qgate1] = sum_hash_with_avg(projects, :qgate1)
     resp[:qgate2] = sum_hash_with_avg(projects, :qgate2)
@@ -248,6 +256,9 @@ class App::Services::Reports < App::Services::Base
       end
       h
     end.values
+  end
+
+  def issues_data
   end
   
   def self.fields
