@@ -83,8 +83,11 @@ const Banner = styled.div`
   padding: 2px 23px; 
   display: inline-block;
   background: ${p => p.color} 0% 0% no-repeat padding-box;
-  border-radius: 0px 5px 5px 0px;
-  text-align: left;
+  // border-radius: 0px 5px 5px 0px;
+  ${rtl`
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+  `}
   font: normal normal 600 20px/30px Muli;
   color: #FFFFFF;
 `
