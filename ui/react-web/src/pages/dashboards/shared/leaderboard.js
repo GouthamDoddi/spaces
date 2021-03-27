@@ -2,6 +2,7 @@ import React from 'react'
 
 import styled from 'styled-components'
 import { SVGCrown} from './icons'
+import rtl from 'styled-components-rtl'
 
 export default function({leaderBoardData, type='Entities',  ...props}) {
   return (
@@ -32,7 +33,10 @@ export default function({leaderBoardData, type='Entities',  ...props}) {
 }
 
 const LeaderBoard = styled.div`
-  margin-left: 40px;
+  ${rtl`
+    margin-left: 40px;
+  `}
+  
   border: 1px solid #BBBBBB;
   background-color: #fff;
   > .header {
@@ -40,7 +44,9 @@ const LeaderBoard = styled.div`
     min-width: 429px;
     height: 73px;
     background: #EEEEEE 0% 0% no-repeat padding-box;
-    padding-left: 40px;
+    ${rtl`
+      padding-left: 40px;
+    `}
     border-bottom: 1px solid #BBBBBB;
     > .title {
       height: 23px;

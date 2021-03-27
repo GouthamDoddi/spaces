@@ -16,94 +16,28 @@ import { useParams } from 'react-router';
 import Insights from '../shared/insights';
 import Downloads from '../shared/downloads';
 import LeaderBoard from '../shared/leaderboard'
+import rtl from 'styled-components-rtl'
 
  // import Card from '../shared/card'
 
 
-function dataSections() {
-  return (
-    [
-        {name: 'Layout', 'Fully Compliant': 60, 'Partially Compliant': 14, 'Non Compliant': 10},
-        {name: 'Authentication', 'Fully Compliant': 65, 'Partially Compliant': 7, 'Non Compliant': 2},
-        {name: 'Website Registration', 'Fully Compliant': 50, 'Partially Compliant': 2, 'Non Compliant': 6},
-        {name: 'Content: Information', 'Fully Compliant': 45, 'Partially Compliant': 10, 'Non Compliant': 8},
-        {name: 'Search', 'Fully Compliant': 70, 'Partially Compliant': 8, 'Non Compliant': 4},
-        {name: 'Accessibility', 'Fully Compliant': 12, 'Partially Compliant': 9, 'Non Compliant': 3},
-        {name: 'ePayment', 'Fully Compliant': 54, 'Partially Compliant': 15, 'Non Compliant': 7},
-        {name: 'Support', 'Fully Compliant': 78, 'Partially Compliant': 23, 'Non Compliant': 6},
-        {name: 'General Requirements', 'Fully Compliant': 56, 'Partially Compliant': 12, 'Non Compliant': 1},
-        {name: 'Security and Privacy', 'Fully Compliant': 70, 'Partially Compliant': 11, 'Non Compliant': 4},
-      ]
-  )
-}
 
-export default function(props) {
 
-  // const [gates, setGates] = useState([])
-  // const [entityFilter, EntityFilterInput] = useInput({})
+export default function({lang, setLang, ...props}) {
+
+
   const [entitiesForSelect, setEntitiesForSelect] = useState([])
-  // const [selectedEntity, setSelectedEntity] = useState(defaultSelectedEntity)
-  // const [leaderBoardData, setLeaderBoardData] = useState({"High Performing Entities":[{"name":"Ministry of Space","score":40},{"name":"Ministry of Justice","score":45},{"name":"Ministry of Public Health","score":62},{"name":"Supreme Judiciary Council","score":67},{"name":"Kahramaa","score":71}],"Least Performing Entities":[{"name":"Hamad Medical Corporation","score":32},{"name":"Ministry of Commerce and Industry","score":20},{"name":"Ministry of Transport & Communication","score":30},{"name":"Qatar Foundation","score":17},{"name":"Qatar University","score":12}]})
   
   const [report, setReport] = useState({})
 
   const { entity_id } = useParams()
   useEffect(() => {
-    console.log(get)
-    // get('reports/entities', {success: (json) => { 
-    //   // setGates(json.data)
-    //   // setEntitiesForSelect([defaultSelectedEntity, ...json.data.map((o) => ({label: o.name, value: o.id}))])
-    //   const scores = {23: 12, 5: 20, 2: 32, 11: 30, 22: 17, 25: 40, 8: 45, 10: 62, 13: 67, 3: 71, 7: 79 }
-    //   const least = [23,5,2,11, 22]
-    //   const most= [25, 8, 10, 13, 3]
-    //   let ld = {'High Performing Entities': [], 'Least Performing Entities': []}
-
-    // }, error: () => []})
-
-
     get(`reports/${entity_id}/db_entity`, {success: (json) => {
       setReport(json.data)
     }})
   }, [entity_id])
 
-  const data = [
-    {
-      name: 'Page A',
-      dataset1: 2400,
-      dataset2: 2400,
-    },
-    {
-      name: 'Page B',
-      dataset1: 1398,
-      dataset2: 2210,
-    },
-    {
-      name: 'Page C',
-      dataset1: 9800,
-      dataset2: 2290,
-    },
-    {
-      name: 'Page D',
-      dataset1: 3908,
-      dataset2: 2000,
-    },
-    {
-      name: 'Page E',
-      dataset1: 4800,
-      dataset2: 2181,
-    },
-    {
-      name: 'Page F',
-      dataset1: 3800,
-      dataset2: 2500,
-    },
-    {
-      name: 'Page G',
-      dataset1: 4300,
-      dataset2: 2100,
-    },
-  ];
-
+ 
   const gates = [
     {
       name: 'Project one',
@@ -120,27 +54,14 @@ export default function(props) {
   ]
 
 
-  const pieData = [
-    { name: 'Group A', value: 400 },
-    { name: 'Group B', value: 300 },
-    { name: 'Group C', value: 300 },
-  ];
-
-  const statusData = [
-    {mandatory: 'M1', snippet: 'Mandate Level 1', overall: '60%'}, 
-    { mandatory: 'M2', snippet: 'Mandate Level 2', overall: '48%'}, 
-    {mandatory: 'M3', snippet: 'Mandate Level 3', overall: '53%'}
-  ]
-
-
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   return (
-    <Layout>
-      <Header viewType='Entity View' viewName={report.name}></Header>
+    <Layout dir={lang == 'ar' ? 'rtl' : 'ltr'}>
+      <Header viewType='Entity View' viewName={report.name} lang={lang} setLang={setLang}></Header>
       <Content>
         <Filters entities={entitiesForSelect}/>
         <MainInfo>
-          <div className='logo'> Logo </div>
+          <div className='logo'> <img src={`/img/logos/entities/${entity_id}.png`} /> </div>
           <div className='info'>
             <div className='title'> {report.name} </div>
             <div className='description'> 
@@ -180,7 +101,7 @@ export default function(props) {
                       <div className='title'> 
                         <div> {k.name } </div>
                         <div className='progress'> 
-                          <Progress value={k.progress?.toFixed(2) * 100} height='5px' max={100} bkcolor='#DCDFE8'  color='#EB622B' showTag />  
+                          <Progress value={Math.ceil(k.progress?.toFixed(2) * 100)} height='5px' max={100} bkcolor='#DCDFE8'  color='#EB622B' showTag />  
                         </div>
                       </div>
                       <div className='chart'> 
@@ -252,12 +173,23 @@ export default function(props) {
         </FlexWrapper>
 
         <FlexWrapper>
+
           <SmallCards>
-            <div><CircularProgressCard level={1} full={30} par={20} non={40} total={60}/></div>
+            {
+              ["1", "2", "3"].map((level) => {
+                const l = ((report.compliance_by_mandate_level || {})[level] || {})
+                return <div key={level}>
+                  <CircularProgressCard level={level} 
+                    full={l["Fully Compliant"]} 
+                    par={l['Partially Compliant']} 
+                    non={l['Non Compliant']} total={(l['Fully Compliant']+l['Partially Compliant']*.5).toFixed(2)}/>
+                </div>    
+              })
+            }
+            {/* <div><CircularProgressCard level={1} full={(report.compliance_by_mandate_level || {})["1"]} par={20} non={40} total={60}/></div>
             <div><CircularProgressCard level={2} full={32} par={30} non={200} total={45}/></div>
-            <div><CircularProgressCard level={3} full={40} par={20} non={50} total={67}/></div>
-          </SmallCards>
-          
+            <div><CircularProgressCard level={3} full={40} par={20} non={50} total={67}/></div> */}
+          </SmallCards>          
           <InsightsContainer>
             <Insights />
           </InsightsContainer>
@@ -271,7 +203,10 @@ export default function(props) {
 {/* <style>.a{fill:#d3dde5;}.b{fill:#1a6b8f;}</style> */}
 
 const InsightsContainer = styled.div`
+  ${rtl`
   margin-right: 30px;
+  `}
+  
 `
 
 const SmallCards = styled.div`
@@ -280,7 +215,9 @@ const SmallCards = styled.div`
   flex-wrap: wrap;
   align-content: baseline;
   > div {
+    ${rtl`
     padding-right: 20px;
+    `}
   }
 `
 
@@ -290,8 +227,6 @@ const Layout = styled.div`
   background-color: #F7FAFD;
   background: linear-gradient(0deg, #F0F7FD 460px, #FFFFFF 461px, #FFFFFF 100%);
   align-items: center;
-  // flex: 1;
-  // height: 100%;
 `
 
 const Content = styled.div`
@@ -300,14 +235,14 @@ const Content = styled.div`
   width: 100%;
   background-color: #F7FAFD;
   padding-bottom: 40px;
-  // min-height: 460px;
-  // position: relative;
 `
 
 const Cards = styled.div`
   display: flex;
   > div {
+    ${rtl`
     margin-right: 40px;
+    `}
   }
 `
 
@@ -321,13 +256,13 @@ const CardHolder = styled.div`
   width: 100%;
   overflow-x: scroll;
   height: 431px;
-  // background: transparent url('img/Rectangle 24.png') 0% 0% no-repeat padding-box;
-  // background-color: #CA3F07;
-  // background-image: linear-gradient(#CA3F07, #a83304);
   background: url('/img/agency_cards_bk.jpg') left top repeat, url('/img/dashboards/dots-vertical.png') 30px 0px no-repeat;
 
   opacity: 1;
+  ${rtl`
   padding-left: 100px;
+  `}
+  
   > .header {
     display: flex;
     justify-content: space-between;
@@ -337,7 +272,10 @@ const CardHolder = styled.div`
       > .showing {
         font: normal normal bold 20px/30px Muli;
         color: #FFFFFF;
+        ${rtl`
         margin-right: 30px;
+        `}
+        
         padding-top: 12px;
       }
       > .search {
@@ -397,7 +335,10 @@ const Progress = styled.progress`
       content: "${p => p.value}%";
       position: absolute;
       top: -16px;
+      ${rtl`
       left: 0;
+      `}
+      
       text-align: center;
       width: 38px;
       font: normal normal normal 10px/15px Muli;
@@ -433,14 +374,18 @@ const CardHeader = styled.div`
   font-size: 16px;
   font-weight: bold;
   color: #000000;
+  ${rtl`
   padding-left: 32px;
+  `}
 `
 
 const CardInfo = styled.div`
   height: 155px;
   background-color: #fff;
+  ${rtl`
   border-top-left-radius: 5px;  
   border-top-right-radius: 5px;
+  `}
   > .info {
     display: flex;
     height: 78px;
@@ -452,15 +397,16 @@ const CardInfo = styled.div`
       height: 50px;
       background: #EB622B 0% 0% no-repeat padding-box;
       border-radius: 3px;
-      text-align: center;
       font: normal normal bold 12px/18px Muli;
       line-height: 50px;
       color: #FFFFFF;
       text-transform: uppercase;
+      text-align: center;
     }
     > .title {
+      ${rtl`
       margin-left: 10px;
-      text-align: left;
+      `}
       font: normal normal bold 15px/22px Muli;
       color: #000000;
       flex: 1;
@@ -490,10 +436,11 @@ const CardInfo = styled.div`
   > .description {
     width: 360px;
     height: 72px;
-    text-align: left;
     font: normal normal normal 12px/18px Muli;
     color: #666666;
+    ${rtl`
     padding-left: 16px;
+    `}
     overflow: hidden;
     text-overflow: ellipsis;
 
@@ -509,7 +456,9 @@ const CardFooter = styled.div`
   border: 1px solid #DEDEDE;
   border-radius: 0px 0px 5px 5px;
   opacity: 1;
+  ${rtl`
   padding-left: 40px;
+  `}
   padding-top: 12px;
 `
 
@@ -519,13 +468,17 @@ const CardFooterIcon = styled.div`
   opacity: 1;
   border-radius: 50%;
   &  {
+    ${rtl`
     margin-right: 30px;
+    `}
   }
 `
 
 const FlexWrapper = styled.div`
   display: flex;
+  ${rtl`
   padding-left: 70px;
+  `}
   margin-top: 55px;
   // background-color: 
 
@@ -539,7 +492,9 @@ const Graph = styled.div`
     height: 73px;
     background: #EEEEEE 0% 0% no-repeat padding-box;
     border: 1px solid #BBBBBB;
+    ${rtl`
     padding-left: 40px;
+    `}
     font: normal normal bold 20px/30px Muli;
     color: #666666;
     line-height: 73px;
@@ -550,13 +505,17 @@ const Graph = styled.div`
     > .sections {
       min-width: 250px;
       background-color: rgb(243, 245, 251);
+      ${rtl`
       margin-right: 20px;
       border-right: 1px solid #BBBBBB;
+      `}
       .title {
         font: normal normal 600 18px/26px Muli;
         color: #000000;
         margin-top: 23px;
+        ${rtl`
         padding-left: 23px;
+        `}
       }
       > ol {
         padding-top: 20px;
@@ -576,77 +535,6 @@ const Graph = styled.div`
     border: 1px solid #BBBBBB;
   }
 `
-const CurrentStatusBox = styled.div`
-  min-width: 454px;
-  width: 454px;
-  height: 255px;
-  background: #FFFFFF 0% 0% no-repeat padding-box;
-  border: 1px solid #DDDDDD;
-  position: relative;
-  margin-right: 40px;
-  > .label {
-    position: absolute;
-    top: 0;
-    left: -8px;
-    width: 100px;
-    height: 39px;
-  }
-
-  > .label-text {
-    position: absolute;
-    top: 8px;
-    left: 22px;
-    color: #fff;
-    font-size: 20px;
-  }
-  > .title {
-    height: 25px;
-    text-align: left;
-    font-size: 20px;
-    color: #1A6B8F;
-    margin-top: 8px;
-    margin-left: 110px;
-  }
-
-  > .info {
-    display: flex;
-    margin-top: 10px;
-    > .graph {
-      margin-right: 20px;
-    }
-  }
-
-  > .mandate {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    text-align: left;
-    font: italic normal 300 15px;
-    letter-spacing: 0px;
-    color: #CFCFCF;
-  }
-`
-
-const LabelSquare = styled.div`
-  display: flex;
-
-  > .box {
-    width: 15px;
-    height: 15px;
-    background-color: ${p => p.color};
-    margin-right: 8px;
-    margin-top: 3px;
-  }
-  font: normal normal 600 15px;
-  letter-spacing: 0px;
-  color: #000000;
-  opacity: 1;
-  margin-bottom: 27px;
-  // margin-top: 14px;
-  &:first-child {
-    margin-top: 35px;
-  }
-`
 
 const MainInfo = styled.div`
 height: 200px;
@@ -655,7 +543,13 @@ border: 1px solid #DDDDDD;
 display: flex;
 padding-top: 40px;
 > .logo {
+  ${rtl`
   margin-left: 100px;
+  `}
+  >img {
+    width: 120px;
+    height: 120px;
+  }
   width: 120px;
   height: 120px;
   background: #EB622B 0% 0% no-repeat padding-box;
@@ -670,7 +564,10 @@ padding-top: 40px;
 > .info {
   flex: 1;
   color: #000000;
+  ${rtl`
   margin-left: 20px;
+  `}
+  
   > .title {
     font-weight: bold;
     font-size: 20px;
@@ -693,14 +590,18 @@ padding-top: 40px;
       // flex-direction: column;
       align-items: center;
       border-radius: 15px;
-      
+      ${rtl`
       padding-left: 15px;
+      margin-right: 15px;
+      `}
       font: normal normal bold 12px/18px Muli;
       color: #FFFFFF;
       box-shadow: 0px 1px 2px #00000029;  
-      margin-right: 15px;
+      
       span {
+        ${rtl`
         margin-left: 10px;
+        `}
       }
       &:first-child {
         background: #3FBF11 0% 0% no-repeat padding-box;
@@ -717,10 +618,13 @@ padding-top: 40px;
   }
 }
 > .progress {
-  
+  ${rtl`
   margin-left: 20px;
+  `}
   > .round {
+    ${rtl`
     margin-left: 30px;
+    `}
     width: 100px;
     height: 100px;
     border-radius: 50%;

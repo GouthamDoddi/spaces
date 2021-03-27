@@ -24,6 +24,18 @@ class App::Services::Utils < App::Services::Base
 
   end
 
+  def pc_nc_parameters
+    recs = App::Models::Compliance::RecordParameter.eager(:section, :project, :parameter).exclude(user_compliance_type: 1).all
+    csv_string = CSV.generate do |csv|
+      csv << ["Parameter ID", "Project Id", "Project Name", "Section ID", "Section Name", "type", "Parameter Name"]
+      recs.each do |o|
+        csv << [o.id, o.project_id, o.project&.name, o.section&.id, o.section&.name, o.user_compliance_type == 2 ? 'PC' : 'NC', o.parameter&.name]
+      end
+    end
+
+    return csv_string
+  end
+
   def upload_test_gates
     csv = CSV.new(File.read("/Users/pasupunuri/Downloads/fileg.csv"))
     data = []

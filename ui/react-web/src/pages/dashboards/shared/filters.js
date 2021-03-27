@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 import { Select, toOpt } from '../../../components/form'
 import { get } from '../../../store/api'
 import { cleanedEntities } from '../../../store/master-data'
+import rtl from 'styled-components-rtl'
 
 const defaultSelectedEntity = {label: 'All', value: 0}
 const defaultSelectedProject = {label: 'All', value: 0}
 
 export default function({entities=[], projects=[], ...props}) {
+  // console.log("THEME", props.theme)
   const {entity_id, project_id} = useParams()
   const [entitiesForSelect, setEntitiesForSelect] = useState([])
   const [projectsForSelect, setProjectsForSelect] = useState([])
@@ -87,9 +89,13 @@ export default function({entities=[], projects=[], ...props}) {
 
 
 const Filters = styled.div`
+  
   height: 121px;
   background: #F7FAFD 0% 0% no-repeat padding-box;
-  padding-left: 100px;
+  ${p => console.log(`${p.theme.dir} - d`)}
+  ${rtl`
+    padding-left: 100px;
+  `}
 
   display: flex;
   justify-content: space-between;
@@ -98,17 +104,25 @@ const Filters = styled.div`
     align-self: center;
     display: flex;
     > div {
-      margin-right: 40px;
+      ${rtl`
+        margin-right: 40px;
+      `}
+      
     }
   }
 
   .actions {
     align-self: center;
     display: flex;
-    margin-right: 100px;
+    ${rtl`
+      margin-right: 100px;
+    `}
+    
     > div:first-child {
       padding: 10px;
-      margin-right: 25px;
+      ${rtl`
+        margin-right: 25px;
+      `}
     }
     > div:last-child {
       padding: 10px;

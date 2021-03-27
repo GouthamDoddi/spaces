@@ -42,6 +42,11 @@ class App::Routes < Roda
           Utils[r, {}].parameters
         end
       end
+      r.on 'download/pc-nc-parameters' do
+        r.get do
+          Utils[r, {}].pc_nc_parameters
+        end
+      end
 
       r.response['Content-Type'] = 'application/json'
       r.post('login') { Session[r].login }

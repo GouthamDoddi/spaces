@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 import React from 'react'
 import { PieChart, Pie, Cell} from 'recharts'
+import rtl from 'styled-components-rtl'
 
 // const pieData = [
 //   { name: 'Group A', value: 400 },
@@ -91,7 +92,9 @@ const Banner = styled.div`
 const Info = styled.div`
   display: flex;
   > .chart {
+    ${rtl`
     margin-right: 30px;
+    `}
   }
 
   > .legend {
@@ -108,7 +111,9 @@ const SmallBox = styled.div`
   width: 15px;
   height: 15px;
   background: ${p => p.color} 0% 0% no-repeat padding-box;
+  ${rtl`
   margin-right: 10px;
+  `}
   margin-top: 5px;
 `
 

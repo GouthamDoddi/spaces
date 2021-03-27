@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {issuesByGroup} from '../../../store/master-data'
 import { useParams } from 'react-router-dom'
+import rtl from 'styled-components-rtl'
  
 export default function(props) {
   const {entity_id, project_id} = useParams()
@@ -77,7 +78,10 @@ const Box = styled.div`
     height: 74px;
     line-height: 74px;
     border: 1px solid #BBBBBB;
-    padding-left: 25px;
+    ${rtl`
+      padding-left: 25px;
+    `}
+    
   }
 `
 
@@ -90,17 +94,25 @@ const Filter = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 20px;
-  padding-right: 25px;
+  ${rtl`
+    padding-right: 25px;
+  `}
+  
 `
 
 const Legend = styled.div`
   display: flex;
   font: normal normal normal 12px/15px Muli;
   color: #000000;
-  margin-right: 30px;
+  ${rtl`
+    margin-right: 30px;
+  `}
+  
 `
 const Circle = styled.div`
-  margin-right: 5px;
+  ${rtl`
+    margin-right: 5px;
+  `}
   width: 15px;
   height: 15px;
   background: ${p => p.color} 0% 0% no-repeat padding-box;
@@ -112,10 +124,12 @@ const Card = styled.div`
   height: 104px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 1px 2px #00000029;
-  border-left: 2px solid ${p => p.color};
+  ${rtl`
+    border-left: 2px solid ${p => p.color};
+    margin-right: 20px;
+  `}
   padding: 15px;
   margin-bottom: 12px;
-  margin-right: 20px;
 
   > .bc {
     font: normal normal normal 12px/18px Muli;

@@ -12,28 +12,14 @@ import Downloads from '../shared/downloads';
 import { useParams } from 'react-router';
 import { get } from '../../../store/api';
 import Filters from '../shared/filters'
+import rtl from 'styled-components-rtl'
 
 // import Card from '../shared/card'
 
 
-function dataSections() {
-  return (
-    [
-        {name: 'Layout', 'Fully Compliant': 60, 'Partially Compliant': 14, 'Non Compliant': 10},
-        {name: 'Authentication', 'Fully Compliant': 65, 'Partially Compliant': 7, 'Non Compliant': 2},
-        {name: 'Website Registration', 'Fully Compliant': 50, 'Partially Compliant': 2, 'Non Compliant': 6},
-        {name: 'Content: Information', 'Fully Compliant': 45, 'Partially Compliant': 10, 'Non Compliant': 8},
-        {name: 'Search', 'Fully Compliant': 70, 'Partially Compliant': 8, 'Non Compliant': 4},
-        {name: 'Accessibility', 'Fully Compliant': 12, 'Partially Compliant': 9, 'Non Compliant': 3},
-        {name: 'ePayment', 'Fully Compliant': 54, 'Partially Compliant': 15, 'Non Compliant': 7},
-        {name: 'Support', 'Fully Compliant': 78, 'Partially Compliant': 23, 'Non Compliant': 6},
-        {name: 'General Requirements', 'Fully Compliant': 56, 'Partially Compliant': 12, 'Non Compliant': 1},
-        {name: 'Security and Privacy', 'Fully Compliant': 70, 'Partially Compliant': 11, 'Non Compliant': 4},
-      ]
-  )
-}
 
-export default function() {
+
+export default function({lang, setLang, ...props}) {
 
   const { entity_id, project_id } = useParams()
 
@@ -113,38 +99,11 @@ export default function() {
   }
 
 
-  const pieData = [
-    { name: 'Group A', value: 400 },
-    { name: 'Group B', value: 300 },
-    { name: 'Group C', value: 300 },
-  ];
 
-  const statusData = [
-    {mandatory: 'M1', snippet: 'Mandate Level 1', overall: '60%'}, 
-    { mandatory: 'M2', snippet: 'Mandate Level 2', overall: '48%'}, 
-    {mandatory: 'M3', snippet: 'Mandate Level 3', overall: '53%'}
-  ]
-
-  const leaderBoardData = {
-    "High Performing Entities": [
-      {name: 'Security and Privacy', score: 12},
-      {name: 'E-Service Technical Standards', score: 20},
-      {name: 'E-Services Functionality', score: 32},
-      {name: 'Stylesheet', score: 30},
-      {name: 'Support (chat/helpline)', score: 17},
-    ],
-    'Least Performing Entities': [
-      {name: 'Search', score: 12},
-      {name: 'E-Payment', score: 20},
-      {name: 'Search Engine Optimization (SEO)', score: 14},
-      {name: 'E-Services Management', score: 30},
-      {name: 'Layout', score: 8},
-    ]
-  }
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   return (
-    <Layout>
-      <Header viewType='Project View' viewName={report.name}></Header>
+    <Layout dir={lang == 'ar' ? 'rtl' : 'ltr'}>
+      <Header viewType='Project View' viewName={report.name} lang={lang} setLang={setLang}></Header>
       <Content>
         <Filters />
         <MainInfo>
@@ -310,7 +269,10 @@ const Content = styled.div`
 const Cards = styled.div`
   display: flex;
   > div {
+    ${rtl`
     margin-right: 40px;
+    `}
+    
   }
 `
 
@@ -328,11 +290,13 @@ const CardHolder = styled.div`
   // background-color: #CA3F07;
   background-image: linear-gradient(#CA3F07, #a83304);
   opacity: 1;
+  ${rtl`
   padding-left: 100px;
+  `}
+  
 `
 
 const ProgressStatus = styled.div`
-  text-align: left;
   font-size: 20px;
   font-weight: bold;
   color: #FFFFFF;
@@ -360,7 +324,10 @@ const Progress = styled.progress`
 
 const Card = styled.div`
   top: 580px;
-  left: 100px;
+  ${rtl`
+    left: 100px;
+  `}
+  
   width: 312px;
   height: 54px;
   background: #EEEEEE 0% 0% no-repeat padding-box;
@@ -379,17 +346,22 @@ const CardHeader = styled.div`
   opacity: 1;
 
   line-height: 54px;
-  text-align: left;
   font-size: 16px;
   font-weight: bold;
   color: #000000;
+  ${rtl`
   padding-left: 32px;
+  `}
+  
 `
 
 const CardInfo = styled.div`
   height: 206px;
   background-color: #fff;
+  ${rtl`
   padding-left: 32px;
+  `}
+  
 
   > div {
     
@@ -406,7 +378,10 @@ const CardInfo = styled.div`
     }
     & .progress {
       margin-top: -5px;
+      ${rtl`
       margin-left: 29px;
+      `}
+      
       height: 26px;
       span {
         text-align: left;
@@ -430,7 +405,10 @@ const CardFooter = styled.div`
   border: 1px solid #DEDEDE;
   border-radius: 0px 0px 5px 5px;
   opacity: 1;
+  ${rtl`
   padding-left: 27px;
+  `}
+  
   padding-top: 12px;
 `
 
@@ -441,13 +419,19 @@ const CardFooterIcon = styled.div`
   opacity: 1;
   border-radius: 50%;
   &  {
+    ${rtl`
     margin-right: 20px;
+    `}
+    
   }
 `
 
 const FlexWrapper = styled.div`
   display: flex;
+  ${rtl`
   padding-left: 70px;
+  `}
+  
   margin-top: 55px;
   // background-color: 
 
@@ -460,7 +444,10 @@ const Graph = styled.div`
     height: 73px;
     background: #EEEEEE 0% 0% no-repeat padding-box;
     border: 1px solid #BBBBBB;
+    ${rtl`
     padding-left: 40px;
+    `}
+    
     font: normal normal bold 20px/30px Muli;
     color: #666666;
     line-height: 73px;
@@ -471,13 +458,18 @@ const Graph = styled.div`
     > .sections {
       min-width: 250px;
       background-color: rgb(243, 245, 251);
+      ${rtl`
       margin-right: 20px;
       border-right: 1px solid #BBBBBB;
+      `}
       .title {
         font: normal normal 600 18px/26px Muli;
         color: #000000;
         margin-top: 23px;
+        ${rtl`
         padding-left: 23px;
+        `}
+        
       }
       > ol {
         padding-top: 20px;
@@ -500,7 +492,10 @@ const Graph = styled.div`
 
 
 const InsightsContainer = styled.div`
+  ${rtl`
   margin-right: 30px;
+  `}
+  
 `
 
 const CurrentStatusBox = styled.div`
@@ -514,7 +509,9 @@ const CurrentStatusBox = styled.div`
   > .label {
     position: absolute;
     top: 0;
+    ${rtl`
     left: -8px;
+    `}
     width: 100px;
     height: 39px;
   }
@@ -522,7 +519,9 @@ const CurrentStatusBox = styled.div`
   > .label-text {
     position: absolute;
     top: 8px;
+    ${rtl`
     left: 22px;
+    `}
     color: #fff;
     font-size: 20px;
   }
@@ -532,14 +531,18 @@ const CurrentStatusBox = styled.div`
     font-size: 20px;
     color: #1A6B8F;
     margin-top: 8px;
+    ${rtl`
     margin-left: 110px;
+    `}
   }
 
   > .info {
     display: flex;
     margin-top: 10px;
     > .graph {
+      ${rtl`
       margin-right: 20px;
+      `}
     }
   }
 
@@ -582,7 +585,10 @@ const MainInfo = styled.div`
   display: flex;
   padding-top: 40px;
   > .logo {
+    ${rtl`
     margin-left: 100px;
+    `}
+    
     width: 120px;
     height: 120px;
     background: #EB622B 0% 0% no-repeat padding-box;
@@ -597,7 +603,10 @@ const MainInfo = styled.div`
   > .info {
     flex: 1;
     color: #000000;
+    ${rtl`
     margin-left: 20px;
+    `}
+    
     > .title {
       font-weight: bold;
       font-size: 20px;
@@ -618,14 +627,20 @@ const MainInfo = styled.div`
       display: flex;
       margin-top: 22px;
       > div:first-child {
+        ${rtl`
         margin-right: 30px;
+        `}
       }
     }
   }
   > .progress {
+    ${rtl`
     margin-left: 20px;
+    `}
     > .round {
+      ${rtl`
       margin-left: 20px;
+      `}
       width: 100px;
       height: 100px;
       border-radius: 50%;
@@ -646,7 +661,9 @@ const SmallCards = styled.div`
   flex-wrap: wrap;
   align-content: baseline;
   > div {
+    ${rtl`
     padding-right: 20px;
+    `}
   }
 `
 

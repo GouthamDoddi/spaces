@@ -5,7 +5,9 @@ class App::Models::Compliance::RecordParameter < Sequel::Model
 
   one_to_one :parameter, class: 'App::Models::AttributeParameter', primary_key: :parameter_id, key: :id
 
-  many_to_one :attribute, class: 'App::PolicySectionAttribute', primary_key: :attribute_id, key: :id
+  many_to_one :attribute, class: 'App::Models::PolicySectionAttribute', primary_key: :attribute_id, key: :id
+
+  many_to_one :section, class: 'App::Models::PolicySection', primary_key: :id, key: :section_id
   # one_to_many :applicable_sections
 
 

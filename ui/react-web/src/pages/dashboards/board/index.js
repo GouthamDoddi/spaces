@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Header from '../shared/header'
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 import { Pie, PieChart  } from 'recharts';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -15,6 +15,7 @@ import Filters from '../shared/filters'
 import LeaderBoard from '../shared/leaderboard'
 import Insights from '../shared/insights'
 import { BarProgressCard, CircularProgressCard } from '../shared/progress-card'
+import rtl from 'styled-components-rtl'
 // import Card from '../shared/card'
 
 function useInput({ type='text' /*...*/ }) {
@@ -26,12 +27,12 @@ function useInput({ type='text' /*...*/ }) {
 
 const defaultSelectedEntity = {label: 'All', value: 0}
 const defaultSelectedProject = {label: 'All', value: 0}
-export default function(props) {
+export default function({lang, setLang, ...props}) {
   const [gates, setGates] = useState([])
   const [entityFilter, EntityFilterInput] = useInput({})
   const [entitiesForSelect, setEntitiesForSelect] = useState([])
   const [selectedEntity, setSelectedEntity] = useState(defaultSelectedEntity)
-  const [leaderBoardData, setLeaderBoardData] = useState({"High Performing Entities":[{"name":"Ministry of Space","score":40},{"name":"Ministry of Justice","score":45},{"name":"Ministry of Public Health","score":62},{"name":"Supreme Judiciary Council","score":67},{"name":"Kahramaa","score":71}],"Least Performing Entities":[{"name":"Hamad Medical Corporation","score":32},{"name":"Ministry of Commerce and Industry","score":20},{"name":"Ministry of Transport & Communication","score":30},{"name":"Qatar Foundation","score":17},{"name":"Qatar University","score":12}]})
+  
 
   const [report, setReport] = useState({})
   
@@ -47,26 +48,13 @@ export default function(props) {
     }})
   }, [])
 
-  
-
-  const pieData = [
-    { name: 'Group A', value: 400 },
-    { name: 'Group B', value: 300 },
-    { name: 'Group C', value: 300 },
-  ];
-
-  const statusData = [
-    {mandatory: 'M1', snippet: 'Mandate Level 1', overall: '60%'}, 
-    { mandatory: 'M2', snippet: 'Mandate Level 2', overall: '48%'}, 
-    {mandatory: 'M3', snippet: 'Mandate Level 3', overall: '53%'}
-  ]
-
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   console.log("gates", gates)
+  // rtl={lang=='ar'} className={lang} 
   return (
-    <Layout>
-      <Header viewType='State View' viewName='Jawda'></Header>
+    <Layout dir={lang == 'ar' ? 'rtl' : 'ltr'}>
+      <Header viewType='State View' viewName='Jawda' lang={lang} setLang={setLang}></Header>
       <Content>
         <Filters entities={gates} projects={[]} />
         <MainInfo>
@@ -113,7 +101,7 @@ export default function(props) {
                   <CardWrapper onClick={() => {window.location.hash=`/agency/${k.id}`}} >
                     <StatusCard key={i}>
                       <div className='info'>
-                        <div className='logo'> Logo</div>
+                        <div className='logo'> <img src={`/img/logos/entities/${k.id}.png`} /></div>
                         <div className='title'> 
                           <div className='name'> {k.name } </div>
                           <div className='progress'> 
@@ -239,7 +227,9 @@ export default function(props) {
 {/* <style>.a{fill:#d3dde5;}.b{fill:#1a6b8f;}</style> */}
 
 const InsightsContainer = styled.div`
-  margin-right: 30px;
+  ${rtl`
+    margin-right: 30px;
+  `}
 `
 
 const SmallCards = styled.div`
@@ -248,7 +238,9 @@ const SmallCards = styled.div`
   flex-wrap: wrap;
   align-content: baseline;
   > div {
-    padding-right: 20px;
+    ${rtl`
+      padding-right: 20px;
+    `}
   }
 `
 
@@ -258,6 +250,9 @@ const Layout = styled.div`
   background-color: #F7FAFD;
   background: linear-gradient(0deg, #F0F7FD 460px, #FFFFFF 461px, #FFFFFF 100%);
   align-items: center;
+  ${p => p.rtl && css`
+    direction: rtl;
+  `}
   // flex: 1;
   // height: 100%;
 `
@@ -292,18 +287,24 @@ const CardHolder = styled.div`
   // background-image: linear-gradient(#CA3F07, #a83304);
   background: transparent url('img/db/cards-back.svg') 0% 0% no-repeat padding-box;
   opacity: 1;
-  padding-left: 60px;
+  ${rtl`
+    padding-left: 60px;
+  `}
+  
   > .header {
     display: flex;
     justify-content: space-between;
     > .search {
       padding-top: 25px;
+      ${rtl` margin-right: 42px;`}
       display: flex;
       > .showing {
         font: normal normal bold 20px/30px Muli;
         color: #FFFFFF;
-        margin-right: 30px;
-        padding-top: 12px;
+        ${rtl`
+          margin-right: 30px;
+          padding-top: 12px;
+        `}
       }
       > .search {
 
@@ -316,7 +317,10 @@ const CardHolder = styled.div`
 `
 
 const CardWrapper = styled.div`
-  margin-left: 40px;
+  ${rtl`
+    margin-left: 40px;
+  `}
+  
   margin-bottom: 40px;
 
 `
@@ -329,7 +333,10 @@ const ProgressStatus = styled.div`
   opacity: 1;
   margin-top: 33px;
   margin-bottom: 40px;
-  margin-left: 40px;
+  ${rtl`
+    margin-left: 40px;
+  `}
+  
   // > progress::-webkit-progress-bar { background-color: #fff; }
   // > progress::-webkit-progress-value { background: #3FBF11; }
   // > progress::-moz-progress-bar { background: #fff; }
@@ -356,7 +363,10 @@ const BarB = styled.div`
 const CardInfo = styled.div`
   height: 206px;
   background-color: #fff;
-  padding-left: 32px;
+  ${rtl`
+    padding-left: 32px;
+  `}
+  
 
   > div {
     
@@ -373,7 +383,10 @@ const CardInfo = styled.div`
     }
     & .progress {
       margin-top: -5px;
-      margin-left: 29px;
+      ${rtl`
+        margin-left: 29px;
+      `}
+      
       height: 26px;
       span {
         text-align: left;
@@ -397,7 +410,10 @@ const CardFooter = styled.div`
   border: 1px solid #DEDEDE;
   border-radius: 0px 0px 5px 5px;
   opacity: 1;
-  padding-left: 27px;
+  ${rtl`
+    padding-left: 27px;
+  `}
+  
   padding-top: 12px;
 `
 
@@ -408,13 +424,19 @@ const CardFooterIcon = styled.div`
   opacity: 1;
   border-radius: 50%;
   &  {
-    margin-right: 20px;
+    ${rtl`
+      margin-right: 20px;
+    `}
+    
   }
 `
 
 const FlexWrapper = styled.div`
   display: flex;
-  padding-left: 70px;
+  ${rtl`
+    padding-left: 70px;
+  `}
+  
   margin-top: 55px;
 `
 
@@ -426,7 +448,9 @@ const Graph = styled.div`
     height: 73px;
     background: #EEEEEE 0% 0% no-repeat padding-box;
     border: 1px solid #BBBBBB;
-    padding-left: 40px;
+    ${rtl`
+      padding-left: 40px;
+    `}
     font: normal normal bold 20px/30px Muli;
     color: #666666;
     line-height: 73px;
@@ -437,13 +461,18 @@ const Graph = styled.div`
     > .sections {
       min-width: 250px;
       background-color: rgb(243, 245, 251);
-      margin-right: 20px;
-      border-right: 1px solid #BBBBBB;
+      ${rtl`
+        margin-right: 20px;
+        border-right: 1px solid #BBBBBB;
+      `}
       .title {
         font: normal normal 600 18px/26px Muli;
         color: #000000;
         margin-top: 23px;
-        padding-left: 23px;
+        ${rtl`
+          padding-left: 23px;
+        `}
+        
       }
       > ol {
         padding-top: 20px;
@@ -543,7 +572,8 @@ const MainInfo = styled.div`
   display: flex;
   padding-top: 40px;
   > .logo {
-    margin-left: 100px;
+    ${rtl` margin-left: 100px; `}
+    
     width: 120px;
     height: 120px;
     background: #1A6B8F 0% 0% no-repeat padding-box;
@@ -558,7 +588,10 @@ const MainInfo = styled.div`
   > .info {
     flex: 1;
     color: #000000;
-    margin-left: 20px;
+    ${rtl`
+      margin-left: 20px;
+    `}
+    
     > .title {
       font-weight: bold;
       font-size: 20px;
@@ -608,13 +641,17 @@ const MainInfo = styled.div`
         align-items: center;
         border-radius: 15px;
         
-        padding-left: 15px;
+        ${rtl`
+          padding-left: 15px;
+          margin-right: 15px;
+        `}
         font: normal normal bold 12px/18px Muli;
         color: #FFFFFF;
         box-shadow: 0px 1px 2px #00000029;  
-        margin-right: 15px;
         span {
-          margin-left: 10px;
+          ${rtl`
+            margin-left: 10px;
+          `}
         }
         &:first-child {
           background: #3FBF11 0% 0% no-repeat padding-box;
@@ -631,7 +668,9 @@ const MainInfo = styled.div`
     }
   }
   > .progress {
-    margin-left: 20px;
+    ${rtl`
+      margin-left: 20px;
+    `}
     width: 160px;
 
     > .round {
@@ -642,12 +681,16 @@ const MainInfo = styled.div`
       line-height: 82px;
       text-align: center;
       font-size: 32px;
-      margin-left: 25px;
+      ${rtl`
+        margin-left: 25px;
+      `}
     }
 
     > div:last-child {
-      margin-top: 10px;
-      margin-left: 8px;
+      ${rtl`
+        margin-top: 10px;
+        margin-left: 8px;      
+      `}
       text-transform: uppercase;
       font-size: 14px;
     }
@@ -768,20 +811,26 @@ const StatusCard = styled.div`
       min-width: 50px;
       max-width: 50px;
       height: 50px;
-      background: #1A6B8F 0% 0% no-repeat padding-box;
+      // background: #1A6B8F 0% 0% no-repeat padding-box;
+      background: #FFFFFF 0% 0% no-repeat padding-box;
+      border: 1px solid #ccc;
       border-radius: 3px;
       text-align: center;
       font: normal normal bold 12px/18px Muli;
       line-height: 50px;
       color: #FFFFFF;
       text-transform: uppercase;
+      > img {
+        width: 50px;
+      }
     }
     > .title {
-      margin-left: 10px;
-      text-align: left;
+      ${rtl`
+        margin-left: 10px;
+      `}
       font: normal normal bold 15px/22px Muli;
       color: #000000;
-      max-width: 275px;
+      max-width: 265px;
       flex: 1;
       > .name { 
         height: 33px;
@@ -815,15 +864,20 @@ const StatusCard = styled.div`
     position: relative;
     top: -10px;
     background: #EBF4FF 0% 0% no-repeat padding-box;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    padding-left: 14px;
+    ${rtl `
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      padding-left: 14px;    
+    `}
     padding-top: 4px;
 
     > .title {
       font: italic normal 300 15px/18px Muli;
       color: #999999;
-      margin-left: 2px;
+      ${rtl`
+        margin-left: 2px;
+      `}
+      
       width: 60px;
       border-bottom: 1px dashed #999999;
     }
@@ -833,7 +887,10 @@ const StatusCard = styled.div`
       width: 100%;
       > .status {
         
-        border-right: 1px solid #DCDFE8;
+        ${rtl`
+          border-right: 1px solid #DCDFE8;
+        `}
+        
         height: 38px;
         display: flex;
         margin-top: 6px;
@@ -852,7 +909,11 @@ const StatusCard = styled.div`
         > .value { 
           font: normal normal 600 15px/22px Muli;
           color: #000000;
-          margin-right: 6px;
+          ${
+            rtl`
+              margin-right: 6px;
+          `}
+          
           line-height: 38px;
         }
       }
