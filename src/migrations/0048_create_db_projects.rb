@@ -9,7 +9,7 @@ Sequel.migration do
       
       String :start_date
       String :end_date
-      String :entity_id
+      Integer :entity_id
 
       column :current_project_ids, 'integer[]'
       column :current_project_names, 'text[]'

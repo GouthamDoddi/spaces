@@ -38,7 +38,6 @@ export default function({entities=[], projects=[], ...props}) {
   const viewDashboard = () => {
     const eid = selectedEntity?.value >= 0 ? selectedEntity?.value : entity_id
     const pid = selectedProject?.value >= 0 ?  selectedProject?.value : project_id
-    alert(`pid: ${pid},eid: ${eid}`)
     // console.log("Clicked", eid, pid)
     if(eid > 0 && pid > 0) {
       window.location.hash = `/qg/${eid}/${pid}`

@@ -3,15 +3,19 @@ import styled from 'styled-components'
 import React from 'react'
 import { PieChart, Pie, Cell} from 'recharts'
 
-const pieData = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-];
+// const pieData = [
+//   { name: 'Group A', value: 400 },
+//   { name: 'Group B', value: 300 },
+//   { name: 'Group C', value: 300 },
+// ];
 
 const COLORS = ['#0064FE', '#FFBF00', '#D3DDE5', '#FF8042'];
 
 export function CircularProgressCard({ level=1, full=30, par=20, non=40, total=60, ...props}) {
+  const pieData = [  
+    { name: 'Fully Compliant', value: full },
+    { name: 'Partially Compliant', value: par },
+    { name: 'Non Compliant', value: non }]
   return (
     <Box>
       <Banner color='#EB622B'> Mandate Level {level} </Banner>

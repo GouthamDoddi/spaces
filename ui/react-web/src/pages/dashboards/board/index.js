@@ -40,26 +40,9 @@ export default function(props) {
     get('reports/entities', {success: (json) => { 
       setGates(json.data)
       setEntitiesForSelect([defaultSelectedEntity, ...json.data.map((o) => ({label: o.name, value: o.id}))])
-      const scores = {23: 12, 5: 20, 2: 32, 11: 30, 22: 17, 25: 40, 8: 45, 10: 62, 13: 67, 3: 71, 7: 79 }
-      const least = [23,5,2,11, 22]
-      const most= [25, 8, 10, 13, 3]
-      let ld = {'High Performing Entities': [], 'Least Performing Entities': []}
-
-      if(leaderBoardData['High Performing Entities'].length == 0 ) {
-        json.data.forEach((o) => {
-          if(least.includes(o.id)) {
-            ld['Least Performing Entities'].push({name: o.name, score: scores[o.id]})
-          } else if(most.includes(o.id)) {
-            ld['High Performing Entities'].push({name: o.name, score: scores[o.id]})
-          }
-          console.log(ld)
-          setLeaderBoardData(ld)
-        })        
-      }
-
     }, error: () => []})
 
-    get('reports/state', {success: (json) => {
+    get('reports/db_state', {success: (json) => {
       setReport(json.data)
     }})
   }, [])
@@ -78,22 +61,7 @@ export default function(props) {
     {mandatory: 'M3', snippet: 'Mandate Level 3', overall: '53%'}
   ]
 
-  // const leaderBoardData = {
-  //   "High Performing Entities": [
-  //     {name: 'Security and Privacy', score: 12},
-  //     {name: 'E-Service Technical Standards', score: 20},
-  //     {name: 'E-Services Functionality', score: 32},
-  //     {name: 'Stylesheet', score: 30},
-  //     {name: 'Support (chat/helpline)', score: 17},
-  //   ],
-  //   'Least Performing Entities': [
-  //     {name: 'Search', score: 12},
-  //     {name: 'E-Payment', score: 20},
-  //     {name: 'Search Engine Optimization (SEO)', score: 14},
-  //     {name: 'E-Services Management', score: 30},
-  //     {name: 'Layout', score: 8},
-  //   ]
-  // }
+
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   console.log("gates", gates)
   return (
@@ -123,8 +91,8 @@ export default function(props) {
         <CardHolder>
           <div className='header'>
             <ProgressStatus> 
-              <div> {Math.ceil(report.overall_progress)}% Completed </div>
-              <Progress color='#3FBF11' value={Math.ceil(report.overall_progress)} max={100}> {38} </Progress>
+              <div> {report.overall_progress*100}% Completed </div>
+              <Progress color='#3FBF11' value={report.overall_progress*100} max={100}> {38} </Progress>
             </ProgressStatus>
             <div className='search'>
               <div className='showing'> Showing {gates.length} Entities</div>
@@ -149,7 +117,7 @@ export default function(props) {
                         <div className='title'> 
                           <div className='name'> {k.name } </div>
                           <div className='progress'> 
-                            <Progress value={k.progress.toFixed(2)} height='5px' max={100} bkcolor='#DCDFE8' width='90%' 
+                            <Progress value={Math.ceil(k.progress * 100)} height='5px' max={100} bkcolor='#DCDFE8' width='90%' 
                               color='#0064FE' tagBkColor='#EBF4FF' showTag tagColor='#0064FE' />  
                           </div>
                         </div>
@@ -204,7 +172,7 @@ export default function(props) {
                 <div className='sections'>
                   <div className='title'> Sections </div>
                   <ol>
-                    { report.section_wise_compliance?.map((o, i) => (
+                    { report.section_wise_status?.map((o, i) => (
                       <li key={i}>{o.name}</li>
                     ))}
                     
@@ -215,7 +183,7 @@ export default function(props) {
                     
                     width={500}
                     height={300}
-                    data={report.section_wise_compliance || []}
+                    data={report.section_wise_status || []}
                     margin={{
                       top: 20,
                       right: 30,
@@ -225,7 +193,7 @@ export default function(props) {
                   >
                     <CartesianGrid strokeDasharray="3 3" />
                     <YAxis  />
-                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => (report.section_wise_compliance[i]?.name)}/>
+                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => (report.section_wise_status[i]?.name)}/>
                     <Legend />
                     <Bar dataKey="Fully Compliant" stackId="a" fill="#008000" barSize={20} />
                     <Bar dataKey="Partially Compliant" stackId="a" fill="#005CC8" barSize={20} />
@@ -236,15 +204,26 @@ export default function(props) {
 
               </div>
             </Graph>
-            <LeaderBoard leaderBoardData={{'Least Performing Entities': (report.low_projects || []),  'High Performing Entities': (report.high_projects || [])}} />
+            <LeaderBoard leaderBoardData={{'Least Performing Entities': (report.low_entities || []),  'High Performing Entities': (report.high_entities || [])}}/>
             <Spacer />
         </FlexWrapper>
 
         <FlexWrapper>
           <SmallCards>
-            <div><CircularProgressCard level={1} full={30} par={20} non={40} total={60}/></div>
+            {
+              ["1", "2", "3"].map((level) => {
+                const l = ((report.compliance_by_mandate_level || {})[level] || {})
+                return <div key={level}>
+                  <CircularProgressCard level={level} 
+                    full={l["Fully Compliant"]} 
+                    par={l['Partially Compliant']} 
+                    non={l['Non Compliant']} total={(l['Fully Compliant']+l['Partially Compliant']*.5).toFixed(2)}/>
+                </div>    
+              })
+            }
+            {/* <div><CircularProgressCard level={1} full={(report.compliance_by_mandate_level || {})["1"]} par={20} non={40} total={60}/></div>
             <div><CircularProgressCard level={2} full={32} par={30} non={200} total={45}/></div>
-            <div><CircularProgressCard level={3} full={40} par={20} non={50} total={67}/></div>
+            <div><CircularProgressCard level={3} full={40} par={20} non={50} total={67}/></div> */}
           </SmallCards>
           
           <InsightsContainer>

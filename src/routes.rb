@@ -73,6 +73,8 @@ class App::Routes < Roda
         r.get('entity', Integer) { |id| Reports[r, {entity_id: id}].entity_report }
         r.get('project', Integer) { |id| Reports[r, {project_id: id}].project_report }
         r.get(Integer, 'db_project', Integer) { |entity_id, project_id| Reports[r, {project_id: project_id, entity_id: entity_id}].db_project_report }
+        r.get(Integer, 'db_entity') { |entity_id| Reports[r, {entity_id: entity_id}].db_entity_report }
+        r.get('db_state') { Reports[r, {}].db_state_report }
       }
       auth_required!
 

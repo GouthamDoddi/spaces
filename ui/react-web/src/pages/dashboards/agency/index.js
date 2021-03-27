@@ -49,18 +49,18 @@ export default function(props) {
   const { entity_id } = useParams()
   useEffect(() => {
     console.log(get)
-    get('reports/entities', {success: (json) => { 
-      // setGates(json.data)
-      // setEntitiesForSelect([defaultSelectedEntity, ...json.data.map((o) => ({label: o.name, value: o.id}))])
-      const scores = {23: 12, 5: 20, 2: 32, 11: 30, 22: 17, 25: 40, 8: 45, 10: 62, 13: 67, 3: 71, 7: 79 }
-      const least = [23,5,2,11, 22]
-      const most= [25, 8, 10, 13, 3]
-      let ld = {'High Performing Entities': [], 'Least Performing Entities': []}
+    // get('reports/entities', {success: (json) => { 
+    //   // setGates(json.data)
+    //   // setEntitiesForSelect([defaultSelectedEntity, ...json.data.map((o) => ({label: o.name, value: o.id}))])
+    //   const scores = {23: 12, 5: 20, 2: 32, 11: 30, 22: 17, 25: 40, 8: 45, 10: 62, 13: 67, 3: 71, 7: 79 }
+    //   const least = [23,5,2,11, 22]
+    //   const most= [25, 8, 10, 13, 3]
+    //   let ld = {'High Performing Entities': [], 'Least Performing Entities': []}
 
-    }, error: () => []})
+    // }, error: () => []})
 
 
-    get(`reports/entity/${entity_id}`, {success: (json) => {
+    get(`reports/${entity_id}/db_entity`, {success: (json) => {
       setReport(json.data)
     }})
   }, [entity_id])
@@ -152,7 +152,7 @@ export default function(props) {
             </div>
           </div>
           <div className='progress'>
-            <div className='round'>{Math.ceil(report.score)}</div>
+            <div className='round'>{Math.ceil(report.total_score)}</div>
             <div> Compliance Score </div>
           </div>
           <Spacer />
@@ -160,8 +160,8 @@ export default function(props) {
         <CardHolder>
           <div className='header'>
             <ProgressStatus> 
-              <div> {report.progress?.toFixed(2)}% Completed </div>
-              <Progress value={report.progress?.toFixed(2)} max={100} color='#3FBF11' > 38 </Progress>
+              <div> {Math.ceil(report.total_progress?.toFixed(2)*100)}% Completed </div>
+              <Progress value={report.total_progress?.toFixed(2)*100} max={100} color='#3FBF11' > 38 </Progress>
             </ProgressStatus>
             <div className='search'>
               <div className='showing'> Showing {report.projects?.length || 0} Projects</div>
@@ -172,19 +172,19 @@ export default function(props) {
           <Cards>
             {
               (report.projects || []).map((k, i) => (
-              <Card key={i}>
+              <Card key={i} >
                   <CardInfo>
                     <div className='info'>
                       <div className='logo'> Logo</div>
                       <div className='title'> 
                         <div> {k.name } </div>
                         <div className='progress'> 
-                          <Progress value={k.progress?.toFixed(2)} height='5px' max={100} bkcolor='#DCDFE8'  color='#EB622B' showTag />  
+                          <Progress value={k.progress?.toFixed(2) * 100} height='5px' max={100} bkcolor='#DCDFE8'  color='#EB622B' showTag />  
                         </div>
                       </div>
                       <div className='chart'> 
-                        <div className='data'> {Math.ceil(k.score) < 10 ? `0${Math.ceil(k.score)}` : Math.ceil(k.score)} </div>
-                        <StatusChart prog={Math.ceil(k.score)}/> 
+                        <div className='data'> {Math.ceil(k.total_score) < 10 ? `0${Math.ceil(k.total_score)}` : Math.ceil(k.total_score)} </div>
+                        <StatusChart prog={Math.ceil(k.total_score)}/> 
                       </div>
                     </div>
                     <div className='description'>
@@ -206,14 +206,14 @@ export default function(props) {
         </CardHolder> 
 
         <FlexWrapper>
-          <Graph>
+        <Graph>
               
               <div className='header'>Sectionwise Compliance Trend Analysis</div>
               <div className='info'>
                 <div className='sections'>
                   <div className='title'> Sections </div>
                   <ol>
-                    { dataSections().map((o, i) => (
+                    { report.section_wise_status?.map((o, i) => (
                       <li key={i}>{o.name}</li>
                     ))}
                     
@@ -221,9 +221,10 @@ export default function(props) {
                 </div>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
+                    
                     width={500}
                     height={300}
-                    data={dataSections()}
+                    data={report.section_wise_status || []}
                     margin={{
                       top: 20,
                       right: 30,
@@ -232,8 +233,8 @@ export default function(props) {
                     }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <YAxis />
-                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => (dataSections()[i]?.name)}/>
+                    <YAxis  />
+                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => (report.section_wise_status[i]?.name)}/>
                     <Legend />
                     <Bar dataKey="Fully Compliant" stackId="a" fill="#008000" barSize={20} />
                     <Bar dataKey="Partially Compliant" stackId="a" fill="#005CC8" barSize={20} />
@@ -244,7 +245,8 @@ export default function(props) {
 
               </div>
             </Graph>
-            <LeaderBoard leaderBoardData={{'Least Performing Entities': (report.low_entities || []),  'High Performing Entities': (report.high_entities || [])}} />
+          <LeaderBoard leaderBoardData={{'Least Performing Entities': (report.low_projects || []),  'High Performing Entities': (report.high_projects || [])}}  />
+            <LeaderBoard leaderBoardData={{'Least Performing Entities': (report.low_projects || []),  'High Performing Entities': (report.high_projects || [])}}  />
             <Spacer />
         </FlexWrapper>
 
@@ -408,7 +410,7 @@ const Progress = styled.progress`
 const Card = styled.div`
   top: 580px;
   left: 100px;
-  width: 312px;
+  width: 380px;
   height: 54px;
   background: #EEEEEE 0% 0% no-repeat padding-box;
   border-radius: 5px 5px 0px 0px;
@@ -419,7 +421,7 @@ const Card = styled.div`
 `
 
 const CardHeader = styled.div`
-  width: 312px;
+  width: 380px;
   height: 54px;
   background: #EEEEEE 0% 0% no-repeat padding-box;
   border-radius: 5px 5px 0px 0px;
@@ -485,7 +487,7 @@ const CardInfo = styled.div`
     }
   }
   > .description {
-    width: 301px;
+    width: 360px;
     height: 72px;
     text-align: left;
     font: normal normal normal 12px/18px Muli;
@@ -506,18 +508,17 @@ const CardFooter = styled.div`
   border: 1px solid #DEDEDE;
   border-radius: 0px 0px 5px 5px;
   opacity: 1;
-  padding-left: 27px;
+  padding-left: 40px;
   padding-top: 12px;
 `
 
 const CardFooterIcon = styled.div`
   width: 36px;
   height: 36px;
-  // background: #D3DDE5 0% 0% no-repeat padding-box;
   opacity: 1;
   border-radius: 50%;
   &  {
-    margin-right: 20px;
+    margin-right: 30px;
   }
 `
 
@@ -537,7 +538,6 @@ const Graph = styled.div`
     height: 73px;
     background: #EEEEEE 0% 0% no-repeat padding-box;
     border: 1px solid #BBBBBB;
-    border-bottom: none;
     padding-left: 40px;
     font: normal normal bold 20px/30px Muli;
     color: #666666;
@@ -559,6 +559,8 @@ const Graph = styled.div`
       }
       > ol {
         padding-top: 20px;
+        height: 600px;
+        overflow: scroll;
         margin: 0;
         li {
           margin-top: 15px;
@@ -568,12 +570,11 @@ const Graph = styled.div`
         
       }
     }
-    height: 572px;
+    height: 654px;
     background: #FFFFFF 0% 0% no-repeat padding-box;
     border: 1px solid #BBBBBB;
   }
 `
-
 const LeaderBoard = styled.div`
   margin-left: 40px;
   border: 1px solid #BBBBBB;

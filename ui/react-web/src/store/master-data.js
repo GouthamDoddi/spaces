@@ -318,8 +318,20 @@ export const serviceStatusTypes = {
 
 export const cleanedEntities = {
     0: {label: 'All', value: 0},
-    3: {id: 3, name: "Kahramaa", short_name: "KM", type_id: 2, focal_point_name: "Alhanouf Almohannadi", focal_point_email: "amalmohannadi@km.qa", focal_point_mobile: "44845116", notes: "آلاء المنهالي - 44845742 - aalmenhali@km.qa\r\nعبير الخزاعي - 44845369 - aalkhuzaei@km.qa", extras: null, active: true, created_by: null, updated_by: 1, created_at: "2020-11-04T10:59:39.716+00:00", updated_at: "2020-11-04T10:59:39.716+00:00", ar_name: "كهرماء", description: "KAHRAMAA has been meticulously planning to come up to the expectations of the decision- makers, stakeholders and its valued customers by investing in world- class projects to raise its capacities and resources.", description_ar: null, label: "Kahramaa", value: 3}, 
-    4: {id: 4, name: "Ministry of Administrative Development, Labour and Social Affairs", short_name: "ADLSA", type_id: 1, focal_point_name: "Maryam Al-Mehaiza", focal_point_email: "mmehaiza@ADLSA.gov.qa", focal_point_mobile: "40288439", notes: "", extras: null, active: true, created_by: null, updated_by: 1, created_at: "2020-11-04T10:59:39.716+00:00", updated_at: "2020-11-04T10:59:39.716+00:00", ar_name: "وزارة التنمية الادارية والعمل والشؤون الاجتماعية", description: "The Ministry of Administrative Development, Labour & Social Affairs has undertaken the responsibility of achieving public objectives of administrative development, labour and employment affairs and social protection of citizens in State of Qatar. ", description_ar: null, label: "Ministry of Administrative Development, Labour and Social Affairs", value: 4}
+    9: {value: 9, "label":"Ministry of Municipality and Environment" ,"name":"Ministry of Municipality and Environment","id":9,"description":"","completed":20,"wip":22,"not_started":2,"prog":88},
+    1: {value: 1, "label":"General Authority of Customs" ,"name":"General Authority of Customs","id":1,"description":"","completed":12,"wip":2,"not_started":11,"prog":54},
+    14: {value: 14, "label":"The General Retirement and Social Insurance Authority" ,"name":"The General Retirement and Social Insurance Authority","id":14,"description":"","completed":14,"wip":15,"not_started":29,"prog":56},
+    2: {value: 2, "label":"Hamad Medical Corporation" ,"name":"Hamad Medical Corporation","id":2,"description":"","completed":16,"wip":8,"not_started":7,"prog":61},
+    3: {value: 3, "label":"Kahramaa" ,"name":"Kahramaa","id":3,"description":"آلاء المنهالي - 44845742 - aalmenhali@km.qa\r\nعبير الخزاعي - 44845369 - aalkhuzaei@km.qa","completed":17,"wip":16,"not_started":22,"prog":55},
+    4: {value: 4, "label":"Ministry of Administrative Development, Labour and Social Affairs" ,"name":"Ministry of Administrative Development, Labour and Social Affairs","id":4,"description":"","completed":17,"wip":12,"not_started":19,"prog":55},
+    5: {value: 5, "label":"Ministry of Commerce and Industry" ,"name":"Ministry of Commerce and Industry","id":5,"description":"","completed":19,"wip":2,"not_started":30,"prog":59},
+    6: {value: 6, "label":"Ministry of Education and Higher Education" ,"name":"Ministry of Education and Higher Education","id":6,"description":"","completed":16,"wip":27,"not_started":12,"prog":74},
+    7: {value: 7, "label":"Ministry of Interior" ,"name":"Ministry of Interior","id":7,"description":"E-Services are out of scope for the current Pilot Exercise ","completed":3,"wip":3,"not_started":26,"prog":58},
+    8: {value: 8, "label":"Ministry of Justice" ,"name":"Ministry of Justice","id":8,"description":"","completed":8,"wip":20,"not_started":10,"prog":90},
+    10: {value: 10, "label":"Ministry of Public Health" ,"name":"Ministry of Public Health","id":10,"description":"","completed":3,"wip":26,"not_started":4,"prog":78},
+    11: {value: 11, "label":"Ministry of Transport \u0026 Communication" ,"name":"Ministry of Transport \u0026 Communication","id":11,"description":"","completed":12,"wip":26,"not_started":28,"prog":79},
+    12: {value: 12, "label":"Primary Health Care Corporation" ,"name":"Primary Health Care Corporation","id":12,"description":"","completed":6,"wip":6,"not_started":6,"prog":90},
+    13: {value: 13, "label":"Supreme Judiciary Council" ,"name":"Supreme Judiciary Council","id":13,"description":"","completed":14,"wip":25,"not_started":11,"prog":84}
 }
 
 

@@ -1,6 +1,8 @@
 class App::Models::Entity < Sequel::Model
   one_to_many :projects, class: 'App::Models::Compliance::Project', key: :owner_id, conditions: {id: [17,23,8,14,22,21,9,33,36,44,45,16,32,11,30,28,29,12,19,42,31,43,15,52,56,55,54,58,57,53,20,51,50,49,27,25,26,13,34,48,35,46,47,37,18]}
 
+  one_to_many :projects_for_db, class: 'App::Models::DbProject'
+
   def validate
     super
     # validates_presence [:name, :date]

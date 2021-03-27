@@ -118,11 +118,136 @@ class App::Services::Reports < App::Services::Base
     return_success(resp)
   end
 
+
+  def db_entity_report
+    entity = App::Models::Entity.eager(:projects_for_db)[rp[:entity_id]]
+    return_success(entity_report_for(entity) )
+  end
+
+
+
+  def db_state_report
+    entity_ids = DbProject.select_map(:entity_id)
+    
+    entities = App::Models::Entity.eager(:projects_for_db).where(id: entity_ids).all
+    
+    resp = {name: 'Jawda', description: 'Qatar Digital Government (QDG) is a cross-governmental, stakeholder-led initiative formed to foster cooperation and champion the cause of digital government in Qatar.'}
+
+    total_score = 0; total_progress = 0
+
+    resp[:entities] = entities.map do |entity|
+      details = entity_report_for(entity)
+      total_progress += details[:total_progress]
+      total_score += details[:total_score]
+      {
+        name: entity.name,
+        description: entity.description,
+        progress: details[:total_progress].round(2),
+        score: details[:total_score],
+        
+        projects: entity.projects_for_db.reduce({completed: 0, wip: 0, not_started: 0}) do |h, p|
+          if p.completed?
+            h[:completed] += 1
+          elsif p.wip?
+            h[:wip] += 1
+          elsif p.not_started?
+            h[:not_started] += 1
+          end
+          h
+        end
+      }
+    end
+
+    resp[:overall_progress] = (total_progress / entities.length).round(2)
+    resp[:overall_score] = (total_score / resp[:entities].length)
+    # resp[:overall_projects_completed] = resp[:entities].sum{ |p| p[:projects] ? p[:projects][:completed] : 0}
+    # resp[:overall_projects_wip] = resp[:entities].sum{|p| p[:projects] ? p[:projects][:wip] : 0}
+    entity_report = entities.map{entity_report_for(_1)}
+
+    resp[:section_wise_status] = sum_arr_with_fields(entity_report, :extras)
+
+    resp[:compliance_by_mandate_level] = { 
+      "1" => sum_hash_with_avg2(entity_report, :compliance_by_mandate_level,  "1"),
+      "2" =>  sum_hash_with_avg2(entity_report, :compliance_by_mandate_level, "2"),
+      "3" =>  sum_hash_with_avg2(entity_report, :compliance_by_mandate_level, "3"),
+    }
+    
+    sorted = resp[:entities].sort{|a,b| a[:score] <=> b[:score]}
+
+    resp[:low_entities] = sorted[0..4]
+    resp[:high_entities] = sorted.reverse[0..4]
+    # resp[:extras] = sum_hash_with_avg(entities.map{entity_report_for(_1)}, :extras, false )
+    return_success(resp)
+  end
+
   def db_project_report
     rec = App::Models::DbProject[rp[:project_id]]
     rec.score_by_section = rec.score_by_section.sort{|(a,v1), (b, v2)| v1 <=> v2}
     return_success(rec.as_json)
-    
+  end
+
+
+  def entity_report_for(entity)
+    resp = { name: entity.name, description: entity.description }
+    projects = entity.projects_for_db
+    resp[:projects] = projects.map{_1.as_pos(only: [:name, :description, :progress, :total_score, :total_parameters, :total_completed_parameters])}
+    resp[:score_by_section] = sum_hash_with_avg(projects, :score_by_section)
+    resp[:qgate1] = sum_hash_with_avg(projects, :qgate1)
+    resp[:qgate2] = sum_hash_with_avg(projects, :qgate2)
+    resp[:qgate3] = sum_hash_with_avg(projects, :qgate3)
+    resp[:qgate4] = sum_hash_with_avg(projects, :qgate4)
+    resp[:qgate5] = sum_hash_with_avg(projects, :qgate5)
+    resp[:compliance_by_mandate_level] = { 
+      "1" => sum_hash_with_avg2(projects, :compliance_by_mandate_level,  "1"),
+      "2" =>  sum_hash_with_avg2(projects, :compliance_by_mandate_level, "2"),
+      "3" =>  sum_hash_with_avg2(projects, :compliance_by_mandate_level, "3"),
+    }
+    resp[:extras] = sum_arr_with_fields(projects, :extras)
+    resp[:total_progress] = projects.length > 0 ? (projects.sum(&:progress) / projects.length).round(2) : 0
+    resp[:total_score] = projects.length > 0 ? (projects.sum(&:total_score) / projects.length).round(2) : 0
+    resp 
+  end
+
+
+  def sum_hash_with_avg(rec, meth, avg=true)
+
+    rec.map do |o|
+      o.is_a?(Hash) ? o[meth] : o.send(meth)
+    end.flatten.reduce({}) do |h, o|
+      o.each {|k,v| (h[k] ||= []) << v}
+      h
+    rescue => e
+      byebug
+    end.reduce({}){|h, (k,arr)| h.merge!( k => avg ? (arr.compact.sum / arr.length).round(2) : arr.sum )}
+  end
+
+  def sum_hash_with_avg2(rec, meth, k, avg=true)
+
+    rec.map do |o|
+      (o.is_a?(Hash) ? o[meth] : o.send(meth))[k]
+    end.flatten.reduce({}) do |h, o|
+      o&.each {|k,v| (h[k] ||= []) << v}
+      h
+    end.reduce({}){|h, (k,arr)| h.merge!( k => avg ? (arr.compact.sum / arr.length).round(2) : arr.sum )}
+  end
+
+
+  def sum_arr_with_fields(data, key, flds=nil)
+    flds ||= ["Fully Compliant", 'Partially Compliant', 'Non Compliant']
+
+    data.reduce({}) do |h, p|
+      arr = p.is_a?(Hash) ? p[key] : p.send(key)
+      
+      arr.each do |s|
+        s = s.with_indifferent_access
+        if h[s[:id]]
+          flds.each {|f| h[s[:id]][f] += s[f]}
+        else
+          h[s[:id]] = s
+        end
+      end
+      h
+    end.values
   end
   
   def self.fields
