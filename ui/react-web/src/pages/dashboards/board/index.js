@@ -16,6 +16,7 @@ import LeaderBoard from '../shared/leaderboard'
 import Insights from '../shared/insights'
 import { BarProgressCard, CircularProgressCard } from '../shared/progress-card'
 import rtl from 'styled-components-rtl'
+import { t, T, To } from '../../../utils/translate';
 // import Card from '../shared/card'
 
 function useInput({ type='text' /*...*/ }) {
@@ -58,28 +59,29 @@ export default function({lang, setLang, ...props}) {
       <Content>
         <Filters entities={gates} projects={[]} />
         <MainInfo>
-          <div className='logo'> Logo </div>
+          <div className='logo'> <img src='/img/logos/jawda.png' /> </div>
           <div className='info'>
-            <div className='title'> {report.name} </div>
+            <div className='title'> <To o={report} k='name'></To> </div>
             <div className='description'> 
-              {report.description}
-              </div>
+              <To o={report} k='description'></To>
+            </div>
             <div className='status'>
-              <div> <SVGCheck /> <span> {report.overall_projects_completed} Completed </span> </div>
-              <div> <SVGSolution /> <span> {report.overall_projects_wip} Running </span> </div>
-              <div> {Math.ceil(report.overall_projects_completed / report.overall_projects_wip * 100)}% <span> Adoption rate </span> </div>
+              <div> <span> {report.total_projects} Total Projects </span> </div>
+              <div> <SVGCheck /> <span> {report.overall_projects_completed} <T k='completed' /> </span> </div>
+              <div> <SVGSolution /> <span> {report.overall_projects_wip} <T k='running' /> </span> </div>
+              <div> {Math.ceil(report.overall_projects_completed / report.overall_projects_wip * 100)}% <span> <T k='adoption_rate' /> </span> </div>
             </div>
           </div>
           <div className='progress'>
             <div className='round'>{Math.ceil(report.overall_score)}</div>
-            <div> Compliance Score</div>
+            <div> <T k='compliance_score' /></div>
           </div>
           <Spacer />
         </MainInfo>
         <CardHolder>
           <div className='header'>
             <ProgressStatus> 
-              <div> {report.overall_progress*100}% Completed </div>
+              <div> {report.overall_progress*100}% <T k='completed' /> </div>
               <Progress color='#3FBF11' value={report.overall_progress*100} max={100}> {38} </Progress>
             </ProgressStatus>
             <div className='search'>
@@ -103,7 +105,7 @@ export default function({lang, setLang, ...props}) {
                       <div className='info'>
                         <div className='logo'> <img src={`/img/logos/entities/${k.id}.png`} /></div>
                         <div className='title'> 
-                          <div className='name'> {k.name } </div>
+                          <div className='name'> <To o={k} k='name' /> </div>
                           <div className='progress'> 
                             <Progress value={Math.ceil(k.progress * 100)} height='5px' max={100} bkcolor='#DCDFE8' width='90%' 
                               color='#0064FE' tagBkColor='#EBF4FF' showTag tagColor='#0064FE' />  
@@ -120,7 +122,7 @@ export default function({lang, setLang, ...props}) {
                         <div className='info'>
                           <div className='status'>
                             <div className='value'> {k.projects.completed} </div>
-                            <div className='label'> Completed 
+                            <div className='label'> {t('completed')} 
                               <BarB color='#3FBF11' />
                             </div>
                             
@@ -128,7 +130,7 @@ export default function({lang, setLang, ...props}) {
                           <div className='status'>
                             <div className='value'> {k.projects.wip} </div>
                             <div className='label'> 
-                              WIP 
+                              {t('wip')} 
                               <BarB color='#FFBF00' />
                             </div>
                             
@@ -136,7 +138,7 @@ export default function({lang, setLang, ...props}) {
                           <div className='status'>
                             <div className='value'> {k.projects.not_started} </div>
                             <div className='label'> 
-                              Not Started 
+                              {t('not_started')}
                               <BarB color='#999999' />
                             </div>
 
@@ -155,7 +157,7 @@ export default function({lang, setLang, ...props}) {
         <FlexWrapper>
           <Graph>
               
-              <div className='header'>Sectionwise Compliance Trend Analysis</div>
+              <div className='header'>{t('swcta')}</div>
               <div className='info'>
                 <div className='sections'>
                   <div className='title'> Sections </div>
@@ -326,7 +328,6 @@ const CardWrapper = styled.div`
 `
 
 const ProgressStatus = styled.div`
-  text-align: left;
   font-size: 20px;
   font-weight: bold;
   color: #FFFFFF;
@@ -576,7 +577,8 @@ const MainInfo = styled.div`
     
     width: 120px;
     height: 120px;
-    background: #1A6B8F 0% 0% no-repeat padding-box;
+    // background: #1A6B8F 0% 0% no-repeat padding-box;
+    border: 1px solid #1A6B8F;
     border-radius: 3px;
     font-weight: bold;
     font-size: 20px;
@@ -584,6 +586,10 @@ const MainInfo = styled.div`
     color: #FFFFFF;
     line-height: 120px;
     text-align: center;
+    img {
+      margin-top: 5px;
+      width: 100px;
+    }
   }
   > .info {
     flex: 1;
@@ -654,12 +660,16 @@ const MainInfo = styled.div`
           `}
         }
         &:first-child {
-          background: #3FBF11 0% 0% no-repeat padding-box;
+          background: #FFFFFF 0% 0% no-repeat padding-box;
+          color: #000;
         }  
         &:nth-child(2) {
+          background: #3FBF11 0% 0% no-repeat padding-box;
+        }  
+        &:nth-child(3) {
           background: #FFBF00 0% 0% no-repeat padding-box;
         }
-        &:nth-child(3) {
+        &:nth-child(4) {
           background: #FFFFFF 0% 0% no-repeat padding-box;
           color: #000;
   
@@ -682,15 +692,15 @@ const MainInfo = styled.div`
       text-align: center;
       font-size: 32px;
       ${rtl`
-        margin-left: 25px;
+        margin-left: 28px;
       `}
     }
 
     > div:last-child {
       ${rtl`
-        margin-top: 10px;
-        margin-left: 8px;      
+        margin-top: 10px;   
       `}
+      text-align: center;
       text-transform: uppercase;
       font-size: 14px;
     }

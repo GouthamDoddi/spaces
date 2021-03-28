@@ -3,12 +3,13 @@ import React from 'react'
 import styled from 'styled-components'
 import { SVGCrown} from './icons'
 import rtl from 'styled-components-rtl'
+import { t } from '../../../utils/translate'
 
 export default function({leaderBoardData, type='Entities',  ...props}) {
   return (
     <LeaderBoard>
       <div className='header'>
-        <span class='title'> Leaderboard</span>
+        <span class='title'> {t('leaderboard')}</span>
       </div>
       <div className='info'>
         <div className='title'> High Performing {type} </div>

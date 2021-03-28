@@ -3,8 +3,15 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import Switch from 'react-switch'
+// import translations from '../../../utils/translate'
+import translate from '../../../utils/translate'
 
 export default function({children, viewType, viewName, lang, setLang,  ...props}) {
+
+  const changeLang = (l) => {
+    translate.setLang(l)
+    setLang(l)
+  }
   return(
     <Outline>
       <div className='logo'>
@@ -17,7 +24,7 @@ export default function({children, viewType, viewName, lang, setLang,  ...props}
       {children}
       <div className='menu'> 
         <span style={lang == 'ar' ? {color: '#ccc'} : {color: '#2693e6'}}> En </span>
-        <Switch className='lang' onChange={(checked) => checked ? setLang('ar') : setLang('en')} checked={lang == 'ar'} 
+        <Switch className='lang' onChange={(checked) => checked ? changeLang('ar') : changeLang('en')} checked={lang == 'ar'} 
           onColor="#86d3ff"
           onHandleColor="#2693e6"
           handleDiameter={30}

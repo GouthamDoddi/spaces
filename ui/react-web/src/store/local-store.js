@@ -7,7 +7,7 @@ const storageUpdated = createEvent('storage updated')
     
 export default function(storeName, defaultData) {
 
-  const counterLocalStorage = connectLocalStorage(`user-data`)
+  const counterLocalStorage = connectLocalStorage(storeName)
     .onError((err) => console.log(err))
     .onChange(storageUpdated)
 

@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { loggedIn, role } from './store/user'
 import { masterData } from './store/api'
 import { resetData } from './store/master-data'
+import langStore from './store/lang-store'
 
 // import { objects, subobjects, questions, beneficiaries, profiles, details } from './store/master-data'
 import SnackBar from './snackbar'
@@ -44,6 +45,7 @@ import { ThemeProvider as TP } from 'styled-components'
 import cs from './utils/colors'
 import setPassword from './pages/set-password';
 import { ToastContainer } from 'react-toastify';
+import {setLang as setLangT} from './utils/translate'
 
 
 // import { Task, Note, Survey, Meeting, Space } from './components/menu-actions'
@@ -65,6 +67,17 @@ function Routes() {
 }
 
 function AllRoutes(props) {
+  const [lang, setLang] = useState('en')
+  const options = {lang, setLang}
+  const theme = cs.newdesign
+  theme.rtl = (lang == 'ar')
+  theme.dir = theme.rtl ? 'rtl' : 'ltr'
+
+  useEffect(() => {
+    console.log("INSIDE ALL ROUTES EFFECT")
+    langStore.setLang(lang)
+  }, [lang])
+
   return (
     <>
       <ToastContainer 
@@ -101,7 +114,9 @@ function AllRoutes(props) {
           </TP> 
         </Route>
 
-        <Route path="/qg"> <TP theme={cs.newdesign}> <Qg /> </TP> </Route>
+        <Route path="/qg/:entity_id/:project_id"> <TP theme={theme}> <Qg {...options} /> </TP> </Route>
+        <Route path="/board"> <TP theme={theme}><Board {...options} /> </TP> </Route>
+        <Route path="/agency/:entity_id"> <TP theme={theme}> <Agency {...options} /> </TP> </Route>
         <Route exact path="/"> <TP theme={cs.home}> { dbForRole(role())} </TP></Route>
       </Switch>
     </>)
@@ -119,22 +134,10 @@ function dbForRole(role) {
   }
 }
 function App() {
-
-  const [lang, setLang] = useState('en')
-  // useEffect(() => {
-  //   objects.load();
-  // }, [])
-  const options = {lang, setLang}
-  console.log(lang)
-  const theme = cs.newdesign
-  theme.rtl = (lang == 'ar')
-  theme.dir = theme.rtl ? 'rtl' : 'ltr'
   return (
     <Router>
       <Switch>
-        <Route path="/qg/:entity_id/:project_id"> <TP theme={theme}> <Qg {...options} /> </TP> </Route>
-        <Route path="/board"> <TP theme={theme}><Board {...options} /> </TP> </Route>
-        <Route path="/agency/:entity_id"> <TP theme={theme}> <Agency {...options} /> </TP> </Route>
+
         <Route path='/login'><Login /></Route>
         <Route path="/set-password/:token"> <TP theme={cs.newdesign}> <SetPassword /> </TP> </Route>
         <Route path="/forgot-password"> <TP theme={cs.newdesign}> <ForgotPassword /> </TP> </Route>

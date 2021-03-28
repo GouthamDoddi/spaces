@@ -18,6 +18,8 @@ import Downloads from '../shared/downloads';
 import LeaderBoard from '../shared/leaderboard'
 import rtl from 'styled-components-rtl'
 
+import { to, t } from '../../../utils/translate'
+
  // import Card from '../shared/card'
 
 
@@ -63,19 +65,19 @@ export default function({lang, setLang, ...props}) {
         <MainInfo>
           <div className='logo'> <img src={`/img/logos/entities/${entity_id}.png`} /> </div>
           <div className='info'>
-            <div className='title'> {report.name} </div>
+            <div className='title'> {to(report, 'name')} </div>
             <div className='description'> 
-              { report. description }
+              { to(report, 'description') }
               </div>
             <div className='status'>
-              <div> <SVGCheck /> <span> 45 Completed </span> </div>
-              <div> <SVGSolution /> <span> 27 Running </span> </div>
-              <div> <SVGCancel /> <span> Not Started </span> </div>
+              <div> <SVGCheck /> <span> 45 {t('completed')} </span> </div>
+              <div> <SVGSolution /> <span> 27 {t('running')} </span> </div>
+              <div> <SVGCancel /> <span> {t('not_started')} </span> </div>
             </div>
           </div>
           <div className='progress'>
             <div className='round'>{Math.ceil(report.total_score)}</div>
-            <div> Compliance Score </div>
+            <div> {t('compliance_score')} </div>
           </div>
           <Spacer />
         </MainInfo>
@@ -130,7 +132,7 @@ export default function({lang, setLang, ...props}) {
         <FlexWrapper>
         <Graph>
               
-              <div className='header'>Sectionwise Compliance Trend Analysis</div>
+              <div className='header'>{t('swcta')}</div>
               <div className='info'>
                 <div className='sections'>
                   <div className='title'> Sections </div>
@@ -289,7 +291,6 @@ const CardHolder = styled.div`
 `
 
 const ProgressStatus = styled.div`
-  text-align: left;
   font-size: 20px;
   font-weight: bold;
   color: #FFFFFF;
@@ -539,6 +540,7 @@ const Graph = styled.div`
 const MainInfo = styled.div`
 height: 200px;
 background: #FFFFFF 0% 0% no-repeat padding-box;
+
 border: 1px solid #DDDDDD;
 display: flex;
 padding-top: 40px;
@@ -552,7 +554,8 @@ padding-top: 40px;
   }
   width: 120px;
   height: 120px;
-  background: #EB622B 0% 0% no-repeat padding-box;
+  // background: #EB622B 0% 0% no-repeat padding-box;
+  border: 1px solid #EB622B;
   border-radius: 3px;
   font-weight: bold;
   font-size: 20px;
@@ -618,13 +621,14 @@ padding-top: 40px;
   }
 }
 > .progress {
-  ${rtl`
-  margin-left: 20px;
-  `}
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
   > .round {
-    ${rtl`
-    margin-left: 30px;
-    `}
+
+    text-align: center;
     width: 100px;
     height: 100px;
     border-radius: 50%;

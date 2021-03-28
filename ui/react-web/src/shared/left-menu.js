@@ -13,7 +13,7 @@ export default function({title='Recent Activities', except=[], selected='dashboa
   return (
     <Container>
       <TitleBar>
-        <div className='logo' onClick={() => window.location.hash = 'qg'}></div>
+        <div className='logo' onClick={() => window.location.hash = '/board'}></div>
       </TitleBar>
       <Links>
         <A to='/a-dashboard' icon='dashboard.svg' {...options('dashboard')}> Dashboard </A>

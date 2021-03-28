@@ -1,6 +1,7 @@
 import React from 'react'
 
 import styled, { css } from 'styled-components'
+import rtl from 'styled-components-rtl'
 
 export default styled.progress`
   position: relative;
@@ -32,7 +33,9 @@ export default styled.progress`
       content: "${p => p.value}%";
       position: absolute;
       top: -16px;
+      ${rtl`
       left: 0;
+      `}
       text-align: center;
       width: 38px;
       font: normal normal normal 10px/15px Muli;

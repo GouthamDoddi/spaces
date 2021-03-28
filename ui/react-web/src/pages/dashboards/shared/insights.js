@@ -60,7 +60,41 @@ export default function(props) {
   )
 }
 
+export function Challenges(props) {
+  return (
+    <Box>
+      <header> Challenges </header>
+      <ChallengeCard></ChallengeCard>
+    </Box>
+  )
 
+}
+
+const ChallengeCard = styled.div`
+  height: 104px;
+  background: #F7F6F3 0% 0% no-repeat padding-box;
+  > .footer {
+    height: 30px;
+    background: #E4E4E4 0% 0% no-repeat padding-box;
+
+    > .tag {
+      font: normal normal bold 12px/20px Muli;
+      
+      color: #FFFFFF;
+      background: #EB622B 0% 0% no-repeat padding-box;
+      border-radius: 11px;
+      height: 20px;
+      line-height: 20px;
+      text-align: center;
+    }
+
+    > .date {
+      font: normal normal normal 12px/15px Muli;
+      color: #000000;
+    }
+  }
+
+`
 const Box = styled.div`
   max-width: 758px;
   min-width: 758px;
@@ -173,3 +207,4 @@ const Cards = styled.div`
     margin-top: 100px;
   }
 `
+

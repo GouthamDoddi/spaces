@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import React from 'react'
 import { PieChart, Pie, Cell} from 'recharts'
 import rtl from 'styled-components-rtl'
+import { t } from '../../../utils/translate';
 
 // const pieData = [
 //   { name: 'Group A', value: 400 },
@@ -19,7 +20,7 @@ export function CircularProgressCard({ level=1, full=30, par=20, non=40, total=6
     { name: 'Non Compliant', value: non }]
   return (
     <Box>
-      <Banner color='#EB622B'> Mandate Level {level} </Banner>
+      <Banner color='#EB622B'> {t('mandate_level')} {level} </Banner>
       <Info>
         <div className='chart'>
           <PieChart width={200} height={200}>
@@ -43,15 +44,15 @@ export function CircularProgressCard({ level=1, full=30, par=20, non=40, total=6
           <Score> {total}% Compliance </Score>
           <Legend>
             <SmallBox color={COLORS[0]} /> 
-            <span> {full}% Fully Compliant</span>
+            <span> {full}% {t('fully_compliant')}</span>
           </Legend>
           <Legend>
             <SmallBox color={COLORS[1]} /> 
-            <span> {par}% Partially Compliant</span>
+            <span> {par}% {t('partially_compliant')}</span>
           </Legend>
           <Legend>
             <SmallBox color={COLORS[2]} /> 
-            <span> {non}% Non Compliant</span>
+            <span> {non}% {t('non_compliant')}</span>
           </Legend>
         </div>
       </Info>

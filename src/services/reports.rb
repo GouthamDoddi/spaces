@@ -98,7 +98,7 @@ class App::Services::Reports < App::Services::Base
     
     
     resp[:entities] = entities.map do |entity|
-      { id: entity.id, name: entity.name, description: entity.description, 
+      { id: entity.id, name: entity.name, description: entity.description, name_ar: entity.ar_name,
         projects: entity.projects_status,
         score: entity.projects.present? ? (entity.projects.sum{|p| p.score} / entity.projects.length) : 0,
         progress: entity.projects.present? ? (entity.projects.sum{|p| p.progress} / entity.projects.length) : 0
@@ -138,7 +138,9 @@ class App::Services::Reports < App::Services::Base
     
     entities = App::Models::Entity.eager(:projects_for_db).where(id: entity_ids).all
     
-    resp = {name: 'Jawda', description: 'Qatar Digital Government (QDG) is a cross-governmental, stakeholder-led initiative formed to foster cooperation and champion the cause of digital government in Qatar.'}
+    resp = {name: 'Jawda', description: 'Qatar Digital Government (QDG) is a cross-governmental, stakeholder-led initiative formed to foster cooperation and champion the cause of digital government in Qatar.',
+            description_ar: 'حكومة قطر الرقمية (QDG) هي مبادرة مشتركة بين الحكومات يقودها أصحاب المصلحة تم تشكيلها لتعزيز التعاون ودعم قضية الحكومة الرقمية في قطر.', name_ar: 'جودة'
+            }
 
     total_score = 0; total_progress = 0
 
@@ -150,6 +152,7 @@ class App::Services::Reports < App::Services::Base
         id: entity.id,
         name: entity.name,
         description: entity.description,
+        name_ar: entity.ar_name,
         progress: details[:total_progress].round(2),
         score: details[:total_score],
         
@@ -168,8 +171,9 @@ class App::Services::Reports < App::Services::Base
 
     resp[:overall_progress] = (total_progress / entities.length).round(2)
     resp[:overall_score] = (total_score / resp[:entities].length)
-    # resp[:overall_projects_completed] = resp[:entities].sum{ |p| p[:projects] ? p[:projects][:completed] : 0}
-    # resp[:overall_projects_wip] = resp[:entities].sum{|p| p[:projects] ? p[:projects][:wip] : 0}
+    resp[:overall_projects_completed] = resp[:entities].sum{ |p| p[:projects] ? p[:projects][:completed] : 0}
+    resp[:overall_projects_wip] = resp[:entities].sum{|p| p[:projects] ? p[:projects][:wip] : 0}
+    resp[:total_projects] = resp[:entities].sum{ |p| p[:projects].length }
     entity_report = entities.map{entity_report_for(_1)}
 
     resp[:section_wise_status] = sum_arr_with_fields(entity_report, :extras)
@@ -196,7 +200,7 @@ class App::Services::Reports < App::Services::Base
 
 
   def entity_report_for(entity)
-    resp = { name: entity.name, description: entity.description, id: entity.id }
+    resp = { name: entity.name, description: entity.description, id: entity.id, name_ar: entity.ar_name }
     projects = entity.projects_for_db
     resp[:projects] = projects.map{_1.as_pos(only: [:name, :description, :progress, :total_score, :total_parameters, :total_completed_parameters, :id])}
     resp[:score_by_section] = sum_hash_with_avg(projects, :score_by_section)
