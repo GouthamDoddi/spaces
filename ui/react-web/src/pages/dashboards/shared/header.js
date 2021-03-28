@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import Switch from 'react-switch'
 // import translations from '../../../utils/translate'
-import translate from '../../../utils/translate'
+import translate, { t } from '../../../utils/translate'
 
 export default function({children, viewType, viewName, lang, setLang,  ...props}) {
 
@@ -37,10 +37,10 @@ export default function({children, viewType, viewName, lang, setLang,  ...props}
           width={48}
         />
         <span style={lang == 'en' ? {color: '#ccc', marginLeft: '6px'} : {color: '#2693e6', marginLeft: '6px'}} >Ar</span>
-        <Link to='/'> Home </Link> 
-        <Link to='/dashboard'> Dashboards </Link> 
+        <Link to='/'> {t('home')} </Link> 
+        <Link to='/board'> Dashboards </Link> 
         <Link to='/entities'> Entities </Link> 
-        <Link to='/projects'> Projects </Link> 
+        <Link to='/projects'> {t('projects')} </Link> 
       </div>
     </Outline>
   )

@@ -13,6 +13,7 @@ import { useParams } from 'react-router';
 import { get } from '../../../store/api';
 import Filters from '../shared/filters'
 import rtl from 'styled-components-rtl'
+import { t } from '../../../utils/translate'
 
 // import Card from '../shared/card'
 
@@ -173,7 +174,7 @@ export default function({lang, setLang, ...props}) {
         <FlexWrapper>
         <Graph>
               
-              <div className='header'>Sectionwise Compliance Trend Analysis</div>
+              <div className='header'>{t('swcta')}</div>
               <div className='info'>
                 <div className='sections'>
                   <div className='title'> Sections </div>

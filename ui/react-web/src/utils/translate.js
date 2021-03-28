@@ -108,6 +108,18 @@ const data = {
   mandate_level: {
     en: 'Mandate Level',
     ar: 'المستوى إلزامي'
+  },
+  home: {
+    en: 'Home',
+    ar: 'الصفحة الرئيسية'
+  },
+  view_dashboard: {
+    en: 'View Dashboard',
+    ar: 'عرض لوحة المراقبة'
+  },
+  reset: {
+    en: 'Reset',
+    ar: 'إعادة تعيين'
   }
   	
 

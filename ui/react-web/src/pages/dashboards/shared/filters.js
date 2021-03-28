@@ -5,6 +5,7 @@ import { Select, toOpt } from '../../../components/form'
 import { get } from '../../../store/api'
 import { cleanedEntities } from '../../../store/master-data'
 import rtl from 'styled-components-rtl'
+import { t } from '../../../utils/translate'
 
 const defaultSelectedEntity = {label: 'All', value: 0}
 const defaultSelectedProject = {label: 'All', value: 0}
@@ -58,7 +59,7 @@ export default function({entities=[], projects=[], ...props}) {
     <Filters>
       <div className='selectors'>
         <div> 
-          <Select label='Filter By Entity'
+          <Select label={t('filter_by_entity')}
             options={toOpt(cleanedEntities)}
             onChange={(e, ...args) => {
               console.log("hi", e)
@@ -71,7 +72,7 @@ export default function({entities=[], projects=[], ...props}) {
           />
         </div>
         <div>
-          <Select label='Filter By Project'
+          <Select label={t('filter_by_project')}
             options={projectsForSelect}
             onChange={(e, ...args) => {
               setSelectedProject(e)
@@ -80,8 +81,8 @@ export default function({entities=[], projects=[], ...props}) {
           /></div>
       </div>
       <div className='actions'>
-        <div onClick={() => setSelectedEntity(defaultSelectedEntity)}> Reset </div> 
-        <div onClick={viewDashboard}> View Dashboard </div>
+        <div onClick={() => setSelectedEntity(defaultSelectedEntity)}> {t('reset')} </div> 
+        <div onClick={viewDashboard}> {t('view_dashboard')} </div>
       </div>
     </Filters>
   )
