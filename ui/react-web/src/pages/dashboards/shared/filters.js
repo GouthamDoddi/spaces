@@ -5,13 +5,14 @@ import { Select, toOpt } from '../../../components/form'
 import { get } from '../../../store/api'
 import { cleanedEntities } from '../../../store/master-data'
 import rtl from 'styled-components-rtl'
-import { t } from '../../../utils/translate'
+import { t, to } from '../../../utils/translate'
 
-const defaultSelectedEntity = {label: 'All', value: 0}
-const defaultSelectedProject = {label: 'All', value: 0}
 
-export default function({entities=[], projects=[], ...props}) {
+
+export default function({entities=[], projects=[], lang,  ...props}) {
   // console.log("THEME", props.theme)
+  let defaultSelectedEntity = {label: t('all'), value: 0}
+  let defaultSelectedProject = {label: t('all'), value: 0}
   const {entity_id, project_id} = useParams()
   const [entitiesForSelect, setEntitiesForSelect] = useState([])
   const [projectsForSelect, setProjectsForSelect] = useState([])
@@ -20,12 +21,16 @@ export default function({entities=[], projects=[], ...props}) {
 
   useEffect( () => {
     console.log("inside use effect")
-    setEntitiesForSelect([defaultSelectedEntity, ...entities.map((o) => ({label: o.name, value: o.id}))])
-    getProjects(entity_id)
 
+    const data = [defaultSelectedEntity, ...entities.map((o) => ({label: to(o, 'name'), value: o.id}))]
+
+    setEntitiesForSelect(data.length < 2 ? cleanedEntities : data)
+    getProjects(entity_id)
+    // const se = cleanedEntities[entity_id]
+    // if(se?.id == 0) se.name = t('all')
     if(entity_id) setSelectedEntity(cleanedEntities[entity_id])
 
-  }, [entity_id, project_id])
+  }, [entity_id, project_id, lang])
   
   const getProjects = (entity_id) => {
     if(!entity_id) return;
@@ -60,7 +65,7 @@ export default function({entities=[], projects=[], ...props}) {
       <div className='selectors'>
         <div> 
           <Select label={t('filter_by_entity')}
-            options={toOpt(cleanedEntities)}
+            options={toOpt(entitiesForSelect)}
             onChange={(e, ...args) => {
               console.log("hi", e)
               setSelectedEntity(e)

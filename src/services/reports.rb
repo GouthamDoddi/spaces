@@ -5,6 +5,7 @@ class App::Services::Reports < App::Services::Base
   def entities
     data = Entity.where(id: [1,2,3,4,5,6,7,8,9,10,11,12,13,14]).map do |e|
       { name: e.name,
+        name_ar: e.ar_name,
         id: e.id, 
         description: e.notes, 
         completed: rand(1..20), 
@@ -13,6 +14,7 @@ class App::Services::Reports < App::Services::Base
         prog: rand(50..90) 
       }
     end
+
     return_success(data)
   end
 

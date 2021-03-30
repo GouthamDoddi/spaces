@@ -23,7 +23,9 @@ export function T({k}) {
 }
 
 export function t(k) {
-  return data[k][lang] || k
+  const d1 = data
+
+  return (data[k.toLowerCase()] || {})[lang] || k
 }
 
 export function to(o, k) {
@@ -120,7 +122,47 @@ const data = {
   reset: {
     en: 'Reset',
     ar: 'إعادة تعيين'
-  }
-  	
+  },
+  all: {
+    en: 'All',
+    ar: 'الكل'
+  },
+
+  "website registration": { en: "Website Registration ",ar: "تسجيل الموقع الالكتروني "},
+  "access & authentication": { en: "Access & Authentication",ar: "الوصول والتحقق "},
+  "design & layout": { en: "Design & Layout",ar: "المخطط (تصميم الموقع الالكتروني) "},
+  "style guide": { en: "Style guide",ar: "دليل الأنماط المٌتبعة "},
+  "information architecture": { en: "Information Architecture",ar: "التصفح، بنية المحتوى، خريطة الموقع "},
+  "content information": { en: "Content -Information",ar: "المحتوى (المعلومات) "},
+  "content (graphics and Multimedia)": { en: "Content (Graphics and Multimedia)",ar: "المحتوى (الرسومات والوسائط المتعددة) "},
+  "content (eservices)": { en: "Content (Eservices)",ar: "المحتوى (الخدمات الإلكترونية) "},
+  "search": { en: "Search",ar: "البحث "},
+  "accessibility": { en: "Accessibility",ar: "سهولة الوصول "},
+  "search engine optimization (seo)": { en: "Search Engine Optimization (SEO)",ar: "تحسين ظهور الموقع في نتائج محركات البحث (SEO) "},
+  "performance and monitoring": { en: "Performance and monitoring",ar: "الأداء والمراقبة "},
+  "epayment": { en: "ePayment",ar: "الدفع الالكتروني  "},
+  "support (chat/helpline)": { en: "Support (chat/helpline)",ar: "الدعم (المحادثة / خط المساعدة) "},
+  "general requirements": { en: "General requirements",ar: "متطلبات عامه  "},
+  "security and privacy": { en: "Security and Privacy",ar: "الأمان والخصوصية "},
+  "eservices profile": { en: "eservices Profile",ar: "الملف التعريفي للخدمات الإلكترونية "},
+  "eservices information": { en: "eservices Information",ar: "المعلومات عن الخدمات الإلكترونية "},
+  "eservices functionality": { en: "eservices Functionality",ar: "وظيفة الخدمات الالكترونية "},
+  "eservices technical standards": { en: "eservices Technical Standards",ar: "المعايير الفنية للخدمات الإلكترونية "},
+  "eservice management": { en: "eservice Management",ar: "إدارة الخدمات الإلكترونية "},
+  "epayment": { en: "epayment",ar: "الدفع الإلكتروني "},
+  "mobile app development and registration": { en: "Mobile App Development and Registration",ar: "تطوير تطبيقات الجوال "},
+  "access & authentication": { en: "Access & Authentication",ar: "الوصول والمصادقة "},
+  "layout": { en: "Layout",ar: "المخطط "},
+  "stylesheet": { en: "Stylesheet",ar: "دليل الأنماط المٌتبعة "},
+  "information architecture": { en: "Information Architecture",ar: "هندسة المعلومات "},
+  "content (information)": { en: "Content (Information)",ar: "المحتوى (المعلومات) "},
+  "content (graphics and multimedia)": { en: "Content (Graphics and Multimedia)",ar: "المحتوى (الرسومات والوسائط المتعددة) "},
+  "content eservices": { en: "Content Eservices",ar: "المحتوى (الخدمات الإلكترونية) "},
+  "search": { en: "Search",ar: "البحث "},
+  "accessibility": { en: "Accessibility",ar: "سهولة الوصول "},
+  "epayment": { en: "ePayment",ar: "الدفع الالكتروني "},
+  "security and privacy": { en: "Security and Privacy",ar: "الأمان والخصوصية "},
+  "support (chat/helpline)": { en: "Support (chat/helpline)",ar: "الدعم (المحادثة / خط المساعدة) "},
+        
 
 }

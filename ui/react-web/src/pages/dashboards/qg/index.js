@@ -106,7 +106,7 @@ export default function({lang, setLang, ...props}) {
     <Layout dir={lang == 'ar' ? 'rtl' : 'ltr'}>
       <Header viewType='Project View' viewName={report.name} lang={lang} setLang={setLang}></Header>
       <Content>
-        <Filters />
+        <Filters {...{lang, setLang}} />
         <MainInfo>
           <div className='logo'> Logo </div>
           <div className='info'>
@@ -180,7 +180,7 @@ export default function({lang, setLang, ...props}) {
                   <div className='title'> Sections </div>
                   <ol>
                     { report.extras?.map((o, i) => (
-                      <li key={i}>{o.name}</li>
+                      <li key={i}>{t(o.name)}</li>
                     ))}
                     
                   </ol>

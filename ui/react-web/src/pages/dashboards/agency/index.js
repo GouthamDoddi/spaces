@@ -61,7 +61,7 @@ export default function({lang, setLang, ...props}) {
     <Layout dir={lang == 'ar' ? 'rtl' : 'ltr'}>
       <Header viewType='Entity View' viewName={report.name} lang={lang} setLang={setLang}></Header>
       <Content>
-        <Filters entities={entitiesForSelect}/>
+        <Filters entities={entitiesForSelect} {...{lang, setLang}} />
         <MainInfo>
           <div className='logo'> <img src={`/img/logos/entities/${entity_id}.png`} /> </div>
           <div className='info'>
@@ -138,7 +138,7 @@ export default function({lang, setLang, ...props}) {
                   <div className='title'> Sections </div>
                   <ol>
                     { report.extras?.map((o, i) => (
-                      <li key={i}>{o.name}</li>
+                      <li key={i}>{t(o.name)}</li>
                     ))}
                     
                   </ol>

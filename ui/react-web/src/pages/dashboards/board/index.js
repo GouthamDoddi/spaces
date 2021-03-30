@@ -57,7 +57,7 @@ export default function({lang, setLang, ...props}) {
     <Layout dir={lang == 'ar' ? 'rtl' : 'ltr'}>
       <Header viewType='State View' viewName='Jawda' lang={lang} setLang={setLang}></Header>
       <Content>
-        <Filters entities={gates} projects={[]} />
+        <Filters entities={gates} projects={[]} {...{lang, setLang}} />
         <MainInfo>
           <div className='logo'> <img src='/img/logos/jawda.png' /> </div>
           <div className='info'>
@@ -162,9 +162,14 @@ export default function({lang, setLang, ...props}) {
                 <div className='sections'>
                   <div className='title'> Sections </div>
                   <ol>
-                    { report.section_wise_status?.map((o, i) => (
-                      <li key={i}>{o.name}</li>
-                    ))}
+                    { report.section_wise_status?.map((o, i) => {
+                      // const t1 = t 
+                      // debugger
+                      // if(o.name == 'eServices Profile') {
+                      //   debugger
+                      // }
+                      return(<li key={i}>{t(o.name)}</li>)
+                    })}
                     
                   </ol>
                 </div>
