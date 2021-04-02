@@ -61,7 +61,7 @@ export default function({lang, setLang, ...props}) {
     <Layout dir={lang == 'ar' ? 'rtl' : 'ltr'}>
       <Header viewType='Entity View' viewName={report.name} lang={lang} setLang={setLang}></Header>
       <Content>
-        <Filters entities={entitiesForSelect} {...{lang, setLang}} />
+        <Filters {...{lang, setLang}} />
         <MainInfo>
           <div className='logo'> <img src={`/img/logos/entities/${entity_id}.png`} /> </div>
           <div className='info'>
@@ -169,7 +169,7 @@ export default function({lang, setLang, ...props}) {
 
               </div>
             </Graph>
-            <LeaderBoard leaderBoardData={{'Least Performing Entities': (report.low_sections || []),  'High Performing Entities': (report.high_sections || [])}}/>
+            <LeaderBoard type='Sections' leaderBoardData={{'Least Performing Entities': (report.low_sections || []),  'High Performing Entities': (report.high_sections || [])}}/>
             
             <Spacer />
         </FlexWrapper>

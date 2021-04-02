@@ -12,19 +12,19 @@ export default function({leaderBoardData, type='Entities',  ...props}) {
         <span class='title'> {t('leaderboard')}</span>
       </div>
       <div className='info'>
-        <div className='title'> High Performing {type} </div>
+        <div className='title'> {t(`High Performing ${type}`)} </div>
         {leaderBoardData['High Performing Entities']?.map((o, i) => (
           <>
             <div>{i == 0 ? <SVGCrown left='-6px' /> : i + 1}</div>
-            <div>{o.name}</div>
+            <div>{t(o.name)}</div>
             <div>{o.score?.toFixed(2)}</div>
           </>
         ))}
-        <div className='title'> Least Performing {type} </div>
+        <div className='title'> {t(`Least Performing ${type}`)} </div>
         {leaderBoardData['Least Performing Entities']?.map((o, i) => (
           <>
             <div>{i + 1}</div>
-            <div>{o.name}</div>
+            <div>{t(o.name)}</div>
             <div>{o.score?.toFixed(2)}</div>
           </>
         ))}
@@ -51,7 +51,6 @@ const LeaderBoard = styled.div`
     border-bottom: 1px solid #BBBBBB;
     > .title {
       height: 23px;
-      text-align: left;
       font-size: 18px;
       font-weight: 600;
       color: #666666;
@@ -69,7 +68,6 @@ const LeaderBoard = styled.div`
     grid-row-gap: 20px;
     > .title {
       grid-column: 1 / -1;
-      text-align: left;
       font-size: 18px;
       font-weight: 600;
       color: #000000;

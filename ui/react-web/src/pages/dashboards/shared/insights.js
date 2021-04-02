@@ -61,13 +61,57 @@ export default function(props) {
 }
 
 export function Challenges(props) {
+  const {entity_id, project_id} = useParams()
+  const [data, setData] = useState([])
+  useEffect(() => {
+    if(entity_id) {
+      if(project_id) {
+        if(issuesByGroup[entity_id] && issuesByGroup[entity_id][project_id]) {
+          setData(issuesByGroup[entity_id][project_id])
+        }
+      } else {
+        if(issuesByGroup[entity_id]) {
+          setData(Object.values(issuesByGroup[entity_id]).flat())  
+        }
+      }
+    } else {
+      setData(Object.values(issuesByGroup).flat().map((o) => Object.values(o)).flat().flat())
+    }
+  }, [entity_id, project_id])
+
+  const COLORS = {NC: '#EB622B', PC: '#005CC8'}
+
   return (
     <Box>
-      <header> Challenges </header>
-      <ChallengeCard></ChallengeCard>
+      <header>
+        Compliance Issues
+      </header>
+      <InnerBox>
+        <Filter>   
+ 
+        </Filter>
+        {
+          data.length > 0 ? 
+            <Cards>
+              {
+                data.map((o, i) => (
+                  <Card2 color={COLORS[o.compl]} key={i}>
+                    <div className='bc'> {o.project_name} <span> > </span> {o.section_name} </div>
+                    <div className='title'>{o.description}</div>
+                    <div className='footer'>
+                      <div className='tag'> {o.category}</div>
+                      <div className='date'> {o.date} </div>
+                    </div>
+                  </Card2>
+                ))
+              }
+            </Cards> : 
+            <Cards><div className='no-data'> NO ISSUES </div></Cards>
+        }
+
+      </InnerBox>
     </Box>
   )
-
 }
 
 const ChallengeCard = styled.div`
@@ -198,6 +242,59 @@ const Card = styled.div`
     }
   }
 `
+
+
+const Card2 = styled.div`
+  height: 104px;
+  background: #F7F6F3 0% 0% no-repeat padding-box;
+  box-shadow: 0px 1px 2px #00000029;  
+  margin-bottom: 12px;
+  margin-right: 15px;
+
+  > .bc {
+    font: normal normal normal 12px/18px Muli;
+    color: #EB622B;
+    text-transform: uppercase;
+    
+    opacity: 1;
+     > span {
+       color: #00000029;
+     }
+     margin-bottom: 3px;
+    padding: 17px 15px 0 15px;
+  }
+  > .title {
+    font: normal normal 600 15px/27px Muli;
+    color: #131313;
+    height: 30px;
+    padding: 0 15px;
+    // margin-top: 10px;
+  }
+  > .footer {
+    display: flex;
+    padding: 0 15px;
+    height: 30px;
+    background: #E4E4E4 0% 0% no-repeat padding-box;
+    opacity: 1;
+    margin-top: 6px;
+    justify-content: space-between;
+    > .tag {
+      align-self: center;
+      height: 20px;
+      background: #EB622B 0% 0% no-repeat padding-box;
+      border-radius: 11px;
+      font: normal normal bold 12px/20px Muli;
+      color: #FFFFFF;
+      padding: 0px 15px 2px 15px;
+    }
+    > .date {
+      font: normal normal normal 12px/18px Muli;
+      color: #000;
+      margin-top: 5px;
+    }
+  }
+`
+
 
 const Cards = styled.div`
   overflow: scroll;

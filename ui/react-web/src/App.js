@@ -46,6 +46,7 @@ import cs from './utils/colors'
 import setPassword from './pages/set-password';
 import { ToastContainer } from 'react-toastify';
 import {setLang as setLangT} from './utils/translate'
+import Home1 from './pages/home';
 
 
 // import { Task, Note, Survey, Meeting, Space } from './components/menu-actions'
@@ -137,7 +138,7 @@ function App() {
   return (
     <Router>
       <Switch>
-
+        <Route path='/home'> <Home1 /></Route> 
         <Route path='/login'><Login /></Route>
         <Route path="/set-password/:token"> <TP theme={cs.newdesign}> <SetPassword /> </TP> </Route>
         <Route path="/forgot-password"> <TP theme={cs.newdesign}> <ForgotPassword /> </TP> </Route>

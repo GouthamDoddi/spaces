@@ -132,7 +132,7 @@ export default function({lang, setLang, ...props}) {
             {
               Object.keys(gates).map((k, i) => (
               <Card key={k}>
-                  <CardHeader> {qualityGateTypes[k]?.label} - {((report[`qgate${i+1}`]?.total || 0).toFixed(2) * 100)}% </CardHeader>
+                  <CardHeader> {t(qualityGateTypes[k]?.label)} - {((report[`qgate${i+1}`]?.total || 0).toFixed(2) * 100)}% </CardHeader>
                   <CardInfo>
                     <div>
                       <div className='icon'> <WebFramework /></div>

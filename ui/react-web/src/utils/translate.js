@@ -25,7 +25,7 @@ export function T({k}) {
 export function t(k) {
   const d1 = data
 
-  return (data[k.toLowerCase()] || {})[lang] || k
+  return (data[k?.toLowerCase()] || {})[lang] || k
 }
 
 export function to(o, k) {
@@ -69,6 +69,10 @@ const data = {
     en: 'Qatar Digital Government (QDG) is a cross-governmental, stakeholder-led initiative formed to foster cooperation and champion the cause of digital government in Qatar.',
     ar: 'حكومة قطر الرقمية (QDG) هي مبادرة مشتركة بين الحكومات يقودها أصحاب المصلحة تم تشكيلها لتعزيز التعاون ودعم قضية الحكومة الرقمية في قطر.'
   },
+  jawda: {
+    en: 'Jawda',
+    ar: 'جودة'
+  },
   adoption_rate: {
     en: 'Adoption Rate',
     ar: 'نسبة الاعتماد'
@@ -99,11 +103,11 @@ const data = {
     en: 'Non Compliant',
     ar: 'غير متوافق'
   },
-  hpe: {
+  "high performing entities": {
     en: 'High Performing Entities',
     ar: 'مؤسسات عالية الأداء'
   },
-  lpe: {
+  "least performing entities": {
     en: 'Least Performing Entities',
     ar: 'المؤسسات الأقل أداءً'
   },
@@ -127,9 +131,37 @@ const data = {
     en: 'All',
     ar: 'الكل'
   },
+  "pre engagement": {
+    en: 'Pre Engagement',
+    ar: 'قبل بدء التنفيذ',
+  },
+  "content engagement": {
+    en: 'Content Engagement',
+    ar: 'تنفيذ المحتوى'
+  },
+  "service request": {
+    en: 'Service Request',
+    ar: 'طلب الخدمة'
+  },
+  "post request": {
+    en: 'Post Request',
+    ar: 'ما بعد الطلب'
+  },
+  "post fulfilment": {
+    en: 'Post Fulfilment',
+    ar: 'ما بعد إتمام المهمة'
+  },
 
-  "website registration": { en: "Website Registration ",ar: "تسجيل الموقع الالكتروني "},
-  "access & authentication": { en: "Access & Authentication",ar: "الوصول والتحقق "},
+  'website framework': {
+    en: 'Website Framework',
+    ar: null
+  },
+  'state view': {
+    en: 'State View',
+    ar: 'عرض الدولة'
+  },
+
+  "access and authentication": { en: "Access & Authentication",ar: "الوصول والمصادقة"},
   "design & layout": { en: "Design & Layout",ar: "المخطط (تصميم الموقع الالكتروني) "},
   "style guide": { en: "Style guide",ar: "دليل الأنماط المٌتبعة "},
   "information architecture": { en: "Information Architecture",ar: "التصفح، بنية المحتوى، خريطة الموقع "},
@@ -143,9 +175,9 @@ const data = {
   "epayment": { en: "ePayment",ar: "الدفع الالكتروني  "},
   "support (chat/helpline)": { en: "Support (chat/helpline)",ar: "الدعم (المحادثة / خط المساعدة) "},
   "general requirements": { en: "General requirements",ar: "متطلبات عامه  "},
-  "security and privacy": { en: "Security and Privacy",ar: "الأمان والخصوصية "},
+  "security and privacy": { en: "Security and Privacy",ar: "الأمان والخصوصية"},
   "eservices profile": { en: "eservices Profile",ar: "الملف التعريفي للخدمات الإلكترونية "},
-  "eservices information": { en: "eservices Information",ar: "المعلومات عن الخدمات الإلكترونية "},
+  "eservices information": { en: "eservices Information", ar: "المعلومات عن الخدمات الإلكترونية"},
   "eservices functionality": { en: "eservices Functionality",ar: "وظيفة الخدمات الالكترونية "},
   "eservices technical standards": { en: "eservices Technical Standards",ar: "المعايير الفنية للخدمات الإلكترونية "},
   "eservice management": { en: "eservice Management",ar: "إدارة الخدمات الإلكترونية "},
@@ -160,9 +192,68 @@ const data = {
   "content eservices": { en: "Content Eservices",ar: "المحتوى (الخدمات الإلكترونية) "},
   "search": { en: "Search",ar: "البحث "},
   "accessibility": { en: "Accessibility",ar: "سهولة الوصول "},
-  "epayment": { en: "ePayment",ar: "الدفع الالكتروني "},
+  "epayment": { en: "ePayment",ar: "الدفع الالكتروني"},
   "security and privacy": { en: "Security and Privacy",ar: "الأمان والخصوصية "},
   "support (chat/helpline)": { en: "Support (chat/helpline)",ar: "الدعم (المحادثة / خط المساعدة) "},
-        
+  "website registration": {
+    en: 'Website Registration',
+    ar: 'تسجيل الموقع'
+  },
+  "ministry of municipality and environment": {
+    "en": "Ministry of Municipality and Environment",
+    "ar": "وزارة البلدية والبيئة"
+  },
+  "general authority of customs": {
+      "en": "General Authority of Customs",
+      "ar": "الهيئة العامة للجمارك"
+  },
+  "the general retirement and social insurance authority": {
+      "en": "The General Retirement and Social Insurance Authority",
+      "ar": "الهيئة العامة للتقاعد والتأمينات الاجتماعية"
+  },
+  "hamad medical corporation": {
+      "en": "Hamad Medical Corporation",
+      "ar": "مؤسسة حمد الطبية"
+  },
+  "kahramaa": {
+      "en": "Kahramaa",
+      "ar": "كهرماء"
+  },
+  "ministry of administrative development, labour and social affairs": {
+      "en": "Ministry of Administrative Development, Labour and Social Affairs",
+      "ar": "وزارة التنمية الادارية والعمل والشؤون الاجتماعية"
+  },
+  "ministry of commerce and industry": {
+      "en": "Ministry of Commerce and Industry",
+      "ar": "وزارة التجارة والصناعة"
+  },
+  "ministry of education and higher education": {
+      "en": "Ministry of Education and Higher Education",
+      "ar": "وزارة التعليم والتعليم العالي"
+  },
+  "ministry of interior": {
+      "en": "Ministry of Interior",
+      "ar": "وزارة الداخلية"
+  },
+  "ministry of justice": {
+      "en": "Ministry of Justice",
+      "ar": "وزارة العدل"
+  },
+  "ministry of public health": {
+      "en": "Ministry of Public Health",
+      "ar": "وزارة الصحة العامة"
+  },
+  "ministry of transport & communication": {
+      "en": "Ministry of Transport & Communication",
+      "ar": "وزارو المواصلات والاتصالات"
+  },
+  "primary health care corporation": {
+      "en": "Primary Health Care Corporation",
+      "ar": "مؤسسة الرعاية الصحية الاولية"
+  },
+  "supreme judiciary council": {
+      "en": "Supreme Judiciary Council",
+      "ar": "المجلس الاعلى للقضاء"
+  }
 
 }

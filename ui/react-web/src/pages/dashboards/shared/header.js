@@ -17,8 +17,8 @@ export default function({children, viewType, viewName, lang, setLang,  ...props}
       <div className='logo'>
         <img src='/img/logo-jawda.jpg' />
         <div className={lang}> 
-          <div className='view'>{viewType}</div>
-          <div className='name'>{viewName}</div>
+          <div className='view'>{t(viewType) || viewType}</div>
+          <div className='name'>{t(viewName) || viewName}</div>
         </div>
       </div>
       {children}

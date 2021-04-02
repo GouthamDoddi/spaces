@@ -21,14 +21,14 @@ export default function({entities=[], projects=[], lang,  ...props}) {
 
   useEffect( () => {
     console.log("inside use effect")
+    const ed = entities.length < 2 ? Object.values(cleanedEntities) : [defaultSelectedEntity, ...entities]
+    const data = ed.map((o) => ({label: to(o, 'name'), value: o.id}))
 
-    const data = [defaultSelectedEntity, ...entities.map((o) => ({label: to(o, 'name'), value: o.id}))]
-
-    setEntitiesForSelect(data.length < 2 ? cleanedEntities : data)
+    setEntitiesForSelect(data)
     getProjects(entity_id)
     // const se = cleanedEntities[entity_id]
     // if(se?.id == 0) se.name = t('all')
-    if(entity_id) setSelectedEntity(cleanedEntities[entity_id])
+    if(entity_id) setSelectedEntity({label: to(cleanedEntities[entity_id], 'name'), value: entity_id})
 
   }, [entity_id, project_id, lang])
   
