@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 
-export default function SmallCard({title='Entities', count=7, ...props}) {
+export default function SmallCard({title='Entities', count=14, ...props}) {
   return (
     <Box>
       <header>

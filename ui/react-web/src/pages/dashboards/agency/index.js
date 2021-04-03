@@ -521,7 +521,7 @@ const Graph = styled.div`
       > ol {
         padding-top: 20px;
         height: 600px;
-        overflow: scroll;
+        overflow: auto;
         margin: 0;
         li {
           margin-top: 15px;

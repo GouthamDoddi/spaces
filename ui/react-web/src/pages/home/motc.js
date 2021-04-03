@@ -22,7 +22,9 @@ export default function(props) {
 
       <div className='items'>
         <TotalProjects>
-          <header> Total Projects 23</header>
+          <header> Total Projects 21
+            <span> Policy Count 03</span>
+          </header>
           <div className='progress-status'>
             <Progress width='113px' value={45} height='5px' max={100} bkcolor='#DCDFE8' width='90%' color='#3FBF11' tagText={`${45}% Completed`} tagBkColor='#DEFCD4' showTag tagColor='#3FBF11' />  
           </div>
@@ -160,13 +162,13 @@ const Box = styled.div`
   > header {
     font: normal normal bold 30px/44px Muli;
     color: #FFFFFF;
-    margin-bottom: 20px;
-    padding: 30px 100px;
+    margin-bottom: 9px;
+    padding: 26px 100px;
   }
   > .items {
     display: flex;
     width: 100%;
-    overflow: scroll;
+    overflow: auto;
     > div:last-child { margin-left: 30px;}
     padding: 0px 100px;
   }
@@ -183,6 +185,10 @@ const TotalProjects = styled.div`
   > header {
     font: normal normal 600 20px/30px Muli;
     color: #464646;
+    > span {
+      font: normal normal 600 20px/30px Muli;
+      color: #FFFFFF;
+    }
   }
 
   > .progress-status {
@@ -314,7 +320,7 @@ const Entities = styled.div`
   }
   > div {
     height: 720px;
-    overflow: scroll;
+    overflow: auto;
   }
 `
 

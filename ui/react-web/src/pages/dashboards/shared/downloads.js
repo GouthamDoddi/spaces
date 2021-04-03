@@ -95,7 +95,7 @@ const Wrapper = styled.div`
     display: flex;
     padding-left: 40px;
     padding-top: 30px;
-    overflow: scroll;
+    overflow: auto;
     flex-wrap: wrap;
 
     > .card {

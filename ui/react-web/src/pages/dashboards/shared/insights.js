@@ -308,7 +308,7 @@ const Card2 = styled.div`
 
 
 const Cards = styled.div`
-  overflow: scroll;
+  overflow: auto;
   height: 810px;
   .no-data {
     text-align: center;

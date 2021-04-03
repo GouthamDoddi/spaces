@@ -194,7 +194,7 @@
 }
 .docs-section .ReactCodeMirror {
   max-height: 500px;
-  overflow: scroll;
+  overflow: auto;
   width: 75%;
   margin-top: 25px;
   margin-left: 0;

@@ -1,7 +1,7 @@
 module App
   class<<self
     attr_reader :db, :audit_db
-    NUMBER_OF_CONNECTIONS = 3
+    NUMBER_OF_CONNECTIONS = 1
     def development?
       env == 'development'
     end
