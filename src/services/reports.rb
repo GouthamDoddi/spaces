@@ -222,6 +222,16 @@ class App::Services::Reports < App::Services::Base
     resp 
   end
 
+  def all_projects
+    resp = DbProject.all.map{ 
+      d = _1.as_json(only: [:id, :name, :description])
+      d[:total_score] = _1.calc_total_score
+      d[:progress] = _1.progress
+      d
+    }
+    return_success(resp)
+  end
+
 
   def sum_hash_with_avg(rec, meth, avg=true)
 
@@ -265,6 +275,12 @@ class App::Services::Reports < App::Services::Base
   end
 
   def issues_data
+  end
+
+  def challenges
+    cond = { entity_id: rp[:entity_id], project_id: rp[:project_id]}.compact
+    
+    return_success(App::Models::Challenge.eager(:project, :section).where(cond).all.map{_1.as_pos(include: true)})
   end
   
   def self.fields

@@ -83,7 +83,7 @@ const Box = styled.table`
     }
     
     td {
-      padding: 0 30px;
+      padding: 0 10px;
     }
     border: 1px solid rgb(221, 221, 221, 0.36);
 
@@ -111,7 +111,7 @@ const Title = styled.div`
 
 const Tag = styled.div`
   margin: 10px 0 8px 0;
-  padding: 3px 18px 3px 18px;
+  padding: 3px 10px 3px 10px;
   height: 25px;
   background: #D3DDE5 0% 0% no-repeat padding-box;
   border-radius: 13px;

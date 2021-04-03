@@ -72,6 +72,7 @@ class App::Routes < Roda
 
       r.on('reports') {
         r.get('entities') {Reports[r, {}].entities}
+        r.get('all-projects') {Reports[r, {}].all_projects}
         r.get(Integer, 'projects') { |entity_id| Reports[r, {entity_id: entity_id}].projects}
 
         r.get('state') { Reports[r, {}].state_report }
@@ -80,6 +81,7 @@ class App::Routes < Roda
         r.get(Integer, 'db_project', Integer) { |entity_id, project_id| Reports[r, {project_id: project_id, entity_id: entity_id}].db_project_report }
         r.get(Integer, 'db_entity') { |entity_id| Reports[r, {entity_id: entity_id}].db_entity_report }
         r.get('db_state') { Reports[r, {}].db_state_report }
+        r.get('challenges', [Integer, true], [Integer, true]) {|entity_id, project_id| Reports[r, { entity_id: entity_id, project_id: project_id}].challenges}
       }
       auth_required!
 

@@ -26,21 +26,21 @@ export default styled.progress`
 
   ${p => p.showTag && css`
     &::after {
-      width: 38px;
       height: 16px;
       background: ${p => p.tagBkColor || '#FFEDE6'} 0% 0% no-repeat padding-box;
       border-radius: 3px;
-      content: "${p => p.value}%";
+      content: "${p => p.tagText ? p.tagText : `${p.value}%`}";
       position: absolute;
+      padding: 0 5px;
       top: -16px;
       ${rtl`
       left: 0;
       `}
       text-align: center;
-      width: 38px;
       font: normal normal normal 10px/15px Muli;
       letter-spacing: 0px;
       color: ${p => p.tagColor || '#EB622B'};
+      width: '38px';
     }
   `}
   

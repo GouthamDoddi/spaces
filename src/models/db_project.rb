@@ -7,6 +7,11 @@ class App::Models::DbProject < Sequel::Model
       3 => 'E-Service'
   }
   end
+
+  def calc_total_score
+    self.score_by_section.values.length > 0 ? (self.score_by_section.values.sum / self.score_by_section.values.length).round(2) : 0
+  end
+  
   def load!
     entity =  App::Models::Entity.for_report(entity_id.to_i)
     projects = entity.projects.select{current_project_ids.to_a.include?(_1.id)}
