@@ -102,7 +102,8 @@ const Box = styled.table`
 const Title = styled.div`
   display: flex;
   height: 44px;
-  line-height: 44px;
+  // line-height: 44px;
+  align-items: center;
   > div:first-child { 
     padding-top: 8px;
     padding-right: 6px;
@@ -115,5 +116,6 @@ const Tag = styled.div`
   height: 25px;
   background: #D3DDE5 0% 0% no-repeat padding-box;
   border-radius: 13px;
+  min-width: 101px;
   opacity: 1;
 `

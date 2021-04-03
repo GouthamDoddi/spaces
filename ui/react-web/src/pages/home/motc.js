@@ -62,6 +62,10 @@ export default function(props) {
         </Entities>
         <div>
           <QuickActions />
+          <Cases>
+            <header> List of Cases</header>
+            <div> No Cases</div>
+          </Cases>
     
         </div>
       </FlexWrapper>
@@ -122,6 +126,24 @@ export default function(props) {
     </Wrapper>
   )
 }
+
+const Cases = styled.div`
+  height: 530px
+  width: 100%;
+  margin-top: 40px;
+  // border: 1px solid #ccc;
+  > header {
+    font: normal normal 600 25px/36px Muli;
+    color: #000000;
+  }
+
+  > div {
+    height: 520px;
+    text-align: center;
+    background-color: #EBF4FF;
+    line-height: 520px;
+  }
+`
 
 const Content = styled.div`
   background: #FFFFFF 0% 0% no-repeat padding-box;

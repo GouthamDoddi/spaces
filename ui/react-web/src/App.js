@@ -47,6 +47,7 @@ import setPassword from './pages/set-password';
 import { ToastContainer } from 'react-toastify';
 import {setLang as setLangT} from './utils/translate'
 import Home1 from './pages/home';
+import MotcHome from './components/dashboards/motc-home';
 
 
 // import { Task, Note, Survey, Meeting, Space } from './components/menu-actions'
@@ -127,11 +128,11 @@ function AllRoutes(props) {
 
 function dbForRole(role) {
   if(role == 0) {
-      return <Bcp />
+      return <MotcHome />
   } else if( role == 1) {
-    return <Pcp />
+    return <MotcHome />
   } else {
-    return <Hmc />
+    return <MotcHome />
   }
 }
 function App() {
