@@ -10,7 +10,7 @@ import {Select} from '../../../components/form'
  
 const selectOptions = [{label: 'Compliance Issues', value: 1}, { label: 'Challenges', value: 2}]
 const defaultSelected = selectOptions[0]
-export default function Insight({hideFilter, ...props}) {
+export default function Insight({hideFilter, height, ...props}) {
   const {entity_id, project_id} = useParams()
   const [data, setData] = useState([])
 
@@ -55,7 +55,7 @@ export default function Insight({hideFilter, ...props}) {
       </Filter>
       {
         data.length > 0 ? 
-          <Cards>
+          <Cards height={height}>
             {
               data.map((o, i) => (
                 <Card color={COLORS[o.compl]} key={i}>
@@ -79,7 +79,7 @@ export default function Insight({hideFilter, ...props}) {
   )
 }
 
-export function Challenges({hideHeader, ...props}) {
+export function Challenges({hideHeader, height, ...props}) {
   const {entity_id, project_id} = useParams()
   const [data, setData] = useState([])
   useEffect(() => {
@@ -101,7 +101,7 @@ export function Challenges({hideHeader, ...props}) {
         </Filter>
         {
           data.length > 0 ? 
-            <Cards>
+            <Cards height={height}>
               {
                 data.map((o, i) => (
                   <Card2 color={COLORS[o.compl]} key={i}>
@@ -149,10 +149,11 @@ const ChallengeCard = styled.div`
 
 `
 const Box = styled.div`
-  max-width: 758px;
-  min-width: 758px;
+  // max-width: 758px;
+  // min-width: 758px;
+  margin-top: 30px;
   flex: 1;
-  height: 990px;
+  // height: 990px;
   
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 1px solid #BBBBBB;
@@ -309,7 +310,7 @@ const Card2 = styled.div`
 
 const Cards = styled.div`
   overflow: auto;
-  height: 810px;
+  height: ${p => p.height || '810px'};
   .no-data {
     text-align: center;
     margin-top: 100px;

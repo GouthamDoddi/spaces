@@ -48,6 +48,8 @@ import { ToastContainer } from 'react-toastify';
 import {setLang as setLangT} from './utils/translate'
 import Home1 from './pages/home';
 import MotcHome from './components/dashboards/motc-home';
+import AgencyHome from './components/dashboards/agency-home';
+import JawdaHome from './components/dashboards/jawda-home';
 
 
 // import { Task, Note, Survey, Meeting, Space } from './components/menu-actions'
@@ -129,10 +131,11 @@ function AllRoutes(props) {
 function dbForRole(role) {
   if(role == 0) {
       return <MotcHome />
-  } else if( role == 1) {
-    return <MotcHome />
+      // return <JawdaHome />
+  } else if( [11,12,13,14].includes(role)) {
+    return <JawdaHome />
   } else {
-    return <MotcHome />
+    return <AgencyHome />
   }
 }
 function App() {

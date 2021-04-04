@@ -20,7 +20,7 @@ export default function(props) {
   return(
     <Layout>
       <Left>
-        <LeftMenu except={['my-tasks', 'entities', 'projects',]}></LeftMenu>
+        <LeftMenu except={['my-tasks']}></LeftMenu>
       </Left>
       <Content>
         <HeaderBar className='hb' />

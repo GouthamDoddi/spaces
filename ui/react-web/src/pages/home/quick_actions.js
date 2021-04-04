@@ -3,25 +3,30 @@ import styled from 'styled-components'
 import React from 'react'
 
 import rtl from 'styled-components-rtl'
+import { Link } from 'react-router-dom'
 
 
-export default function QuickActions(props) {
+export default function QuickActions({list=[['entity', 'entities'], ['project', 'projects']], ...props}) {
   return(
     <Box>
       <header> Quick Actions </header>
       <footer>
-       <IconWrapper> <AddBtn /> <span> Add Entity </span> </IconWrapper>
-       <IconWrapper> <AddBtn /> <span> Add Entity </span> </IconWrapper>
-       <IconWrapper> <AddBtn /> <span> Add Entity </span> </IconWrapper>
-       <IconWrapper> <AddBtn /> <span> Add Entity </span> </IconWrapper>
+        {
+          list.map((o,i) => (
+            <Link to={o[1] ? `${o[1]}/new` : ''}><IconWrapper key={i}> <AddBtn /> <span> Add {o[0]} </span> </IconWrapper></Link>
+              
+          ))
+        }
+
       </footer>
       
     </Box>
   )
 }
 const Box = styled.div`
-  max-width: 839px;
-  min-width: 760px;
+  // max-width: 839px;
+  // min-width: 760px;
+  width: 100%;
   height: 103px;
   background: #F7FAFD 0% 0% no-repeat padding-box;
   border: 1px solid #DDDDDD;
@@ -72,7 +77,7 @@ function AddBtn() {
 
 function IconWrapper({className, children, ...props}) {
   return (
-    <div style={{marginRight: '10px'}}>
+    <div style={{marginRight: '10px', color: '#000'}}>
       <Icon> {children} </Icon>
     </div>
   )

@@ -64,10 +64,7 @@ export default function(props) {
         </Entities>
         <div>
           <QuickActions />
-          <Cases>
-            <header> List of Cases</header>
-            <div> No Cases</div>
-          </Cases>
+          <Insight hideFilter height='420px' />
     
         </div>
       </FlexWrapper>
@@ -83,11 +80,11 @@ export default function(props) {
           
         </Projects>
         <div>
-        <Insight hideFilter />
+        <Challenges />
         </div>
       </FlexWrapper>
       <FlexWrapper>
-        <Challenges />
+        
       </FlexWrapper>
     </Content>
 
@@ -169,8 +166,9 @@ const Box = styled.div`
     display: flex;
     width: 100%;
     overflow: auto;
-    > div:last-child { margin-left: 30px;}
+    > div:last-child { margin-left: 30px; padding-right: 40px;}
     padding: 0px 100px;
+    height: 216px;
   }
 `
 
@@ -319,7 +317,8 @@ const Entities = styled.div`
     margin-bottom: 15px;
   }
   > div {
-    height: 720px;
+    height: 700px;
+    // height: 100%;
     overflow: auto;
   }
 `
