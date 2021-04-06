@@ -2,6 +2,7 @@ import React from 'react'
 
 import styled, { css } from 'styled-components'
 import rtl from 'styled-components-rtl'
+import { numberToArabic } from '../../../utils/translate';
 
 export default styled.progress`
   position: relative;
@@ -29,7 +30,7 @@ export default styled.progress`
       height: 16px;
       background: ${p => p.tagBkColor || '#FFEDE6'} 0% 0% no-repeat padding-box;
       border-radius: 3px;
-      content: "${p => p.tagText ? p.tagText : `${p.value}%`}";
+      content: "${p => numberToArabic(p.tagText ? p.tagText : `${p.value}%`, p.lang)}";
       position: absolute;
       padding: 0 5px;
       top: -16px;

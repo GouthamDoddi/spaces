@@ -24,6 +24,8 @@ export default function({entities=[], projects=[], lang,  ...props}) {
     const ed = entities.length < 2 ? Object.values(cleanedEntities) : [defaultSelectedEntity, ...entities]
     const data = ed.map((o) => ({label: to(o, 'name'), value: o.id}))
 
+    setSelectedEntity({ label: t('all'), value: 0 });
+    setSelectedProject({ label: t('all'), value: 0 });
     setEntitiesForSelect(data)
     getProjects(entity_id)
     // const se = cleanedEntities[entity_id]

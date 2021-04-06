@@ -41,7 +41,7 @@ export function CircularProgressCard({ level=1, full=30, par=20, non=40, total=6
           </PieChart>
         </div>
         <div className='legend'>
-          <Score> {total}% Compliance </Score>
+          <Score> {total}% {t("compliance")} </Score>
           <Legend>
             <SmallBox color={COLORS[0]} /> 
             <span> {full}% {t('fully_compliant')}</span>

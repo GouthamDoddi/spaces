@@ -1,11 +1,11 @@
 import React from 'react'
 
 import styled from 'styled-components'
-import { SVGCrown} from './icons'
+import { SVGCrown } from './icons'
 import rtl from 'styled-components-rtl'
-import { t } from '../../../utils/translate'
+import { t, numberToArabic } from '../../../utils/translate'
 
-export default function({leaderBoardData, type='Entities',  ...props}) {
+export default function ({ leaderBoardData, type = 'Entities', lang, ...props }) {
   return (
     <LeaderBoard>
       <div className='header'>
@@ -15,17 +15,17 @@ export default function({leaderBoardData, type='Entities',  ...props}) {
         <div className='title'> {t(`High Performing ${type}`)} </div>
         {leaderBoardData['High Performing Entities']?.map((o, i) => (
           <>
-            <div>{i == 0 ? <SVGCrown left='-6px' /> : i + 1}</div>
+            <div>{numberToArabic(i == 0 ? <SVGCrown left='-6px' /> : i + 1, lang)}</div>
             <div>{t(o.name)}</div>
-            <div>{o.score?.toFixed(2)}</div>
+            <div>{numberToArabic(o.score?.toFixed(2), lang)}</div>
           </>
         ))}
         <div className='title'> {t(`Least Performing ${type}`)} </div>
         {leaderBoardData['Least Performing Entities']?.map((o, i) => (
           <>
-            <div>{i + 1}</div>
+            <div>{numberToArabic(i + 1, lang)}</div>
             <div>{t(o.name)}</div>
-            <div>{o.score?.toFixed(2)}</div>
+            <div>{numberToArabic(o.score?.toFixed(2), lang)}</div>
           </>
         ))}
       </div>
