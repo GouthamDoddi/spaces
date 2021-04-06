@@ -3,6 +3,15 @@ Rack::Utils # Patch
 require './src/app'
 
 Bundler.require(:default, App.env)
+
+use Rack::Cors do
+
+  allow do
+    origins '*'
+    resource '*', :headers => :any, :methods => :any
+  end
+end
+
 App.load!
 
 run App::Routes

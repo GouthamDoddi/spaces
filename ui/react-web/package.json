@@ -28,6 +28,7 @@
     "react-toastify": "^6.1.0",
     "react-uuid": "^1.0.2",
     "reaviz": "^8.1.2",
+    "recharts": "^2.0.9",
     "styled-components": "^5.1.0",
     "styled-components-rtl": "^5.2.0"
   },

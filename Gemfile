@@ -21,4 +21,5 @@ group :development do
   gem 'racksh'
   gem 'thor'
   gem 'sqlite3'
+  gem 'rack-cors', :require => 'rack/cors'
 end

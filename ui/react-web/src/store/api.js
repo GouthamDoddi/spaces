@@ -3,7 +3,7 @@
 import { resetData } from './master-data'
 import store, { loggedIn, logout } from './user'
 
-const path = (p) => p.includes('http') ? p : `/api/${p}`
+const path = (p) => p.includes('http') ? p : `http://spacesdemo.com/api/${p}`
 
 const handleResp = async function(r, succ, error) {
   if (r.status < 400) {
