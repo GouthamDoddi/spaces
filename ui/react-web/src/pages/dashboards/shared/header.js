@@ -38,8 +38,8 @@ export default function({children, viewType, viewName, lang, setLang,  ...props}
         />
         <span style={lang == 'en' ? {color: '#ccc', marginLeft: '6px'} : {color: '#2693e6', marginLeft: '6px'}} >Ar</span>
         <Link to='/'> {t('home')} </Link> 
-        <Link to='/board'> Dashboards </Link> 
-        <Link to='/entities'> Entities </Link> 
+        <Link to='/board'> {t('dashboards')} </Link> 
+        <Link to='/entities'> {t('entities')} </Link> 
         <Link to='/projects'> {t('projects')} </Link> 
       </div>
     </Outline>

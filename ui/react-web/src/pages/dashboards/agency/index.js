@@ -18,7 +18,7 @@ import Downloads from '../shared/downloads';
 import LeaderBoard from '../shared/leaderboard'
 import rtl from 'styled-components-rtl'
 
-import { to, t } from '../../../utils/translate'
+import { to, t, T } from '../../../utils/translate'
 
  // import Card from '../shared/card'
 
@@ -88,7 +88,7 @@ export default function({lang, setLang, ...props}) {
               <Progress value={report.total_progress?.toFixed(2)*100} max={100} color='#3FBF11' > 38 </Progress>
             </ProgressStatus>
             <div className='search'>
-              <div className='showing'> Showing {report.projects?.length || 0} Projects</div>
+              <div className='showing'> <T k='showing' /> {report.projects?.length || 0} <T k={report.projects && report.projects.length > 0 ? 'projects' : 'project'} /></div>
               <div className='spacer'></div>
             </div>
           </div>
