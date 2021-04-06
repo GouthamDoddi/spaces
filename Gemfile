@@ -14,6 +14,7 @@ gem 'sequel_pg', platform: 'ruby', require: false
 gem 'bcrypt'
 gem 'json_schemer'
 gem 'aws-sdk-s3'
+gem 'rack-cors', :require => 'rack/cors'
 
 group :development do
   gem 'listen'
@@ -21,5 +22,4 @@ group :development do
   gem 'racksh'
   gem 'thor'
   gem 'sqlite3'
-  gem 'rack-cors', :require => 'rack/cors'
 end
