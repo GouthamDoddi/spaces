@@ -118,8 +118,8 @@ export function menuItemsByRole() {
   const menuItems = {
    'home' : { name: 'Home', path: '/a-dashboard', icon: 'dashboard.svg' }, 
    'db' : { name: 'dashboard', path: '/board', icon: 'projects.svg'},
-   'em' : { name: 'Entity Management', path: '/entities', icon: 'projects.svg'},
-   'pm' : { name: 'Project Management', path: '/projects', icon: 'projects.svg'},
+   'em' : { name: 'Entities', path: '/entities', icon: 'projects.svg'},
+   'pm' : { name: 'Projects', path: '/projects', icon: 'projects.svg'},
    'res' : { name: 'Resources', path: '/resources', icon: 'resources.svg'}
   }
     // { name: 'Case Management', path: '/cm'},
