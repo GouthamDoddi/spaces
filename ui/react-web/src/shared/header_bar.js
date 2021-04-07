@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { useStore } from 'effector-react'
 import styled from 'styled-components'
 import cs from '../utils/colors.js'
-import {logout, hasSpaceAccess} from '../store/user'
+import {logout, hasSpaceAccess, menuItemsByRole} from '../store/user'
 import userStore from '../store/user'
 import Notifications from '../components/header/Notifications'
 import ProfileMenu from '../components/header/ProfileMenu'
@@ -15,7 +15,7 @@ function NormalLink(props) {
     (!space || hasSpaceAccess(space))  ?
       <NavLink to={to} className={className} activeClassName="selected">
         {children}
-        <div> &#x2B24; </div>
+        {/* <div> &#x2B24; </div> */}
       </NavLink> : null
   )
 }
@@ -124,24 +124,13 @@ export default function ({className, ...props}) {
     <StyledHeader className={className}>
       <div className="header-content">
         <div className="menu">
-          <Link color={cs.home.color} to="/dashboard">
-            <div> Dashboard </div>
-          </Link>
-          <Link color={cs.fs.color} to="/formulation" space='formulation'>
-            <div> Formulation Spaces </div>
-          </Link>
-          {/* <Link color={cs.cs.color} to="/collaboration" space='collaboration'>
-            <div> Collaboration Spaces </div>
-          </Link> */}
-          {/* <Link color={cs.as.color} to='/activation'>
-            <div> Activation Spaces </div>
-          </Link> */}
-          <Link color={cs.gs.color} to="/governance" space='governance'>
-            <div> Governance </div>
-          </Link>
-          <Link color={cs.cps.color} to="/compliance" space='compliance'>
-            <div> Compliance Spaces </div>
-          </Link>
+          {
+            menuItemsByRole().map((o) => 
+              <Link color={cs.home.color} to={o.path}>
+                <div> {o.name} </div>
+             </Link>    
+            )
+          }
         </div>
         <div className="user-actions">
           {/* <div className="alerts menuWrapper">

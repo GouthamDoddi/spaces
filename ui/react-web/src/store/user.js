@@ -113,6 +113,28 @@ export function hasMenuAccess(p, access='R') {
   return any((role) => (path([role, ...p], window.basicAuth) || '').includes(access), all_roles)
 }
 
+export function menuItemsByRole() {
+  const r = role()
+  const menuItems = {
+   'home' : { name: 'Home', path: '/a-dashboard', icon: 'dashboard.svg' }, 
+   'db' : { name: 'dashboard', path: '/board', icon: 'projects.svg'},
+   'em' : { name: 'Entity Management', path: '/entities', icon: 'projects.svg'},
+   'pm' : { name: 'Project Management', path: '/projects', icon: 'projects.svg'},
+   'res' : { name: 'Resources', path: '/resources', icon: 'resources.svg'}
+  }
+    // { name: 'Case Management', path: '/cm'},
+    // { name: 'Grounds Management', path: '/gm'},
+  if( r == 0 || r >= 11 ) {
+    return Object.values(menuItems)
+  } else if( r == 10 || r == 8) {
+    return [menuItems.home, menuItems.pm, menuItems.res]
+  } else if(r == 7 ) {
+    return [menuItems.home, menuItems.db, menuItems.pm, menuItems.res]
+  } else {
+    return [menuItems.home]
+  }
+}
+
 window.pth = path
 window.any = any
 window.hasM = hasMenuAccess

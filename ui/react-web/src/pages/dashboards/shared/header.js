@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import Switch from 'react-switch'
 // import translations from '../../../utils/translate'
 import translate, { t } from '../../../utils/translate'
+import { menuItemsByRole } from '../../../store/user'
 
 export default function({children, viewType, viewName, lang, setLang,  ...props}) {
 
@@ -37,10 +38,11 @@ export default function({children, viewType, viewName, lang, setLang,  ...props}
           width={48}
         />
         <span style={lang == 'en' ? {color: '#ccc', marginLeft: '6px'} : {color: '#2693e6', marginLeft: '6px'}} >Ar</span>
-        <Link to='/'> {t('home')} </Link> 
-        <Link to='/board'> {t('dashboards')} </Link> 
-        <Link to='/entities'> {t('entities')} </Link> 
-        <Link to='/projects'> {t('projects')} </Link> 
+        {
+          menuItemsByRole().map((o,i) => (
+            <Link to={o.path} key={i}> {t(o.name)} </Link> 
+          ))
+        }
       </div>
     </Outline>
   )

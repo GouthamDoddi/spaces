@@ -1,8 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Link} from 'react-router-dom'
-import { hasMenuAccess } from '../store/user'
+import {NavLink} from 'react-router-dom'
+import { hasMenuAccess, menuItemsByRole } from '../store/user'
 
+function NormalLink(props) {
+  const { to, className, children, space } = props
+  return (    
+    <NavLink to={to} className={className} activeClassName="selected">
+      {children}
+    </NavLink>
+  )
+}
 
 export default function({title='Recent Activities', except=[], selected='dashboard', items=[], showAll=true, ...props}) {
   const options = ((res) => {
@@ -16,14 +24,19 @@ export default function({title='Recent Activities', except=[], selected='dashboa
         <div className='logo' onClick={() => window.location.hash = '/board'}></div>
       </TitleBar>
       <Links>
-        <A to='/a-dashboard' icon='dashboard.svg' {...options('dashboard')}> Dashboard </A>
-        <A to='/formulation' icon='policies.svg' {...options('policies')} hide={!hasMenuAccess(['formulation', 'policy_profile'])}> Policies </A>
+        {
+          menuItemsByRole().map((o,i) => (
+            <A to={o.path} icon={o.icon} {...options('dashboard')}> {o.name} </A>
+          ))
+        }
+        
+        {/* <A to='/formulation' icon='policies.svg' {...options('policies')} hide={!hasMenuAccess(['formulation', 'policy_profile'])}> Policies </A>
         <A to='/entities' icon='policies.svg' {...options('entities')} hide={!hasMenuAccess(['entity', 'profile'])}> Entities </A>
         <A to='/projects' icon='projects.svg' {...options('projects')} hide={!hasMenuAccess(['compliance', 'project', 'details'])}> Projects </A>
         <A icon='cases.svg' {...options('cases')}> Cases </A>
         {/* <A icon='my-tasks.svg' {...options('my-tasks')}> My Tasks </A> */}
-        <A to='/resources' icon='resources.svg' {...options('resources')} hide={!hasMenuAccess(['formulation', 'resources'])}> Resources </A>
-        <A to='/governance' icon='reports.svg' {...options('reports')} border hide={!hasMenuAccess(['governance', 'reports'])}> Reports </A>
+        {/* <A to='/resources' icon='resources.svg' {...options('resources')} hide={!hasMenuAccess(['formulation', 'resources'])}> Resources </A>
+        <A to='/governance' icon='reports.svg' {...options('reports')} border hide={!hasMenuAccess(['governance', 'reports'])}> Reports </A> */}
         
         {/* <A2 icon='forums.svg' to='/collaboration/forums/general'  show> Forums </A2>
         <A2 icon='announce.svg' to='/collaboration/announcements' > Announcements </A2>
@@ -77,19 +90,22 @@ const Links = styled.div`
   flex-direction: column;
   align-items: center;
 `
-const A = styled(Link)`
+const A = styled(NormalLink)`
   display: ${p => p.hide ? 'none' : 'block'};
   position: relative;
   width: 180px;
   height: 20px;
   font-size: 16px;  
   line-height: 1.25;
-  color: ${p => p.selected ? '#eb622b' : '#666666'};
+  color: #666666;
   padding-left: 40px;
   margin-bottom: 30px;
   background-image: url(/img/icons-lm/${p => p.icon});
   background-size: 20px 20px;
   background-repeat: no-repeat;
+  &.selected {
+    color: #eb622b;
+  }
 `
 const A2 = styled(A)`
   color: ${p => p.selected ? '#eb622b' : '#257C76'};
