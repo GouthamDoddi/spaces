@@ -18,7 +18,7 @@ import Downloads from '../shared/downloads';
 import LeaderBoard from '../shared/leaderboard'
 import rtl from 'styled-components-rtl'
 
-import { to, t, T } from '../../../utils/translate'
+import { to, t, T, numberToArabic, translateObjectKeys } from '../../../utils/translate'
 
  // import Card from '../shared/card'
 
@@ -88,7 +88,7 @@ export default function({lang, setLang, ...props}) {
               <Progress value={report.total_progress?.toFixed(2)*100} max={100} color='#3FBF11' > 38 </Progress>
             </ProgressStatus>
             <div className='search'>
-              <div className='showing'> <T k='showing' /> {report.projects?.length || 0} <T k={report.projects && report.projects.length > 0 ? 'projects' : 'project'} /></div>
+              <div className='showing'> <T k='showing' /> {report.projects?.length || 0} <T k={report.projects && report.projects.length > 1 ? 'projects' : 'project'} /></div>
               <div className='spacer'></div>
             </div>
           </div>
@@ -132,13 +132,19 @@ export default function({lang, setLang, ...props}) {
         <FlexWrapper>
         <Graph>
               
-              <div className='header'>{t('swcta')}</div>
+              <div className='header'>
+                {t('swcta')}
+                <Select
+                  options={[{ label: 'All', value: 'all' }, { label: 'This Week' }, { label: 'This Month' }, { label: 'This Quarter' }, { label: 'This Year' }]}
+                  value={{ label: 'All', value: 'all' }}
+                />
+              </div>
               <div className='info'>
                 <div className='sections'>
-                  <div className='title'> Sections </div>
+                  <div className='title'>{t('sections')}</div>
                   <ol>
                     { report.extras?.map((o, i) => (
-                      <li key={i}>{t(o.name)}</li>
+                      <li key={i}>{numberToArabic(i + 1, lang)}. {t(o.name)}</li>
                     ))}
                     
                   </ol>
@@ -148,7 +154,7 @@ export default function({lang, setLang, ...props}) {
                     
                     width={500}
                     height={300}
-                    data={report.extras || []}
+                    data={translateObjectKeys(report.extras, ['Fully Compliant', 'Partially Compliant', 'Non Compliant']) || []}
                     margin={{
                       top: 20,
                       right: 30,
@@ -157,19 +163,19 @@ export default function({lang, setLang, ...props}) {
                     }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <YAxis  />
-                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => (report.extras[i]?.name)}/>
+                    <YAxis tickMargin={lang === 'ar' ? 30 : undefined} tickFormatter={(value) => numberToArabic(value, lang)} />
+                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => t(report.extras[i]?.name)} formatter={(value) => numberToArabic(value, lang)} />
                     <Legend />
-                    <Bar dataKey="Fully Compliant" stackId="a" fill="#008000" barSize={20} />
-                    <Bar dataKey="Partially Compliant" stackId="a" fill="#005CC8" barSize={20} />
-                    <Bar dataKey="Non Compliant" stackId="a" fill="#EB622B" barSize={20} />
+                    <Bar dataKey={t('fully_compliant')} stackId="a" fill="#008000" barSize={20} />
+                    <Bar dataKey={t('partially_compliant')} stackId="a" fill="#005CC8" barSize={20} />
+                    <Bar dataKey={t('non_compliant')} stackId="a" fill="#EB622B" barSize={20} />
                   </BarChart>
                 </ResponsiveContainer>
 
 
               </div>
             </Graph>
-            <LeaderBoard type='Sections' leaderBoardData={{'Least Performing Entities': (report.low_sections || []),  'High Performing Entities': (report.high_sections || [])}}/>
+            <LeaderBoard type='Sections' leaderBoardData={{'Least Performing Entities': (report.low_sections || []),  'High Performing Entities': (report.high_sections || [])}} lang={lang} />
             
             <Spacer />
         </FlexWrapper>
@@ -181,7 +187,7 @@ export default function({lang, setLang, ...props}) {
               ["1", "2", "3"].map((level) => {
                 const l = ((report.compliance_by_mandate_level || {})[level] || {})
                 return <div key={level}>
-                  <CircularProgressCard level={level} 
+                  <CircularProgressCard level={level} lang={lang}
                     full={l["Fully Compliant"]} 
                     par={l['Partially Compliant']} 
                     non={l['Non Compliant']} total={(l['Fully Compliant']+l['Partially Compliant']*.5).toFixed(2)}/>
@@ -193,7 +199,7 @@ export default function({lang, setLang, ...props}) {
             <div><CircularProgressCard level={3} full={40} par={20} non={50} total={67}/></div> */}
           </SmallCards>          
           <InsightsContainer>
-            <Insights />
+            <Insights lang={lang} />
           </InsightsContainer>
           
 
@@ -206,6 +212,7 @@ export default function({lang, setLang, ...props}) {
 
 const InsightsContainer = styled.div`
   ${rtl`
+  max-width: 534px;
   margin-right: 30px;
   `}
   
@@ -381,7 +388,7 @@ const CardHeader = styled.div`
 `
 
 const CardInfo = styled.div`
-  height: 155px;
+  height: auto;
   background-color: #fff;
   ${rtl`
   border-top-left-radius: 5px;  
@@ -389,7 +396,7 @@ const CardInfo = styled.div`
   `}
   > .info {
     display: flex;
-    height: 78px;
+    height: auto;
     background: #FFFFFF 0% 0% no-repeat padding-box;
     border-radius: 5px;
     padding: 19px 16px;
@@ -412,7 +419,8 @@ const CardInfo = styled.div`
       color: #000000;
       flex: 1;
       > div:first-child {
-        height: 33px;
+        height: auto;
+        margin-bottom: 12px;
       }
       > .progress {
         
@@ -490,15 +498,28 @@ const Graph = styled.div`
   // background-color: #fff;
 
   > .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     height: 73px;
     background: #EEEEEE 0% 0% no-repeat padding-box;
     border: 1px solid #BBBBBB;
     ${rtl`
-    padding-left: 40px;
+      padding-left: 40px;
+      padding-right: 20px;
     `}
     font: normal normal bold 20px/30px Muli;
     color: #666666;
-    line-height: 73px;
+
+    > div {
+      width: fit-content;
+      font-size: 16px;
+      line-height: 1;
+      height: 56px;
+      > div > div {
+        background-color: #FFFFFF;
+      }
+    }
   }
 
   > .info {
@@ -523,6 +544,10 @@ const Graph = styled.div`
         height: 600px;
         overflow: auto;
         margin: 0;
+        list-style: none;
+        ${rtl`
+          padding-left: 23px;
+        `}
         li {
           margin-top: 15px;
           font: normal normal normal 12px/17px;

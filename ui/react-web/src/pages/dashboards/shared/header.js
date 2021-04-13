@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -6,12 +6,33 @@ import Switch from 'react-switch'
 // import translations from '../../../utils/translate'
 import translate, { t } from '../../../utils/translate'
 
-export default function({children, viewType, viewName, lang, setLang,  ...props}) {
-
+export const LangSwitch = ({ lang, setLang, alignItems }) => {
   const changeLang = (l) => {
     translate.setLang(l)
     setLang(l)
   }
+
+  return (
+    <StyledSwitch alignItems={alignItems}>
+      <span style={lang == 'ar' ? {color: '#ccc'} : {color: '#2693e6'}}> En </span>
+      <Switch className='lang' onChange={(checked) => checked ? changeLang('ar') : changeLang('en')} checked={lang == 'ar'} 
+        onColor="#86d3ff"
+        onHandleColor="#2693e6"
+        handleDiameter={30}
+        uncheckedIcon={false}
+        checkedIcon={false}
+        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+        // activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+        activeBoxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+        height={20}
+        width={48}
+      />
+      <span style={lang == 'en' ? {color: '#ccc', marginLeft: '6px'} : {color: '#2693e6', marginLeft: '6px'}} >Ar</span>
+    </StyledSwitch>
+  );
+}
+
+export default function({children, viewType, viewName, lang, setLang,  ...props}) {
   return(
     <Outline>
       <div className='logo'>
@@ -23,20 +44,7 @@ export default function({children, viewType, viewName, lang, setLang,  ...props}
       </div>
       {children}
       <div className='menu'> 
-        <span style={lang == 'ar' ? {color: '#ccc'} : {color: '#2693e6'}}> En </span>
-        <Switch className='lang' onChange={(checked) => checked ? changeLang('ar') : changeLang('en')} checked={lang == 'ar'} 
-          onColor="#86d3ff"
-          onHandleColor="#2693e6"
-          handleDiameter={30}
-          uncheckedIcon={false}
-          checkedIcon={false}
-          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-          // activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-          activeBoxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-          height={20}
-          width={48}
-        />
-        <span style={lang == 'en' ? {color: '#ccc', marginLeft: '6px'} : {color: '#2693e6', marginLeft: '6px'}} >Ar</span>
+        <LangSwitch lang={lang} setLang={setLang} />
         <Link to='/'> {t('home')} </Link> 
         <Link to='/board'> {t('dashboards')} </Link> 
         <Link to='/entities'> {t('entities')} </Link> 
@@ -104,3 +112,12 @@ const Outline = styled.div`
 
 `
 
+const StyledSwitch = styled.div`${({ alignItems }) => css`
+  display: inline-flex;
+  align-items: ${alignItems || 'baseline'};
+  margin-right: 20px;
+
+  span:first-child {
+    margin-right: 6px;
+  }
+`}`;

@@ -99,7 +99,7 @@ function AllRoutes(props) {
       <Switch>
         <Route path="/timeline"> <Header /> <TP theme={cs.home}> <Timeline /> </TP> </Route>
         <Route path="/kanban"> <Header /> <TP theme={cs.home}> <Kanban /> </TP> </Route>
-        <Route path="/dashboard"> <TP theme={cs.home}> { dbForRole(role())} </TP> </Route>
+        <Route path="/dashboard"> <TP theme={cs.home}> { dbForRole(role(), lang, setLang) } </TP> </Route>
         <Route path="/formulation"> <Header /> <TP theme={cs.fs}> <Formulation /> </TP> </Route>
         <Route path="/collaboration"> <Header /> <TP theme={cs.cs}> <Collaboration /> </TP> </Route>
         <Route path="/activation"> <Header /> <TP theme={cs.as}> <Activation /> </TP> </Route>
@@ -128,14 +128,14 @@ function AllRoutes(props) {
 
 
 
-function dbForRole(role) {
+function dbForRole(role, lang, setLang) {
   if(role == 0) {
-      return <MotcHome />
+      return <MotcHome lang={lang} setLang={setLang} translate />
       // return <JawdaHome />
   } else if( [11,12,13,14].includes(role)) {
-    return <JawdaHome />
+    return <JawdaHome lang={lang} setLang={setLang} translate />
   } else {
-    return <AgencyHome />
+    return <AgencyHome lang={lang} setLang={setLang} translate />
   }
 }
 function App() {

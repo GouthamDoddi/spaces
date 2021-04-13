@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 import styled from 'styled-components'
@@ -12,19 +12,33 @@ import Progress from '../dashboards/shared/progress'
 
 import EntityCard from './entity-card'
 import ProjectsCard from './project-card'
+import { useStore } from 'effector-react'
+import makeStore from '../../store/make-store'
+const { store, load } = makeStore('formulation/metadata')
 
 
 export default function(props) {
+  const [projectCount, setProjectCount] = useState(0);
+  const [entityCount, setEntityCount] = useState(0);
+  const [projectCounts, setProjectCounts] = useState({});
+  const listStore = useStore(store)
+  const metadata = listStore.data || []
+
+  useEffect(() => { 
+    console.log(load())
+  }, [])
+
   return (
     <Wrapper>
     <Box>
-      <header> Jawda </header>
+      <header> 
+        <span>Jawda</span>
+        <span>Policy Count {metadata.length}</span>
+      </header>
 
       <div className='items'>
         <TotalProjects>
-          <header> Total Projects 21
-            <span> Policy Count 03</span>
-          </header>
+          <header> Total Projects {projectCount}</header>
           <div className='progress-status'>
             <Progress width='113px' value={45} height='5px' max={100} bkcolor='#DCDFE8' width='90%' color='#3FBF11' tagText={`${45}% Completed`} tagBkColor='#DEFCD4' showTag tagColor='#3FBF11' />  
           </div>
@@ -32,21 +46,21 @@ export default function(props) {
           <div className='tags'>
             <Tag> 
               <div> <Check /></div>
-              <div> Completed</div>
+              <div>{projectCounts.completed} Completed</div>
             </Tag>
             <Tag color='#FFBF00'> 
               <div> <Sol /></div>
-              <div> WIP </div>
+              <div>{projectCounts.wip} WIP </div>
             </Tag>
             <Tag color='#CFCFCF'> 
               <div> <Cancel /></div>
-              <div> Not Started</div>
+              <div>{projectCounts.not_started} Not Started</div>
             </Tag>
           </div>
         </TotalProjects>
 
         <SimpleTable />
-        <div> <SmallCard /> </div>
+        <div> <SmallCard count={entityCount} /> </div>
         
       </div>
     </Box>
@@ -58,13 +72,13 @@ export default function(props) {
             List of Entities
           </header>
           <div>
-            <EntityCard />
+            <EntityCard setEntityCount={setEntityCount} setProjectCounts={setProjectCounts} />
           </div>
           
         </Entities>
         <div>
           <QuickActions />
-          <Insight hideFilter height='420px' />
+          <Insight hideFilter height='530px' />
     
         </div>
       </FlexWrapper>
@@ -75,7 +89,7 @@ export default function(props) {
             List of Projects
           </header>
           <div>
-            <ProjectsCard />
+            <ProjectsCard setProjectCount={setProjectCount} />
           </div>
           
         </Projects>
@@ -145,7 +159,7 @@ const Cases = styled.div`
 `
 
 const Content = styled.div`
-  background: #FFFFFF 0% 0% no-repeat padding-box;
+background: transparent url(img/db/cards-back.svg) 0% 0% padding-box;
 `
 
 const Wrapper = styled.div`
@@ -157,10 +171,21 @@ const Box = styled.div`
   background: transparent url('img/home/top-background.svg') 0% 0% no-repeat padding-box;
   padding-bottom: 10px;
   > header {
-    font: normal normal bold 30px/44px Muli;
-    color: #FFFFFF;
-    margin-bottom: 9px;
     padding: 26px 100px;
+
+    > :first-child {
+      font: normal normal bold 30px/44px Muli;
+      color: #FFFFFF;
+      margin-bottom: 9px;
+      border-right: 1px solid #FFFFFF;
+      padding-right: 20px;
+      margin-right: 20px;
+    }
+
+    > :nth-child(2) {
+      font: normal normal 600 20px/30px Muli;
+      color: #FFFFFF;
+    }
   }
   > .items {
     display: flex;
@@ -183,10 +208,6 @@ const TotalProjects = styled.div`
   > header {
     font: normal normal 600 20px/30px Muli;
     color: #464646;
-    > span {
-      font: normal normal 600 20px/30px Muli;
-      color: #FFFFFF;
-    }
   }
 
   > .progress-status {
@@ -260,6 +281,7 @@ const Tag = styled.div`
   }
   > div:last-child {
     padding: 4px 15px 0 5px;
+    white-space: nowrap;
   }
 `
 
@@ -300,7 +322,7 @@ function Cancel() {
 const FlexWrapper = styled.div`
   display: flex;
   margin-left: 100px;
-  margin-top: 30px;
+  padding-top: 30px;
   margin-bottom: 30px;
   > div {
     width: 50%;
@@ -312,7 +334,7 @@ const FlexWrapper = styled.div`
 const Entities = styled.div`
   > header {
     font: normal normal 600 25px/36px Muli;
-    color: #000000;
+    color: #ffffff;
     opacity: 1;
     margin-bottom: 15px;
   }
@@ -325,6 +347,6 @@ const Entities = styled.div`
 
 const Projects = styled(Entities)`
   > div {
-    height: 820px;
+    height: 900px;
   }
 `

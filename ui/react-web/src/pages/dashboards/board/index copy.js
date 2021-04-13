@@ -497,6 +497,10 @@ const Graph = styled.div`
       > ol {
         padding-top: 20px;
         margin: 0;
+        list-style: none;
+        ${rtl`
+          padding-left: 23px;
+        `}
         li {
           margin-top: 15px;
           font: normal normal normal 12px/17px;

@@ -16,14 +16,14 @@ const columns1 = '1.5fr .5fr .5fr .5fr .4fr .4fr'
 const columns2 = '1.5fr .5fr'
 const columns3 = '1fr .7fr .3fr'
 const columns4 = '2fr 2fr 1fr'
-export default function(props) {
+export default function({ lang, setLang, translate }) {
   return(
     <Layout>
       <Left>
         <LeftMenu except={['my-tasks']}></LeftMenu>
       </Left>
       <Content>
-        <HeaderBar className='hb' />
+        <HeaderBar className='hb' lang={lang} setLang={setLang} translate={translate} />
         <Motc />
       </Content>  
     </Layout>
