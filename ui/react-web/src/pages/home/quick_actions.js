@@ -13,7 +13,7 @@ export default function QuickActions({list=[['entity', 'entities'], ['project', 
       <footer>
         {
           list.map((o,i) => (
-            <Link to={o[1] ? `${o[1]}/new` : ''}><IconWrapper key={i}> <AddBtn /> <span> Add {o[0]} </span> </IconWrapper></Link>
+            <Link to={o[1] ? o[1].includes('project') ? `${o[1]}/new/profile` : `${o[1]}/new` : ''}><IconWrapper key={i}> <AddBtn /> <span> Add {o[0]} </span> </IconWrapper></Link>
               
           ))
         }

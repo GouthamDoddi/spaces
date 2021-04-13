@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
-import {issuesByGroup} from '../../../store/master-data'
+import { issuesByGroup } from '../../../store/master-data'
 import { useParams } from 'react-router-dom'
 import rtl from 'styled-components-rtl'
 import { get } from '../../../store/api'
 
-import {Select} from '../../../components/form'
- 
-const selectOptions = [{label: 'Compliance Issues', value: 1}, { label: 'Challenges', value: 2}]
-const defaultSelected = selectOptions[0]
-export default function Insight({hideFilter, height, ...props}) {
-  const {entity_id, project_id} = useParams()
+import { Select } from '../../../components/form';
+import { t, to } from '../../../utils/translate';
+
+export default function Insight({ hideFilter, height, lang, ...props }) {
+  const selectOptions = [{ label: t('compliance_issues'), value: 1 }, { label: t('challenges'), value: 2 }];
+  const { entity_id, project_id } = useParams()
   const [data, setData] = useState([])
 
-  const [selectedType, setSelectedType] = useState(defaultSelected)
+  const [selectedType, setSelectedType] = useState({});
+
   useEffect(() => {
-    if(entity_id) {
-      if(project_id) {
-        if(issuesByGroup[entity_id] && issuesByGroup[entity_id][project_id]) {
+    if (entity_id) {
+      if (project_id) {
+        if (issuesByGroup[entity_id] && issuesByGroup[entity_id][project_id]) {
           setData(issuesByGroup[entity_id][project_id])
         }
       } else {
-        if(issuesByGroup[entity_id]) {
-          setData(Object.values(issuesByGroup[entity_id]).flat())  
+        if (issuesByGroup[entity_id]) {
+          setData(Object.values(issuesByGroup[entity_id]).flat())
         }
       }
     } else {
@@ -31,13 +32,17 @@ export default function Insight({hideFilter, height, ...props}) {
     }
   }, [entity_id, project_id])
 
-  const COLORS = {NC: '#EB622B', PC: '#005CC8'}
+  useEffect(() => {
+    setSelectedType(selectOptions[0]);
+  }, [lang]);
+
+  const COLORS = { NC: '#EB622B', PC: '#005CC8' }
 
   return (
     <Box>
       <header>
         <div>{selectedType.label}</div>
-        { hideFilter ? null : 
+        {hideFilter ? null :
           <Select
             options={selectOptions}
             onChange={(e) => {
@@ -47,65 +52,68 @@ export default function Insight({hideFilter, height, ...props}) {
           ></Select>
         }
       </header>
-      { selectedType.value == 1 ? 
-      <InnerBox>
-      <Filter>   
-        <Legend><Circle color='#EB622B' /> Non Compliant</Legend>
-        <Legend><Circle color='#005CC8'/> Partially Compliant</Legend>
-      </Filter>
-      {
-        data.length > 0 ? 
-          <Cards height={height}>
-            {
-              data.map((o, i) => (
-                <Card color={COLORS[o.compl]} key={i}>
-                  <div className='bc'> {o.project_name} <span> > </span> {o.section_name} </div>
-                  <div className='title'>{o.description}</div>
-                  <div className='footer'>
-                    <div className='tag'> {o.category}</div>
-                    <div className='date'> {o.date} </div>
-                  </div>
-                </Card>
-              ))
-            }
-          </Cards> : 
-          <Cards><div className='no-data'> NO ISSUES </div></Cards>
-      }
+      { selectedType.value == 1 ?
+        <InnerBox>
+          {/* <Filter>
+            <Legend><Circle color='#EB622B' />{t('non_compliant')}</Legend>
+            <Legend><Circle color='#005CC8' />{t('partially_compliant')}</Legend>
+          </Filter> */}
+          {
+            data.length > 0 ?
+              <Cards height={height}>
+                {
+                  data.map((o, i) => (
+                    <Card color={COLORS[o.compl]} key={i}>
+                      {/* <div className='bc'> {to(o, 'project_name')} <span> </span> {t(o.section_name)} </div> */}
+                      <div className='bc'> {t(o.project_name.toLowerCase())} <span> </span> {t(o.section_name.toLowerCase())} </div>
+                      <div className='title'>{t(o.description.toLowerCase())}</div>
+                      <div className='footer'>
+                        <div className='tag'>{t(o.category.toLowerCase())}</div>
+                        <div className='date'>{lang && lang === "ar" ? new Date(o.date).toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' }) : o.date} </div>
+                      </div>
+                    </Card>
+                  ))
+                }
+              </Cards> :
+              <Cards><div className='no-data'> {t('NO ISSUES')} </div></Cards>
+          }
 
-    </InnerBox> : <Challenges hideHeader />
+        </InnerBox> : <Challenges hideHeader />
 
       }
-          </Box>
+    </Box>
   )
 }
 
-export function Challenges({hideHeader, height, ...props}) {
-  const {entity_id, project_id} = useParams()
+export function Challenges({ hideHeader, height, ...props }) {
+  const { entity_id, project_id } = useParams()
   const [data, setData] = useState([])
   useEffect(() => {
-    const path = ['reports', 'challenges', entity_id, project_id].filter((e) => e )
-    get(path.join('/'), {success: (json) => {
-      setData(json.data)
-    }, error: (e) => { console.log(e)}})
+    const path = ['reports', 'challenges', entity_id, project_id].filter((e) => e)
+    get(path.join('/'), {
+      success: (json) => {
+        setData(json.data)
+      }, error: (e) => { console.log(e) }
+    })
   }, [entity_id, project_id])
 
-  const COLORS = {NC: '#EB622B', PC: '#005CC8'}
+  const COLORS = { NC: '#EB622B', PC: '#005CC8' }
 
   return (
     <Box>
-      { hideHeader ? null : <header> Challenges </header>}
+      { hideHeader ? null : <header> {t('Challenges')} </header>}
 
       <InnerBox>
-        <Filter>   
- 
+        <Filter>
+
         </Filter>
         {
-          data.length > 0 ? 
+          data.length > 0 ?
             <Cards height={height}>
               {
                 data.map((o, i) => (
                   <Card2 color={COLORS[o.compl]} key={i}>
-                    <div className='bc'> {o.project.name} <span> > </span> {o.section.name} </div>
+                    <div className='bc'> {o.project.name} <span> </span> {o.section.name} </div>
                     <div className='title'>{o.description}</div>
                     <div className='footer'>
                       <div className='tag'> {o.type.name}</div>
@@ -114,8 +122,8 @@ export function Challenges({hideHeader, height, ...props}) {
                   </Card2>
                 ))
               }
-            </Cards> : 
-            <Cards><div className='no-data'> NO ISSUES </div></Cards>
+            </Cards> :
+            <Cards><div className='no-data'> {t('NO ISSUES')} </div></Cards>
         }
 
       </InnerBox>
@@ -151,7 +159,7 @@ const ChallengeCard = styled.div`
 const Box = styled.div`
   // max-width: 758px;
   // min-width: 758px;
-  margin-top: 30px;
+  // margin-top: 30px;
   flex: 1;
   // height: 990px;
   
@@ -211,7 +219,7 @@ const Circle = styled.div`
 `
 
 const Card = styled.div`
-  height: 104px;
+  height: auto;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 1px 2px #00000029;
   ${rtl`
@@ -234,7 +242,7 @@ const Card = styled.div`
   > .title {
     font: normal normal 600 15px/27px Muli;
     color: #131313;
-    height: 22px;
+    height: auto;
   }
   > .footer {
     display: flex;
@@ -257,7 +265,7 @@ const Card = styled.div`
 
 
 const Card2 = styled.div`
-  height: 104px;
+  height: auto;
   background: #F7F6F3 0% 0% no-repeat padding-box;
   box-shadow: 0px 1px 2px #00000029;  
   margin-bottom: 12px;
@@ -278,7 +286,7 @@ const Card2 = styled.div`
   > .title {
     font: normal normal 600 15px/27px Muli;
     color: #131313;
-    height: 30px;
+    height: auto;
     padding: 0 15px;
     // margin-top: 10px;
   }
@@ -317,4 +325,4 @@ const Cards = styled.div`
   }
 `
 
-export {Insight}
+export { Insight }

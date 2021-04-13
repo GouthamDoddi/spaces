@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import Header from '../shared/header'
 import styled, { css } from 'styled-components'
 import { Pie, PieChart } from 'recharts';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
 
 import { entityCommType, qualityGateTypes } from '../../../store/master-data';
 import { Select } from '../../../components/form'
-import { Input } from '../../../components/form'
+import { Search, Sort } from '../../../components/form'
 import { get } from '../../../store/api'
 import { useEffect } from 'react';
 import { SVGCrown, SVGCheck, SVGSolution, SVGCancel } from '../shared/icons'
@@ -16,23 +16,19 @@ import LeaderBoard from '../shared/leaderboard'
 import Insights from '../shared/insights'
 import { BarProgressCard, CircularProgressCard } from '../shared/progress-card'
 import rtl from 'styled-components-rtl'
-import { t, T, To, numberToArabic } from '../../../utils/translate';
+import { t, T, To, numberToArabic, translateObjectKeys } from '../../../utils/translate';
 // import Card from '../shared/card'
 
-function useInput({ type = 'text' /*...*/ }) {
-  const [value, setValue] = useState("");
-  const input = <Input value={value} onChange={e => setValue(e.target.value)} type={type} />;
-  return [value, input];
-}
-
-
 const defaultSelectedEntity = { label: 'All', value: 0 }
-const defaultSelectedProject = { label: 'All', value: 0 }
+const defaultSelectedProject = { label: 'All', value: 0 };
+const alphabetsArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 export default function ({ lang, setLang, ...props }) {
   const [gates, setGates] = useState([])
-  const [entityFilter, EntityFilterInput] = useInput({})
-  const [entitiesForSelect, setEntitiesForSelect] = useState([])
-  const [selectedEntity, setSelectedEntity] = useState(defaultSelectedEntity)
+  const [showAll, setShowAll] = useState(false);
+  const [pagination, setPagination] = useState("m");
+  const [entityFilter, setEntiryFilter] = useState("");
+  const [entitiesForSelect, setEntitiesForSelect] = useState([]);
+  const [selectedEntity, setSelectedEntity] = useState(defaultSelectedEntity);
 
 
   const [report, setReport] = useState({})
@@ -53,10 +49,177 @@ export default function ({ lang, setLang, ...props }) {
     })
   }, [])
 
+  /**
+ * Function to sort alphabetically an array of objects by some specific key.
+ * 
+ * @param {String} property Key of the object to sort.
+ */
+  const dynamicSort = (property) => {
+    var sortOrder = 1;
+
+    if (property[0] === "-") {
+      sortOrder = -1;
+      property = property.substr(1);
+    }
+
+    return function (a, b) {
+      if (sortOrder == -1) {
+        return b[property].localeCompare(a[property]);
+      } else {
+        return a[property].localeCompare(b[property]);
+      }
+    }
+  }
+
+  const renderEntities = () => {
+    if (report.entities && report.entities.length > 0) {
+      let cardsData = [...report.entities];
+      if (pagination && pagination.length > 0) {
+        cardsData = cardsData.filter(a => a.name.toLowerCase().startsWith(pagination.toLowerCase()));
+      } else {
+        cardsData = cardsData.sort(dynamicSort("name"));
+        let alphabet = cardsData[0].name.charAt(0).toLowerCase();
+        setPagination(alphabet);
+        cardsData = cardsData.filter(a => a.name.toLowerCase().startsWith(alphabet));
+      }
+      if (!showAll && cardsData.length > 6) {
+        cardsData.length = 6;
+      }
+      return (
+        <Cards>
+          {
+            (cardsData).map((k, i) => {
+              if (entityFilter.trim().length > 0 && !k.name.toLowerCase().includes(entityFilter.toLowerCase())) {
+                return null
+              }
+              return (
+                <CardWrapper onClick={() => { window.location.hash = `/agency/${k.id}` }} >
+                  <StatusCard key={i}>
+                    <div className='info'>
+                      <div className='logo'> <img src={`/img/logos/entities/${k.id}.png`} /></div>
+                      <div className='title'>
+                        <div className='name'> <To o={k} k='name' /> </div>
+                        <div className='progress'>
+                          <Progress value={Math.ceil(k.progress * 100)} height='5px' max={100} bkcolor='#DCDFE8' width='90%'
+                            color='#0064FE' tagBkColor='#EBF4FF' showTag tagColor='#0064FE' lang={lang} />
+                        </div>
+                      </div>
+                      <div className='chart'>
+                        <div className='data'> {numberToArabic(Math.ceil(k.score) < 10 ? `0${Math.ceil(k.score)}` : Math.ceil(k.score), lang)}</div>
+                        <StatusChart prog={Math.ceil(k.score)} />
+                      </div>
+                    </div>
+
+                    <div className='status'>
+                      <div className='title'> <T k='projects' /></div>
+                      <div className='info'>
+                        <div className='status'>
+                          <div className='value'> {numberToArabic(k.projects.completed, lang)} </div>
+                          <div className='label'>
+                            <span className="dotted_txt">
+                              {t('completed')}
+                            </span>
+                            <BarB color='#3FBF11' />
+                          </div>
+
+                        </div>
+                        <div className='status'>
+                          <div className='value'> {numberToArabic(k.projects.wip, lang)} </div>
+                          <div className='label'>
+                            <span className="dotted_txt">
+                              {t('wip')}
+                            </span>
+                            <BarB color='#FFBF00' />
+                          </div>
+
+                        </div>
+                        <div className='status'>
+                          <div className='value'> {numberToArabic(k.projects.not_started, lang)} </div>
+                          <div className='label'>
+                            <span className="dotted_txt">
+                              {t('not_started')}
+                            </span>
+                            <BarB color='#999999' />
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </StatusCard>
+                </CardWrapper>
+              )
+            })
+          }
+          <Spacer></Spacer>
+        </Cards>
+      );
+    }
+    return null;
+  }
+
+  const renderShowAllBtn = () => {
+    return (
+      <ShowAllBtn onClick={() => setShowAll(showAll => !showAll)}>
+        <span>{showAll ? "View Less" : "View All"}</span>
+        <i />
+      </ShowAllBtn>
+    );
+  }
+
+  const onArrowClick = (isLeft) => {
+    let currentPage = pagination.toLowerCase();
+    let validPages = alphabetsArray.filter((item) => (report.entities || []).find(a => a.name.toLowerCase().startsWith(item.toLowerCase())));
+    if ((isLeft && currentPage === validPages[0].toLowerCase()) || (!isLeft && currentPage === validPages[validPages.length - 1].toLowerCase())) {
+      return;
+    }
+    let index = validPages.findIndex(a => a.toLowerCase() === currentPage);
+    if (index > -1) {
+      if (isLeft) {
+        setPagination(validPages[index - 1].toLowerCase());
+      } else {
+        setPagination(validPages[index + 1].toLowerCase());
+      }
+    }
+  }
+
+  const renderPagination = () => {
+    return (
+      <PaginationContainer>
+        {/* <DoubleLeftArrows />
+        <DoubleLeftArrows /> */}
+        <LeftArrow onClick={() => onArrowClick(true)} />
+        {
+          alphabetsArray.map((item) => {
+            let isMatched = item.toLowerCase() === pagination.toLowerCase();
+            let isValid = (report.entities || []).find(a => a.name.toLowerCase().startsWith(item.toLowerCase()));
+            return (
+              <PaginationElement style={{ cursor: isValid ? 'pointer' : 'default' }} onClick={() => isValid && setPagination(item.toLowerCase())}>
+                <span style={{ color: isValid ? 'white' : 'grey' }}>{item}</span>
+                {
+                  isMatched &&
+                  <div style={{ height: '1px', width: 'auto', backgroundColor: 'white', marginTop: '1px' }} />
+                }
+              </PaginationElement>
+            );
+          })
+        }
+        <RightArrow onClick={() => onArrowClick(false)} />
+        {/* <DoubleRightArrows />
+        <DoubleRightArrows /> */}
+      </PaginationContainer>
+    );
+  }
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   console.log("gates", gates)
+  let entitiesCount = 0;
+  if (entityFilter.trim().length > 0 && report && report.entities) {
+    entitiesCount = report.entities.filter(k => k.name.toLowerCase().includes(entityFilter.toLowerCase())).length;
+  } else {
+    entitiesCount = report && report.entities ? report.entities.length : 0;
+  }
   // rtl={lang=='ar'} className={lang} 
+  console.log("report.section_wise_status", translateObjectKeys(report.section_wise_status, ['Fully Compliant', 'Partially Compliant', 'Non Compliant']))
   return (
     <Layout dir={lang == 'ar' ? 'rtl' : 'ltr'}>
       <Header viewType='State View' viewName='Jawda' lang={lang} setLang={setLang}></Header>
@@ -82,86 +245,36 @@ export default function ({ lang, setLang, ...props }) {
           </div>
           <Spacer />
         </MainInfo>
-        <CardHolder>
-          <div className='header'>
-            <ProgressStatus>
-              <div> {numberToArabic(report.overall_progress * 100, lang)}% <T k='completed' /> </div>
-              <Progress color='#3FBF11' value={report.overall_progress * 100} max={100}> {38} </Progress>
-            </ProgressStatus>
-            <div className='search'>
-              <div className='showing'> <T k='showing' /> {numberToArabic(gates.length, lang)} <T k={gates.length > 0 ? 'entities' : 'entity'} /></div>
-              {EntityFilterInput}
-              <div className='spacer'></div>
+        <CardHolderContainer>
+          <CardHolder>
+            <div className='header'>
+              <ProgressStatus>
+                <div> {numberToArabic(report.overall_progress * 100, lang)}% <T k='completed' /> </div>
+                <Progress color='#3FBF11' value={report.overall_progress * 100} max={100}> {38} </Progress>
+              </ProgressStatus>
+              <div className='search'>
+                <div className='showing'> <T k='showing' /> {numberToArabic(entitiesCount, lang)} <T k={entitiesCount > 0 ? 'entities' : 'entity'} /></div>
+                <Search placeholder={t('search_in_entities')} value={entityFilter} onChange={e => setEntiryFilter(e.target.value)} type={"text"} />
+                <Sort value={entityFilter} onChange={e => setEntiryFilter(e.target.value)} type={"text"} className="sort"
+                  placeholder={t('sort_entities')} />
+                <div className='spacer'></div>
+              </div>
             </div>
-          </div>
-
-          <Cards>
-            {
-              (report.entities || []).map((k, i) => {
-                // console.log(entityFilter.trim().length , k.name.toLowerCase())
-                if (entityFilter.trim().length > 0 && !k.name.toLowerCase().includes(entityFilter.toLowerCase())) {
-                  return null
-                }
-                return (
-
-                  <CardWrapper onClick={() => { window.location.hash = `/agency/${k.id}` }} >
-                    <StatusCard key={i}>
-                      <div className='info'>
-                        <div className='logo'> <img src={`/img/logos/entities/${k.id}.png`} /></div>
-                        <div className='title'>
-                          <div className='name'> <To o={k} k='name' /> </div>
-                          <div className='progress'>
-                            <Progress value={Math.ceil(k.progress * 100)} height='5px' max={100} bkcolor='#DCDFE8' width='90%'
-                              color='#0064FE' tagBkColor='#EBF4FF' showTag tagColor='#0064FE' lang={lang} />
-                          </div>
-                        </div>
-                        <div className='chart'>
-                          <div className='data'> {numberToArabic(Math.ceil(k.score) < 10 ? `0${Math.ceil(k.score)}` : Math.ceil(k.score), lang)}</div>
-                          <StatusChart prog={Math.ceil(k.score)} />
-                        </div>
-                      </div>
-
-                      <div className='status'>
-                        <div className='title'> <T k='projects' /></div>
-                        <div className='info'>
-                          <div className='status'>
-                            <div className='value'> {numberToArabic(k.projects.completed, lang)} </div>
-                            <div className='label'> {t('completed')}
-                              <BarB color='#3FBF11' />
-                            </div>
-
-                          </div>
-                          <div className='status'>
-                            <div className='value'> {numberToArabic(k.projects.wip, lang)} </div>
-                            <div className='label'>
-                              {t('wip')}
-                              <BarB color='#FFBF00' />
-                            </div>
-
-                          </div>
-                          <div className='status'>
-                            <div className='value'> {numberToArabic(k.projects.not_started, lang)} </div>
-                            <div className='label'>
-                              {t('not_started')}
-                              <BarB color='#999999' />
-                            </div>
-
-                          </div>
-                        </div>
-                      </div>
-                    </StatusCard>
-                  </CardWrapper>
-                )
-              })
-            }
-            <Spacer></Spacer>
-          </Cards>
-        </CardHolder>
-
+            {renderEntities()}
+            {renderPagination()}
+          </CardHolder>
+          {renderShowAllBtn()}
+        </CardHolderContainer>
         <FlexWrapper>
           <Graph>
 
-            <div className='header'>{t('swcta')}</div>
+            <div className='header'>
+              {t('swcta')}
+              <Select
+                options={[{ label: 'All', value: 'all' }, { label: 'This Week' }, { label: 'This Month' }, { label: 'This Quarter' }, { label: 'This Year' }]}
+                value={{ label: 'All', value: 'all' }}
+              />
+            </div>
             <div className='info'>
               <div className='sections'>
                 <div className='title'>{t('sections')}</div>
@@ -172,17 +285,16 @@ export default function ({ lang, setLang, ...props }) {
                     // if(o.name == 'eServices Profile') {
                     //   debugger
                     // }
-                    return (<li key={i}>{t(o.name.trim())}</li>)
+                    return (<li key={i}>{numberToArabic(i + 1, lang)}. {t(o.name.trim())}</li>)
                   })}
 
                 </ol>
               </div>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-
                   width={500}
                   height={300}
-                  data={report.section_wise_status || []}
+                  data={translateObjectKeys(report.section_wise_status, ['Fully Compliant', 'Partially Compliant', 'Non Compliant']) || []}
                   margin={{
                     top: 20,
                     right: 30,
@@ -191,12 +303,16 @@ export default function ({ lang, setLang, ...props }) {
                   }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
-                  <YAxis />
-                  <Tooltip label="{timeTaken}" labelFormatter={(i, a) => (report.section_wise_status[i]?.name)} />
-                  <Legend />
-                  <Bar dataKey="Fully Compliant" stackId="a" fill="#008000" barSize={20} />
-                  <Bar dataKey="Partially Compliant" stackId="a" fill="#005CC8" barSize={20} />
-                  <Bar dataKey="Non Compliant" stackId="a" fill="#EB622B" barSize={20} />
+                  <XAxis label={{ value: t('section_name'), position: 'insideBottom' }} tick={false} />
+                  <YAxis label={{ value: t('compliance_score'), angle: -90, position: 'insideLeft' }} tickMargin={lang === 'ar' ? 30 : undefined} tickFormatter={(value) => numberToArabic(value, lang)} />
+                  {
+                    report.section_wise_status &&
+                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => t(report.section_wise_status[i]?.name?.trim())} formatter={(value) => numberToArabic(value, lang)} />
+                  }
+                  <Legend verticalAlign="top" align="right" margin={{ top: 30 }} />
+                  <Bar dataKey={t('fully_compliant')} stackId="a" fill="#008000" barSize={20} />
+                  <Bar dataKey={t('partially_compliant')} stackId="a" fill="#005CC8" barSize={20} />
+                  <Bar dataKey={t('non_compliant')} stackId="a" fill="#EB622B" barSize={20} />
                 </BarChart>
               </ResponsiveContainer>
 
@@ -214,7 +330,7 @@ export default function ({ lang, setLang, ...props }) {
               ["1", "2", "3"].map((level) => {
                 const l = ((report.compliance_by_mandate_level || {})[level] || {})
                 return <div key={level}>
-                  <CircularProgressCard level={level}
+                  <CircularProgressCard level={level} lang={lang}
                     full={l["Fully Compliant"]}
                     par={l['Partially Compliant']}
                     non={l['Non Compliant']} total={(l['Fully Compliant'] + l['Partially Compliant'] * .5).toFixed(2)} />
@@ -227,7 +343,7 @@ export default function ({ lang, setLang, ...props }) {
           </SmallCards>
 
           <InsightsContainer>
-            <Insights />
+            <Insights lang={lang} />
           </InsightsContainer>
 
 
@@ -240,6 +356,7 @@ export default function ({ lang, setLang, ...props }) {
 
 const InsightsContainer = styled.div`
   ${rtl`
+    max-width: 534px;
     margin-right: 30px;
   `}
 `
@@ -288,17 +405,118 @@ const Spacer = styled.div`
   min-width: 30px;
   min-height: 100px;
 `
+const CardHolderContainer = styled.div`
+  width: 100%;
+  min-width: 100%;
+  min-height: 662px;
+  position: relative;
+`
+const ShowAllBtn = styled.div`
+    left: 0;
+    right: 0;
+    height: 60px;
+    width: 204px;
+    margin: auto;
+    bottom: 20px;
+    display: flex;
+    cursor: pointer;
+    position: absolute;
+    border-radius: 30px;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 3px 6px #00000029;
+    background: #F4F5FA 0% 0% no-repeat padding-box;
+    span {
+      font-size: 20px;
+      font-weight: 700;
+      margin-right: 20px;
+    }
+    i {
+      top: 26px;
+      width: 24px;
+      right: 18px;
+      height: 24px;
+      position: absolute;
+      background-repeat: no-repeat;
+      background-image: url('/img/shared/arrows/down_arrow.svg');
+    }
+`
+const PaginationContainer = styled.div`
+  height: 22px;
+  right: 100px;
+  bottom: 40px;
+  display: flex;
+  width: fit-content;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+`
+
+const DoubleLeftArrows = styled.div`
+  height: 15px;
+  width: 8.1px;
+  cursor: pointer;
+  background-image: url('/img/shared/arrows/left_arrow.svg');
+`
+
+const LeftArrow = styled.div`
+  height: 15px;
+  width: 8.1px;
+  cursor: pointer;
+  margin-right: 5px;
+  margin-left: 14.1px;
+  background-image: url('/img/shared/arrows/left_arrow.svg');
+`
+
+const DoubleRightArrows = styled.div`
+  height: 15px;
+  width: 8.1px;
+  cursor: pointer;
+  transform: rotate(180deg);
+  background-image: url('/img/shared/arrows/left_arrow.svg');
+`
+
+const RightArrow = styled.div`
+  height: 15px;
+  width: 8.1px;
+  cursor: pointer;
+  margin-left: 5px;
+  margin-right: 14.1px;
+  transform: rotate(180deg);
+  background-image: url('/img/shared/arrows/left_arrow.svg');
+`
+
+const PaginationElement = styled.div`
+    display: flex;
+    margin: 0 5.5px;
+    cursor: pointer;
+    flex-direction: column;
+    span {
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+    }
+`
 
 const CardHolder = styled.div`
-  min-width: 100%;
   width: 100%;
-  overflow-x: scroll;
-  height: 592px;
+  min-width: 100%;
+  overflow: hidden;
+  min-height: 620px;
+  position: relative;
   // background: transparent url('img/Rectangle 24.png') 0% 0% no-repeat padding-box;
   // background-color: #CA3F07;
   // background-image: linear-gradient(#CA3F07, #a83304);
-  background: transparent url('img/db/cards-back.svg') 0% 0% no-repeat padding-box;
+  background: transparent url('img/db/cards-back.svg') 0% 0% padding-box;
   opacity: 1;
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
   ${rtl`
     padding-left: 60px;
   `}
@@ -323,6 +541,10 @@ const CardHolder = styled.div`
       }
       > .spacer {
         width: 36px;
+      }
+      > .sort {
+        width: 27%;
+        margin-left: 10px;
       }
     }
   }
@@ -456,15 +678,28 @@ const Graph = styled.div`
   // background-color: #fff;
 
   > .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     height: 73px;
     background: #EEEEEE 0% 0% no-repeat padding-box;
     border: 1px solid #BBBBBB;
     ${rtl`
       padding-left: 40px;
+      padding-right: 20px;
     `}
     font: normal normal bold 20px/30px Muli;
     color: #666666;
-    line-height: 73px;
+
+    > div {
+      width: fit-content;
+      font-size: 16px;
+      line-height: 1;
+      height: 56px;
+      > div > div {
+        background-color: #FFFFFF;
+      }
+    }
   }
 
   > .info {
@@ -490,6 +725,10 @@ const Graph = styled.div`
         height: 600px;
         overflow: auto;
         margin: 0;
+        list-style: none;
+        ${rtl`
+          padding-left: 23px;
+        `}
         li {
           margin-top: 15px;
           font: normal normal normal 12px/17px;
@@ -925,6 +1164,10 @@ const StatusCard = styled.div`
           color: #666666;
           line-height: 38px;
           position: relative;
+
+          > .dotted_txt {
+            border-bottom: 1px dashed #999999;
+          }
         }
         > .value { 
           font: normal normal 600 15px/22px Muli;

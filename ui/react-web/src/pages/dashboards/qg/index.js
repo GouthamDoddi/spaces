@@ -13,7 +13,7 @@ import { useParams } from 'react-router';
 import { get } from '../../../store/api';
 import Filters from '../shared/filters'
 import rtl from 'styled-components-rtl'
-import { t } from '../../../utils/translate'
+import { t, To, translateDate, numberToArabic, translateObjectKeys } from '../../../utils/translate'
 
 // import Card from '../shared/card'
 
@@ -108,50 +108,50 @@ export default function({lang, setLang, ...props}) {
       <Content>
         <Filters {...{lang, setLang}} />
         <MainInfo>
-          <div className='logo'> Logo </div>
+          <div className='logo'> {t('Logo')} </div>
           <div className='info'>
-            <div className='title'> {report.name} </div>
-            <div className='description'> { report.description } </div>
+            <div className='title'> <To o={report} k='name' /> </div>
+            <div className='description'> <To o={report} k='description' /> </div>
             <div className='status'>
-              <div>Date of Start: {report.start_date}</div>
-              <div>Date of Release: {report.end_date}</div>
+              <div>{t('Date of Start')}: {translateDate(report.start_date)}</div>
+              <div>{t('Date of Release')}: {translateDate(report.end_date)}</div>
             </div>
           </div>
           <div className='progress'>
-            <div className='round'>{report.total_score}</div>
-            <div>Compliance Score</div>
+            <div className='round'>{numberToArabic(report.total_score, lang)}</div>
+            <div>{t('compliance_score')}</div>
           </div>
           <Spacer />
         </MainInfo>
         <CardHolder>
           <ProgressStatus> 
-            <div> {((report.total_completed_parameters / (report.total_parameters * 1.0)) * 100).toFixed(2)} % Completed </div>
+            <div> {numberToArabic(((report.total_completed_parameters / (report.total_parameters * 1.0)) * 100).toFixed(2), lang)} % {t('Completed')} </div>
             <Progress value={(report.total_completed_parameters / (report.total_parameters * 1.0)) * 100} max={100}> {38} </Progress>
           </ProgressStatus>
           <Cards>
             {
               Object.keys(gates).map((k, i) => (
               <Card key={k}>
-                  <CardHeader> {t(qualityGateTypes[k]?.label)} - {((report[`qgate${i+1}`]?.total || 0).toFixed(2) * 100)}% </CardHeader>
+                  <CardHeader> {t(qualityGateTypes[k]?.label)} - {numberToArabic((report[`qgate${i+1}`]?.total || 0).toFixed(2) * 100, lang)}% </CardHeader>
                   <CardInfo>
                     <div>
                       <div className='icon'> <WebFramework /></div>
                       <div className='progress'> 
-                        <span> Website Framework </span>
+                        <span> {t('Website Framework')} </span>
                         <Progress value={report[`qgate${i+1}`]?.Website * 100} max={100} color='#0064FE' bkcolor='#DCDFE8'></Progress>
                       </div>
                     </div>
                     <div>
                       <div className='icon'> <MobileFramework /></div>
                       <div className='progress'> 
-                        <span> Mobile Framework </span>
+                        <span> {t('Mobile Framework')} </span>
                         <Progress value={(report[`qgate${i+1}`] || {})['Mobile App'] * 100} max={100} color='#FF7F31' bkcolor='#DCDFE8'></Progress>
                       </div>
                     </div>
                     <div>
                       <div className='icon'> <EserviceFramework /></div>
                       <div className='progress'> 
-                        <span> E-Service Framework </span>
+                        <span> {t('E-Service Framework')} </span>
                         <Progress value={(report[`qgate${i+1}`] || {})['E-Service'] * 100} max={100} color='#043555' bkcolor='#DCDFE8'></Progress>
                       </div>
                     </div>
@@ -174,22 +174,27 @@ export default function({lang, setLang, ...props}) {
         <FlexWrapper>
         <Graph>
               
-              <div className='header'>{t('swcta')}</div>
+              <div className='header'>
+                {t('swcta')}
+                <Select
+                  options={[{ label: 'All', value: 'all' }, { label: 'This Week' }, { label: 'This Month' }, { label: 'This Quarter' }, { label: 'This Year' }]}
+                  value={{ label: 'All', value: 'all' }}
+                />
+              </div>
               <div className='info'>
                 <div className='sections'>
-                  <div className='title'> Sections </div>
+                  <div className='title'> {t('Sections')} </div>
                   <ol>
-                    { report.extras?.map((o, i) => (
-                      <li key={i}>{t(o.name)}</li>
+                    {report.extras?.map((o, i) => (
+                      <li key={i}>{numberToArabic(i + 1, lang)}. {t(o.name)}</li>
                     ))}
-                    
                   </ol>
                 </div>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     width={500}
                     height={300}
-                    data={report.extras}
+                    data={translateObjectKeys(report.extras, ['Fully Compliant', 'Partially Compliant', 'Non Compliant'])}
                     margin={{
                       top: 20,
                       right: 30,
@@ -198,12 +203,12 @@ export default function({lang, setLang, ...props}) {
                     }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <YAxis />
-                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => ((report.extras || [])[i]?.name)}/>
+                    <YAxis tickMargin={lang === 'ar' ? 30 : undefined} tickFormatter={(value) => numberToArabic(value, lang)} />
+                    <Tooltip label="{timeTaken}" labelFormatter={(i, a) => t((report.extras || [])[i]?.name)} formatter={(value) => numberToArabic(value, lang)} />
                     <Legend />
-                    <Bar dataKey="Fully Compliant" stackId="a" fill="#008000" barSize={20} />
-                    <Bar dataKey="Partially Compliant" stackId="a" fill="#005CC8" barSize={20} />
-                    <Bar dataKey="Non Compliant" stackId="a" fill="#EB622B" barSize={20} />
+                    <Bar dataKey={t('fully_compliant')} stackId="a" fill="#008000" barSize={20} />
+                    <Bar dataKey={t('partially_compliant')} stackId="a" fill="#005CC8" barSize={20} />
+                    <Bar dataKey={t('non_compliant')} stackId="a" fill="#EB622B" barSize={20} />
                   </BarChart>
                 </ResponsiveContainer>
 
@@ -215,7 +220,7 @@ export default function({lang, setLang, ...props}) {
               'High Performing Entities': report.score_by_section?.slice(0, 5).map((a) => ({name: a[0], score: a[1]}) ),
               'Least Performing Entities': report.score_by_section?.reverse()?.slice(0,5).map((a) => ({name: a[0], score: a[1]})),
               
-            }} type='Sections'>
+            }} type='Sections' lang={lang}>
             </LeaderBoard>
             <Spacer />
         </FlexWrapper>
@@ -226,7 +231,7 @@ export default function({lang, setLang, ...props}) {
               [1, 2, 3].map((level) => {
                 const l = ((report.compliance_by_mandate_level || {})[level] || {})
                 return <div key={level}>
-                  <CircularProgressCard level={level} 
+                  <CircularProgressCard level={level} lang={lang}
                     full={Math.ceil(l["Fully Compliant"])} 
                     par={Math.ceil(l['Partially Compliant'])} 
                     non={Math.ceil(l['Non Compliant'])} total={Math.ceil((l['Fully Compliant']+l['Partially Compliant']*.5).toFixed(2))}/>
@@ -235,7 +240,7 @@ export default function({lang, setLang, ...props}) {
             }
           </SmallCards>
           <InsightsContainer>
-            <Insights />
+            <Insights lang={lang} />
           </InsightsContainer>
           
 
@@ -442,16 +447,28 @@ const Graph = styled.div`
   // background-color: #fff;
 
   > .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     height: 73px;
     background: #EEEEEE 0% 0% no-repeat padding-box;
     border: 1px solid #BBBBBB;
     ${rtl`
-    padding-left: 40px;
+      padding-left: 40px;
+      padding-right: 20px;
     `}
-    
     font: normal normal bold 20px/30px Muli;
     color: #666666;
-    line-height: 73px;
+
+    > div {
+      width: fit-content;
+      font-size: 16px;
+      line-height: 1;
+      height: 56px;
+      > div > div {
+        background-color: #FFFFFF;
+      }
+    }
   }
 
   > .info {
@@ -477,6 +494,10 @@ const Graph = styled.div`
         height: 600px;
         overflow: auto;
         margin: 0;
+        list-style: none;
+        ${rtl`
+          padding-left: 23px;
+        `}
         li {
           margin-top: 15px;
           font: normal normal normal 12px/17px;
@@ -494,6 +515,7 @@ const Graph = styled.div`
 
 const InsightsContainer = styled.div`
   ${rtl`
+  max-width: 534px;
   margin-right: 30px;
   `}
   

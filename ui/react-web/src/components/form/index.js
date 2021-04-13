@@ -10,6 +10,7 @@ import Search from './search'
 import CheckboxBig from './checkbox2'
 import RichText from './rich-text'
 import Upload from './upload_generic'
+import Sort from './sort';
 
 import { EditIcon, SaveIcon, TranslateIcon, SaveBtn, DeleteIcon } from './icons.js'
 
@@ -89,7 +90,7 @@ export const Actions = styled(ActionsElem)`
 `
  
 
-export { Input, TextArea, Checkbox, Search, Select, CheckboxBig, RichText, Upload, DeleteIcon }
+export { Input, TextArea, Checkbox, Search, Select, CheckboxBig, RichText, Upload, DeleteIcon, Sort }
 
 const Status = styled.div`
   position: absolute;

@@ -8,6 +8,7 @@ import userStore from '../../store/user'
 import Notifications from '../header/Notifications'
 import ProfileMenu from '../header/ProfileMenu'
 import Alerts from '../header/Alerts'
+import { LangSwitch } from '../../pages/dashboards/shared/header.js'
 
 function NormalLink(props) {
   const { to, className, children, space } = props
@@ -118,7 +119,7 @@ const notifications = [
   },
 ]
 
-export default function ({className, ...props}) {
+export default function ({className, lang, setLang, translate, ...props}) {
   const store = useStore(userStore)
   return (
     <StyledHeader className={className}>
@@ -144,6 +145,11 @@ export default function ({className, ...props}) {
           </Link>
         </div>
         <div className="user-actions">
+          {translate && (
+            <div>
+              <LangSwitch lang={lang} setLang={setLang} alignItems='center' />
+            </div>
+          )}
           <div className="alerts menuWrapper">
             <div className="actionMenu messageCenter">
               <Alerts alerts={alerts} />
@@ -184,7 +190,7 @@ const StyledHeader = styled.header`
   background-color: #fff;
   .header-content {
     display: grid;
-    grid-template-columns: auto 364px;
+    grid-template-columns: auto 450px;
     align-items: center;
     height: 100%;
     background-color: #fff;
