@@ -6,7 +6,7 @@ export default function Element(props) {
   return (
     <Search className={props.className}>
       <i />
-      <input type='text' name='search' placeholder='Search' />
+      <input type='text' name='search' placeholder={props.placeholder || 'Search'} {...props} />
     </Search>
   )
 }

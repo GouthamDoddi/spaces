@@ -7,11 +7,25 @@ import Progress from '../dashboards/shared/progress'
 import { to, t } from '../../utils/translate';
 
 
-export default function({entities, ...props}) {
+export default function({entities, setEntityCount, setProjectCounts, ...props}) {
   const [data, setData] = useState({})
   useEffect(() => {
     get('reports/db_state', {success: (json) => {
-      setData(json.data)
+      setData(json.data);
+
+      if (setEntityCount) {
+        setEntityCount(json.data.entities?.length);
+      }
+
+      if (setProjectCounts) {
+        if (json.data.entities) {
+          setProjectCounts(json.data.entities.map(({ projects }) => projects).reduce(({ completed: prevCompleted, wip: prevWip, not_started: prevNot_started }, { completed, wip, not_started }) => ({
+            completed: prevCompleted + completed,
+            wip: prevWip + wip,
+            not_started: prevNot_started + not_started,
+          }), { completed: 0, wip: 0, not_started: 0 }));
+        }
+      }
     }})
 
   }, [])

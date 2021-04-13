@@ -14,7 +14,7 @@ import { to, t } from '../../utils/translate'
 
 
 
-export default function({lang, setLang, ...props}) {
+export default function({lang, setLang, setProjectCount, ...props}) {
   
   const [report, setReport] = useState([])
 
@@ -23,6 +23,10 @@ export default function({lang, setLang, ...props}) {
   useEffect(() => {
     get(`reports/all-projects`, {success: (json) => {
       setReport(json.data)
+
+      if (setProjectCount) {
+        setProjectCount(json.data.length);
+      }
     }})
   }, [entity_id])
 
@@ -37,7 +41,7 @@ export default function({lang, setLang, ...props}) {
         <Card key={i}  onClick={() => { window.location.hash = `/qg/${entity_id}/${k.id}`}}>
             <CardInfo>
               <div className='info'>
-                <div className='logo'> Logo</div>
+                <div className='logo'> {t('Logo')}</div>
                 <div className='title'> 
                   <div> {k.name } </div>
                   <div className='progress'> 

@@ -37,17 +37,43 @@ export function to(o, k) {
 export default { t, to, T, To, setLang }
 
 export function numberToArabic(number, lang) {
-  if (lang === 'ar' && number) {
+  if (lang === 'ar' && (number || number === 0)) {
     let en_number = number.toString();
     let arabicDigits = "۰۱۲۳۴۵۶۷۸۹";
     let arabicMap = arabicDigits.split("");
     let arabic_number = en_number.replace(/\d/g, function (m) {
-      return arabicMap[parseInt(m)];
+      return m === '.' ? '.' : arabicMap[parseInt(m)];
     });
     return arabic_number;
   } else {
     return number;
   }
+}
+
+// to plot graph data
+export const translateObjectKeys = (aObject, keys = []) => {
+  if (!aObject) {
+    return aObject;
+  }
+
+  let v;
+  let bObject = Array.isArray(aObject) ? [] : {};
+  for (const k in aObject) {
+    v = aObject[k];
+
+    let tk = undefined;
+    if (keys.includes(k)) {
+      tk = t(k);
+    }
+
+    bObject[tk || k] = typeof v === 'object' ? translateObjectKeys(v, keys) : v;
+  }
+
+  return bObject;
+};
+
+export const translateDate = (date) => {
+  return new Date(date).toLocaleDateString(lang === 'ar' ? 'ar-QA' : lang, { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 const data = {
@@ -111,7 +137,6 @@ const data = {
   partially_compliant: {
     en: 'Partially Compliant',
     ar: 'متوافق جزئيا'
-
   },
   non_compliant: {
     en: 'Non Compliant',
@@ -124,6 +149,14 @@ const data = {
   "least performing entities": {
     en: 'Least Performing Entities',
     ar: 'المؤسسات الأقل أداءً'
+  },
+  "high performing sections": {
+    en: 'High Performing Sections',
+    ar: 'أقسام عالية الأداء',
+  },
+  "least performing sections": {
+    en: 'Least Performing Sections',
+    ar: 'الأقسام الأقل أداءً'
   },
   mandate_level: {
     en: 'Mandate Level',
@@ -165,10 +198,17 @@ const data = {
     en: 'Post Fulfilment',
     ar: 'ما بعد إتمام المهمة'
   },
-
   'website framework': {
     en: 'Website Framework',
-    ar: null
+    ar: 'إطار عمل الموقع'
+  },
+  'mobile framework': {
+    en: 'Mobile Framework',
+    ar: 'إطار المحمول',
+  },
+  'e-service framework': {
+    en: 'E-Service Framework',
+    ar: 'إطار الخدمة الإلكترونية',
   },
   'state view': {
     en: 'State View',
@@ -312,8 +352,133 @@ const data = {
     "en": "Project",
     "ar": "المشروع"
   },
-  "entity":{
+  "entity": {
     "en": "Entity",
     "ar": "كيان"
+  },
+  "search_in_entities": {
+    "en": "Search in entities",
+    "ar": "البحث في الكيانات"
+  },
+  "sort_entities": {
+    "en": "Sort entities",
+    "ar": "فرز الكيانات"
+  },
+  'compliance_issues': {
+    "en": "Compliance Issues",
+    "ar": "قضايا الامتثال"
+  },
+  "challenges": {
+    "en": "Challenges",
+    "ar": "التحديات"
+  },
+  "kahramaa-site": {"en": "Kahramaa-Site", "ar": "موقع كهرماء",},
+  "securtiy & privacy": {"en": "Securtiy & Privacy", "ar": "الأمانة و أمبير؛ خصوصية"},
+  'eservices management': {"en": "eServices Management", "ar": "إدارة الخدمات الإلكترونية"},
+  "kahramaa-mobile": {"en": "Kahramaa-Mobile", "ar": "كهرماء موبايل"},
+  "content-information": {"en": "CONTENT-INFORMATION", "ar": "معلومات المحتوى"},
+  "adlsa-site": {"en": "ADLSA-Site", "ar": "موقع ADLSA"},
+  "amerni-mobile": {"en": "AMERNI-Mobile", "ar": "أميرني موبايل"},
+  "mawared-mobile": {"en": "MAWARED-MOBILE", "ar": "مورد موبايل"},
+  "the website is not refreshed post previous policy": {"en": "The website is not refreshed post previous policy", "ar": "لم يتم تحديث الموقع بعد السياسة السابقة"},
+  "it is technically difficult to implement the policy condition": {
+    "en": "It is technically difficult to implement the policy condition",
+    "ar": "من الصعب من الناحية الفنية تنفيذ شرط السياسة"
+  },
+  "not enough tools to implement the condition": {
+    "en": "Not enough tools to implement the condition",
+    "ar": "لا توجد أدوات كافية لتنفيذ الشرط"
+  },
+  "not aware of ecosystem services that can be used for compliance": {
+    "en": "Not aware of ecosystem services that can be used for compliance",
+    "ar": "لست على علم بخدمات النظام البيئي التي يمكن استخدامها للامتثال"
+  },
+  "no clear guidelines on what or how to implement": {
+    "en": "No clear guidelines on what or how to implement",
+    "ar": "لا توجد مبادئ توجيهية واضحة حول ماذا أو كيفية التنفيذ"
+  },
+  "content is not updated": {
+    "en": "Content is not updated",
+    "ar": "لم يتم تحديث المحتوى"
+  },
+  "implemented before mandate is introduced": {
+    "en": "Implemented before mandate is introduced",
+    "ar": "نُفّذ قبل تقديم التفويض"
+  },
+  "policy criteria was not implemented": {
+    "en": "Policy criteria was not implemented",
+    "ar": "لم يتم تنفيذ معايير السياسة"
+  },
+  "the policy criteria is ambiguous and not clear": {
+    "en": "The policy criteria is ambiguous and not clear",
+    "ar": "معايير السياسة غامضة وغير واضحة"
+  },
+  "refresh": {
+    "en": "Refresh",
+    "ar": "ينعش"
+  },
+  "technical issue": {
+    "en": "Technical Issue",
+    "ar": "مسألة تقنية"
+  },
+  "tools": {
+    "en": "Tools",
+    "ar": "أدوات"
+  },
+  "awareness": {
+    "en": "Awareness",
+    "ar": "وعي"
+  },
+  "guidelines": {
+    "en": "Guidelines",
+    "ar": "القواعد الارشادية"
+  },
+  "update": {
+    "en": "Update",
+    "ar": "تحديث"
+  },
+  "before mandate": {
+    "en": "Before Mandate",
+    "ar": "قبل الانتداب"
+  },
+  "oversight": {
+    "en": "Oversight",
+    "ar": "الرقابة"
+  },
+  "clarity": {
+    "en": "Clarity",
+    "ar": "وضوح"
+  },
+  section_name: {
+    en: 'Section Name',
+    ar: 'اسم القسم',
+  },
+  'fully compliant': {
+    en: 'Fully Compliant',
+    ar: 'متوافق تماما'
+  },
+  'partially compliant': {
+    en: 'Partially Compliant',
+    ar: 'متوافق جزئيا'
+  },
+  'non compliant': {
+    en: 'Non Compliant',
+    ar: 'غير متوافق'
+  },
+  'logo': {
+    en: 'Logo',
+    ar: 'شعار',
+  },
+  'date of start': {
+    en: 'Date of Start',
+    ar: 'تاريخ البدء',
+  },
+  'date of release': {
+    en: 'Date of Release',
+    ar: 'تاريخ الإفراج',
+  },
+  'no issues': {
+    en: 'No Issues',
+    ar: 'لا توجد قضايا',
   }
 }

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import React from 'react'
 import { PieChart, Pie, Cell} from 'recharts'
 import rtl from 'styled-components-rtl'
-import { t } from '../../../utils/translate';
+import { numberToArabic, t } from '../../../utils/translate';
 
 // const pieData = [
 //   { name: 'Group A', value: 400 },
@@ -13,14 +13,14 @@ import { t } from '../../../utils/translate';
 
 const COLORS = ['#0064FE', '#FFBF00', '#D3DDE5', '#FF8042'];
 
-export function CircularProgressCard({ level=1, full=30, par=20, non=40, total=60, ...props}) {
+export function CircularProgressCard({ level=1, full=30, par=20, non=40, total=60, lang='en', ...props}) {
   const pieData = [  
     { name: 'Fully Compliant', value: full },
     { name: 'Partially Compliant', value: par },
     { name: 'Non Compliant', value: non }]
   return (
     <Box>
-      <Banner color='#EB622B'> {t('mandate_level')} {level} </Banner>
+      <Banner color='#EB622B'> {t('mandate_level')} {numberToArabic(level, lang)} </Banner>
       <Info>
         <div className='chart'>
           <PieChart width={200} height={200}>
@@ -41,18 +41,18 @@ export function CircularProgressCard({ level=1, full=30, par=20, non=40, total=6
           </PieChart>
         </div>
         <div className='legend'>
-          <Score> {total}% {t("compliance")} </Score>
+          <Score> {numberToArabic(total, lang)}% {t("compliance")} </Score>
           <Legend>
             <SmallBox color={COLORS[0]} /> 
-            <span> {full}% {t('fully_compliant')}</span>
+            <span> {numberToArabic(full, lang)}% {t('fully_compliant')}</span>
           </Legend>
           <Legend>
             <SmallBox color={COLORS[1]} /> 
-            <span> {par}% {t('partially_compliant')}</span>
+            <span> {numberToArabic(par, lang)}% {t('partially_compliant')}</span>
           </Legend>
           <Legend>
             <SmallBox color={COLORS[2]} /> 
-            <span> {non}% {t('non_compliant')}</span>
+            <span> {numberToArabic(non, lang)}% {t('non_compliant')}</span>
           </Legend>
         </div>
       </Info>

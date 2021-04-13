@@ -60,7 +60,11 @@ export default function({entities=[], projects=[], lang,  ...props}) {
     }
   }
 
-  
+  const reset = () => {
+    setSelectedEntity(defaultSelectedEntity);
+    setSelectedProject(defaultSelectedProject);
+    window.location.hash = '/board';
+  }
 
   return (
     <Filters>
@@ -88,7 +92,7 @@ export default function({entities=[], projects=[], lang,  ...props}) {
           /></div>
       </div>
       <div className='actions'>
-        <div onClick={() => setSelectedEntity(defaultSelectedEntity)}> {t('reset')} </div> 
+        <div onClick={reset}> {t('reset')} </div> 
         <div onClick={viewDashboard}> {t('view_dashboard')} </div>
       </div>
     </Filters>
