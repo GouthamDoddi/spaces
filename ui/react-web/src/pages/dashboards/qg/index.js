@@ -72,26 +72,31 @@ export default function({lang, setLang, ...props}) {
 
   const gates = {
     1: {
+      icon: { enabled: <SVGTUpMedal />, disabled: <SVGTUpMedalDisabled /> },
       eservices: '',
       website: '',
       mobile: ''
     },
     2: {
+      icon: { enabled: <SVGNote />, disabled: <SVGNoteDisabled /> },
       eservices: '',
       website: '',
       mobile: ''
     },
     3: {
+      icon: { enabled: <SVGMedal />, disabled: <SVGNoteDisabled /> }, 
       eservices: '',
       website: '',
       mobile: ''
     },
     4: {
+      icon: { enabled: <SVGStar />, disabled: <SVGStarDisabled /> },
       eservices: '',
       website: '',
       mobile: ''
     },
     5: {
+      icon: { enabled: <SVGRightTick />, disabled: <SVGRightTickDisabled /> },
       eservices: '',
       website: '',
       mobile: ''
@@ -99,7 +104,12 @@ export default function({lang, setLang, ...props}) {
 
   }
 
-
+  let latestBadge;
+  Object.keys(gates).forEach((k, i) => {
+    if (!latestBadge && report[`qgate${i+1}`]?.total === 1){
+      latestBadge = gates[i+1].icon.enabled;
+    }
+  });
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   return (
@@ -119,7 +129,7 @@ export default function({lang, setLang, ...props}) {
           </div>
           <div className='progress'>
             <div className='round'>{numberToArabic(report.total_score, lang)}</div>
-            <div>{t('compliance_score')}</div>
+            <Badge>{latestBadge}</Badge>
           </div>
           <Spacer />
         </MainInfo>
@@ -132,7 +142,7 @@ export default function({lang, setLang, ...props}) {
             {
               Object.keys(gates).map((k, i) => (
               <Card key={k}>
-                  <CardHeader> {t(qualityGateTypes[k]?.label)} - {numberToArabic((report[`qgate${i+1}`]?.total || 0).toFixed(2) * 100, lang)}% </CardHeader>
+                  <CardHeader><Icon>{report[`qgate${i+1}`]?.total === 1 ? gates[k].icon.enabled : gates[k].icon.disabled}</Icon> {t(qualityGateTypes[k]?.label)} - {numberToArabic((report[`qgate${i+1}`]?.total || 0).toFixed(2) * 100, lang)}% </CardHeader>
                   <CardInfo>
                     <div>
                       <div className='icon'> <WebFramework /></div>
@@ -252,6 +262,24 @@ export default function({lang, setLang, ...props}) {
 }
 {/* <style>.a{fill:#d3dde5;}.b{fill:#1a6b8f;}</style> */}
 
+const Badge = styled.div`
+  padding: 0px 14px;
+  position: relative;
+
+  > span {
+    font-size: 20px;
+    font-weight: 800;
+    padding-left: 14px;
+    margin-left: 14px;
+    border-left: 1px solid darkgray;
+
+    > span {
+      border-bottom: 1px solid darkgray;
+      border-bottom-style: dashed;
+    }
+  }
+`;
+
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
@@ -350,22 +378,36 @@ const CardHeader = styled.div`
   background: #EEEEEE 0% 0% no-repeat padding-box;
   border-radius: 5px 5px 0px 0px;
   opacity: 1;
+  position: relative;
 
   line-height: 54px;
   font-size: 16px;
   font-weight: bold;
   color: #000000;
   ${rtl`
-  padding-left: 32px;
+    padding-left: 82px;
   `}
   
 `
+
+const Icon = styled.div`
+  position: absolute;
+  left: 16px;
+  top: -8px;
+  border: 8px solid #eeeeee;
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const CardInfo = styled.div`
   height: 206px;
   background-color: #fff;
   ${rtl`
-  padding-left: 32px;
+  padding-left: 30px;
   `}
   
 
@@ -606,8 +648,8 @@ const MainInfo = styled.div`
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border: 1px solid #DDDDDD;
   display: flex;
-  padding-top: 40px;
   > .logo {
+    margin-top: 40px;
     ${rtl`
     margin-left: 100px;
     `}
@@ -626,6 +668,7 @@ const MainInfo = styled.div`
   > .info {
     flex: 1;
     color: #000000;
+    margin-top: 40px;
     ${rtl`
     margin-left: 20px;
     `}
@@ -657,13 +700,14 @@ const MainInfo = styled.div`
     }
   }
   > .progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     ${rtl`
     margin-left: 20px;
     `}
     > .round {
-      ${rtl`
-      margin-left: 20px;
-      `}
       width: 100px;
       height: 100px;
       border-radius: 50%;
@@ -755,5 +799,65 @@ function WebFramework() {
 function SvgSBOrange() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="109.238" height="46" viewBox="0 0 109.238 46"><defs><filter id="a" x="0" y="0" width="109.238" height="46" filterUnits="userSpaceOnUse"><feOffset dy="1" input="SourceAlpha"/><feGaussianBlur stdDeviation="1.5" result="b"/><feFlood flood-opacity="0.161"/><feComposite operator="in" in2="b"/><feComposite in="SourceGraphic"/></filter></defs><g transform="translate(-62.439 -1707.5)"><g style={{filter:'url(#a)'}} transform="matrix(1, 0, 0, 1, 62.44, 1707.5)"><path style={{fill: '#eb622b'}} d="M3.7,37H103.938L83.734,0H3.7Z" transform="translate(0.8 3.5)"/></g><path style={{fill: '#ca3f07'}} d="M4.073,1.938V4.365H0Z" transform="translate(66.939 1706.635)"/></g></svg>
+  )
+}
+
+function SVGTUpMedal() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="50" viewBox="0 0 45.915 50"><g transform="translate(-1477.043 -482)"><g transform="translate(1456.293 482)"><circle fill='#8eb8f8' cx="19.852" cy="19.852" r="19.852" transform="translate(23.811 0)"/><g transform="translate(20.75 31.407)"><path fill='#043555' d="M27.581,319.7,20.75,331.541l7.972-.423,3.622,7.116,6.319-10.955A19.832,19.832,0,0,1,27.581,319.7Z" transform="translate(-20.75 -319.641)"/><path fill='#043555' d="M316.1,319.1a19.839,19.839,0,0,1-11.053,7.618l6.339,10.974,3.622-7.116,7.972.423Z" transform="translate(-277.068 -319.1)"/></g><circle fill='#5394f8' cx="14.39" cy="14.39" r="14.39" transform="translate(29.274 5.463)"/></g><g transform="translate(1458.91 401.163)"><g transform="translate(37.727 91)"><path fill='#fff' d="M194.453,101.808a1.349,1.349,0,0,0-1.345-1.345,1.345,1.345,0,1,0,0-2.691h-5.516a11.73,11.73,0,0,0,.807-4.754A2.024,2.024,0,0,0,186.381,91h-.4a.7.7,0,0,0-.646.511c-.666,2.591-1.706,5.564-4.332,6.167v9.734l2.327.772a6.706,6.706,0,0,0,2.126.35h6.31a1.345,1.345,0,1,0,0-2.691h1.345a1.345,1.345,0,1,0,0-2.691A1.349,1.349,0,0,0,194.453,101.808Z" transform="translate(-181 -91)"/></g><g transform="translate(31 96.426)"><path fill='#fff' d="M34.363,212H31.673a.672.672,0,0,0-.673.673v12.108a.672.672,0,0,0,.673.673h2.691a2.02,2.02,0,0,0,2.018-2.018v-9.417A2.02,2.02,0,0,0,34.363,212Zm0,10.763a.673.673,0,1,1,.673-.673A.673.673,0,0,1,34.363,222.763Z" transform="translate(-31 -212)"/></g></g></g></svg>
+  )
+}
+
+function SVGNote() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="50" viewBox="0 0 45.915 50"><g transform="translate(-1599.042 -479)"><g transform="translate(1578.292 479)"><circle fill="#ff7474" cx="19.852" cy="19.852" r="19.852" transform="translate(23.811 0)"/><g transform="translate(20.75 31.407)"><path fill="#0064fe" d="M27.581,319.7,20.75,331.541l7.972-.423,3.622,7.116,6.319-10.955A19.832,19.832,0,0,1,27.581,319.7Z" transform="translate(-20.75 -319.641)"/><path fill="#0064fe" d="M316.1,319.1a19.839,19.839,0,0,1-11.053,7.618l6.339,10.974,3.622-7.116,7.972.423Z" transform="translate(-277.068 -319.1)"/></g><circle fill="#ff4f4f" cx="14.39" cy="14.39" r="14.39" transform="translate(29.274 5.463)"/></g><g transform="translate(1563.225 489.262)"><g transform="translate(51.2)"><g transform="translate(0)"><path fill="#fff" d="M62.217,4.82a.689.689,0,0,1-.689-.689V0H53.266A2.066,2.066,0,0,0,51.2,2.066V17.214a2.066,2.066,0,0,0,2.066,2.066H64.283a2.066,2.066,0,0,0,2.066-2.066V4.82Z" transform="translate(-51.2)"/></g></g><g transform="translate(62.906 0.403)"><g transform="translate(0)"><path fill="#fff" d="M341.333,10V13.04h3.039Z" transform="translate(-341.333 -10.001)"/></g></g></g></g></svg>
+  )
+}
+
+function SVGRightTick() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="50" viewBox="0 0 45.915 50"><g transform="translate(-1667.084 -579)"><g transform="translate(1646.334 579)"><circle fill='#50d650' cx="19.852" cy="19.852" r="19.852" transform="translate(23.811 0)"/><g transform="translate(20.75 31.407)"><path fill='#ffbf00' d="M27.581,319.7,20.75,331.541l7.972-.423,3.622,7.116,6.319-10.955A19.832,19.832,0,0,1,27.581,319.7Z" transform="translate(-20.75 -319.641)"/><path fill='#ffbf00' d="M316.1,319.1a19.839,19.839,0,0,1-11.053,7.618l6.339,10.974,3.622-7.116,7.972.423Z" transform="translate(-277.068 -319.1)"/></g><circle fill='green' cx="14.39" cy="14.39" r="14.39" transform="translate(29.274 5.463)"/></g><g transform="translate(1681.193 542.445)"><g transform="translate(0 51.096)"><path fill='#fff' stroke='#fff' d="M17.5,51.312a.708.708,0,0,0-1-.017l-.017.017L4.946,62.846,1.2,59.1a.708.708,0,0,0-1,1l4.247,4.247a.708.708,0,0,0,1,0L17.481,52.313A.708.708,0,0,0,17.5,51.312Z" transform="translate(0 -51.096)"/></g></g></g></svg>
+  )
+}
+
+function SVGMedal() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="50" viewBox="0 0 45.915 50"><g transform="translate(-1587 -538)"><g transform="translate(1566.25 538)"><circle fill='#ae94b9' cx="19.852" cy="19.852" r="19.852" transform="translate(23.811 0)"/><g transform="translate(20.75 31.407)"><path fill='#1a6b8f' d="M27.581,319.7,20.75,331.541l7.972-.423,3.622,7.116,6.319-10.955A19.832,19.832,0,0,1,27.581,319.7Z" transform="translate(-20.75 -319.641)"/><path fill='#1a6b8f' d="M316.1,319.1a19.839,19.839,0,0,1-11.053,7.618l6.339,10.974,3.622-7.116,7.972.423Z" transform="translate(-277.068 -319.1)"/></g><circle fill='#6c3782' cx="14.39" cy="14.39" r="14.39" transform="translate(29.274 5.463)"/></g><g transform="translate(1600 548)"><path fill='#fff' d="M19.68,8.213,17.879,8a8.041,8.041,0,0,0-.8-1.938L18.2,4.636a.584.584,0,0,0-.046-.754L16.3,2.025a.586.586,0,0,0-.754-.046L14.116,3.1a7.931,7.931,0,0,0-1.934-.8L11.967.5A.585.585,0,0,0,11.4,0H8.777a.583.583,0,0,0-.564.5L8,2.3a8,8,0,0,0-1.936.8L4.636,1.982a.585.585,0,0,0-.753.045L2.026,3.884a.585.585,0,0,0-.044.754L3.1,6.062A7.974,7.974,0,0,0,2.3,8L.5,8.215A.584.584,0,0,0,0,8.78V11.4a.585.585,0,0,0,.5.564l1.8.216a8.023,8.023,0,0,0,.8,1.934L1.983,15.545a.586.586,0,0,0,.046.754l1.853,1.857a.586.586,0,0,0,.753.046L6.061,17.08A7.944,7.944,0,0,0,8,17.88l.216,1.8a.583.583,0,0,0,.564.5H11.4a.582.582,0,0,0,.564-.5l.216-1.8a8.014,8.014,0,0,0,1.936-.8l1.426,1.12a.585.585,0,0,0,.753-.045L18.153,16.3a.585.585,0,0,0,.045-.755l-1.12-1.424a7.986,7.986,0,0,0,.8-1.935l1.8-.216a.583.583,0,0,0,.5-.564V8.778A.581.581,0,0,0,19.68,8.213Zm-9.589,6.922a5.045,5.045,0,1,1,5.045-5.045A5.045,5.045,0,0,1,10.091,15.135Z"/></g></g></svg>
+  )
+}
+
+function SVGStar() {
+  return(
+    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="50" viewBox="0 0 45.915 50"><g transform="translate(-20.75)"><circle fill="#ffd15c" cx="19.852" cy="19.852" r="19.852" transform="translate(23.811 0)"/><g transform="translate(20.75 31.407)"><path fill="#40596b" d="M27.581,319.7,20.75,331.541l7.972-.423,3.622,7.116,6.319-10.955A19.832,19.832,0,0,1,27.581,319.7Z" transform="translate(-20.75 -319.641)"/><path fill="#40596b" d="M316.1,319.1a19.839,19.839,0,0,1-11.053,7.618l6.339,10.974,3.622-7.116,7.972.423Z" transform="translate(-277.068 -319.1)"/></g><circle fill="#f8b64c" cx="14.39" cy="14.39" r="14.39" transform="translate(29.274 5.463)"/><path fill="#fff" d="M171.006,111.813a.752.752,0,0,0-.413-1.28l-5.679-.827a.74.74,0,0,1-.561-.413l-2.539-5.148a.751.751,0,0,0-1.348,0l-2.53,5.148a.782.782,0,0,1-.561.413l-5.679.827a.752.752,0,0,0-.413,1.28l4.1,4.006a.758.758,0,0,1,.217.659l-.965,5.65a.75.75,0,0,0,1.093.787l5.079-2.667a.733.733,0,0,1,.7,0l5.079,2.667a.754.754,0,0,0,1.093-.787l-.974-5.65a.74.74,0,0,1,.217-.659Z" transform="translate(-117.481 -93.516)"/></g></svg>
+  )
+}
+
+function SVGStarDisabled() {
+  return(
+    <svg xmlns="http://www.w3.org/2000/svg" width="45.915" height="50" viewBox="0 0 45.915 50"><g transform="translate(-20.75)"><circle fill="#cfcfcf" cx="19.852" cy="19.852" r="19.852" transform="translate(23.811 0)"/><g transform="translate(20.75 31.407)"><path fill="#999" d="M27.581,319.7,20.75,331.541l7.972-.423,3.622,7.116,6.319-10.955A19.832,19.832,0,0,1,27.581,319.7Z" transform="translate(-20.75 -319.641)"/><path fill="#999" d="M316.1,319.1a19.839,19.839,0,0,1-11.053,7.618l6.339,10.974,3.622-7.116,7.972.423Z" transform="translate(-277.068 -319.1)"/></g><circle fill="#999" cx="14.39" cy="14.39" r="14.39" transform="translate(29.274 5.463)"/><path fill="#fff" d="M171.006,111.813a.752.752,0,0,0-.413-1.28l-5.679-.827a.74.74,0,0,1-.561-.413l-2.539-5.148a.751.751,0,0,0-1.348,0l-2.53,5.148a.782.782,0,0,1-.561.413l-5.679.827a.752.752,0,0,0-.413,1.28l4.1,4.006a.758.758,0,0,1,.217.659l-.965,5.65a.75.75,0,0,0,1.093.787l5.079-2.667a.733.733,0,0,1,.7,0l5.079,2.667a.754.754,0,0,0,1.093-.787l-.974-5.65a.74.74,0,0,1,.217-.659Z" transform="translate(-117.481 -93.516)"/></g></svg>
+  )
+}
+
+function SVGTUpMedalDisabled() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="45.915" height="50" viewBox="0 0 45.915 50"><g transform="translate(-1477.043 -482)"><g transform="translate(1456.293 482)"><circle fill="#cfcfcf" cx="19.852" cy="19.852" r="19.852" transform="translate(23.811 0)"/><g transform="translate(20.75 31.407)"><path fill="#999" d="M27.581,319.7,20.75,331.541l7.972-.423,3.622,7.116,6.319-10.955A19.832,19.832,0,0,1,27.581,319.7Z" transform="translate(-20.75 -319.641)"/><path fill="#999" d="M316.1,319.1a19.839,19.839,0,0,1-11.053,7.618l6.339,10.974,3.622-7.116,7.972.423Z" transform="translate(-277.068 -319.1)"/></g><circle fill="#999" cx="14.39" cy="14.39" r="14.39" transform="translate(29.274 5.463)"/></g><g transform="translate(1458.91 401.163)"><g transform="translate(37.727 91)"><path fill="#fff" d="M194.453,101.808a1.349,1.349,0,0,0-1.345-1.345,1.345,1.345,0,1,0,0-2.691h-5.516a11.73,11.73,0,0,0,.807-4.754A2.024,2.024,0,0,0,186.381,91h-.4a.7.7,0,0,0-.646.511c-.666,2.591-1.706,5.564-4.332,6.167v9.734l2.327.772a6.706,6.706,0,0,0,2.126.35h6.31a1.345,1.345,0,1,0,0-2.691h1.345a1.345,1.345,0,1,0,0-2.691A1.349,1.349,0,0,0,194.453,101.808Z" transform="translate(-181 -91)"/></g><g transform="translate(31 96.426)"><path fill="#fff" d="M34.363,212H31.673a.672.672,0,0,0-.673.673v12.108a.672.672,0,0,0,.673.673h2.691a2.02,2.02,0,0,0,2.018-2.018v-9.417A2.02,2.02,0,0,0,34.363,212Zm0,10.763a.673.673,0,1,1,.673-.673A.673.673,0,0,1,34.363,222.763Z" transform="translate(-31 -212)"/></g></g></g></svg>
+  )
+}
+
+function SVGNoteDisabled() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="45.915" height="50" viewBox="0 0 45.915 50"><g transform="translate(-1599.042 -479)"><g transform="translate(1578.292 479)"><circle fill="#cfcfcf" cx="19.852" cy="19.852" r="19.852" transform="translate(23.811 0)"/><g transform="translate(20.75 31.407)"><path fill="#999" d="M27.581,319.7,20.75,331.541l7.972-.423,3.622,7.116,6.319-10.955A19.832,19.832,0,0,1,27.581,319.7Z" transform="translate(-20.75 -319.641)"/><path fill="#999" d="M316.1,319.1a19.839,19.839,0,0,1-11.053,7.618l6.339,10.974,3.622-7.116,7.972.423Z" transform="translate(-277.068 -319.1)"/></g><circle fill="#999" cx="14.39" cy="14.39" r="14.39" transform="translate(29.274 5.463)"/></g><g transform="translate(1563.225 489.262)"><g transform="translate(51.2)"><g transform="translate(0)"><path fill="#fff" d="M62.217,4.82a.689.689,0,0,1-.689-.689V0H53.266A2.066,2.066,0,0,0,51.2,2.066V17.214a2.066,2.066,0,0,0,2.066,2.066H64.283a2.066,2.066,0,0,0,2.066-2.066V4.82Z" transform="translate(-51.2)"/></g></g><g transform="translate(62.906 0.403)"><g transform="translate(0)"><path fill="#fff" d="M341.333,10V13.04h3.039Z" transform="translate(-341.333 -10.001)"/></g></g></g></g></svg>
+  )
+}
+
+function SVGMedalDisabled() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="45.915" height="50" viewBox="0 0 45.915 50"><g transform="translate(-1587 -538)"><g transform="translate(1566.25 538)"><circle fill="#cfcfcf" cx="19.852" cy="19.852" r="19.852" transform="translate(23.811 0)"/><g transform="translate(20.75 31.407)"><path fill="#999" d="M27.581,319.7,20.75,331.541l7.972-.423,3.622,7.116,6.319-10.955A19.832,19.832,0,0,1,27.581,319.7Z" transform="translate(-20.75 -319.641)"/><path fill="#999" d="M316.1,319.1a19.839,19.839,0,0,1-11.053,7.618l6.339,10.974,3.622-7.116,7.972.423Z" transform="translate(-277.068 -319.1)"/></g><circle fill="#999" cx="14.39" cy="14.39" r="14.39" transform="translate(29.274 5.463)"/></g><g transform="translate(1600 548)"><path fill="#fff" d="M19.68,8.213,17.879,8a8.041,8.041,0,0,0-.8-1.938L18.2,4.636a.584.584,0,0,0-.046-.754L16.3,2.025a.586.586,0,0,0-.754-.046L14.116,3.1a7.931,7.931,0,0,0-1.934-.8L11.967.5A.585.585,0,0,0,11.4,0H8.777a.583.583,0,0,0-.564.5L8,2.3a8,8,0,0,0-1.936.8L4.636,1.982a.585.585,0,0,0-.753.045L2.026,3.884a.585.585,0,0,0-.044.754L3.1,6.062A7.974,7.974,0,0,0,2.3,8L.5,8.215A.584.584,0,0,0,0,8.78V11.4a.585.585,0,0,0,.5.564l1.8.216a8.023,8.023,0,0,0,.8,1.934L1.983,15.545a.586.586,0,0,0,.046.754l1.853,1.857a.586.586,0,0,0,.753.046L6.061,17.08A7.944,7.944,0,0,0,8,17.88l.216,1.8a.583.583,0,0,0,.564.5H11.4a.582.582,0,0,0,.564-.5l.216-1.8a8.014,8.014,0,0,0,1.936-.8l1.426,1.12a.585.585,0,0,0,.753-.045L18.153,16.3a.585.585,0,0,0,.045-.755l-1.12-1.424a7.986,7.986,0,0,0,.8-1.935l1.8-.216a.583.583,0,0,0,.5-.564V8.778A.581.581,0,0,0,19.68,8.213Zm-9.589,6.922a5.045,5.045,0,1,1,5.045-5.045A5.045,5.045,0,0,1,10.091,15.135Z"/></g></g></svg>
+  )
+}
+
+function SVGRightTickDisabled() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="45.915" height="50" viewBox="0 0 45.915 50"><g transform="translate(-1667.084 -579)"><g transform="translate(1646.334 579)"><circle fill="#cfcfcf" cx="19.852" cy="19.852" r="19.852" transform="translate(23.811 0)"/><g transform="translate(20.75 31.407)"><path fill="#999" d="M27.581,319.7,20.75,331.541l7.972-.423,3.622,7.116,6.319-10.955A19.832,19.832,0,0,1,27.581,319.7Z" transform="translate(-20.75 -319.641)"/><path fill="#999" d="M316.1,319.1a19.839,19.839,0,0,1-11.053,7.618l6.339,10.974,3.622-7.116,7.972.423Z" transform="translate(-277.068 -319.1)"/></g><circle fill="#999" cx="14.39" cy="14.39" r="14.39" transform="translate(29.274 5.463)"/></g><g transform="translate(1681.193 542.445)"><g transform="translate(0 51.096)"><path fill="#fff" d="M17.5,51.312a.708.708,0,0,0-1-.017l-.017.017L4.946,62.846,1.2,59.1a.708.708,0,0,0-1,1l4.247,4.247a.708.708,0,0,0,1,0L17.481,52.313A.708.708,0,0,0,17.5,51.312Z" transform="translate(0 -51.096)"/></g></g></g></svg>
   )
 }

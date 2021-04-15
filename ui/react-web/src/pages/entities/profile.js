@@ -1,82 +1,251 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { Input, Select, Actions2, Container, TextArea, toOpt } from '../../components/form'
-import { hasMenuAccess, reloadAuth } from '../../store/user'
-import { useParams, Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import CropModal from './crop-modal';
+import { useParams } from 'react-router';
+import DropZone from './drop-zone';
 
-import { entitiesData, entityTypes } from '../../store/master-data'
-import { masterData } from '../../store/api'
-import { useStore } from 'effector-react'
-import makeStore from '../../store/make-store'
+const Profile = ({ onSubmit }) => {
+  const { entity_id } = useParams();
+  const [files, setFiles] = useState([]);
+  const [data, setData] = useState({
+    name: '',
+    name_ar: '',
+    description: '',
+    description_ar: '',
+    short_name: '',
+    entity_type: 'test1',
+    logo: null,
+  });
+  const [errors, setErrors] = useState({});
+  const [submitClicked, setSubmitClicked] = useState(false);
 
-const { store, load, create, update, addData, changed, selectChange } =  makeStore(({entity_id}) => entity_id ? `entities/${entity_id}` : `entities`)
-
-
-function submitted(entity_id, data) {
-  const cb = (resp) => {
-    masterData('entities')
-    const id = resp.id
-    window.location = `/#/entities/${id}/profile`
-  }
-
-  entity_id == 'new' ? create({data, cb}) : update({entity_id, data, cb})
-  
-}
-
-
-export default function(props) {
-
-  const { entity_id } = useParams()
-  
-  const entityStore = useStore(store)
-  
   useEffect(() => {
-    load({entity_id})
-  }, [entity_id])
-  
-  // const changed = (e) => {
-  //   // setEntity({...entity, { e.target.name: e.target.value}})
-  // }
+    if (entity_id) {
+      // get details
+      // setData();
+    }
+  }, []);
 
+  const errorLabels = {
+    name: 'Entity name',
+    name_ar: 'Entity name',
+    description: 'Entity description',
+    description_ar: 'Entity description',
+    short_name: 'Short name',
+    entity_type: 'Entity type',
+    logo: 'Entity logo',
+  };
 
-  const { id, name, ar_name, short_name, label, type_id, focal_point_name, focal_point_email, focal_point_mobile, notes } = entityStore.data || {}
+  const isEmpty = (name, value) =>
+    value ? '' : errorLabels[name] + ' is a required field';
 
-  return(
-    <Container onSubmit={(data) => submitted(entity_id, data)}  saveBtn={hasMenuAccess(['entity', 'profile'], 'U')} >
+  const isInvalid = (name, value) => {
+    switch (name) {
+      case 'name':
+      case 'name_ar':
+      case 'description':
+      case 'description_ar':
+      case 'short_name':
+      case 'entity_type':
+      case 'logo':
+        return isEmpty(name, value);
+      default:
+        return false;
+    }
+  };
 
-      <div className='container'>
-        <Input label='Name' type='text' name='name' onChange={changed} value={name || ''} required/>
-        <Input label='Arabic Name' type='text' name='ar_name' onChange={changed} value={ar_name || ''} style={{direction: 'rtl'}} required />
-        <Input label='Short Name' type='text' name='short_name' onChange={changed} value={short_name || ''} required/>
-        <Select name='type_id' label='Type'
-            options={toOpt(entityTypes)}
-            onChange={selectChange('type_id')}
-            value={entityTypes[type_id]}
-            maxMenuHeight={200}
-        />
-        <Input label='Focal Point Name' type='text' name='focal_point_name' onChange={changed} value={focal_point_name || ''} />
-        <Input label='Focal Point Email' type='text' name='focal_point_email' onChange={changed} value={focal_point_email || ''} />
-        <Input label='Focal Point Mobile' type='text' name='focal_point_mobile' onChange={changed} value={focal_point_mobile || ''} />
+  const updateData = (name, value) => {
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
 
-        {/* <Input label='Sponsor' type='text' name='sponsor' onChange={changed} value={sponsor || ''}/> */}
+    if (submitClicked) {
+      setErrors((prevValue) => ({
+        ...prevValue,
+        [name]: isInvalid(name, value),
+      }));
+    }
+  };
 
-        <TextArea style={{gridColumn: '1 / 3', gridRow: 'span 2' }}label='Remark/Notes' value={notes || ''} name='notes' onChange={changed} />
+  const handleChange = ({ target: { value, name } }) => {
+    updateData(name, value);
+  };
+
+  const setFile = (value) => {
+    setFiles(value || []);
+  };
+
+  const handleSubmit = () => {
+    if (!submitClicked) {
+      setSubmitClicked(true);
+    }
+
+    const hasErrors = Object.keys(data).reduce((prevValue, name) => {
+      const hasError = isInvalid(name, data[name]);
+
+      setErrors((prevValue) => ({
+        ...prevValue,
+        [name]: hasError,
+      }));
+
+      return prevValue || hasError;
+    }, false);
+
+    if (!hasErrors) {
+      onSubmit(data);
+    }
+  };
+
+  const {
+    name,
+    name_ar,
+    description,
+    description_ar,
+    short_name,
+    entity_type,
+    logo,
+  } = data;
+
+  return (
+    <ProfileWrapper className="custom_container">
+      <CropModal
+        file={files[0]?.preview}
+        setFile={setFile}
+        setCroppedImage={(value) => updateData('logo', value)}
+      />
+      <div className="custom_row">
+        <div className="flex_row">
+          <div className="flex_col_sm_6">
+            <div className="form_field_wrapper">
+              <label className="form_label">
+                Name <mark>*</mark>
+              </label>
+              <div className="text_field_wrapper">
+                <input
+                  type="text"
+                  name="name"
+                  value={name}
+                  onChange={handleChange}
+                />
+                <div className="text-right">
+                  <span className="limit">
+                    {100 - name.length} Characters left
+                  </span>
+                </div>
+              </div>
+              <span className="error_messg">{errors.name}</span>
+            </div>
+            <div className="form_field_wrapper">
+              <label className="form_label">
+                Description <mark>*</mark>
+              </label>
+              <div className="text_field_wrapper">
+                <textarea name="description" onChange={handleChange}>
+                  {description}
+                </textarea>
+                <span className="error_messg">{errors.description}</span>
+              </div>
+            </div>
+
+            <div className="flex_row">
+              <div className="flex_col_sm_6">
+                <div className="form_field_wrapper">
+                  <label className="form_label">
+                    Short Name <mark>*</mark>
+                  </label>
+                  <div className="text_field_wrapper">
+                    <input
+                      name="short_name"
+                      value={short_name}
+                      onChange={handleChange}
+                      type="text"
+                    />
+                    <span className="error_messg">{errors.short_name}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex_col_sm_6">
+                <div className="form_field_wrapper">
+                  <label className="form_label">
+                    Entity Type* <mark>*</mark>
+                  </label>
+                  <div className="text_field_wrapper">
+                    <select
+                      name="entity_type"
+                      value={entity_type}
+                      onChange={handleChange}
+                    >
+                      <option value="test1">Test1</option>
+                    </select>
+                    <span className="error_messg">{errors.entity_type}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="form_field_wrapper">
+              <label className="form_label">
+                Upload Entity Logo <mark>*</mark>
+              </label>
+              <DropZone files={files} setFiles={setFiles} preview={logo} />
+              <span className="error_messg">{errors.logo}</span>
+            </div>
+          </div>
+
+          <div className="flex_col_sm_6">
+            <div className="form_field_wrapper ar">
+              <label className="form_label">
+                {' '}
+                اسم <mark>*</mark>{' '}
+              </label>
+              <div
+                className="text_field_wrapper"
+                placeholder="على سبيل المثال ، وزارة التجارة والصناعة"
+              >
+                <input
+                  name="name_ar"
+                  value={name_ar}
+                  onChange={handleChange}
+                  type="text"
+                />
+                <div className="text-right">
+                  <span className="limit">بقي {100 - name_ar.length} حرف</span>
+                </div>
+              </div>
+              <span className="error_messg">{errors.name_ar}</span>
+            </div>
+            <div className="form_field_wrapper ar">
+              <label className="form_label">
+                {' '}
+                وصف <mark>*</mark>
+              </label>
+              <div className="text_field_wrapper">
+                <textarea
+                  name="description_ar"
+                  value={description_ar}
+                  onChange={handleChange}
+                  placeholder="اشرح تفاصيل الكيان هنا"
+                ></textarea>
+                <span className="error_messg">{errors.description_ar}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex_col_sm_12 text-right">
+          <button className="btn_solid" onClick={handleSubmit}>
+            Save{' '}
+          </button>
+        </div>
       </div>
-      {/* {
-        project_id === 'new' ? <CancelBtn to='/projects'> Cancel </CancelBtn> : null
-      } */}
-      
-    </Container>
-  )
-}
+    </ProfileWrapper>
+  );
+};
 
+const ProfileWrapper = styled.div`
+  padding-top: 40px !important;
+  padding-bottom: 40px !important;
+`;
 
-const CancelBtn = styled(Link)`
-  padding: 10px 20px;
-  flex-direction: column;
-  margin: 0 auto;
-  background-color: ${p => p.theme.color};
-  margin-bottom: 20px;
-  color: #fff;
-  border-radius: 3px;
-`
+export default Profile;

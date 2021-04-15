@@ -480,5 +480,25 @@ const data = {
   'no issues': {
     en: 'No Issues',
     ar: 'لا توجد قضايا',
+  },
+  'issues': {
+    en: 'Issues',
+    ar: 'مشاكل',
+  },
+  'more': {
+    en: 'more',
+    ar: 'أكثر',
+  },
+  'sort': {
+    en: 'Sort',
+    ar: 'فرز',
+  },
+  'date asc': {
+    en: 'Date Asc',
+    ar: 'تاريخ تدريجي',
+  },
+  'date desc': {
+    en: 'Date Desc',
+    ar: 'تنازلي تاريخ',
   }
 }
