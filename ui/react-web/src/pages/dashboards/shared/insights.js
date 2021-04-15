@@ -13,6 +13,8 @@ export default function Insight({ hideFilter, height, lang, ...props }) {
   const selectOptions = [{ label: t('compliance_issues'), value: 1 }, { label: t('challenges'), value: 2 }];
   const { entity_id, project_id } = useParams()
   const [data, setData] = useState([])
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState({ label: t('Sort'), value: undefined });
 
   const [selectedType, setSelectedType] = useState({});
 
@@ -36,6 +38,15 @@ export default function Insight({ hideFilter, height, lang, ...props }) {
     setSelectedType(selectOptions[0]);
   }, [lang]);
 
+  const handleSort = (e) => {
+    setSort(e);
+    if (e.value === 'desc') {
+      setData((prevValue) => prevValue.sort((a, b) => new Date(b.date) - new Date(a.date)));
+    } else {
+      setData((prevValue) => prevValue.sort((a, b) => new Date(a.date) - new Date(b.date)));
+    }
+  };
+
   const COLORS = { NC: '#EB622B', PC: '#005CC8' }
 
   return (
@@ -54,6 +65,14 @@ export default function Insight({ hideFilter, height, lang, ...props }) {
       </header>
       { selectedType.value == 1 ?
         <InnerBox>
+          <SearchSort>
+            <SearchBar placeholder={t('Search') + ' ' + t('issues')} value={search} onChange={({ target: { value }}) => setSearch(value)} />
+            <Select
+              options={[{ label: t('Date Asc'), value: 'asc' }, { label: t('Date Desc'), value: 'desc' }]}
+              onChange={handleSort}
+              value={sort}
+            />
+          </SearchSort>
           {/* <Filter>
             <Legend><Circle color='#EB622B' />{t('non_compliant')}</Legend>
             <Legend><Circle color='#005CC8' />{t('partially_compliant')}</Legend>
@@ -62,7 +81,7 @@ export default function Insight({ hideFilter, height, lang, ...props }) {
             data.length > 0 ?
               <Cards height={height}>
                 {
-                  data.map((o, i) => (
+                  data.map((o, i) => (o.project_name + ' ' + o.section_name).toLowerCase().includes(search.toLowerCase()) ? (
                     <Card color={COLORS[o.compl]} key={i}>
                       {/* <div className='bc'> {to(o, 'project_name')} <span> </span> {t(o.section_name)} </div> */}
                       <div className='bc'> {t(o.project_name.toLowerCase())} <span> </span> {t(o.section_name.toLowerCase())} </div>
@@ -72,7 +91,7 @@ export default function Insight({ hideFilter, height, lang, ...props }) {
                         <div className='date'>{lang && lang === "ar" ? new Date(o.date).toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' }) : o.date} </div>
                       </div>
                     </Card>
-                  ))
+                  ) : null)
                 }
               </Cards> :
               <Cards><div className='no-data'> {t('NO ISSUES')} </div></Cards>
@@ -87,6 +106,8 @@ export default function Insight({ hideFilter, height, lang, ...props }) {
 
 export function Challenges({ hideHeader, height, ...props }) {
   const { entity_id, project_id } = useParams()
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState({ label: t('Sort'), value: undefined })
   const [data, setData] = useState([])
   useEffect(() => {
     const path = ['reports', 'challenges', entity_id, project_id].filter((e) => e)
@@ -97,6 +118,15 @@ export function Challenges({ hideHeader, height, ...props }) {
     })
   }, [entity_id, project_id])
 
+  const handleSort = (e) => {
+    setSort(e);
+    if (e.value === 'desc') {
+      setData((prevValue) => prevValue.sort((a, b) => new Date(b.date) - new Date(a.date)));
+    } else {
+      setData((prevValue) => prevValue.sort((a, b) => new Date(a.date) - new Date(b.date)));
+    }
+  };
+
   const COLORS = { NC: '#EB622B', PC: '#005CC8' }
 
   return (
@@ -104,6 +134,14 @@ export function Challenges({ hideHeader, height, ...props }) {
       { hideHeader ? null : <header> {t('Challenges')} </header>}
 
       <InnerBox>
+        <SearchSort>
+          <SearchBar placeholder={t('search') + ' ' + t('challenges')} value={search} onChange={({ target: { value }}) => setSearch(value)} />
+          <Select
+            options={[{ label: t('Date Asc'), value: 'asc' }, { label: t('Date Desc'), value: 'desc' }]}
+            onChange={handleSort}
+            value={sort}
+          />
+        </SearchSort>
         <Filter>
 
         </Filter>
@@ -111,7 +149,7 @@ export function Challenges({ hideHeader, height, ...props }) {
           data.length > 0 ?
             <Cards height={height}>
               {
-                data.map((o, i) => (
+                data.map((o, i) => (o.project.name + ' ' + o.section.name).toLowerCase().includes(search.toLowerCase()) ? (
                   <Card2 color={COLORS[o.compl]} key={i}>
                     <div className='bc'> {o.project.name} <span> </span> {o.section.name} </div>
                     <div className='title'>{o.description}</div>
@@ -120,7 +158,7 @@ export function Challenges({ hideHeader, height, ...props }) {
                       <div className='date'> {o.date} </div>
                     </div>
                   </Card2>
-                ))
+                ) : null)
               }
             </Cards> :
             <Cards><div className='no-data'> {t('NO ISSUES')} </div></Cards>
@@ -130,6 +168,32 @@ export function Challenges({ hideHeader, height, ...props }) {
     </Box>
   )
 }
+
+const SearchSort = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  justify-content: space-between;
+
+  .default__control {
+    width: 120px;
+    margin-right: 20px;
+    background: #ffffff;
+  }
+
+  label {
+    margin-bottom: 0px;
+  }
+`;
+
+const SearchBar = styled.input`
+  width: 300px;
+  padding: 6px 8px;
+  border: 1px solid lightgray;
+  outline: none;
+  border-radius: 2px;
+  margin-right: 20px;
+`;
 
 const ChallengeCard = styled.div`
   height: 104px;

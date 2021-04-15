@@ -83,7 +83,7 @@ const Box = styled.table`
     }
     
     td {
-      padding: 0 10px;
+      padding: 0 20px;
     }
     border: 1px solid rgb(221, 221, 221, 0.36);
 
@@ -107,6 +107,10 @@ const Title = styled.div`
   > div:first-child { 
     padding-top: 8px;
     padding-right: 6px;
+  }
+
+  > div:nth-child(2) {
+    white-space: nowrap;
   }
 `
 
