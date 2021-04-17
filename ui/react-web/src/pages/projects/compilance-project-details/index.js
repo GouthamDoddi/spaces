@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import EServices from './e-services';
-import EntityCommunication from './entity-communication';
-import EntityUsers from './entity-users';
-import PortalApps from './portal_apps';
+import SubmitEvidence from './submit-evidence';
+import PortalMobileApps from './portal-mobile-apps';
+import ProjectUsers from './project-users';
 
-const Details = ({ profileData }) => {
+const CompilanceProjectDetails = ({ profileData }) => {
   const {
     id: entityId,
     logo: entityLogo,
@@ -27,7 +27,7 @@ const Details = ({ profileData }) => {
   return (
     <DetailsElement className="custom_container">
       <div className="flex_row">
-        <div className="flex_col_sm_4">
+        <div className="flex_col_sm_3">
           <div className="moci_block">
             <div className="logo_moci">
               <figure className="logo_mci">
@@ -54,17 +54,17 @@ const Details = ({ profileData }) => {
           </div>
         </div>
 
-        <div className="flex_col_sm_8">
+        <div className="flex_col_sm_9">
           <div className="flex_row">
-            <div className="flex_col_sm_3">
+            <OuterHorizontalLine className="flex_col_sm_3">
               <ul className="entity_detail_menu">
                 <li onClick={() => setStep(1)}>
                   <span className={step === 1 ? 'active' : 'clickable'}>
                     <span className="step_count">1</span>
                     <span className="detail">
-                      <span className="title">Entity Users</span>
+                      <span className="title"> Portal / Mobile Apps</span>
                       <span className="sub_title">
-                        Explain about the entity
+                         Details of ------------
                       </span>
                     </span>
                   </span>
@@ -74,8 +74,10 @@ const Details = ({ profileData }) => {
                   <span className={step === 2 ? 'active' : 'clickable'}>
                     <span className="step_count">2</span>
                     <span className="detail">
-                      <span className="title">Entity Communication</span>
-                      <span className="sub_title">Set communication rules</span>
+                      <span className="title"> eServices </span>
+                      <span className="sub_title">
+                        Details of ------------
+                      </span>
                     </span>
                   </span>
                 </li>
@@ -84,7 +86,7 @@ const Details = ({ profileData }) => {
                   <span className={step === 3 ? 'active' : 'clickable'}>
                     <span className="step_count">3</span>
                     <span className="detail">
-                      <span className="title">Portal &amp; Mobile Apps</span>
+                      <span className="title"> Project Users </span>
                       <span className="sub_title">
                         Role based access control
                       </span>
@@ -96,46 +98,49 @@ const Details = ({ profileData }) => {
                   <span className={step === 4 ? 'active' : 'clickable'}>
                     <span className="step_count">4</span>
                     <span className="detail">
-                      <span className="title">eServices</span>
-                      <span className="sub_title">Map services to entity</span>
+                      <span className="title"> Submit Evidence </span>
+                      <span className="sub_title"> Upload test profile and test data </span>
                     </span>
                   </span>
                 </li>
               </ul>
-            </div>
+            </OuterHorizontalLine>
             <div className="flex_col_sm_9">
               {step === 1 ? (
-                <EntityUsers
+                <PortalMobileApps
                   data={data}
                   files={files}
                   setFiles={setFiles}
                   onSubmit={handleAdd}
                 />
               ) : step === 2 ? (
-                <EntityCommunication data={data} onSubmit={handleAdd} />
-              ) : step === 3 ? (
-                <PortalApps data={data} onSubmit={handleAdd} />
-              ) : (
                 <EServices data={data} onSubmit={handleAdd} />
+              ) : step === 3 ? (
+                <ProjectUsers data={data} onSubmit={handleAdd} />
+              ) : (
+                <SubmitEvidence data={data} onSubmit={handleAdd} />
               )}
             </div>
           </div>
+          
           <div className="flex_col_sm_12 prev_next">
             <button
               className="btn_solid"
-              onClick={() => setStep((prevValue) => prevValue - 1)}
+              // onClick={() => setStep((prevValue) => prevValue - 1)}
             >
               Previous{' '}
             </button>
             <button
               className="btn_solid"
-              onClick={
-                step !== 4
-                  ? () => setStep((prevValue) => prevValue + 1)
-                  : undefined
-              }
+              // onClick={
+                // step !== 4
+                //   ? () => setStep((prevValue) => prevValue + 1)
+                //   : undefined
+              // }
             >
               Next{' '}
+              <span>
+              </span>
             </button>
           </div>
         </div>
@@ -144,8 +149,13 @@ const Details = ({ profileData }) => {
   );
 };
 
+const OuterHorizontalLine = styled.div`
+  border-right: 1px solid #ddd;
+  margin-right: 2.5%;
+`
+
 const DetailsElement = styled.div`
   padding-top: 60px !important;
 `;
 
-export default Details;
+export default CompilanceProjectDetails;

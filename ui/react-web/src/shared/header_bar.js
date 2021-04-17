@@ -140,7 +140,8 @@ export default function ({ className, ...props }) {
                 <NavLink to="/entities"> Entity Management</NavLink>
               </li>
               <li>
-                <NavLink to="/compliance"> Compliance Project</NavLink>
+                {/* <NavLink to="/compliance"> Compliance Project</NavLink> */}
+                <NavLink to="/projects"> Project Management </NavLink>
               </li>
               <li>
                 <NavLink to="/governance/case-management/snapshot"> Case Management</NavLink>

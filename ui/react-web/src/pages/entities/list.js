@@ -16,6 +16,7 @@ import makeStore from '../../store/make-store';
 import { useStore } from 'effector-react';
 import { hasMenuAccess } from '../../store/user';
 import qgate from '../../assets/images/qgate.png';
+import BasicTable from '../../shared/table-material';
 
 const { store, load } = makeStore('entities/list');
 
@@ -45,9 +46,20 @@ export default function (props) {
 
   const entityData = entityStore.data || [];
 
+  const headlines = [ 'Name', 'Shortname', 'Type', 'Websites', 'Mobile', 'E-Services', 'Completion Percentage' ];
+
+  const defaultRows = [
+    [ 'The General Retirement and Social Insurance Authority', 'GRISA', 'Authority', 24, 22, 12, 80 ],
+    [ 'Ministry of Administrative Development, Labour and Social Affairs', 'ADLSA', 'Ministry', 37, 43, 33, 45 ],
+    [ 'Ministry of Social Affairs', 'MOCI', 'Ministry', 37, 43, 33, 90 ],
+    [ 'Ministry of Administrative Development', 'MAD', 'Ministry', 37, 43, 33, 30 ],
+    [ 'Ministry of Labour Development', 'MLD', 'Ministry', 37, 43, 33, 43 ],
+    [ 'Ministry of Labour Development', 'MLD', 'Ministry', 37, 43, 33, 43 ],
+  ];
+
   return (
     <div className="app_wrapper">
-      <Layout>
+      <NewLayout>
         {/* <Left>
         <LeftMenu selected='entities' except={['my-tasks']}></LeftMenu>
       </Left> */}
@@ -234,33 +246,35 @@ export default function (props) {
                         </ul>
                       </div>
                       <div className="flex_col_sm_4 text-right">
-                        <Link to="/entities/new">
+                        <NavLink to="/entities/new">
                           <button className="btn_solid">
                             + Create Entity{' '}
                           </button>
-                        </Link>
+                        </NavLink>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="table_wrapper">Table Here</div>
+                <div className="table_wrapper">
+                  <BasicTable tableCells={headlines} rows={defaultRows} />
+                </div>
               </div>
             </div>
           </Route>
         </Switch>
-      </Layout>
+      </NewLayout>
     </div>
   );
 }
 
-const Left = styled.div`
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 270px;
-`;
+// const Left = styled.div`
+//   position: fixed;
+//   top: 0;
+//   bottom: 0;
+//   left: 0;
+//   width: 270px;
+// `;
 
 // const Content = styled.div`
 //   margin: 0 30px;
@@ -290,7 +304,7 @@ const FilterBreadcrumb = styled.div`
   }
 `;
 
-const Progress = styled.span`
+export const Progress = styled.span`
   ${({ width }) => css`
     display: block;
     position: absolute;
@@ -300,10 +314,11 @@ const Progress = styled.span`
   `}
 `;
 
-const Layout = styled.div`
+export const NewLayout = styled.div`
   ul {
     list-style: none;
     margin: 0px !important;
+    padding-left: 0px;
   }
 
   .entity_cards {
@@ -378,6 +393,18 @@ const Layout = styled.div`
     color: #3fbf11;
   }
 
+  .bg_green {
+    display: inline-block;
+    width: 46px;
+    height: 18px;
+    background: #DEFCD4 0% 0% no-repeat padding-box;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+  }
+
   .progressbar_wrap {
     position: relative;
     display: block;
@@ -419,6 +446,10 @@ const Layout = styled.div`
     width: 50%;
     padding: 0 10px;
   }
+  .flex_col_sm_3 {
+    width: 25%;
+    padding: 0 10px;
+  }
   .flex_col_sm_4 {
     width: 33.33%;
     padding: 0 10px;
@@ -456,7 +487,7 @@ const Layout = styled.div`
   }
 
   .padding-t-b {
-    padding: 20px 0;
+    padding: 20px 10px;
   }
 
   .filter_check {
@@ -783,6 +814,7 @@ const Layout = styled.div`
       display: flex;
       align-items: center;
       margin-right: 40px;
+      margin-left: 24px;
     }
   }
 
@@ -800,11 +832,12 @@ const Layout = styled.div`
     width: 200px;
     margin-left: 25px;
     flex-flow: column;
+    overflow: hidden;
   }
 
   .entity_detail_menu .step_count {
     display: inline-flex;
-    width: 50px;
+    min-width: 50px;
     height: 50px;
     border-radius: 5px;
     justify-content: center;
@@ -818,6 +851,8 @@ const Layout = styled.div`
     width: 100%;
     color: #666666;
     font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   ul.entity_detail_menu li > span .sub_title {
@@ -825,6 +860,9 @@ const Layout = styled.div`
     font-size: 12px;
     margin: 10px 0 0 0;
     display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   ul.entity_detail_menu li > span.active .step_count {
@@ -1007,12 +1045,12 @@ const Layout = styled.div`
   }
 `;
 
-const CLink = styled(Link)`
-  color: #000;
-  display: flex;
-  align-items: center;
-`;
+// const CLink = styled(Link)`
+//   color: #000;
+//   display: flex;
+//   align-items: center;
+// `;
 
-const CustomInput = styled(Input)`
-  // margin: 0 0 10px 20px;
-`;
+// const CustomInput = styled(Input)`
+//   // margin: 0 0 10px 20px;
+// `;
