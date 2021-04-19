@@ -26,7 +26,7 @@ import StatusUpdateComponent from './status-update';
 import MappingGroundComponent from './mapping-ground';
 
 import CaseInfo from './case-info';
-import { NewLayout } from '../../entities/list';
+import { NewLayout } from '../../entities';
 
 const { store, load } = makeStore('entities/list');
 

@@ -3,7 +3,7 @@
 import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
-import { Progress } from '../pages/entities/list';
+import { Progress } from '../pages/entities';
 
 const useStyles = makeStyles({
   table: {
@@ -11,10 +11,13 @@ const useStyles = makeStyles({
   },
   row: {
     height: '65px',
+  },
+  clickable: {
+    cursor: 'pointer',
   }
 });
 
-export default function BasicTable ({ tableCells, rows, renderCol, keyField }) {
+export default function BasicTable ({ tableCells, rows, renderCol, keyField, onRowClick }) {
   const classes = useStyles();
   renderCol = renderCol || (() => undefined);
 
@@ -30,7 +33,7 @@ export default function BasicTable ({ tableCells, rows, renderCol, keyField }) {
         </TableHead>
         <TableBody>
           {rows.map((row, rowIndex) =>
-            <TableRow className={classes.row} key={row[keyField]}>
+            <TableRow className={`${classes.row} ${onRowClick ? classes.clickable : ''}`} key={row[keyField]} onClick={() => onRowClick(row[keyField])}>
               {tableCells.map(({ key }, colIndex) => 
                 <Fragment key={key}>
                   <TableCell>

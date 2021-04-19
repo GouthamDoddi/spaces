@@ -128,7 +128,7 @@ const Tbody = styled.tbody`
   }
 `;
 
-const PaginationWrapper = styled.div`
+export const PaginationWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 28px;

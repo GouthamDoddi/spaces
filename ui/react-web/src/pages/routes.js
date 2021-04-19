@@ -25,6 +25,7 @@ export const entityEnter = ({entity_id, expand=false}={}) => (
 export const entityProfile = ({entity_id, expand=false}={}) => (
   (expand ? `/entities/${entity_id}/profile` : '/entities/:entity_id(\\d+|new)/profile')
 )
+export const entityDetails = (entity_id) => `/entities/${entity_id}/details`;
 
 export const entityCommm = ({entity_id, expand=false}={}) => ((expand ? `/entities/${entity_id}/communication` : '/entities/:entity_id(\\d+)/communication'))
 export const entityAccess = ({entity_id, expand=false}={}) => ((expand ? `/entities/${entity_id}/access` : '/entities/:entity_id(\\d+)/access'))

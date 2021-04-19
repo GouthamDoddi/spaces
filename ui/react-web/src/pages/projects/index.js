@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import HeaderBar from '../../shared/header_bar';
-import { NewLayout } from '../entities/list';
+import { NewLayout } from '../entities';
 import { projectProfile, projectList } from '../routes';
 import ProjectElem from './list';
 import qgate from '../../assets/images/qgate.png';
