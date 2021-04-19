@@ -37,7 +37,7 @@ class App::Services::EntityUsers < App::Services::Base
       add_parent_id(obj)
         
       save(obj) { |o|
-        SendEmail.send(:welcome_email, {o: o})
+        # SendEmail.send(:welcome_email, {o: o})
       }
     else
       return_errors!('Unauthorized to add', 401)
