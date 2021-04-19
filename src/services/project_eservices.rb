@@ -4,8 +4,8 @@ class App::Services::ProjectEservices < App::Services::Base
   def model; RevComplianceProject; end
 
   def list
-    cond = { project_id: rp[:entity_id]}
-    data = model.eager(:compliance_projects).order(Sequel.desc(:created_at)).where(cond.compact).map do |o|
+    cond = { project_id: rp[:project_id]}
+    data = model.order(Sequel.desc(:created_at)).where(cond).map do |o|
       hash = o.as_json
       hash[:progress] = o.progress
       hash[:issues_count] = o.issues_count
