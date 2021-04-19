@@ -150,25 +150,28 @@ const Wrapper = styled.div`
   background: #FFFFFF 0% 0% no-repeat padding-box;
 `
 const Box = styled.div`
+  border: 1px solid #DDDDDD;
+  border-left: none;
+  border-right: none;
   width: 100%;
   height: 320px;
-  background-color: #EB622B; 
+  background-color: #F7FAFD;
   padding-bottom: 10px;
   > header {
     padding: 26px 100px;
 
     > :first-child {
       font: normal normal bold 30px/44px Muli;
-      color: #FFFFFF;
+      color: #000000;
       margin-bottom: 9px;
-      border-right: 1px solid #FFFFFF;
+      border-right: 1px solid #000000;
       padding-right: 20px;
       margin-right: 20px;
     }
 
     > :nth-child(2) {
       font: normal normal 600 20px/30px Muli;
-      color: #FFFFFF;
+      color: #000000;
     }
   }
   > .items {
@@ -178,6 +181,28 @@ const Box = styled.div`
     > div:last-child { margin-left: 30px; padding-right: 40px;}
     padding: 0px 100px;
     height: 216px;
+
+    /* total width */
+    &::-webkit-scrollbar {
+      background-color: transparent;
+      height: 8px;
+    }
+
+    /* background of the scrollbar except button or resizer */
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    /* scrollbar itself */
+    &::-webkit-scrollbar-thumb {
+      background-color: #C9C9C9;
+      border-radius: 4px;
+    }
+
+    /* set button(top and bottom of the scrollbar) */
+    &::-webkit-scrollbar-button {
+      display:none;
+    }
   }
 `
 
@@ -188,6 +213,7 @@ const TotalProjects = styled.div`
   border-radius: 5px;
   padding: 10px 28px;
   margin-right: 40px;
+  border: 1px solid #DDDDDD;
 
   > header {
     font: normal normal 600 20px/30px Muli;
@@ -308,8 +334,8 @@ const FlexWrapper = styled.div`
   margin-top: 30px;
   margin-bottom: 30px;
   > div {
-    width: 50%;
-    margin-right: 20px;
+    width: calc(50% - 24px);
+    margin-right: 24px;
   }
 
 `
@@ -325,6 +351,28 @@ const Entities = styled.div`
     height: 700px;
     // height: 100%;
     overflow: auto;
+
+    /* total width */
+    &::-webkit-scrollbar {
+      background-color: transparent;
+      width: 8px;
+    }
+
+    /* background of the scrollbar except button or resizer */
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    /* scrollbar itself */
+    &::-webkit-scrollbar-thumb {
+      background-color: #C9C9C9;
+      border-radius: 4px;
+    }
+
+    /* set button(top and bottom of the scrollbar) */
+    &::-webkit-scrollbar-button {
+      display:none;
+    }
   }
 `
 
@@ -332,5 +380,27 @@ const Projects = styled(Entities)`
   margin-top: 20px;
   > div {
     height: 700px;
+
+    /* total width */
+    &::-webkit-scrollbar {
+      background-color: transparent;
+      width: 8px;
+    }
+
+    /* background of the scrollbar except button or resizer */
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    /* scrollbar itself */
+    &::-webkit-scrollbar-thumb {
+      background-color: #C9C9C9;
+      border-radius: 4px;
+    }
+
+    /* set button(top and bottom of the scrollbar) */
+    &::-webkit-scrollbar-button {
+      display:none;
+    }
   }
 `

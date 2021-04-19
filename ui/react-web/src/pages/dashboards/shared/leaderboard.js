@@ -41,12 +41,12 @@ export default function ({ leaderBoardData, type = 'Entities', lang, ...props })
 }
 
 const LeaderBoard = styled.div`
+  background: #F7FAFD;
   ${rtl`
     margin-left: 40px;
   `}
   
-  border: 1px solid #BBBBBB;
-  background-color: #fff;
+  border: 1px solid #DDDDDD;
   > .header {
     display: flex;
     align-items: center;
@@ -54,21 +54,18 @@ const LeaderBoard = styled.div`
     width: 429px;
     min-width: 429px;
     height: 73px;
-    background: #EEEEEE 0% 0% no-repeat padding-box;
     ${rtl`
-      padding-left: 40px;
+      padding-left: 30px;
       padding-right: 20px;
     `}
-    border-bottom: 1px solid #BBBBBB;
     > .title {
       height: 23px;
       font-size: 18px;
       font-weight: 600;
-      color: #666666;      
+      color: #000000;  
+      font: normal normal 600 25px/36px Muli;    
     }
     > div {
-      height: 56px;
-
       > div > div {
         width: 200px;
         background: #FFFFFF;

@@ -24,6 +24,7 @@ const Box = styled.div`
   height: 180px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
   border-radius: 5px;
+  border: 1px solid #DEDEDE;
   padding: 30px 37px;
   > header {
     display: flex;
