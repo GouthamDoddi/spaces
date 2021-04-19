@@ -305,7 +305,6 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #F7FAFD;
-  background: linear-gradient(0deg, #F0F7FD 460px, #FFFFFF 461px, #FFFFFF 100%);
   align-items: center;
   // flex: 1;
   // height: 100%;

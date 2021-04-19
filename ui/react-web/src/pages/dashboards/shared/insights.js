@@ -52,7 +52,7 @@ export default function Insight({ hideFilter, height, lang, ...props }) {
   return (
     <Box>
       <header>
-        <div>{selectedType.label}</div>
+        <span>{selectedType.label}</span>
         {hideFilter ? null :
           <Select
             options={selectOptions}
@@ -131,7 +131,7 @@ export function Challenges({ hideHeader, height, ...props }) {
 
   return (
     <Box>
-      { hideHeader ? null : <header> {t('Challenges')} </header>}
+      { hideHeader ? null : <header><span> {t('Challenges')} </span></header>}
 
       <InnerBox>
         <SearchSort>
@@ -227,23 +227,36 @@ const Box = styled.div`
   flex: 1;
   // height: 990px;
   
-  background: #FFFFFF 0% 0% no-repeat padding-box;
-  border: 1px solid #BBBBBB;
+  background: #F7FAFD 0% 0% no-repeat padding-box;
+  border: 1px solid #DDDDDD;
   border-top-right: none;
   opacity: 1;
 
 
   > header {
-    background: #EEEEEE 0% 0% no-repeat padding-box;
-    height: 74px;
     align-items: center;
     justify-content: space-between;
     display: flex;
-    border: 1px solid #BBBBBB;
+    padding-top: 18px;
+    > span {
+      font: normal normal 600 25px/36px Muli;
+    }
     ${rtl`
-      padding-left: 25px;
+      padding-left: 20px;
+      padding-right: 20px;
     `}
-    
+    > div {
+      label {
+        display: none;
+      }
+      .default__control {
+        width: auto;
+        background: white;
+      }
+      .default__value-container {
+        width: 150px;
+      }
+    }
   }
 `
 
@@ -386,6 +399,28 @@ const Cards = styled.div`
   .no-data {
     text-align: center;
     margin-top: 100px;
+  }
+
+  /* total width */
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    width: 8px;
+  }
+
+  /* background of the scrollbar except button or resizer */
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  /* scrollbar itself */
+  &::-webkit-scrollbar-thumb {
+    background-color: #C9C9C9;
+    border-radius: 4px;
+  }
+
+  /* set button(top and bottom of the scrollbar) */
+  &::-webkit-scrollbar-button {
+    display:none;
   }
 `
 

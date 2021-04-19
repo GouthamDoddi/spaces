@@ -43,7 +43,7 @@ export default function({lang, setLang, setProjectCount, ...props}) {
               <div className='info'>
                 <div className='logo'> {t('Logo')}</div>
                 <div className='title'> 
-                  <div> {k.name } </div>
+                  <div className="name"> {k.name } </div>
                   <div className='progress'> 
                     <Progress value={Math.ceil(k.progress?.toFixed(2) * 100)} height='5px' max={100} bkcolor='#DCDFE8'  color='#EB622B' showTag />  
                   </div>
@@ -136,6 +136,7 @@ const Progress = styled.progress`
 
 const Card = styled.div`
   top: 580px;
+  margin-bottom: 30px;
   left: 100px;
   width: 100%;
   height: 220px;
@@ -163,6 +164,7 @@ const CardInfo = styled.div`
     border-radius: 5px;
     padding: 19px 16px;
     > .logo {
+      min-width: 50px;
       width: 50px;
       height: 50px;
       background: #EB622B 0% 0% no-repeat padding-box;
@@ -174,6 +176,7 @@ const CardInfo = styled.div`
       text-align: center;
     }
     > .title {
+      overflow: hidden;
       ${rtl`
       margin-left: 10px;
       `}
@@ -185,6 +188,14 @@ const CardInfo = styled.div`
       }
       > .progress {
         
+      }
+      .name {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        ${rtl`
+          padding-right: 24px;
+        `}
       }
     }
     > .chart {

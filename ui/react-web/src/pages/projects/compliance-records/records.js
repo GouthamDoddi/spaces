@@ -133,112 +133,108 @@ const EServices = ({ defaultData, onSubmit }) => {
               <label className="form_label">
                 Platform &amp; Language <mark>*</mark>
               </label>
-              <div className="text_field_wrapper">
-                <SelectBadge
-                  selected={language === 'english'}
-                  onClick={() => updateData('language', 'english')}
-                >
-                  English{language === 'english' && <CheckIcon />}
-                </SelectBadge>
-                <SelectBadge
-                  selected={language === 'arabic'}
-                  onClick={() => updateData('language', 'arabic')}
-                >
-                  Arabic{language === 'arabic' && <CheckIcon />}
-                </SelectBadge>
-                {parameter === 'mobile_app' && (
-                  <>
-                    <SelectBadge
-                      selected={platform === 'android'}
-                      onClick={() => updateData('platform', 'android')}
-                    >
-                      <AppleLogo />
-                      Android{platform === 'android' && <CheckIcon />}
-                    </SelectBadge>
-                    <SelectBadge
-                      selected={platform === 'ios'}
-                      onClick={() => updateData('platform', 'ios')}
-                    >
-                      <AndroidLogo />
-                      Apple{platform === 'ios' && <CheckIcon />}
-                    </SelectBadge>
-                  </>
-                )}
-                <div className="error_messg">
-                  {errors.platform || errors.language}
-                </div>
+              <SelectBadge
+                selected={language === 'english'}
+                onClick={() => updateData('language', 'english')}
+              >
+                English{language === 'english' && <CheckIcon />}
+              </SelectBadge>
+              <SelectBadge
+                selected={language === 'arabic'}
+                onClick={() => updateData('language', 'arabic')}
+              >
+                Arabic{language === 'arabic' && <CheckIcon />}
+              </SelectBadge>
+              {parameter === 'mobile_app' && (
+                <>
+                  <SelectBadge
+                    selected={platform === 'android'}
+                    onClick={() => updateData('platform', 'android')}
+                  >
+                    <AppleLogo />
+                    Android{platform === 'android' && <CheckIcon />}
+                  </SelectBadge>
+                  <SelectBadge
+                    selected={platform === 'ios'}
+                    onClick={() => updateData('platform', 'ios')}
+                  >
+                    <AndroidLogo />
+                    Apple{platform === 'ios' && <CheckIcon />}
+                  </SelectBadge>
+                </>
+              )}
+              <div className="error_messg">
+                {errors.platform || errors.language}
               </div>
             </div>
-          </div>
-          <div className="flex_col_sm_12">
-            <div className="form_field_wrapper">
-              <label className="form_label">
-                Result <mark>*</mark>
-              </label>
-              <div className="text_field_wrapper">
-                <select name="result" value={result} onChange={handleChange}>
-                  <option value="fully_compliant">Fully Compliant</option>
-                  <option value="partially_compliant">
-                    Partially Compliant
-                  </option>
-                  <option value="non_compliant">Non Compliant</option>
-                </select>
-                <div className="error_messg">{errors.result}</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex_col_sm_12 text-right">
-            <button className="add_more" onClick={handleSave}>
-              Save
-            </button>
           </div>
         </div>
-        <div className="flex_col_sm_6">
-          <div className="flex_col_sm_12">
-            <Heading>Test Profile, Test Data &amp; Comments</Heading>
-          </div>
-          <Scroll className="flex_col_sm_12">
-            {attachments.map(({ file, comment, date }) => (
-              <FileCard>
-                <FileCardHeader>
-                  <Badge>Reviewer</Badge>
-                  <span>{date}</span>
-                </FileCardHeader>
-                <div>{comment}</div>
-                <div>{file}</div>
-              </FileCard>
-            ))}
-          </Scroll>
-          <br />
-          <br />
-          <div className="flex_col_sm_12">
-            <div className="form_field_wrapper">
-              <div className="text_field_wrapper">
-                <textarea
-                  placeholder="Add a comment"
-                  value={comment}
-                  onChange={({ target: { value } }) =>
-                    updateAttachmentData('comment', value)
-                  }
-                />
-              </div>
+        <div className="flex_col_sm_12">
+          <div className="form_field_wrapper">
+            <label className="form_label">
+              Result <mark>*</mark>
+            </label>
+            <div className="text_field_wrapper">
+              <select name="result" value={result} onChange={handleChange}>
+                <option value="fully_compliant">Fully Compliant</option>
+                <option value="partially_compliant">Partially Compliant</option>
+                <option value="non_compliant">Non Compliant</option>
+              </select>
               <div className="error_messg">{errors.result}</div>
             </div>
           </div>
-          <Footer className="flex_col_sm_12">
-            <UploadInput
-              onChange={({ target }) => {
-                updateAttachmentData('file', target.value);
-                target.value = null;
-              }}
-            />
-            <UploadButton htmlFor="file">Upload Attachment </UploadButton>
-            <button className="btn_solid" onClick={handleSubmit}>
-              Submit{' '}
-            </button>
-          </Footer>
         </div>
+
+        <div className="flex_col_sm_12 text-right">
+          <button className="add_more" onClick={handleSave}>
+            Save
+          </button>
+        </div>
+      </div>
+      <div className="flex_col_sm_6">
+        <div className="flex_col_sm_12">
+          <Heading>Test Profile, Test Data &amp; Comments</Heading>
+        </div>
+        <Scroll className="flex_col_sm_12">
+          {attachments.map(({ file, comment, date }) => (
+            <FileCard>
+              <FileCardHeader>
+                <Badge>Reviewer</Badge>
+                <span>{date}</span>
+              </FileCardHeader>
+              <div>{comment}</div>
+              <div>{file}</div>
+            </FileCard>
+          ))}
+        </Scroll>
+        <br />
+        <br />
+        <div className="flex_col_sm_12">
+          <div className="form_field_wrapper">
+            <div className="text_field_wrapper">
+              <textarea
+                placeholder="Add a comment"
+                value={comment}
+                onChange={({ target: { value } }) =>
+                  updateAttachmentData('comment', value)
+                }
+              />
+            </div>
+            <div className="error_messg">{errors.result}</div>
+          </div>
+        </div>
+        <Footer className="flex_col_sm_12">
+          <UploadInput
+            onChange={({ target }) => {
+              updateAttachmentData('file', target.value);
+              target.value = null;
+            }}
+          />
+          <UploadButton htmlFor="file">Upload Attachment </UploadButton>
+          <button className="btn_solid" onClick={handleSubmit}>
+            Submit{' '}
+          </button>
+        </Footer>
       </div>
     </>
   );

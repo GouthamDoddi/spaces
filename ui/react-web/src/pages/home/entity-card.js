@@ -89,7 +89,7 @@ export default function({entities, setEntityCount, setProjectCounts, ...props}) 
 
 const CardWrapper = styled.div`
 
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 
 `
 
@@ -161,6 +161,7 @@ const StatusCard = styled.div`
       }
     }
     > .title {
+      overflow: hidden;
       ${rtl`
         margin-left: 10px;
       `}
@@ -172,6 +173,7 @@ const StatusCard = styled.div`
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        padding-left: 20px;
       }
       > .progress {
 

@@ -157,7 +157,7 @@ const InnerCol4 = styled.div`
 `
 
 const FilterBreadcrumb = styled.div`
-  background: transparent !important;
+  background-color: #F7FAFD !important;
   margin-top: 75px;
 
   ul {

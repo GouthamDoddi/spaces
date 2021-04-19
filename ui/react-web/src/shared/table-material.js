@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
 import { Progress } from '../pages/entities/list';
@@ -14,37 +14,30 @@ const useStyles = makeStyles({
   }
 });
 
-export default function BasicTable (props) {
+export default function BasicTable ({ tableCells, rows, renderCol, keyField }) {
   const classes = useStyles();
-  const { tableCells, rows } = props;
+  renderCol = renderCol || (() => undefined);
 
   return (
     <TableContainer component={Paper}>
       <Table size='small' className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow className={classes.row}>
-            { tableCells.map((headline, index) => (
+            { tableCells.map(({ headline }, index) => (
               <TableCell key={index} align="right">{headline} <SortIcon /> </TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row =>
-            <TableRow className={classes.row} key={row[0]}>
-              <TableCell component="th" scope="row">
-                {row[0]}
-              </TableCell>
-              <TableCell align="right">{row[1]}</TableCell>
-              <TableCell align="right">{row[2]}</TableCell>
-              <TableCell align="right">{row[3]}</TableCell>
-              <TableCell align="right">{row[4]}</TableCell>
-              <TableCell align="right">{row[5]}</TableCell>
-              <TableCell align="right">
-                <span className="count green bg_green">{`${row[6]}%`}</span>
-                <span className="progressbar_wrap">
-                  <Progress className="progress" width={`${row[6]}%`} />
-                </span>
-              </TableCell>
+          {rows.map((row, rowIndex) =>
+            <TableRow className={classes.row} key={row[keyField]}>
+              {tableCells.map(({ key }, colIndex) => 
+                <Fragment key={key}>
+                  <TableCell>
+                    {renderCol(colIndex, row[tableCells[colIndex]?.key], rowIndex, row) || row[tableCells[colIndex]?.key]}
+                  </TableCell>
+                </Fragment>
+              )}
             </TableRow>
           )}
         </TableBody>
