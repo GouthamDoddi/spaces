@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CropModal from './crop-modal';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import DropZone from './drop-zone';
 import { entityTypes } from '../../store/master-data';
+import makeStore from '../../store/make-store';
+import { entityDetails, entityList } from '../routes';
+
+const { load, update, create } = makeStore(({ entity_id }) => entity_id ? `entities/${entity_id}` : 'entities');
 
 const Profile = () => {
+  const history = useHistory();
   const { entity_id } = useParams();
   const [files, setFiles] = useState([]);
   const [data, setData] = useState({
     name: '',
-    name_ar: '',
+    ar_name: '',
     description: '',
     description_ar: '',
     short_name: '',
@@ -21,15 +26,16 @@ const Profile = () => {
   const [submitClicked, setSubmitClicked] = useState(false);
 
   useEffect(() => {
-    if (entity_id) {
-      // get details
-      // setData();
+    if (/\d/.test(entity_id)) {
+      load({ entity_id }, (data) => setData(data));
+    } else if (entity_id !== 'new') {
+      history.push(entityList());
     }
   }, []);
 
   const errorLabels = {
     name: 'Entity name',
-    name_ar: 'Entity name',
+    ar_name: 'Entity name',
     description: 'Entity description',
     description_ar: 'Entity description',
     short_name: 'Short name',
@@ -43,13 +49,13 @@ const Profile = () => {
   const isInvalid = (name, value) => {
     switch (name) {
       case 'name':
-      case 'name_ar':
+      case 'ar_name':
       case 'description':
       case 'description_ar':
       case 'short_name':
       case 'type_id':
-      case 'logo':
         return isEmpty(name, value);
+      // case 'logo':
       default:
         return false;
     }
@@ -94,12 +100,17 @@ const Profile = () => {
     }, false);
 
     if (!hasErrors) {
+      if (entity_id !== 'new') {
+        update({ data, cb: () => history.push(entityDetails(entity_id)), entity_id });
+      } else {
+        create({ data, cb: () => history.push(entityDetails(entity_id)) })
+      }
     }
   };
 
   const {
     name,
-    name_ar,
+    ar_name,
     description,
     description_ar,
     short_name,
@@ -211,17 +222,17 @@ const Profile = () => {
               <div className="text_field_wrapper">
                 <input
                   placeholder="على سبيل المثال ، وزارة التجارة والصناعة"
-                  name="name_ar"
-                  value={name_ar}
+                  name="ar_name"
+                  value={ar_name}
                   onChange={handleChange}
                   type="text"
                   maxLength={100}
                 />
                 <div className="text-right">
-                  <span className="limit">بقي {100 - name_ar.length} حرف</span>
+                  <span className="limit">بقي {100 - ar_name.length} حرف</span>
                 </div>
               </div>
-              <span className="error_messg">{errors.name_ar}</span>
+              <span className="error_messg">{errors.ar_name}</span>
             </div>
             <div className="form_field_wrapper ar">
               <label className="form_label">
@@ -242,7 +253,7 @@ const Profile = () => {
         </div>
         <div className="flex_col_sm_12 text-right">
           <button className="btn_solid" onClick={handleSubmit}>
-            Save{' '}
+            Next{' '}
           </button>
         </div>
       </div>
