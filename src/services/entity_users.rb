@@ -20,7 +20,7 @@ class App::Services::EntityUsers < App::Services::Base
     return_success(model.where(cond).where(active: true).map(&:to_pos))
   end
 
-  def add_parent_id
+  def add_parent_id(obj)
     if(rp[:parent] == 'entity')
       return_errors!({role: "Invalid Role selected"}) unless [7,8,9].include?(obj.role)
       (obj.entity_ids ||= []) << rp[:entity_id]
@@ -34,7 +34,7 @@ class App::Services::EntityUsers < App::Services::Base
     if allowed_to_add?
       obj = model.new(data_for(:save))
       obj.temp_token = SecureRandom.uuid
-      add_parent_id
+      add_parent_id(obj)
         
       save(obj) { |o|
         SendEmail.send(:welcome_email, {o: o})
@@ -51,7 +51,7 @@ class App::Services::EntityUsers < App::Services::Base
       # item.entity_ids = (item.entity_ids || []) << rp[:entity_id]
       data = data_for(:save)
       item.set_fields(data, data.keys)
-      add_parent_id
+      add_parent_id(item)
       # item.set_entity(rp[:entity_id], params[:role_id])
       save(item)
     else
