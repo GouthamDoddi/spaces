@@ -75,7 +75,7 @@ class App::Services::EntityUsers < App::Services::Base
 
   def self.fields
     {
-      save: [ :first_name, :last_name, :email, :password, :username, :phone, :role ]
+      save: [ :first_name, :last_name, :email, :password, :username, :phone, :role, :profile_pic]
     }
   end
 end

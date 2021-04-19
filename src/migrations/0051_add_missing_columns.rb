@@ -16,6 +16,7 @@ Sequel.migration do
     alter_table(:users) do
       add_column(:entity_ids, 'integer[]')
       add_column(:project_ids, 'integer[]')
+      add_column(:profile_pic, String)
     end
 
   end
