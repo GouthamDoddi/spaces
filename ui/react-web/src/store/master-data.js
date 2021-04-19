@@ -34,6 +34,12 @@ export const projectCategoryTypes = {
   3: { value: 3, label: 'E-Service'}
 }
 
+export const projectConsumerTypes = {
+  1: { value: 1, label: 'Govenament'},
+  2: { value: 2, label: 'Business'},
+  3: { value: 3, label: 'Individual'}
+}
+
 export const roleTypes = {
   1: { value: 1, label: 'Director' },
   2: { value: 2, label: 'Manager' },
@@ -316,6 +322,22 @@ export const serviceStatusTypes = {
   3: { value: 3, label: 'Not Accessible'},
 }
 
+export const entityUserRole = {
+  0: { label: 'Admin', value: 0 },
+  7: { label: 'Entity Manager', value: 7 },
+  8: { label: 'Tester', value: 8 },
+  9: { label: 'Consultant', value: 9 },
+  10: { label: 'Jawda Tester', value: 10 },
+  11: { label: 'Jawda Test Manager', value: 11 },
+  12: { label: 'Jawda Board Member', value: 12 },
+  13: { label: 'Jawda Policies Manager', value: 13 },
+  14: { label: 'Jawda Communications Manager', value: 14 }
+}
+
+
+['Admin', 'Steering Committee', 'Executive Committee', 'Operating Committee', 'Ops Staff', 
+    'Support Staff', 'Beneficiary', 'Entity Admin',
+    'Entity Manager', 'Tester', 'Consultant', 'Jawda Tester', 'Jawda Test Manager', 'Jawda Board Member', 'Jawda Policies Manager', 'Jawda Communications Manager']
 export const cleanedEntities = {
     0: {label: 'All', name: 'All', name_ar: 'الكل', value: 0},
     9: {value: 9, label: 'Ministry of Municipality and Environment', "name":"Ministry of Municipality and Environment","name_ar":"وزارة البلدية والبيئة","id":9,"description":"","completed":15,"wip":10,"not_started":9,"prog":79},

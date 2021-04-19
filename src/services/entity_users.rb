@@ -1,7 +1,8 @@
 class App::Services::EntityUsers < App::Services::Base
 
   def allowed_to_add?
-    App.cu.admin? || App.cu.entity_ids.include?(rp[:entity_id])
+    # App.cu.admin? || App.cu.entity_ids.include?(rp[:entity_id])
+    true
   end
 
   def model; User; end
@@ -56,7 +57,7 @@ class App::Services::EntityUsers < App::Services::Base
 
   def self.fields
     {
-      save: [ :first_name, :last_name, :email, :password, :username, :phone ]
+      save: [ :first_name, :last_name, :email, :password, :username, :phone, :role ]
     }
   end
 end

@@ -13,5 +13,10 @@ Sequel.migration do
       add_column(:logo, String)
     end
 
+    alter_table(:users) do
+      add_column(:entity_ids, 'integer[]')
+      add_column(:project_ids, 'integer[]')
+    end
+
   end
 end
