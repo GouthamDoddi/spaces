@@ -11,23 +11,23 @@ class App::Services::Entities < App::Services::Base
     end
   end
 
-  def create
-    obj = model.new(data_for(:save))
+  # def create
+    # obj = model.new(data_for(:save))
     
-    if(obj.save && (obj.focal_point_email.present? ? (user=set_user(obj) && user.id) : true))
-      return_success(obj.to_pos)
-    else
-      return_errors!(obj.errors || user.errors, 400)
-    end
-  end
+    # if(obj.save && (obj.focal_point_email.present? ? (user=set_user(obj) && user.id) : true))
+    #   return_success(obj.to_pos)
+    # else
+    #   return_errors!(obj.errors || user.errors, 400)
+    # end
+  # end
 
   
 
-  def update(data=nil)
-    data ||= data_for(:save)
-    item.set_fields(data, data.keys)
-    ((user = set_user(item)) && (user.errors.blank?)) || user.nil? ? save(item) : return_errors!(user.errors, 400)
-  end
+  # def update(data=nil)
+  #   data ||= data_for(:save)
+  #   item.set_fields(data, data.keys)
+  #   ((user = set_user(item)) && (user.errors.blank?)) || user.nil? ? save(item) : return_errors!(user.errors, 400)
+  # end
 
   def  add_user
     # email
@@ -51,7 +51,8 @@ class App::Services::Entities < App::Services::Base
   
   def self.fields
     {
-      save: [ :name, :ar_name, :short_name, :type_id, :focal_point_name, :focal_point_email, :focal_point_mobile, :notes]
+      # save: [ :name, :ar_name, :short_name, :type_id, :focal_point_name, :focal_point_email, :focal_point_mobile, :notes]
+      save: [ :name, :ar_name, :short_name, :type_id, :logo, :description_ar, :notes]
     }
   end
 end

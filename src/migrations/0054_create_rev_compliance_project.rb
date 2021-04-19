@@ -2,8 +2,7 @@ Sequel.migration do
   change do
     create_table(:rev_compliance_projects) do
       primary_key :id
-      Integer :type
-      Integer :project_id
+      Integer :type_id
       String :project_name, size: 100
       String :project_name_ar, size: 100 
       String :project_description, text: true 
@@ -13,6 +12,12 @@ Sequel.migration do
       Date :start_date
       Date :end_date
       String :notes, text: true
+
+      Integer :owner_id
+
+      column :project_ids, 'integer[]'
+      column :consumer_type_ids, 'integer[]'
+      column :spoc_ids, 'integer[]'
       
       jsonb :attachments, default: '[]'
       jsonb :answers

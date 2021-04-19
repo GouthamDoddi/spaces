@@ -10,7 +10,8 @@ Sequel.migration do
       Integer :owner_id
       Integer :project_type_id
       String :logo_code
-      
+      column :consumer_type_ids, 'integer[]'
+      column :spoc_ids, 'integer[]'
       
       TrueClass :active, :default => true
 

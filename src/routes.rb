@@ -83,7 +83,7 @@ class App::Routes < Roda
         r.get('db_state') { Reports[r, {}].db_state_report }
         r.get('challenges', [Integer, true], [Integer, true]) {|entity_id, project_id| Reports[r, { entity_id: entity_id, project_id: project_id}].challenges}
       }
-      auth_required!
+      # auth_required!
 
       # r.on('reports') {
       #   r.get('entities') {Reports[r, {}].entities}
@@ -94,6 +94,18 @@ class App::Routes < Roda
       #   r.get('project', Integer) { |id| Reports[r, {project_id: id}].project_report }
       # }
 
+      r.on([Integer, true], 'rev-projects') do |entity_id|
+        do_crud(RevProjects, r, 'CRUDL', {entity_id: entity_id} )
+      end
+
+      r.on('rev-projects', Integer, 'e-services') do |project_id|
+        do_crud(ProjectEservices, r, 'CRUDL', {project_id: project_id} )
+      end
+
+      r.on('rev-projects', Integer, 'questions') do |project_id|
+        do_crud(RevQuestions, r, 'CRUDL', {project_id: project_id})
+      end
+      
       r.on('audit-logs', String, Integer) { |resource, resource_id|
         App::Models::AuditLog.where(resource: resource, resource_id: resource_id).all.as_json
       }

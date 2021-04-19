@@ -5,7 +5,7 @@ class App::Models::Entity < Sequel::Model
 
   def validate
     super
-    # validates_presence [:name, :date]
+    validates_presence [:name, :description, :short_name, :type_id]
     # validates_unique :email
     # validates_includes ROLES, :role
   end

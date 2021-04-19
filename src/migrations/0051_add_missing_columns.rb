@@ -8,5 +8,10 @@ Sequel.migration do
     alter_table(:challenges) do
       add_column(:actual_type, Integer)
     end
+
+    alter_table(:entities) do
+      add_column(:logo, String)
+    end
+
   end
 end
