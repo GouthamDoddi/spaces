@@ -11,6 +11,7 @@ class App::Services::RevProjects < App::Services::Base
       hash[:issues_count] = o.issues_count
       hash[:challenges_count] = o.challenges_count
       hash[:compliance_records_count] = o.compliance_records_count
+      hash[:compliance_project] = o.main_compliance_project.as_json
       hash.merge!(o.dates)
     end
     return_success(data)

@@ -98,13 +98,25 @@ class App::Routes < Roda
         do_crud(RevProjects, r, 'CRUDL', {entity_id: entity_id} )
       end
 
-      r.on('rev-projects', Integer, 'e-services') do |project_id|
-        do_crud(ProjectEservices, r, 'CRUDL', {project_id: project_id} )
+      r.on('rev-projects', Integer) do  |project_id|
+        opts = {project_id: project_id}
+        r.on('e-services') do 
+          do_crud(ProjectEservices, r, 'CRUDL',  {project_id: project_id})
+        end
+        r.on 'users' do
+          do_crud(EntityUsers,r, 'CRUDL', opts.merge!(parent: 'project'))
+        end
+
+        r.on 'questions' do
+          do_crud(RevQuestions, r, 'CRUDL', opts)
+        end
       end
 
-      r.on('rev-projects', Integer, 'questions') do |project_id|
-        do_crud(RevQuestions, r, 'CRUDL', {project_id: project_id})
-      end
+      # r.on('rev-projects', Integer, 'questions') do |project_id|
+      #   do_crud(RevQuestions, r, 'CRUDL', {project_id: project_id})
+      # end
+
+
       
       r.on('audit-logs', String, Integer) { |resource, resource_id|
         App::Models::AuditLog.where(resource: resource, resource_id: resource_id).all.as_json
@@ -131,7 +143,7 @@ class App::Routes < Roda
 
       r.on 'entities' do
         r.on Integer, 'users' do |entity_id|
-          do_crud(EntityUsers,r, 'CRUDL', { entity_id: entity_id })
+          do_crud(EntityUsers,r, 'CRUDL', { entity_id: entity_id, parent: 'entity' })
         end
         
         r.on Integer, 'communication' do |entity_id|

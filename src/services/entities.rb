@@ -52,7 +52,7 @@ class App::Services::Entities < App::Services::Base
   def self.fields
     {
       # save: [ :name, :ar_name, :short_name, :type_id, :focal_point_name, :focal_point_email, :focal_point_mobile, :notes]
-      save: [ :name, :ar_name, :short_name, :type_id, :logo, :description_ar, :notes]
+      save: [ :name, :ar_name, :short_name, :type_id, :logo, :description_ar, :notes, :description]
     }
   end
 end
