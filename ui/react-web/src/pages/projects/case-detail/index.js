@@ -23,6 +23,7 @@ import groundMapping from '../../../assets/images/ground-mapping.svg';
 
 import ActivityLogComponent from './activity-logs';
 import StatusUpdateComponent from './status-update';
+import MappingGroundComponent from './mapping-ground';
 
 import CaseInfo from './case-info';
 import { NewLayout } from '../../entities/list';
