@@ -21,7 +21,9 @@ function goToLogin() {
 }
 
 const handleError = async function(error, r) {
-  error({status: 'error', data: 'Somehitng happend.'})
+  if (error) {
+    error({status: 'error', data: 'Somehitng happend.'})
+  };
 }
 
 const fetchWithAuth = function(url, { success, error, data, auth=true, ...options } ) {

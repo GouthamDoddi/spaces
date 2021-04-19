@@ -1,71 +1,64 @@
 import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import HeaderBar from '../../shared/header_bar';
-import Table, { Header, Row } from '../../shared/table';
-import LeftMenu from '../../shared/left-menu';
-import Banner from '../../shared/hmc-banner';
 
-import { entitiesData, entityTypes } from '../../store/master-data';
-import { Link, NavLink, Route, Switch, useParams } from 'react-router-dom';
+import { NavLink, Route, Switch } from 'react-router-dom';
 import { entityEnter, entityList } from '../../pages/routes';
-import { Input } from '../../components/form';
-import { Button } from '../../shared/button';
 
 import EntityElem from '../../pages/entities';
 import makeStore from '../../store/make-store';
 import { useStore } from 'effector-react';
-import { hasMenuAccess } from '../../store/user';
 import qgate from '../../assets/images/qgate.png';
 import BasicTable from '../../shared/table-material';
 
-const { store, load } = makeStore('entities/list');
+import { entityTypes } from '../../store/master-data';
 
-const columns1 = '80px 3.5fr 1.5fr repeat(7, 1fr);';
-export default function (props) {
-  const { entity_id } = useParams();
+const { store, load } = makeStore('http://entity.basservices.in/getallEntity');
 
-  const [bannerTitle, setBannerTitle] = useState('');
+const headlines = [
+  { headline: 'Name', key: 'name' },
+  { headline: 'Shortname', key: 'short_name' },
+  { headline: 'Type', key: 'type_id' },
+  { headline: 'Websites', key: 'websites' },
+  { headline: 'Mobile', key: 'mobile' },
+  { headline: 'E-Services', key: 'e_services' },
+  { headline: 'Completion Percentage', key: 'completion_percentage' },
+];
 
-  const data = Object.values(entitiesData);
-  const [filterVal, setFilterVal] = useState('');
-  const filter = (metadata, { key, value }) =>
-    metadata.filter((o) =>
-      o[key]?.toLowerCase()?.includes(value.toLowerCase().trim())
-    );
+export default function () {
+  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState([]);
 
   useEffect(() => {
-    if (!entity_id) {
-      load();
+    load();
+  }, []);
+
+  let data = useStore(store).data || [];
+
+  if (search || filters.length) {
+    data = data.filter(({ name, short_name, type_id }) => {
+      const caseInsesitiveSearch = search.toLowerCase();
+
+      return (
+        name.toLowerCase().includes(caseInsesitiveSearch) &&
+        short_name.toLowerCase().includes(caseInsesitiveSearch) &&
+        filters.includes(entityTypes[type_id]?.label?.toLowerCase())
+      );
+    });
+  }
+
+  const handleFiltersChange = ({ target: { value } }) => {
+    if (filters.includes(value)) {
+      setFilters((prevVal) => prevVal.filter((val) => val !== value));
+    } else {
+      setFilters((prevVal) => prevVal.concat([value]));
     }
-    entity_id
-      ? setBannerTitle(entitiesData[entity_id]?.name || 'Entities')
-      : setBannerTitle('Entities');
-  }, [entity_id]);
-
-  const entityStore = useStore(store);
-
-  const entityData = entityStore.data || [];
-
-  const headlines = [ 'Name', 'Shortname', 'Type', 'Websites', 'Mobile', 'E-Services', 'Completion Percentage' ];
-
-  const defaultRows = [
-    [ 'The General Retirement and Social Insurance Authority', 'GRISA', 'Authority', 24, 22, 12, 80 ],
-    [ 'Ministry of Administrative Development, Labour and Social Affairs', 'ADLSA', 'Ministry', 37, 43, 33, 45 ],
-    [ 'Ministry of Social Affairs', 'MOCI', 'Ministry', 37, 43, 33, 90 ],
-    [ 'Ministry of Administrative Development', 'MAD', 'Ministry', 37, 43, 33, 30 ],
-    [ 'Ministry of Labour Development', 'MLD', 'Ministry', 37, 43, 33, 43 ],
-    [ 'Ministry of Labour Development', 'MLD', 'Ministry', 37, 43, 33, 43 ],
-  ];
+  };
 
   return (
     <div className="app_wrapper">
       <NewLayout>
-        {/* <Left>
-        <LeftMenu selected='entities' except={['my-tasks']}></LeftMenu>
-      </Left> */}
-
         <HeaderBar className="hb" />
-        {/* <Banner type={bannerTitle} size='32px' mobile='10' websites='10' eservices='32' hideScore className='bnr' /> */}
         <FilterBreadcrumb className="custom_container">
           <div className="filter_breadcrumb">
             <ul>
@@ -109,81 +102,52 @@ export default function (props) {
             <EntityElem />
           </Route>
           <Route path={entityList()}>
-            {/* <Banner type={bannerTitle} size='32px' hideItems hideScore className='bnr' />
-            { hasMenuAccess(['entity', 'profile'], 'C') ? <Button top='295px' className='right' href="#/entities/new">Create Entity</Button> : null }
-            <CustomInput label='Filter' type='text' name='filter' onChange={(ev) => setFilterVal(ev.target.value)} value={filterVal || ''}/>
-            <Table className='tbl' title='Entities' showAll={false}>
-              <Header columns={columns1}>
-                {
-                  ['#', 'Name', 'Short Name', 
-                    'Type', 'Websites', 'Mobile', 
-                    'E-Services', 'Tested %', 'Defects', 'Fixed'
-                  ].map((h, i) => <div className={i > 3 ? 'center' : ''} key={i}>{h}</div>)
-                }
-                  
-              </Header>
-              { filter(entityData, {key: 'name', value: filterVal}).map((o, i) => (
-                <Row key={i} columns={columns1} className='row'>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})}> {i + 1} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} style={{'padding-right': '20px'}}> {o.name} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})}> {o.short_name} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})}> {entityTypes[o.type_id]?.label} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.websites} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.mobile} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.eservices} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.tested}% </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.defects} </CLink>
-                  <CLink to={entityEnter({entity_id: o.id, expand: true})} className='center'> {entitiesData[o.id]?.fixed} </CLink>
-                 </Row>
-
-              ))}
-            </Table> */}
-
             <div className="entity_cards">
               <ul className="entity_boardcard_wrap">
                 <li className="entity_boardcard">
                   <a className="inner_wrap">
                     <span className="title">Total Entities</span>
-
                     <span className="count">34</span>
                   </a>
                 </li>
 
                 <li className="entity_boardcard">
                   <a className="inner_wrap">
-                    <span className="title">Total Entities</span>
+                    <span className="title">Total Projects</span>
                     <span className="count">34</span>
                   </a>
                 </li>
 
                 <li className="entity_boardcard">
                   <a className="inner_wrap">
-                    <span className="title">Total Entities</span>
+                    <span className="title">Total Portas/Websites</span>
                     <span className="count">34</span>
                   </a>
                 </li>
 
                 <li className="entity_boardcard">
                   <a className="inner_wrap">
-                    <span className="title">Total Entities</span>
+                    <span className="title">Total Mobile Apps</span>
                     <span className="count">34</span>
                   </a>
                 </li>
 
                 <li className="entity_boardcard">
                   <a className="inner_wrap">
-                    <span className="title">Total Entities</span>
+                    <span className="title">Total eServies</span>
                     <span className="count">34</span>
                   </a>
                 </li>
 
                 <li className="entity_boardcard">
                   <a className="inner_wrap">
-                    <span className="title">Total Entities</span>
-                    <span className="count green">74%</span>
-                    <span className="progressbar_wrap">
-                      <Progress className="progress" width="74%" />
-                    </span>
+                    <span className="title">Total Completion Percentage</span>
+                    <div>
+                      <span className="count green">74%</span>
+                      <span className="progressbar_wrap">
+                        <Progress className="progress" width="74%" />
+                      </span>
+                    </div>
                   </a>
                 </li>
               </ul>
@@ -197,7 +161,9 @@ export default function (props) {
                       <input
                         type="text"
                         className="srch_input"
-                        placeholder="Search projects by Name/Owner/Sponsor"
+                        placeholder="Search entities by Name/Short Name"
+                        value={search}
+                        onChange={({ target: { value } }) => setSearch(value)}
                       />
                     </div>
                   </div>
@@ -215,6 +181,8 @@ export default function (props) {
                                 type="checkbox"
                                 name="filter"
                                 id="ministry"
+                                value="ministry"
+                                onChange={handleFiltersChange}
                               />
                               <label htmlFor="ministry">Ministry </label>
                             </div>
@@ -226,9 +194,11 @@ export default function (props) {
                                 className="filter-type filled-in"
                                 type="checkbox"
                                 name="filter"
-                                id="Authority"
+                                id="authority"
+                                value="authority"
+                                onChange={handleFiltersChange}
                               />
-                              <label htmlFor="Authority">Authority </label>
+                              <label htmlFor="authority">Authority </label>
                             </div>
                           </li>
 
@@ -238,9 +208,11 @@ export default function (props) {
                                 className="filter-type filled-in"
                                 type="checkbox"
                                 name="filter"
-                                id="Agency"
+                                id="agency"
+                                value="agency"
+                                onChange={handleFiltersChange}
                               />
-                              <label htmlFor="Agency">Authority </label>
+                              <label htmlFor="agency">Agency </label>
                             </div>
                           </li>
                         </ul>
@@ -257,7 +229,34 @@ export default function (props) {
                 </div>
 
                 <div className="table_wrapper">
-                  <BasicTable tableCells={headlines} rows={defaultRows} />
+                  <BasicTable
+                    tableCells={headlines}
+                    rows={data}
+                    renderCol={(colIndex, col) => {
+                      if (colIndex === 2) {
+                        return entityTypes[col]?.label;
+                      }
+
+                      if (colIndex === 6 && col) {
+                        return (
+                          <>
+                            <span className="count green bg_green">{`${
+                              col || ''
+                            }%`}</span>
+                            <span className="progressbar_wrap">
+                              <Progress
+                                className="progress"
+                                width={`${col || ''}%`}
+                              />
+                            </span>
+                          </>
+                        );
+                      }
+
+                      return false;
+                    }}
+                    keyField="id"
+                  />
                 </div>
               </div>
             </div>
@@ -268,35 +267,8 @@ export default function (props) {
   );
 }
 
-// const Left = styled.div`
-//   position: fixed;
-//   top: 0;
-//   bottom: 0;
-//   left: 0;
-//   width: 270px;
-// `;
-
-// const Content = styled.div`
-//   margin: 0 30px;
-//   margin-bottom: 30px;
-//   display: grid;
-//   grid-gap: 30px;
-//   grid-template-columns: repeat(12, 1fr);
-//   grid-auto-rows: auto;
-
-//   .hb { grid-column: 1 / -1};
-//   .bnr { grid-column: 1 / -1};
-//   .tbl {
-//     grid-column: 1 / -1;
-//     height: 100%;
-//     .row {
-//       &:last-child {border-bottom: none;}
-//     }
-//   };
-// `
-
 const FilterBreadcrumb = styled.div`
-  background: transparent !important;
+  background-color: #f7fafd !important;
   margin-top: 75px;
 
   ul {
@@ -315,6 +287,8 @@ export const Progress = styled.span`
 `;
 
 export const NewLayout = styled.div`
+  padding-bottom: 20px;
+
   ul {
     list-style: none;
     margin: 0px !important;
@@ -332,14 +306,14 @@ export const NewLayout = styled.div`
     .entity_boardcard_wrap {
       display: flex;
       justify-content: center;
-      padding: 20px 0;
+      padding: 20px 10px;
       width: 100%;
       max-width: 1740px;
     }
   }
 
   .entity_boardcard {
-    width: 16.6%;
+    flex: 1 0 0;
     padding: 0 10px;
   }
 
@@ -348,8 +322,14 @@ export const NewLayout = styled.div`
     background: #ffffff 0% 0% no-repeat padding-box;
     border: 1px solid #dddddd;
     opacity: 1;
-    padding: 0 20px;
-    display: block;
+    padding: 12px 20px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .count:not(.green) {
+      font: normal normal bold 25px/36px Muli;
+    }
   }
 
   .entity_boardcard .inner_wrap .title {
@@ -358,7 +338,6 @@ export const NewLayout = styled.div`
     letter-spacing: 0px;
     color: #000000;
     display: block;
-    margin: 20px 0 40px 0;
   }
 
   /* .entity_boardcard .inner_wrap:nth-child(1){
@@ -397,12 +376,11 @@ export const NewLayout = styled.div`
     display: inline-block;
     width: 46px;
     height: 18px;
-    background: #DEFCD4 0% 0% no-repeat padding-box;
+    background: #defcd4 0% 0% no-repeat padding-box;
     border-radius: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: auto;
   }
 
   .progressbar_wrap {
@@ -977,45 +955,41 @@ export const NewLayout = styled.div`
 
   .filter_breadcrumb ul {
     display: flex;
-    background: #F7FAFD;
   }
-  
-  .filter_sele{
+
+  .filter_sele {
     display: flex;
     flex-flow: column;
     position: relative;
   }
-  .filter_breadcrumb ul li{
+  .filter_breadcrumb ul li {
     position: relative;
     width: 210px;
     margin: 0 34px 0 0;
   }
-  .filter_breadcrumb ul li:last-child::before{
+  .filter_breadcrumb ul li:last-child::before {
     background: transparent;
   }
-  
-  .filter_breadcrumb ul li:before{
+
+  .filter_breadcrumb ul li:before {
     position: absolute;
     right: -19px;
     top: 50%;
     transform: translateY(-50%);
-    content: "";
+    content: '';
     width: 11px;
     height: 20px;
     background-image: url('./assets/images/angle_right.svg');
   }
-  
-  
-  
+
   .filter_sele label {
     letter-spacing: 0px;
     color: #999999;
     margin-bottom: 10px;
     font-size: 12px;
   }
-  
-  
-  .filter_sele select{
+
+  .filter_sele select {
     width: 100%;
     font-size: 11px;
     background-color: transparent;
@@ -1026,31 +1000,22 @@ export const NewLayout = styled.div`
     border-radius: none;
     position: relative;
   }
-  
+
   .filter_breadcrumb {
     padding: 15px 0;
+    background: #f7fafd;
   }
-  
-  .filter_sele.active select{
-    color:  #3FBF11;
+
+  .filter_sele.active select {
+    color: #3fbf11;
   }
-  
+
   .filter_sele.active:before {
     position: absolute;
-    content: "";
+    content: '';
     width: 100%;
     height: 2px;
-    background-color: #3FBF11;
+    background-color: #3fbf11;
     bottom: -15px;
   }
 `;
-
-// const CLink = styled(Link)`
-//   color: #000;
-//   display: flex;
-//   align-items: center;
-// `;
-
-// const CustomInput = styled(Input)`
-//   // margin: 0 0 10px 20px;
-// `;

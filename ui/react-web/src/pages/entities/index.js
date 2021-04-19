@@ -34,12 +34,6 @@ const AngleRight = () => {
 
 export default function () {
   const [step, setStep] = useState(1);
-  const [profileData, setProfileData] = useState({});
-
-  const handleFirstStep = (data) => {
-    setProfileData(data);
-    setStep(2);
-  };
 
   return (
     <div>
@@ -91,7 +85,7 @@ export default function () {
           </li>
         </ul>
       </div>
-      {step === 1 ? <Profile onSubmit={handleFirstStep} /> : <Details profileData={profileData} />}
+      {step === 1 ? <Profile /> : <Details />}
     </div>
   );
 }

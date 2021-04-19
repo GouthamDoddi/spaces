@@ -376,8 +376,6 @@ const SmallCards = styled.div`
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #F7FAFD;
-  background: linear-gradient(0deg, #F0F7FD 460px, #FFFFFF 461px, #FFFFFF 100%);
   align-items: center;
   ${p => p.rtl && css`
     direction: rtl;
@@ -390,7 +388,6 @@ const Content = styled.div`
   align-items: center;
   flex-grow: 1;
   width: 100%;
-  background-color: #F7FAFD;
   padding-bottom: 40px;
   // min-height: 460px;
   // position: relative;

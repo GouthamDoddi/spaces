@@ -107,11 +107,11 @@ export default function makeStore(path, { group_by=null, defaultStore={ loading:
   }
   
   function assignData(resp, cb) {
-    const { data } = resp
+    const { data, details } = resp
     disableLoading()
     // console.log("Adding Data")
-    addData( data )
-    if(cb) { cb(data) }
+    addData( data || details )
+    if(cb) { cb(data || details) }
   }
   
   function assignError(resp) {

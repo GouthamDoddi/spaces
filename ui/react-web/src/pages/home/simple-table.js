@@ -78,14 +78,14 @@ const Box = styled.table`
   tr {
     padding: 0;
     &:first-child {
-      background-color:  #F7FAFD; //#F5F5F5;
+      background-color: #f3f3f3;
       
     }
     
     td {
-      padding: 0 20px;
+      padding: 0 36px;
     }
-    border: 1px solid rgb(221, 221, 221, 0.36);
+    border: 1px solid #DDDDDD;
 
     &:not(:first-child) {
       > td:not(:first-child) {

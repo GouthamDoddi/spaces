@@ -176,7 +176,6 @@ const Img = styled.div`
 `
 
 const Content = styled.div`
-  margin: 0 30px;
   margin-bottom: 30px;
   display: grid;
   grid-gap: 30px;

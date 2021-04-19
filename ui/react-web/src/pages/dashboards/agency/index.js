@@ -233,8 +233,6 @@ const SmallCards = styled.div`
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #F7FAFD;
-  background: linear-gradient(0deg, #F0F7FD 460px, #FFFFFF 461px, #FFFFFF 100%);
   align-items: center;
 `
 
@@ -242,7 +240,6 @@ const Content = styled.div`
   align-items: center;
   flex-grow: 1;
   width: 100%;
-  background-color: #F7FAFD;
   padding-bottom: 40px;
 `
 
@@ -271,6 +268,28 @@ const CardHolder = styled.div`
   ${rtl`
   padding-left: 100px;
   `}
+
+  /* total width */
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    height: 8px;
+  }
+
+  /* background of the scrollbar except button or resizer */
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  /* scrollbar itself */
+  &::-webkit-scrollbar-thumb {
+    background-color: #C9C9C9;
+    border-radius: 4px;
+  }
+
+  /* set button(top and bottom of the scrollbar) */
+  &::-webkit-scrollbar-button {
+    display:none;
+  }
   
   > .header {
     display: flex;

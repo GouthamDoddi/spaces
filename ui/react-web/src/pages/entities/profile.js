@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import CropModal from './crop-modal';
 import { useParams } from 'react-router';
 import DropZone from './drop-zone';
+import { entityTypes } from '../../store/master-data';
 
-const Profile = ({ onSubmit }) => {
+const Profile = () => {
   const { entity_id } = useParams();
   const [files, setFiles] = useState([]);
   const [data, setData] = useState({
@@ -13,7 +14,7 @@ const Profile = ({ onSubmit }) => {
     description: '',
     description_ar: '',
     short_name: '',
-    entity_type: 'test1',
+    type_id: entityTypes['1'].value,
     logo: null,
   });
   const [errors, setErrors] = useState({});
@@ -32,7 +33,7 @@ const Profile = ({ onSubmit }) => {
     description: 'Entity description',
     description_ar: 'Entity description',
     short_name: 'Short name',
-    entity_type: 'Entity type',
+    type_id: 'Entity type',
     logo: 'Entity logo',
   };
 
@@ -46,7 +47,7 @@ const Profile = ({ onSubmit }) => {
       case 'description':
       case 'description_ar':
       case 'short_name':
-      case 'entity_type':
+      case 'type_id':
       case 'logo':
         return isEmpty(name, value);
       default:
@@ -93,7 +94,6 @@ const Profile = ({ onSubmit }) => {
     }, false);
 
     if (!hasErrors) {
-      onSubmit(data);
     }
   };
 
@@ -103,7 +103,7 @@ const Profile = ({ onSubmit }) => {
     description,
     description_ar,
     short_name,
-    entity_type,
+    type_id,
     logo,
   } = data;
 
@@ -124,9 +124,11 @@ const Profile = ({ onSubmit }) => {
               <div className="text_field_wrapper">
                 <input
                   type="text"
+                  placeholder="For example, Ministry of Commerce and Industry"
                   name="name"
                   value={name}
                   onChange={handleChange}
+                  maxLength={100}
                 />
                 <div className="text-right">
                   <span className="limit">
@@ -141,9 +143,12 @@ const Profile = ({ onSubmit }) => {
                 Description <mark>*</mark>
               </label>
               <div className="text_field_wrapper">
-                <textarea name="description" onChange={handleChange}>
-                  {description}
-                </textarea>
+                <textarea
+                  placeholder="Elaborate entity details here"
+                  name="description"
+                  value={description}
+                  onChange={handleChange}
+                />
                 <span className="error_messg">{errors.description}</span>
               </div>
             </div>
@@ -156,6 +161,7 @@ const Profile = ({ onSubmit }) => {
                   </label>
                   <div className="text_field_wrapper">
                     <input
+                      placeholder="MOCI"
                       name="short_name"
                       value={short_name}
                       onChange={handleChange}
@@ -173,13 +179,15 @@ const Profile = ({ onSubmit }) => {
                   </label>
                   <div className="text_field_wrapper">
                     <select
-                      name="entity_type"
-                      value={entity_type}
+                      name="type_id"
+                      value={type_id}
                       onChange={handleChange}
                     >
-                      <option value="test1">Test1</option>
+                      {Object.values(entityTypes).map(({ value, label }) => (
+                        <option value={value}>{label}</option>
+                      ))}
                     </select>
-                    <span className="error_messg">{errors.entity_type}</span>
+                    <span className="error_messg">{errors.type_id}</span>
                   </div>
                 </div>
               </div>
@@ -200,15 +208,14 @@ const Profile = ({ onSubmit }) => {
                 {' '}
                 اسم <mark>*</mark>{' '}
               </label>
-              <div
-                className="text_field_wrapper"
-                placeholder="على سبيل المثال ، وزارة التجارة والصناعة"
-              >
+              <div className="text_field_wrapper">
                 <input
+                  placeholder="على سبيل المثال ، وزارة التجارة والصناعة"
                   name="name_ar"
                   value={name_ar}
                   onChange={handleChange}
                   type="text"
+                  maxLength={100}
                 />
                 <div className="text-right">
                   <span className="limit">بقي {100 - name_ar.length} حرف</span>
@@ -227,7 +234,7 @@ const Profile = ({ onSubmit }) => {
                   value={description_ar}
                   onChange={handleChange}
                   placeholder="اشرح تفاصيل الكيان هنا"
-                ></textarea>
+                />
                 <span className="error_messg">{errors.description_ar}</span>
               </div>
             </div>

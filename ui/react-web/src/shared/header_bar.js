@@ -231,7 +231,7 @@ const NewHeader = styled.header`
   background: #ffffff 0% 0% no-repeat padding-box;
   border-bottom: 1px solid #dddddd;
   opacity: 1;
-  padding: 10px 0;
+  padding: 10px 100px;
   top: 0;
   left: 0;
 
