@@ -21,12 +21,16 @@ class App::Services::EntityUsers < App::Services::Base
   end
 
   def add_parent_id(obj)
+
     if(rp[:parent] == 'entity')
       return_errors!({role: "Invalid Role selected"}) unless [7,8,9].include?(obj.role)
-      (obj.entity_ids ||= []) << rp[:entity_id]
+      (obj.entity_ids ||= [])
+      obj.entity_ids << rp[:entity_id]
+
     elsif(rp[:parent] == 'project')
       return_errors!({role: "Invalid Role selected"}) unless [8,9].include?(obj.role)
-      (obj.project_ids ||= []) << rp[:project_id]
+      (obj.project_ids ||= []) 
+      obj.project_ids << rp[:project_id]
     end
   end
 
@@ -36,9 +40,7 @@ class App::Services::EntityUsers < App::Services::Base
       obj.temp_token = SecureRandom.uuid
       add_parent_id(obj)
         
-      save(obj) { |o|
-        # SendEmail.send(:welcome_email, {o: o})
-      }
+      save(obj)
     else
       return_errors!('Unauthorized to add', 401)
     end
