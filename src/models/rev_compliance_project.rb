@@ -4,7 +4,7 @@ class App::Models::RevComplianceProject < Sequel::Model
 
   def validate
     super
-    validates_presence [:project_ids]
+    validates_presence [:project_ids, :project_name]
   end
 
   def pos(options={})

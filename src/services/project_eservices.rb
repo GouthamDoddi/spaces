@@ -4,14 +4,10 @@ class App::Services::ProjectEservices < App::Services::Base
   def model; RevComplianceProject; end
 
   def list
-    cond = { entity_id: rp[:entity_id]}
+    cond = { owner_id: rp[:entity_id], type_id: 3}
     data = model.order(Sequel.desc(:created_at)).where(cond).map do |o|
       hash = o.as_json
-      hash[:progress] = o.progress
-      hash[:issues_count] = o.issues_count
-      hash[:challenges_count] = o.challenges_count
-      hash[:compliance_records_count] = o.compliance_records_count
-      hash.merge!(o.dates)
+      
     end
     return_success(data)
   end
@@ -19,6 +15,8 @@ class App::Services::ProjectEservices < App::Services::Base
 
   def create
     obj = model.new(data_for(:save))
+    obj.owner_id = rp[:entity_id]
+    obj.type_id = 3
     save(obj)
   end
 
@@ -26,7 +24,7 @@ class App::Services::ProjectEservices < App::Services::Base
     {
       save: [
         :project_name, :project_name_ar, :project_description, :project_description_ar, 
-        :sponsor_id, :owner_id, :project_type_id, :consumer_type_ids, :start_date, :end_date,
+        :sponsor_id, :owner_id, :start_date, :end_date,
         :logo_code, :spoc_ids, :consumer_type_ids, :project_ids
       ]
     }

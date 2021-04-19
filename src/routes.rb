@@ -100,9 +100,9 @@ class App::Routes < Roda
 
       r.on('rev-projects', Integer) do  |project_id|
         opts = {project_id: project_id}
-        r.on('e-services') do 
-          do_crud(ProjectEservices, r, 'CRUDL',  {project_id: project_id})
-        end
+        # r.on('e-services') do 
+        #   do_crud(ProjectEservices, r, 'CRUDL',  {project_id: project_id})
+        # end
         r.on 'users' do
           do_crud(EntityUsers,r, 'CRUDL', opts.merge!(parent: 'project'))
         end
@@ -152,6 +152,10 @@ class App::Routes < Roda
 
         r.on Integer, 'services' do |entity_id|
           do_crud(EntityServices, r, 'CRUDL', {entity_id: entity_id})
+        end
+
+        r.on(Integer, 'e-services') do |entity_id|
+          do_crud(ProjectEservices, r, 'CRUDL',  {entity_id: entity_id})
         end
 
         
