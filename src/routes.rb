@@ -83,7 +83,7 @@ class App::Routes < Roda
         r.get('db_state') { Reports[r, {}].db_state_report }
         r.get('challenges', [Integer, true], [Integer, true]) {|entity_id, project_id| Reports[r, { entity_id: entity_id, project_id: project_id}].challenges}
       }
-      # auth_required!
+      auth_required!
 
       # r.on('reports') {
       #   r.get('entities') {Reports[r, {}].entities}
