@@ -1,4 +1,4 @@
-class App::Models::EntityCommunication < Sequel::Model
+class App::Models::RevEntityCommunication < Sequel::Model
   def validate
     super
     validates_presence [:user_ids, :subject]
