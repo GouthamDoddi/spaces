@@ -10,9 +10,9 @@ class App::Services::EntityUsers < App::Services::Base
   def list
     cond = {}
     if(rp[:parent] == 'entity')
-      cond = Sequel.pg_array_op(:entity_ids).overlaps(Sequel.pg_array(rp[:entity_id], :integer))
+      cond = Sequel.pg_array_op(:entity_ids).overlaps(Sequel.pg_array([rp[:entity_id]], :integer))
     elsif(rp[:parent] == 'project')
-      cond = Sequel.pg_array_op(:project_ids).overlaps(Sequel.pg_array(rp[:project_id], :integer))
+      cond = Sequel.pg_array_op(:project_ids).overlaps(Sequel.pg_array([rp[:project_id]], :integer))
     end
     # entity_ids = App.cu.admin? ? [rp[:entity_id]] : ([rp[:entity_ids]] & App.cu.entity_ids)
     # cond = Sequel.pg_array_op(:entity_ids).overlaps(Sequel.pg_array(entity_ids, :integer))
