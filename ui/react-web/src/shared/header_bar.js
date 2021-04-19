@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { useStore } from 'effector-react';
 import styled from 'styled-components';
 import cs from '../utils/colors.js';
@@ -118,8 +118,18 @@ const notifications = [
   },
 ];
 
-export default function ({ className, ...props }) {
+export default withRouter(function ({ className, ...props }) {
   const store = useStore(userStore);
+
+  const checkActiveLink = ({ route }) => {
+    let checkMatch = props.match.path;
+    console.log({ route, checkMatch })
+    if (route === checkMatch) {
+      return true;
+    }
+    return false;
+  }
+
   return (
     <>
       <NewHeader>
@@ -137,11 +147,19 @@ export default function ({ className, ...props }) {
                 <NavLink to="/board"> Dashboard</NavLink>
               </li>
               <li>
-                <NavLink to="/entities"> Entity Management</NavLink>
+                <NavLink to="/entities">
+                  <ActiveSpan active={checkActiveLink({ route: '/entities' })}>
+                    {'Entity Management'}
+                  </ActiveSpan>
+                </NavLink>
               </li>
               <li>
                 {/* <NavLink to="/compliance"> Compliance Project</NavLink> */}
-                <NavLink to="/projects"> Project Management </NavLink>
+                <NavLink to="/projects">
+                  <ActiveSpan active={checkActiveLink({ route: '/projects' })}>
+                    {'Project Management'}
+                  </ActiveSpan>
+                </NavLink>
               </li>
               <li>
                 <NavLink to="/governance/case-management/snapshot"> Case Management</NavLink>
@@ -223,7 +241,15 @@ export default function ({ className, ...props }) {
     //   </div>
     // </StyledHeader>
   );
-}
+});
+
+const ActiveSpan = styled.span`
+  color: ${props => props.active ? '#EB622B' : '#666666'};
+  border: ${props => props.active ? '1px solid #ddd' : 'none'};
+  background: ${props => props.active ? '#FFE5DB' : 'none'};
+  padding: ${props => props.active ? '5px 8px' : '0px'};
+  border-radius: ${props => props.active ? '15px' : '0px'};
+`
 
 const NewHeader = styled.header`
   position: absolute;
