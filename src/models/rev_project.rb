@@ -29,7 +29,8 @@ class App::Models::RevProject < Sequel::Model
   end
 
   def dates
-    { start_date: compliance_projects.min(&:start_date)&.start_date, last_date: compliance_projects.max(&:end_date)&.end_date }
+    { start_date: compliance_projects.min{_1.start_date <=> _2.start_date}&.start_date, 
+      last_date: compliance_projects.max{_1.end_date <=> _2.end_date}&.end_date }
   end
 
   def progress
