@@ -123,7 +123,6 @@ export default withRouter(function ({ className, ...props }) {
 
   const checkActiveLink = ({ route }) => {
     let checkMatch = props.match.path;
-    console.log({ route, checkMatch })
     if (route === checkMatch) {
       return true;
     }

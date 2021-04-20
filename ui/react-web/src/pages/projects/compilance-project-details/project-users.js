@@ -1,47 +1,89 @@
 import React, { useEffect, useState } from 'react';
-import DropZone from '../drop-zone';
+import { useParams } from 'react-router';
+import makeStore from '../../../store/make-store';
+import { entityUserRole } from '../../../store/master-data';
 import CropModal from '../../entities/crop-modal';
+import DropZone from '../../entities/drop-zone';
+import { ButtonLink } from '../../entities/details';
 
-const ProjectUsers = ({ defaultData, onSubmit }) => {
-  const [files, setFiles] = useState([]);
-  const [data, setData] = useState({
-    full_name: '',
+const { load, create, update, remove } = makeStore(
+  ({ project_id, user_id }) =>
+    `rev-projects/${project_id}/users${user_id ? `/${user_id}` : ''}`
+);
+
+const ProjectUsers = ({
+  files,
+  setFiles,
+  setTableProps,
+}) => {
+  const { project_id, user_id } = useParams();
+  const defaultData = {
+    first_name: '',
     email: '',
     phone: '',
-    role: 'test1',
-    logo: null
-  });
+    role: entityUserRole['7'].value,
+    profile_pic: null,
+  };
+  const [data, setData] = useState(defaultData);
   const [errors, setErrors] = useState({});
   const [submitClicked, setSubmitClicked] = useState(false);
 
+  const handleEdit = (id) => {
+    load({ project_id, user_id: id }, (data) => setData(data));
+  };
+
+  const handleRemove = (user_id) => {
+    remove({ project_id, user_id });
+    setTableProps((prevValue) => ({
+      ...prevValue,
+      rows: prevValue.rows.filter(({ id }) => id !== user_id)
+    }))
+  }
+
   useEffect(() => {
-    if (defaultData) {
-      setData(defaultData);
-    }
-  }, [defaultData]);
+    load({ project_id, user_id }, (data) =>
+      setTableProps({
+        rows: data,
+        renderCol: (colIndex, col, rowIndex, row) => {
+          if (colIndex === 0) {
+            return row.first_name;
+          }
+
+          if (colIndex === 3) {
+            return entityUserRole[col]?.label;
+          }
+
+          if (colIndex === 4) {
+            return (
+              <>
+                <ButtonLink onClick={() => handleEdit(col)}>Edit</ButtonLink>
+                <ButtonLink onClick={() => handleRemove(col)}>Delete</ButtonLink>
+              </>
+            );
+          }
+
+          return false;
+        },
+      })
+    );
+  }, []);
 
   const errorLabels = {
-    full_name: 'Full Name',
+    first_name: 'Full name',
     email: 'Email',
-    phone: 'Phone Number',
+    phone: 'Phone',
     role: 'Role',
-    logo: 'Upload'
+    profile_pic: 'Profile picture',
   };
 
   const isEmpty = (name, value) =>
-    value?.length ? '' : errorLabels[name] + ' is a required field';
+    value ? '' : errorLabels[name] + ' is a required field';
 
   const isInvalid = (name, value) => {
     switch (name) {
-      case 'full_name':
-        return isEmpty(name, value);
+      case 'first_name':
       case 'email':
-        return isEmpty(name, value);
-      case 'phone':
-        return isEmpty(name, value);
       case 'role':
-        return isEmpty(name, value);
-      case 'logo':
         return isEmpty(name, value);
       default:
         return false;
@@ -62,27 +104,9 @@ const ProjectUsers = ({ defaultData, onSubmit }) => {
     }
   };
 
-  const handleChange = ({ target: { value, name, type } }) => {
-    if (type === 'checkbox') {
-      if (data[name].includes(value)) {
-        updateData(
-          name,
-          data[name].filter((val) => val !== value)
-        );
-      } else {
-        updateData(name, data[name].concat([value]));
-      }
-
-      return;
-    }
-
+  const handleChange = ({ target: { value, name } }) => {
     updateData(name, value);
   };
-
-  const setFile = (value) => {
-    setFiles(value || []);
-  };
-
 
   const handleSubmit = () => {
     if (!submitClicked) {
@@ -101,24 +125,49 @@ const ProjectUsers = ({ defaultData, onSubmit }) => {
     }, false);
 
     if (!hasErrors) {
-      onSubmit(data);
+      const userId = user_id || data.id;
+
+      if (userId) {
+        update({
+          data,
+          cb: (data) => {
+            setData(defaultData);
+            setTableProps((prevData) => {
+              const prevUsers = [...prevData.rows];
+
+              const updatedIndex = prevUsers.find(({ id }) => id === userId);
+              prevUsers[updatedIndex] = data;
+
+              return { ...prevData, rows: [...prevUsers] };
+            });
+          },
+          project_id,
+          user_id: userId,
+        });
+      } else {
+        create({ data, cb: (data) => {
+          setData(defaultData);
+          setTableProps((prevUsers) => ({
+            ...prevUsers,
+            rows: prevUsers.rows.concat([data]),
+          }))
+        }, project_id });
+      }
     }
   };
 
-  const {
-    full_name,
-    email,
-    phone,
-    role,
-    logo
-  } = data;
+  const setFile = (value) => {
+    setFiles(value || []);
+  };
+
+  const { first_name, email, phone, role, profile_pic } = data;
 
   return (
     <>
       <CropModal
         file={files[0]?.preview}
         setFile={setFile}
-        setCroppedImage={(value) => updateData('logo', value)}
+        setCroppedImage={(value) => updateData('profile_pic', value)}
       />
       <div className="flex_row">
         <div className="flex_col_sm_6">
@@ -130,11 +179,11 @@ const ProjectUsers = ({ defaultData, onSubmit }) => {
               <input
                 type="text"
                 placeholder="Enter user's full name"
-                name="full_name"
-                value={full_name}
+                name="first_name"
+                value={first_name}
                 onChange={handleChange}
               />
-              <div className="error_messg">{errors.full_name}</div>
+              <div className="error_messg">{errors.first_name}</div>
             </div>
           </div>
         </div>
@@ -142,12 +191,12 @@ const ProjectUsers = ({ defaultData, onSubmit }) => {
         <div className="flex_col_sm_6">
           <div className="form_field_wrapper">
             <label className="form_label">
-              E-mail <mark>*</mark>
+              Email <mark>*</mark>
             </label>
             <div className="text_field_wrapper">
               <input
                 type="text"
-                placeholder="Enter Email"
+                placeholder="Enter email"
                 name="email"
                 value={email}
                 onChange={handleChange}
@@ -161,13 +210,11 @@ const ProjectUsers = ({ defaultData, onSubmit }) => {
       <div className="flex_row">
         <div className="flex_col_sm_6">
           <div className="form_field_wrapper">
-            <label className="form_label">
-              Phone <mark>*</mark>
-            </label>
+            <label className="form_label">Phone</label>
             <div className="text_field_wrapper">
               <input
                 type="text"
-                placeholder="Enter Phone"
+                placeholder="Enter phone"
                 name="phone"
                 value={phone}
                 onChange={handleChange}
@@ -183,34 +230,27 @@ const ProjectUsers = ({ defaultData, onSubmit }) => {
               Role <mark>*</mark>
             </label>
             <div className="text_field_wrapper">
-              <select
-                name="role"
-                value={role}
-                onChange={handleChange}
-              >
-                <option value="test1">Test1</option>
+              <select name="role" value={role} onChange={handleChange}>
+                {Object.values(entityUserRole)
+                  .slice(1, 4)
+                  .map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
               </select>
-              <span className="error_messg">{errors.role}</span>
+              <div className="error_messg">{errors.role}</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="flex_col_sm_8">
-        <div className="form_field_wrapper">
-          <label className="form_label">
-            Upload Entity Logo <mark>*</mark>
-          </label>
-          <DropZone
-            files={files}
-            setFiles={setFiles}
-            preview={logo}
-            sizeInMb={10}
-            formats={['image/png', 'image/jpg']}
-            label={'Click here or drag and drop here'}
-            sub_label={'Allowed file formats are PNG, JPG within 10MB'}
-          />
-          <span className="error_messg">{errors.logo}</span>
+      <div className="flex_row">
+        <div className="flex_col_sm_6">
+          <div className="form_field_wrapper">
+            <label className="form_label">Upload profile picture</label>
+            <DropZone files={files} setFiles={setFiles} preview={profile_pic} />
+          </div>
         </div>
       </div>
 

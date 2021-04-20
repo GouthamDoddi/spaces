@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import DropZone from '../drop-zone';
-import CropModal from '../../entities/crop-modal';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import { ButtonLink } from '../../entities/details';
+import makeStore from '../../../store/make-store';
+import { useParams } from 'react-router';
+import { projectCategoryTypes } from '../../../store/master-data';
 
-const SubmitEvidence = ({ defaultData, onSubmit }) => {
+const { load, create, update } = makeStore(({ project_id, id }) => `${project_id}/rev-compl-projects/${id ? `/${id}` : ''}`);
+
+const SubmitEvidence = ({ setTableProps }) => {
+  const { project_id } = useParams();
+  const [id, setId] = useState();
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState({});
   const [submitClicked, setSubmitClicked] = useState(false);
@@ -22,12 +28,6 @@ const SubmitEvidence = ({ defaultData, onSubmit }) => {
     notes: '',
     logo: null
   });
-
-  useEffect(() => {
-    if (defaultData) {
-      setData(defaultData);
-    }
-  }, [defaultData, files]);
 
   const errorLabels = {
     full_name: 'Full Name',
@@ -51,13 +51,62 @@ const SubmitEvidence = ({ defaultData, onSubmit }) => {
     }
   };
 
-  const setFile = (value) => {
-    setFiles(value || []);
-  };
-
   const fetchFiles = (updated) => {
     forceUpdate([]);
   }
+
+  const handleEdit = (id) => {
+    setId(id);
+    load({ id }, (data) =>
+      setData(
+        data.reduce((prevVal, { id, question, answer }) => {
+          return {
+            ...prevVal,
+            [id]: { question, answer: answer === 'yes' },
+          };
+        }, {})
+      )
+    );
+  };
+
+  useEffect(() => {
+    load({ project_id }, (data) => {
+      // data = Object.values(data).filter(({ type_id }) => type_id === 3);
+
+      // if (data[0]?.id) {
+      //   setId(data[0]?.id);
+      //   load({ id: data[0].id }, (data) =>
+      //     setData(
+      //       data.reduce((prevVal, { id, question, answer }) => {
+      //         return {
+      //           ...prevVal,
+      //           [id]: { question, answer: answer === 'yes' },
+      //         };
+      //       }, {})
+      //     )
+      //   );
+      // }
+
+      // setTableProps({
+      //   rows: data,
+      //   renderCol: (colIndex, col) => {
+      //     if (colIndex === 0) {
+      //       return projectCategoryTypes[col]?.label;
+      //     }
+
+      //     if (colIndex === 2) {
+      //       return (
+      //         <ButtonLink onClick={() => handleEdit(col)}>
+      //           Edit Compliance Record
+      //         </ButtonLink>
+      //       );
+      //     }
+
+      //     return false;
+      //   },
+      // });
+    });
+  }, []);
 
   const updateData = (name, value) => {
     setData((prevData) => ({
@@ -107,7 +156,7 @@ const SubmitEvidence = ({ defaultData, onSubmit }) => {
     }, false);
 
     if (!hasErrors) {
-      onSubmit(data);
+      
     }
   };
 

@@ -42,7 +42,7 @@ const EServices = ({ setTableProps }) => {
     project_description: 'Description',
     project_description_ar: 'Description',
     spoc_ids: 'Project SPOC',
-    project_ids: 'project_ids',
+    project_ids: 'Project',
     consumer_type_ids: 'Consumer type',
   };
 
@@ -185,7 +185,7 @@ const EServices = ({ setTableProps }) => {
 
       if (data.id) {
         update({
-          data: { ...data, project_ids: [parseInt(project_ids)] },
+          data,
           cb: (data) => {
             setData(defaultData);
             setTableProps((prevData) => {
@@ -202,7 +202,7 @@ const EServices = ({ setTableProps }) => {
         });
       } else {
         create({
-          data: { ...data, project_ids: [parseInt(project_ids)] },
+          data,
           cb: (data) => {
             setData(defaultData);
             setTableProps((prevUsers) => ({
@@ -336,13 +336,14 @@ const EServices = ({ setTableProps }) => {
               Channels <mark>*</mark>
             </label>
             <div className="text_field_wrapper">
-              <select
+              <AutoComplete
+                placeholder="Search and select user group"
                 name="project_ids"
                 values={project_ids}
                 onChange={handleChange}
-              >
-                {projects.map(({ id, project_name }) => <option key={id} value={id}>{project_name}</option>)}
-              </select>
+                error={errors.project_ids}
+                options={projects.map(({ id, project_name }) => ({ value: id, label: project_name })) }
+              />
               <div className="error_messg">{errors.project_ids}</div>
             </div>
           </div>
