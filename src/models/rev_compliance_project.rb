@@ -5,7 +5,7 @@ class App::Models::RevComplianceProject < Sequel::Model
 
   one_to_many :questions, class: 'App::Models::RevQuestion', key: :compliance_project_type, primary_key: :type_id
 
-  one_to_many :questions, class: 'App::Models::RevParameter', key: :compliance_project_type, primary_key: :type_id
+  # one_to_many :questions, class: 'App::Models::RevParameter', key: :compliance_project_type, primary_key: :type_id
 
   one_to_many :compliance_records, class: 'App::Models::RevComplianceRecord', key: :compliance_project_id
   one_to_many :compliance_records_valid, class: 'App::Models::RevComplianceRecord', key: :compliance_project_id, condition: {exception: false}
