@@ -175,7 +175,8 @@ export const caseCategoryTypes = {
   2: { value: 2, label: 'Exception'},
   3: { value: 3, label: 'Support'},
   4: { value: 4, label: 'Relief'},
-  5: { value: 5, label: 'Suggestions'}
+  5: { value: 5, label: 'Suggestions'},
+  6: { value: 6, label: 'Others'}
 }
 
 export const casePriorityTypes = {
