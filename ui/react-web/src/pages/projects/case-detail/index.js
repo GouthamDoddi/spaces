@@ -31,7 +31,7 @@ import { NewLayout } from '../../entities';
 const { store, load } = makeStore('entities/list');
 
 
-export default function () {
+export default function (props) {
   const [status, setStatus] = useState(1);
   const { entity_id } = useParams();
   const [bannerTitle, setBannerTitle] = useState('');
@@ -98,7 +98,7 @@ export default function () {
 
           <OuterRowItem className="flex_row">
             <div className="flex_col_sm_8">
-              <CaseInfo />
+              {props.ground ? <MappingGroundComponent /> : <CaseInfo />}
             </div>
 
             <InnerCol4 className="flex_col_sm_4">

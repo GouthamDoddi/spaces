@@ -20,25 +20,22 @@ const columns3 = '1fr .7fr .3fr'
 const columns4 = '2fr 2fr 1fr'
 export default function(props) {
   return(
-    <Layout>
-      <Left>
-        <LeftMenu except={['my-tasks', 'entities', 'policies']}></LeftMenu>
-      </Left>
+    <div>
       <Content>
         <HeaderBar className='hb' />
         <Agency />
       </Content>  
-    </Layout>
+    </div>
   )
 }
 
-const Left = styled.div`
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 270px;
-`
+// const Left = styled.div`
+//   position: fixed;
+//   top: 0;
+//   bottom: 0;
+//   left: 0;
+//   width: 270px;
+// `
 
 // const Banner = styled.div`
 //   background-image: url(/img/hmc-banner.jpg);
@@ -63,9 +60,9 @@ const Content = styled.div`
   }
 `
 
-const Layout = styled.div`
-  padding-left: 270px;
-`
+// const Layout = styled.div`
+//   // padding-left: 270px;
+// `
 
 const Top = styled.div`
   grid-column: 1 / -1;

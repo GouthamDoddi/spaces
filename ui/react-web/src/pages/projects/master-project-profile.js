@@ -1,42 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CropModal from '../entities/crop-modal';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import DropZone from './drop-zone';
+import makeStore from '../../store/make-store';
+import { projectCategoryTypes, projectSponsorOptions } from '../../store/master-data';
+
+const { load, update, create } = makeStore(({ project_id }) => project_id ? `rev-projects/${project_id}` : 'rev-projects');
+const { load: loadEntities } = makeStore('entities');
 
 const MasterProjectProfile = ({ onSubmit }) => {
-    const { entity_id } = useParams();
+    const history = useHistory();
+    const [entities, setEntities] = useState([]);
+    const { project_id } = useParams();
     const [files, setFiles] = useState([]);
     const [data, setData] = useState({
-        name: 'Metrash Portal',
-        name_ar: '',
-        description: '',
-        description_ar: '',
+        project_name: '',
+        project_name_ar: '',
+        project_description: '',
+        project_description_ar: '',
         short_name: '',
-        project_type: 'test1',
-        owner_type: 'test1',
-        sponsor_type: 'test1',
+        project_type_id: 'test1',
+        owner_id: 'test1',
+        sponsor_id: 'test1',
         logo: null,
     });
     const [errors, setErrors] = useState({});
     const [submitClicked, setSubmitClicked] = useState(false);
 
     useEffect(() => {
-        if (entity_id) {
-            // get details
-            // setData();
-        }
+      loadEntities('', (data) => setEntities(data));
+      if (/\d/.test(project_id)) {
+        load({ project_id }, (data) => setData(data));
+      } else if (project_id !== 'new') {
+        history.push('/projects');
+      }
     }, []);
 
     const errorLabels = {
-        name: 'Project name',
-        name_ar: 'Project name',
-        description: 'Project description',
-        description_ar: 'Project description',
+        project_name: 'Project name',
+        project_name_ar: 'Project name',
+        project_description: 'Project description',
+        project_description_ar: 'Project description',
         short_name: 'Short name',
-        project_type: 'Project type',
-        sponsor_type: 'Project type',
-        owner_type: 'Project type',
+        project_type_id: 'Project type',
+        sponsor_id: 'Project type',
+        owner_id: 'Project type',
         logo: 'Project logo',
     };
 
@@ -45,12 +54,12 @@ const MasterProjectProfile = ({ onSubmit }) => {
 
     const isInvalid = (name, value) => {
         switch (name) {
-            case 'name':
-            case 'name_ar':
-            case 'description':
-            case 'description_ar':
+            case 'project_name':
+            case 'project_name_ar':
+            case 'project_description':
+            case 'project_description_ar':
             case 'short_name':
-            case 'project_type':
+            case 'project_type_id':
             case 'logo':
                 return isEmpty(name, value);
             default:
@@ -97,19 +106,25 @@ const MasterProjectProfile = ({ onSubmit }) => {
         }, false);
 
         if (!hasErrors) {
+            if (project_id !== 'new') {
+              update({ data, cb: () => history.push(`projects/${project_id}/details`), project_id });
+            } else {
+              create({ data, cb: () => history.push(`projects/${project_id}/details`) })
+            }
+
             onSubmit(data);
         }
     };
 
     const {
-        name,
-        name_ar,
+        project_name,
+        project_name_ar,
         short_name,
-        description,
-        description_ar,
-        project_type,
-        sponsor_type,
-        owner_type,
+        project_description,
+        project_description_ar,
+        project_type_id,
+        sponsor_id,
+        owner_id,
         logo,
     } = data;
 
@@ -130,20 +145,19 @@ const MasterProjectProfile = ({ onSubmit }) => {
                                         Name <mark>*</mark>
                                     </label>
                                     <div className="text_field_wrapper">
-                                        {name}
-                                        {/* <input
+                                        <input
                                             type="text"
-                                            name="name"
-                                            value={name}
+                                            name="project_name"
+                                            value={project_name}
                                             onChange={handleChange}
-                                        /> */}
-                                        {/* <div className="text-right">
+                                        />
+                                        <div className="text-right">
                                             <span className="limit">
-                                                {100 - name.length} C{'haracters left'}
+                                                {100 - project_name.length} C{'haracters left'}
                                             </span>
-                                        </div> */}
+                                        </div>
                                     </div>
-                                    <span className="error_messg">{errors.name}</span>
+                                    <span className="error_messg">{errors.project_name}</span>
                                 </div>
 
                                 <div className="flex_col_sm_6">
@@ -159,7 +173,7 @@ const MasterProjectProfile = ({ onSubmit }) => {
                                         />
                                         <div className="text-right">
                                             <span className="limit">
-                                                {100 - short_name.length} C{'haracters left'}
+                                                {100 - (short_name?.length || 0)} C{'haracters left'}
                                             </span>
                                         </div>
                                     </div>
@@ -172,10 +186,8 @@ const MasterProjectProfile = ({ onSubmit }) => {
                                 Description <mark>*</mark>
                             </label>
                             <div className="text_field_wrapper">
-                                <textarea name="description" onChange={handleChange}>
-                                    {description}
-                                </textarea>
-                                <span className="error_messg">{errors.description}</span>
+                                <textarea name="project_description" value={project_description} onChange={handleChange} />
+                                <span className="error_messg">{errors.project_description}</span>
                             </div>
                         </div>
 
@@ -188,13 +200,13 @@ const MasterProjectProfile = ({ onSubmit }) => {
                                     </label>
                                     <div className="text_field_wrapper">
                                         <select
-                                            name="sponsor_type"
-                                            value={sponsor_type}
+                                            name="sponsor_id"
+                                            value={sponsor_id}
                                             onChange={handleChange}
                                         >
-                                            <option value="test1">Test1</option>
+                                            {Object.values(projectSponsorOptions).map(({ label, value }) => <option id={value} value={value}>{label}</option>)}
                                         </select>
-                                        <span className="error_messg">{errors.sponsor_type}</span>
+                                        <span className="error_messg">{errors.sponsor_id}</span>
                                     </div>
                                 </div>
                             </div>
@@ -207,13 +219,13 @@ const MasterProjectProfile = ({ onSubmit }) => {
                                     </label>
                                     <div className="text_field_wrapper">
                                         <select
-                                            name="owner_type"
-                                            value={owner_type}
+                                            name="owner_id"
+                                            value={owner_id}
                                             onChange={handleChange}
                                         >
-                                            <option value="test1">Test1</option>
+                                            {entities.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
                                         </select>
-                                        <span className="error_messg">{errors.owner_type}</span>
+                                        <span className="error_messg">{errors.owner_id}</span>
                                     </div>
                                 </div>
                             </div>
@@ -225,13 +237,13 @@ const MasterProjectProfile = ({ onSubmit }) => {
                                     </label>
                                     <div className="text_field_wrapper">
                                         <select
-                                            name="project_type"
-                                            value={project_type}
+                                            name="project_type_id"
+                                            value={project_type_id}
                                             onChange={handleChange}
                                         >
-                                            <option value="test1">Test1</option>
+                                            {Object.values(projectCategoryTypes).map(({ value, label }) => <option id={value} value={value}>{label}</option>)}
                                         </select>
-                                        <span className="error_messg">{errors.project_type}</span>
+                                        <span className="error_messg">{errors.project_type_id}</span>
                                     </div>
                                 </div>
                             </div>
@@ -265,16 +277,16 @@ const MasterProjectProfile = ({ onSubmit }) => {
                                 placeholder="على سبيل المثال ، وزارة التجارة والصناعة"
                             >
                                 <input
-                                    name="name_ar"
-                                    value={name_ar}
+                                    name="project_name_ar"
+                                    value={project_name_ar}
                                     onChange={handleChange}
                                     type="text"
                                 />
                                 <div className="text-right">
-                                    <span className="limit">بقي {100 - name_ar.length} حرف</span>
+                                    <span className="limit">بقي {100 - project_name_ar?.length} حرف</span>
                                 </div>
                             </div>
-                            <span className="error_messg">{errors.name_ar}</span>
+                            <span className="error_messg">{errors.project_name_ar}</span>
                         </div>
                         <div className="form_field_wrapper ar">
                             <label className="form_label">
@@ -283,12 +295,12 @@ const MasterProjectProfile = ({ onSubmit }) => {
                             </label>
                             <div className="text_field_wrapper">
                                 <textarea
-                                    name="description_ar"
-                                    value={description_ar}
+                                    name="project_description_ar"
+                                    value={project_description_ar}
                                     onChange={handleChange}
                                     placeholder="اشرح تفاصيل الكيان هنا"
                                 ></textarea>
-                                <span className="error_messg">{errors.description_ar}</span>
+                                <span className="error_messg">{errors.project_description_ar}</span>
                             </div>
                         </div>
                     </div>

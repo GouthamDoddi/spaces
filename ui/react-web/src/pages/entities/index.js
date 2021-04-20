@@ -719,7 +719,7 @@ export const NewLayout = styled.div`
 
   .arbic_para {
     width: 219px !important;
-    text-align: right;
+    text-align: right !important;
     margin: 0 0 0 174px;
     font: normal normal 600 14px/20px Muli;
     letter-spacing: 0px;

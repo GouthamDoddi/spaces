@@ -279,6 +279,10 @@ const StyledHeader = styled.header`
         font-size: 14px;
         font-weight: 800;
         color: #11236e;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 84px;
       }
     }
   }

@@ -4,6 +4,8 @@ import Profile from './profile';
 import Details from './details';
 import Action from './action';
 
+import GroundComponent from './ground-profile'
+
 const CaseManagement = ({ profileData }) => {
   const {
     logo: projectLogo,
@@ -21,8 +23,14 @@ const CaseManagement = ({ profileData }) => {
     setStep((prevValue) => prevValue + 1);
   };
 
+  let groundEnable = true;
+  
+
   return (
     <DetailsElement className="custom_container">
+      {groundEnable ? 
+        <GroundComponent />
+      : 
       <div className="flex_row">
         <div className="flex_col_sm_4">
           <div className="moci_block">
@@ -113,7 +121,7 @@ const CaseManagement = ({ profileData }) => {
             )}
           </div>
         </div>
-      </div>
+      </div>}
     </DetailsElement>
   );
 };

@@ -196,12 +196,12 @@ const EntityList = () => {
                   return (
                     <>
                       <span className="count green bg_green">{`${
-                        col || ''
+                        col || '0'
                       }%`}</span>
                       <span className="progressbar_wrap">
                         <Progress
                           className="progress"
-                          width={`${col || ''}%`}
+                          width={`${col || '0'}%`}
                         />
                       </span>
                     </>
