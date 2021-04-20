@@ -14,7 +14,7 @@ class App::Services::RevCases < App::Services::Base
 
   def create
     obj = model.new(data_for(:create))
-    obj.owner_id = project.owner_id
+    obj.entity_id = project.owner_id
     obj.project_id = project.id
     obj.status = 'created'
     save(obj)
