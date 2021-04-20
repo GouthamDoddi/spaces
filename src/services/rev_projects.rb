@@ -28,7 +28,7 @@ class App::Services::RevProjects < App::Services::Base
       save: [
         :project_name, :project_name_ar, :project_description, :project_description_ar, 
         :sponsor_id, :owner_id, :project_type_id, :consumer_type_ids, :start_date, :end_date,
-        :logo_code, :spoc_ids, :consumer_type_ids
+        :logo_code, :spoc_ids, :consumer_type_ids, :short_name
       ]
     }
   end

@@ -94,9 +94,7 @@ class App::Routes < Roda
       #   r.get('project', Integer) { |id| Reports[r, {project_id: id}].project_report }
       # }
 
-      r.on([Integer, true], 'rev-projects') do |entity_id|
-        do_crud(RevProjects, r, 'CRUDL', {entity_id: entity_id} )
-      end
+
 
       r.on 'reference-data' do
         r.get('rev-projects', [Integer, true], 'compliance-projects') do |project_id|
@@ -116,23 +114,29 @@ class App::Routes < Roda
         end        
       end
 
-      r.on('rev-projects', Integer) do  |project_id|
+      r.on([Integer, true], 'rev-projects') do  |entity_id|
 
-        opts = {project_id: project_id}
         # r.on('e-services') do 
         #   do_crud(ProjectEservices, r, 'CRUDL',  {project_id: project_id})
         # end
-        r.on 'users' do
+        r.on Integer, 'users' do |project_id|
+          opts = {project_id: project_id}
           do_crud(EntityUsers,r, 'CRUDL', opts.merge!(parent: 'project'))
         end
 
-        r.on 'questions' do
+        r.on Integer, 'questions' do |project_id|
+          opts = {project_id: project_id}
           do_crud(RevQuestions, r, 'CRUDL', opts)
         end
 
-        r.on 'cases' do
-          do_crud(RevCases. r, 'CRUDL', opts)
+        r.on Integer, 'cases' do |project_id|
+          opts = {project_id: project_id}
+          do_crud(RevCases, r, 'CRUDL', opts)
         end
+
+        
+        do_crud(RevProjects, r, 'CRUDL', {entity_id: entity_id} )
+        
       end
 
       r.on(Integer, 'rev-compl-projects') do |project_id|

@@ -5,7 +5,8 @@ Sequel.migration do
       String :project_name, size: 100
       String :project_name_ar, size: 100 
       String :project_description, text: true 
-      String :project_description_ar, text: true 
+      String :project_description_ar, text: true
+      String :short_name
       Integer :sponsor_id 
       Integer :owner_id
       Integer :project_type_id
