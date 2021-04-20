@@ -1,23 +1,44 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import styled, { css } from 'styled-components';
+import { useStore } from 'effector-react';
+import makeStore from '../../../store/make-store';
+import AutoComplete from '../../entities/auto_complete';
+
+const { store: complianceStore, load: loadComplianceProjects } = makeStore('reference-data/rev-projects/2/compliance-projects');
+const { store: parameterStore, load: loadParameters } = makeStore('reference-data/attributes/2/parameters');
+const { store: sectionStore, load: loadSections } = makeStore('reference-data/sections');
+const { store: attributeStore, load: loadAttribute } = makeStore('reference-data/sections/2/attributes');
 
 const Profile = ({ defaultData, onSubmit }) => {
+  const { project_id } = useParams();
   const [data, setData] = useState({
-    compliance_record: '',
-    section: '',
-    attribute: '',
-    parameter: '',
+    compliance_record: [],
+    section: [],
+    attribute: [],
+    parameter: [],
     category: [],
     business_priority: '',
   });
+
   const [errors, setErrors] = useState({});
   const [submitClicked, setSubmitClicked] = useState(false);
+
+  let dataCompilance = useStore(complianceStore).data || [];
+  let dataParameter = useStore(parameterStore).data || [];
+  let dataSections = useStore(sectionStore).data || [];
+  let dataAttribute = useStore(attributeStore).data || [];
+
 
   useEffect(() => {
     if (defaultData) {
       setData(defaultData);
     }
-  }, [defaultData]);
+    loadComplianceProjects();
+    loadParameters();
+    loadSections();
+    loadAttribute();
+  }, []);
 
   const errorLabels = {
     compliance_record: 'Compliance record',
@@ -105,7 +126,7 @@ const Profile = ({ defaultData, onSubmit }) => {
     category,
     business_priority,
   } = data;
-
+  
   return (
     <>
       <div className="flex_row">
@@ -115,14 +136,14 @@ const Profile = ({ defaultData, onSubmit }) => {
               Compliance Record <mark>*</mark>
             </label>
             <div className="text_field_wrapper">
-              <input
-                type="text"
-                placeholder="Search and select"
+              <AutoComplete
+                placeholder="Search and select user group"
                 name="compliance_record"
-                value={compliance_record}
+                values={compliance_record}
                 onChange={handleChange}
+                error={errors.compliance_record}
+                options={Object.keys(dataCompilance).map(key => ({ label: dataCompilance[key].project_name, value: dataCompilance[key].id }))}
               />
-              <div className="error_messg">{errors.compliance_record}</div>
             </div>
           </div>
         </div>
@@ -132,14 +153,22 @@ const Profile = ({ defaultData, onSubmit }) => {
               Section <mark>*</mark>
             </label>
             <div className="text_field_wrapper">
-              <input
+              <AutoComplete
+                placeholder="Search and select user group"
+                name="section"
+                values={section}
+                onChange={handleChange}
+                error={errors.section}
+                options={Object.keys(dataSections).map(key => ({ label: dataSections[key].label, value: dataSections[key].value }))}
+              />
+              {/* <input
                 type="text"
                 placeholder="Search and select"
                 name="section"
                 value={section}
                 onChange={handleChange}
               />
-              <div className="error_messg">{errors.section}</div>
+              <div className="error_messg">{errors.section}</div> */}
             </div>
           </div>
         </div>
@@ -364,20 +393,20 @@ const PriorityBadge = styled.div`
     width: 25px;
     height: 25px;
     background: ${color === 'danger'
-        ? '#FFF1F1'
-        : color === 'primary'
+      ? '#FFF1F1'
+      : color === 'primary'
         ? '#EAF4FF'
         : '#FFF5DF'}
       0% 0% no-repeat padding-box;
     color: ${color === 'danger'
       ? '#FF6060'
       : color === 'primary'
-      ? '#005CC8'
-      : '#FFB300'};
+        ? '#005CC8'
+        : '#FFB300'};
     border: 1px solid
       ${color === 'danger'
-        ? '#FF6060'
-        : color === 'primary'
+      ? '#FF6060'
+      : color === 'primary'
         ? '#005CC8'
         : '#FFB300'};
     border-radius: 3px;

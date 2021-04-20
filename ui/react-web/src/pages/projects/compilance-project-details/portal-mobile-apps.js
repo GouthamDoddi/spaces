@@ -1,106 +1,100 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Switch from '@material-ui/core/Switch';
-import CropModal from '../../entities/crop-modal';
-import DropZone from '../../entities/drop-zone';
+import makeStore from '../../../store/make-store';
+import { useParams } from 'react-router';
+import { ButtonLink } from '../../entities/details';
+import { projectCategoryTypes } from '../../../store/master-data';
 
+const { load: loadComplianceProjects } = makeStore(
+  ({ project_id }) =>
+    `reference-data/rev-projects/${project_id}/compliance-projects`
+);
+const { load, update } = makeStore(({ id, q_id }) => `rev-compliance/${id}/questions${q_id ? `/${q_id}` : ''}`);
 
-const PortalMobileApps = ({ files, setFiles, defaultData, onSubmit }) => {
-  const [data, setData] = useState({
-    mark_all: true,
-    internal_site_search: true,
-    search_across_multiple_govt_sites: true,
-    registration_login: false,
-    is_the_login: false,
-    caters_to_people: false
-  });
-  const [errors, setErrors] = useState({});
-  const [submitClicked, setSubmitClicked] = useState(false);
+const PortalMobileApps = ({ setTableProps }) => {
+  const { project_id } = useParams();
+  const [id, setId] = useState();
+  const [data, setData] = useState({});
+  const [markAll, setMarkAll] = useState(false);
 
   useEffect(() => {
-    if (defaultData) {
-      setData(defaultData);
-    }
-  }, [defaultData]);
+    setData((prevVal) => {
+      const updatedData = prevVal;
 
-  const errorLabels = {
-    internal_site_search: 'Internal Site Search',
-    search_across_multiple_govt_sites: 'Search across multiple government agencies',
-    registration_login: 'Registration / Login (Other than NAS)',
-    is_the_login: 'Is the login mechanisms NAS',
-    caters_to_people: 'Caters to people with special needs'
+      Object.keys(updatedData).forEach((key) => {
+        updatedData[key] = { ...updatedData[key], answer: !markAll };
+      });
+
+      return {...updatedData};
+    })
+  }, [markAll]);
+
+  const handleEdit = (id) => {
+    setId(id);
+    load({ id }, (data) =>
+      setData(
+        data.reduce((prevVal, { id, question, answer }) => {
+          return {
+            ...prevVal,
+            [id]: { question, answer: answer === 'yes' },
+          };
+        }, {})
+      )
+    );
   };
 
-  const isEmpty = (name, value) =>
-    value ? '' : errorLabels[name] + ' is a required field';
+  useEffect(() => {
+    loadComplianceProjects({ project_id }, (data) => {
+      data = Object.values(data).filter(({ type_id }) => type_id !== 3);
 
-  const isInvalid = (name, value) => {
-    switch (name) {
-      case 'internal_site_search':
-      case 'search_across_multiple_govt_sites':
-      case 'role':
-        return isEmpty(name, value);
-      default:
-        return false;
-    }
-  };
+      if (data[0]?.id) {
+        setId(data[0]?.id);
+        load({ id: data[0].id }, (data) =>
+          setData(
+            data.reduce((prevVal, { id, question, answer }) => {
+              return {
+                ...prevVal,
+                [id]: { question, answer: answer === 'yes' },
+              };
+            }, {})
+          )
+        );
+      }
+
+      setTableProps({
+        rows: data,
+        renderCol: (colIndex, col) => {
+          if (colIndex === 0) {
+            return projectCategoryTypes[col]?.label;
+          }
+
+          if (colIndex === 2) {
+            return (
+              <ButtonLink onClick={() => handleEdit(col)}>
+                Edit Compliance Record
+              </ButtonLink>
+            );
+          }
+
+          return false;
+        },
+      });
+    });
+  }, []);
 
   const updateData = (name, value) => {
-    console.log({ name, value });
     setData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-
-    if (submitClicked) {
-      setErrors((prevValue) => ({
-        ...prevValue,
-        [name]: isInvalid(name, value),
-      }));
-    }
   };
-
-  const handleChange = ({ target: { value, name } }) => {
-    updateData(name, value);
-  };
-
-  const handleSwitchChange = (name, value) => {
-    updateData(name, value);
-  }
 
   const handleSubmit = () => {
-    if (!submitClicked) {
-      setSubmitClicked(true);
-    }
-
-    const hasErrors = Object.keys(data).reduce((prevValue, name) => {
-      const hasError = isInvalid(name, data[name]);
-
-      setErrors((prevValue) => ({
-        ...prevValue,
-        [name]: hasError,
-      }));
-
-      return prevValue || hasError;
-    }, false);
-
-    if (!hasErrors) {
-      onSubmit(data);
-    }
+    Object.keys(data).forEach((key) => {
+      update({ data: { answers: { [key]: data[key].answer ? 'yes' : 'no' }}, id, q_id: key });
+    });
   };
-
-  const setFile = (value) => {
-    setFiles(value || []);
-  }
-
-  const {
-    mark_all,
-    internal_site_search,
-    search_across_multiple_govt_sites,
-    registration_login,
-    is_the_login,
-    caters_to_people,
-  } = data;
 
   return (
     <>
@@ -109,15 +103,11 @@ const PortalMobileApps = ({ files, setFiles, defaultData, onSubmit }) => {
           <div className="flex_col_sm_8">
             <div className="flex_row">
               <div className="flex_col_sm_5">
-                <LightGreyText>
-                  {'Questionnaire for '}
-                </LightGreyText>
+                <LightGreyText>{'Questionnaire for '}</LightGreyText>
               </div>
 
               <div className="flex_col_sm_6">
-                <BlueBorder>
-                  {'Login & Register'}
-                </BlueBorder>
+                <BlueBorder>{'Login & Register'}</BlueBorder>
               </div>
             </div>
           </div>
@@ -131,8 +121,8 @@ const PortalMobileApps = ({ files, setFiles, defaultData, onSubmit }) => {
             <SwitchContainer>
               {'Mark all as Yes'}
               <Switch
-                checked={mark_all}
-                onClick={() => { handleSwitchChange('mark_all', !mark_all) }}
+                checked={markAll}
+                onClick={() => setMarkAll((prevVal) => !prevVal)}
                 name="mark_all"
                 color="default"
                 inputProps={{ 'aria-label': 'checkbox with default color' }}
@@ -143,194 +133,79 @@ const PortalMobileApps = ({ files, setFiles, defaultData, onSubmit }) => {
         </div>
       </OuterRowFlex>
 
-
-      <OuterRowList>
-        <div className="flex_row">
-          <OuterSwitchText className="flex_col_sm_8">
-            <SwitchText>
-              {'Internal Site Search'}
-            </SwitchText>
-          </OuterSwitchText>
-          <div className="flex_col_sm_4">
-            <SwitchContainer>
-              {'Yes'}
-              <Switch
-                checked={internal_site_search}
-                onClick={() => { handleSwitchChange('internal_site_search', !internal_site_search) }}
-                name="internal_site_search"
-                color="default"
-                inputProps={{ 'aria-label': 'checkbox with default color' }}
-              />
-              {'No'}
-            </SwitchContainer>
-          </div>
-        </div>
-      </OuterRowList>
-      <OuterRowList>
-        <div className="flex_row">
-          <OuterSwitchText className="flex_col_sm_8">
-            <SwitchText>
-              {'Search across multiple government agencies'}
-            </SwitchText>
-          </OuterSwitchText>
-          <div className="flex_col_sm_4">
-            <SwitchContainer>
-              {'Yes'}
-              <Switch
-                checked={search_across_multiple_govt_sites}
-                onClick={() => { handleSwitchChange('search_across_multiple_govt_sites', !search_across_multiple_govt_sites) }}
-                name="search_across_multiple_govt_sites"
-                color="default"
-                inputProps={{ 'aria-label': 'checkbox with default color' }}
-              />
-              {'No'}
-            </SwitchContainer>
-          </div>
-        </div>
-      </OuterRowList>
-      <OuterRowList>
-        <div className="flex_row">
-          <OuterSwitchText className="flex_col_sm_8">
-            <SwitchText>
-              {'Registration / Login (Other than NAS)'}
-            </SwitchText>
-          </OuterSwitchText>
-          <div className="flex_col_sm_4">
-            <SwitchContainer>
-              {'Yes'}
-              <Switch
-                checked={registration_login}
-                onClick={() => { handleSwitchChange('registration_login', !registration_login) }}
-                name="registration_login"
-                color="default"
-                inputProps={{ 'aria-label': 'checkbox with default color' }}
-              />
-              {'No'}
-            </SwitchContainer>
-          </div>
-        </div>
-      </OuterRowList>
-      <OuterRowList>
-        <div className="flex_row">
-          <OuterSwitchText className="flex_col_sm_8">
-            <SwitchText>
-              {'Is the login mechanisms NAS'}
-            </SwitchText>
-          </OuterSwitchText>
-          <div className="flex_col_sm_4">
-            <SwitchContainer>
-              {'Yes'}
-              <Switch
-                checked={is_the_login}
-                onClick={() => { handleSwitchChange('is_the_login', !is_the_login) }}
-                name="is_the_login"
-                color="default"
-                inputProps={{ 'aria-label': 'checkbox with default color' }}
-              />
-              {'No'}
-            </SwitchContainer>
-          </div>
-        </div>
-      </OuterRowList>
-
-      <OuterRowList>
-        <div className="flex_row">
-          <OuterSwitchText className="flex_col_sm_8">
-            <SwitchText>
-              {'Caters to people with special needs'}
-            </SwitchText>
-          </OuterSwitchText>
-          <div className="flex_col_sm_4">
-            <SwitchContainer>
-              {'Yes'}
-              <Switch
-                checked={caters_to_people}
-                onClick={() => { handleSwitchChange('caters_to_people', !caters_to_people) }}
-                name="caters_to_people"
-                color="default"
-                inputProps={{ 'aria-label': 'checkbox with default color' }}
-              />
-              {'No'}
-            </SwitchContainer>
-          </div>
-        </div>
-      </OuterRowList>
-
-
-
-      {/* <div className="flex_row">
-        <div className="flex_col_sm_6">
-          <div className="form_field_wrapper">
-            <label className="form_label">
-              Full Name <mark>*</mark>
-            </label>
-            <div className="text_field_wrapper">
-              <input
-                type="text"
-                placeholder="Enter user's full name"
-                name="full_name"
-                value={full_name}
-                onChange={handleChange}
-              />
-              <div className="error_messg">{errors.full_name}</div>
+      {Object.keys(data).map((key) => (
+        <OuterRowList key={data[key].question}>
+          <div className="flex_row">
+            <OuterSwitchText className="flex_col_sm_8">
+              <SwitchText>{data[key].question}</SwitchText>
+            </OuterSwitchText>
+            <div className="flex_col_sm_4">
+              <SwitchContainer>
+                {'Yes'}
+                <Switch
+                  checked={!data[key].answer}
+                  onClick={() => {
+                    updateData(key, { ...data[key], answer: !data[key].answer });
+                  }}
+                  color="default"
+                />
+                {'No'}
+              </SwitchContainer>
             </div>
           </div>
-        </div>
-      </div> */}
+        </OuterRowList>
+      ))}
 
       <OuterSubmit className="flex_col_sm_12 text-right">
         <button className="add_more" onClick={handleSubmit}>
-          {'Save'} 
+          {'Save'}
         </button>
       </OuterSubmit>
     </>
   );
 };
 
-
 const OuterSubmit = styled.div`
-  margin-top:20px;
-`
-
+  margin-top: 20px;
+`;
 
 const SwitchText = styled.span`
-  color:#000000;
-`
+  color: #000000;
+`;
 
 const OuterSwitchText = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
 const SwitchContainer = styled.div`
   display: flex;
   align-items: center;
 }
-`
+`;
 // justify-content: flex-end;
 
 const OuterRowList = styled.div`
-border: 1px solid #ddd;
-padding: 10px;
-justify-content: center;
-align-items: center;
-`
+  border: 1px solid #ddd;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+`;
 
 const OuterRowFlex = styled.div`
-  margin-top:10px;
-  margin-bottom:10px;
-`
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
 
 const LightGreyText = styled.span`
-  color:#666666;
-`
+  color: #666666;
+`;
 
 const BlueBorder = styled.span`
-  color: #2680EB;
-  border: 2px solid #2680EB;
+  color: #2680eb;
+  border: 2px solid #2680eb;
   padding: 5px 15px;
   border-radius: 20px;
 `;
-
 
 export default PortalMobileApps;

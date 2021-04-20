@@ -51,7 +51,7 @@ const Projects = () => {
           </div>
         </FilterBreadcrumb>
         <Switch>
-          <Route path={['/projects/:project_id', '/projects/new']} exact>
+          <Route path={['/projects/:project_id', '/projects/:project_id/compliance-project-details', '/projects/:project_id/compliance-records', '/projects/:project_id/case-management']} exact>
             <ProjectElem />
           </Route>
           <Route path="/projects" exact>

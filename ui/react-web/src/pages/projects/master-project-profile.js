@@ -107,12 +107,10 @@ const MasterProjectProfile = ({ onSubmit }) => {
 
         if (!hasErrors) {
             if (project_id !== 'new') {
-              update({ data, cb: () => history.push(`projects/${project_id}/details`), project_id });
+              update({ data, cb: () => history.push(`/projects/${project_id}/compliance-project-details`), project_id });
             } else {
-              create({ data, cb: () => history.push(`projects/${project_id}/details`) })
+              create({ data, cb: () => history.push(`/projects/${project_id}/compliance-project-details`) });
             }
-
-            onSubmit(data);
         }
     };
 
