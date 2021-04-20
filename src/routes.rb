@@ -160,7 +160,7 @@ class App::Routes < Roda
       end
 
       r.get('rev-compl-projects', Integer, 'section', Integer, 'attribute-report') do |compl_project_id, section_id|
-        opts = {compl_project_id: compl_project_id, section_id: sections_id}
+        opts = {compl_project_id: compl_project_id, section_id: section_id}
         RevComplianceRecords[r, opts].attribute_report
       end
 

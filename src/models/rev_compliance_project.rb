@@ -14,11 +14,11 @@ class App::Models::RevComplianceProject < Sequel::Model
 
 
   VARIATIONS = {
-    '123' => ['en-web', 'en-ar', 'ios-web', 'ios-ar', 'android-web', 'android-ar'],
-    '13' => ['en-web', 'en-ar'],
-    '23' => ['ios-web', 'ios-ar', 'android-web', 'android-ar'],
-    '1' => ['en-web', 'en-ar'],
-    '2' => ['ios-web', 'ios-ar', 'android-web', 'android-ar']
+    '123' => ['en-web', 'ar-web', 'ar-ios', 'en-ios', 'en-android', 'ar-android'],
+    '13' => ['en-web', 'ar-web'],
+    '23' => ['ar-ios', 'en-ios', 'en-android', 'ar-android'],
+    '1' => ['en-web', 'ar-web'],
+    '2' => ['ar-ios', 'en-ios', 'en-android', 'ar-android'],
   }
   def after_save
     if column_changed?(:answers)
@@ -54,7 +54,7 @@ class App::Models::RevComplianceProject < Sequel::Model
           compliance_project_id: id,
           stage_gates: Sequel.pg_array(rp.stage_gates, Integer)
         })
-        variation_arr.each{|v| rec[:platform_language] = v; res << rec}
+        variation_arr.each{|v| rec.merge(platform_language: v); res << rec}
         res
       end
       App::Models::RevComplianceRecord.multi_insert(data)

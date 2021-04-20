@@ -17,9 +17,10 @@ class App::Services::RevComplianceRecords < App::Services::Base
   end
 
   def status_of_project(cp)
-    status = cp.compliance_records.map(&:status).uniq
+    status = cp.compliance_records.map(&:status).uniq.compact
 
-    if status.include?('open')
+    
+    if status.include?('open') || status.blank?
       'draft'
     elsif status.include?('in-review')
       'in-review'
@@ -45,7 +46,8 @@ class App::Services::RevComplianceRecords < App::Services::Base
 
   def section_report
     compl_project_id = rp[:compl_project_id]
-    cr = model.where(compliance_project_id: compl_project_id, exception: false).all
+    cr = model.where(compliance_project_id: compl_project_id).exclude(exception: true).all
+
     resp = {}
 
     cr.each do |o|
@@ -73,7 +75,7 @@ class App::Services::RevComplianceRecords < App::Services::Base
 
   def attribute_report
     compl_project_id = rp[:compl_project_id]
-    cr = model.where(compliance_project_id: compl_project_id, exception: false, section_id: rp[:section_id]).all
+    cr = model.where(compliance_project_id: compl_project_id, section_id: rp[:section_id]).exclude(exception: true).all
     resp = {}
 
     cr.each do |o|
@@ -97,12 +99,14 @@ class App::Services::RevComplianceRecords < App::Services::Base
   end
 
   def parameters
-    cr = model.distinct(:parameter_id).where(compliance_project_id: compl_project_id, exception: false, attribute_id: rp[:attribute_id]).all
+    compl_project_id = rp[:compl_project_id]
+    cr = model.distinct(:parameter_id).where(compliance_project_id: compl_project_id, attribute_id: rp[:attribute_id]).exclude(exception: true).all
     return_success(cr.as_json)
   end
 
   def variations
-    cr = model.where(compliance_project_id: compl_project_id, exception: false, parameter_id: rp[:parameter_id])
+    compl_project_id = rp[:compl_project_id]
+    cr = model.where(compliance_project_id: compl_project_id, parameter_id: rp[:parameter_id]).exclude(exception: true)
     return_success(cr.map(&:as_json))
   end
 
