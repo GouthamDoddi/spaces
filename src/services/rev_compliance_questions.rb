@@ -13,6 +13,12 @@ class App::Services::RevComplianceQuestions < App::Services::Base
     return_errors!("Not Allowed")
   end
 
+  # def update(data=nil)
+  #   data ||= data_for(:save)
+  #   item.set_fields(data, data.keys)
+  #   save(item)
+  # end
+
   def self.fields
     {
       save: [

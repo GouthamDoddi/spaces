@@ -137,6 +137,15 @@ class App::Routes < Roda
           do_crud(RevCases, r, 'CRUDL', opts)
         end
 
+        r.on Integer, 'compl-projects-report' do |project_id|
+          opts = {project_id: project_id}
+          RevComplianceRecords[r, opts].report
+        end
+
+        r.on Integer, 'compl-records' do |project_id|
+          opts = {project_id: project_id}
+          do_crud(RevComplianceRecords, r, 'CRUDL', opts)
+        end
         
         do_crud(RevProjects, r, 'CRUDL', {entity_id: entity_id} )
         
@@ -145,6 +154,28 @@ class App::Routes < Roda
       r.on(Integer, 'rev-compl-projects') do |project_id|
         do_crud(RevComplianceProjects, r, 'L', {project_id: project_id})
       end
+
+      r.get('rev-compl-projects', Integer, 'sections-report') do |compl_project_id|
+        RevComplianceRecords[r, {compl_project_id: compl_project_id}].section_report
+      end
+
+      r.get('rev-compl-projects', Integer, 'section', Integer, 'attribute-report') do |compl_project_id, section_id|
+        opts = {compl_project_id: compl_project_id, section_id: sections_id}
+        RevComplianceRecords[r, opts].attribute_report
+      end
+
+      r.get('rev-compl-projects', Integer, 'attribute', Integer, 'parameters') do |compl_project_id, attribute_id|
+        opts = {compl_project_id: compl_project_id, attribute_id: attribute_id}
+        RevComplianceRecords[r, opts].parameters
+      end
+
+      r.get('rev-compl-projects', Integer, 'parameter', Integer, 'variations') do |compl_project_id, parameter_id|
+        opts = {compl_project_id: compl_project_id, parameter_id: parameter_id}
+        RevComplianceRecords[r, opts].variations
+      end
+
+
+
       r.on('rev-compliance', Integer, 'questions') do |project_id|
         r.get { RevComplianceQuestions[r, {id: project_id}].list }
         r.put(Integer) {|id| RevComplianceQuestions[r, {id: project_id}].update }

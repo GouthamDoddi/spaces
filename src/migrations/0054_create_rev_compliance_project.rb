@@ -20,7 +20,7 @@ Sequel.migration do
       column :spoc_ids, 'integer[]'
       
       jsonb :attachments, default: '[]'
-      jsonb :answers
+      jsonb :answers # {[q_id]: answer(yes | no)}
       
       TrueClass :active, :default => true
 

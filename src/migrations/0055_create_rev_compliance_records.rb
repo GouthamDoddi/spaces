@@ -5,8 +5,8 @@ Sequel.migration do
 
       Integer :parameter_id
       String :paramter_name
-      Integer :stage_gate
-      Integer :mandate
+      column :stage_gates, 'Integer[]'
+      String :mandate
       Integer :attribute_id
       String :attribute_name
       Integer :section_id
@@ -15,8 +15,11 @@ Sequel.migration do
       Integer :result # (Full compliant / partially complaint / non compliant)
       jsonb :attachment, default: '[]'
       TrueClass :completed, default: false
-      Integer :status # (Submitted(1) / reviewed(2) / accepted(3))
-      
+      Integer :status # (Open(1) / Submitted(2) / reviewed(3) / accepted(4))
+      Integer :compliance_project_id
+      Integer :owner_id
+      TrueClass :exception, default: false
+
       TrueClass :active, :default => true
 
       Integer :created_by
