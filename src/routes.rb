@@ -98,7 +98,26 @@ class App::Routes < Roda
         do_crud(RevProjects, r, 'CRUDL', {entity_id: entity_id} )
       end
 
+      r.on 'reference-data' do
+        r.get('rev-projects', [Integer, true], 'compliance-projects') do |project_id|
+          ReferenceData[r, {project_id: project_id}].compliance_projects
+        end
+
+        r.get('sections') do 
+          ReferenceData[r].sections
+        end
+
+        r.get('sections', Integer, 'attributes') do |section_id|
+          ReferenceData[r, {section_id: section_id}].attributes
+        end
+
+        r.get('attributes', Integer, 'parameters') do |attribute_id|
+          ReferenceData[r, {attribute_id: attribute_id}].parameters
+        end        
+      end
+
       r.on('rev-projects', Integer) do  |project_id|
+
         opts = {project_id: project_id}
         # r.on('e-services') do 
         #   do_crud(ProjectEservices, r, 'CRUDL',  {project_id: project_id})
@@ -109,6 +128,10 @@ class App::Routes < Roda
 
         r.on 'questions' do
           do_crud(RevQuestions, r, 'CRUDL', opts)
+        end
+
+        r.on 'cases' do
+          do_crud(RevCases. r, 'CRUDL', opts)
         end
       end
 
