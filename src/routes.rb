@@ -112,6 +112,14 @@ class App::Routes < Roda
         end
       end
 
+      r.on(Integer, 'rev-compl-projects') do |project_id|
+        do_crud(RevComplianceProjects, r, 'L', {project_id: project_id})
+      end
+
+      r.on('rev-compl-projects') do
+        do_crud(RevComplianceProjects, r, 'CRUD', {})
+      end
+
       # r.on('rev-projects', Integer, 'questions') do |project_id|
       #   do_crud(RevQuestions, r, 'CRUDL', {project_id: project_id})
       # end

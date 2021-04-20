@@ -1,0 +1,1567 @@
+id,section_id,section_name,attribute_id,attribute_name,parameter_id,parameter_name,mandate,parameter_description,PE,CE,SR,PR,PF,Website,Mobile,EServices
+1,QGWS-1,Website Registration,QGWS-1.1,Domain Naming Convention ,QGWS-1.1.1,Protocol,M1," • Both http and https must be accessible and automatically redirect to https.
+• All registered domains shall redirect to the primary “. gov.qa” domain. E.g. “hukoomi.qa” redirects to “portal.www.gov.qa”
+",YES,,,,,Y,,
+2,QGWS-1,Website Registration,QGWS-1.1,Domain Naming Convention ,QGWS-1.1.2,URL,M2,"• Domain names must be logical, simple, short (around 3-14 characters), and only include English letters ‘a to z’, number ‘0 to 9’, and hyphens.
+• In case of the use of domain names with public TLDs that can be registered at external registrar such as .com, .net, .org, .qa, etc.  Government entities must register both short and long versions of domain names, e.g. qcert.org
+",YES,,,,,Y,,
+3,QGWS-1,Website Registration,QGWS-1.1,Domain Naming Convention ,QGWS-1.1.3,TLD,M1,"The top-level domain for all government agencies must end with ‘gov.qa’. For special purpose portals that are related to specific projects or government initiatives (eg. metrash baladiya, tasmu, tasdeeq) all associated commercial sites (i.e. .com / .net / .org / .qa) should also be acquired and tracked to avoid all attempts of cyber crime including but not limited to payment frauds, identity thefts, phishing etc. ",YES,,,,,Y,,
+4,QGWS-1,Website Registration,QGWS-1.1,Domain Naming Convention ,QGWS-1.1.4,Sub Domains,M3,"Entities can create sub domains under their main domain name for Entities, events, special projects, etc. to create friendly URLs, e.g. vote.hukoomi.qa, cra.motc.gov.qa, etc.",YES,,,,,Y,,
+5,QGWS-1,Website Registration,QGWS-1.2,Domain Management ,QGWS-1.2.1,Registration,M2,"The Communications Regulatory Authority (CRA) must be the issuing/approving authority for all domain registration requests with the ‘gov.qa’, ‘.com.qa’, ‘.qa’ TLDs https://www.cra.gov.qa/ 
+
+Furthermore, MOTC must and will track all websites that attempt to misrepresent government websites across all domains (.com / .net / .org / .qa)
+",YES,,,,,Y,,
+6,QGWS-1,Website Registration,QGWS-1.2,Domain Management ,QGWS-1.2.2,Renewal,M2,"Government domains must be renewed every two years. The cost for each new registration and renewal is the responsibility of the applying entity.
+
+Failing to renew a domain registration will result in a lapsed domain. The system will delete lapsed domains six months after the registration has expired.
+",YES,,,,,Y,,
+7,QGWS-1,Website Registration,QGWS-1.2,Domain Management ,QGWS-1.2.3,Transfer,M2,The request for domain transfer will be lodged with the Domain Provider for approval,YES,,,,,Y,,
+8,QGWS-1,Website Registration,QGWS-1.2,Domain Management ,QGWS-1.2.4,Deletion,M2,"For Registered domains that are no longer required may be deleted, the request for domain deletion will be lodged with the Domain Provider authority for approval. 
+
+The Domain Provider will verify if there are any dependencies or services reliant on the domain name including email, subdomains, FTP before approving the domain deletion.
+
+",YES,,,,,Y,,
+9,QGWS-1,Website Registration,QGWS-1.2,Sub Domain ,QGWS-1.2.1,Duration,M3,"Sub-domain can be created if the project or information is short term, less than one year.",,,,,,Y,,
+10,QGWS-1,Website Registration,QGWS-1.2,Sub Domain ,QGWS-1.2.2,Name,M3,The content or information in the subdomain should be appropriate under the parent domain.,,,,,,Y,,
+11,QGWS-1,Website Registration,QGWS-1.3,Official Email Address,QGWS-1.3.1,Domain name,M1,"Government entities must use their own domain in all official E-mail addresses published on official channels, e.g. support@motc.gov.qa.",YES,,,,,Y,,
+12,QGWS-1,Website Registration,QGWS-1.3,Official Email Address,QGWS-1.3.2,Name,M2,"• Only official email addresses are allowed to be used for official contacts, e.g. info@motc.gov.qa, pr@motc.gov.qa,  finance@motc.gov.qa, etc.
+• Personal email addresses are only allowed to be used in directories, and must follow the government employee email ID naming convention, first letter of the first name followed by “.” and then the surname, e.g. s.ahmed@motc.gov.qa
+",YES,,,,,Y,,
+13,QGWS-1,Website Registration,QGWS-1.3,Official Email Address,QGWS-1.3.1,Retention period,M2,Records of retired usernames and email addresses must be retained for a period of at least 7 years,,,,,,Y,,
+14,QGWS-1,Website Registration,QGWS-1.4,Domain Provider,QGWS-1.4.1,Authority,M1,The MOTC Domain Authority should be the approving/issuing authority for all requests associated with the ‘gov.qa’ domain/subdomain and manage the ‘gov.qa’ policies and administration. Further MOTC must track all sites that attempt to misrepresent government sites across all domains (.com / .net / .org / .qa),,,,,,Y,,
+15,QGWS-2,Access & Authentication,QGWS-2.1,External user registration – Individual,QGWS-2.1.1,Registration and Authentication ,M1,"Agencies should ensure that individual’s identity in the agencies’ database is mapped to a common digital identity e.g. Qatar ID, appropriate to the assurance level. 
+
+The NAS registration should be minimalistic to only achieve registration function. 
+
+The profile management should be decoupled to agencies as there is no centralized profile management function / department in MOTC.
+",YES,,,,,Y,,
+16,QGWS-2,Access & Authentication,QGWS-2.1,External user registration – Individual,QGWS-2.1.2,Extension,M1,"• The agencies can access the national profile
+• The agencies can further add additional registration fields that would be stored in their own LDAP. This will allow for agencies to manage the quality of profile data
+",YES,,,,,Y,,
+17,QGWS-2,Access & Authentication,QGWS-2.2,External user authorization - Business,QGWS-2.2.1,Centralized,M1,EID profile can be used for centralized authorization for each associated smart card,YES,,,,,Y,,
+18,QGWS-2,Access & Authentication,QGWS-2.2,External user authorization - Business,QGWS-2.2.2,Distributed,M1,For specific organization level use cases (services) the distributed authorization model can be used. This must confirm to SAML based definitions so that the same can easily be centralized later,YES,,,,,Y,,
+19,QGWS-2,Access & Authentication,QGWS-2.3,External user authentication - Individual (SSO),QGWS-2.3.1,One-level authentication,M1,Using the conventional Username & Password,YES,,,,,Y,,
+20,QGWS-2,Access & Authentication,QGWS-2.3,External user authentication - Individual (SSO),QGWS-2.3.2,Multi factor authentication,M1,"• Username / Password + SMS OTP
+• Username / Password + Softtoken OTP
+• Username / Password + Email OTP
+• Smartcard
+• Fingerprint authentication
+",YES,,,,,Y,,
+21,QGWS-2,Access & Authentication,QGWS-2.3,External user authentication - Individual (SSO),QGWS-2.3.3,Single sign-on,M1,"• The centralized NAS system can share SAML based token to ensure users do not have to log into multiple sites as long as their NAS session is active or logout WS is not initiated across any of the sites.
+• Logged in user's name must be displayed in the website or portal.",YES,,,,,Y,,
+22,QGWS-3,Layout,QGWS-3.1,Branding,QGWS-3.1.1,Entity Logo,M2,"• Entity logo must be properly visible at the top of the webpage.
+• Logo must be on a clear solid background, in case of using image background behind the logo, contrast ratio must follow WCAG 2.1 standards at all time. Contrast ratio can be measured using this free tool: https://contrast-ratio.com/ 
+• Logo position must be at the top right for the Arabic version, and at the top left for the English version.
+• Logo must be saved for web (72 DPI) in high quality ‘.png’ or ‘.svg’ formats to retains quality on resizing.
+• Logos with state of the Qatar emblem must be calibrated to match Qatar flag colors #8A1538.  
+",YES,,,,,Y,,
+23,QGWS-3,Layout,QGWS-3.1,Branding,QGWS-3.1.2,Entity Name,M3,"Entities can display their names next or below the logo in case the name is not showing properly within the logo.
+
+
+",YES,,,,,Y,,
+24,QGWS-3,Layout,QGWS-3.1,Branding,QGWS-3.1.3,Ornaments and Graphics,M3,"Specific type of ornaments and abstract graphics related to the brand such as Islamic, Qatari, Sportive, etc. can be used to enhance the brand.",YES,,,,,Y,,
+25,QGWS-3,Layout,QGWS-3.1,Branding,QGWS-3.1.4,Icons,M3,"Icons can be used to represent specific sections, titles, etc.; however, text must also be included.",YES,,,,,Y,,
+26,QGWS-3,Layout,QGWS-3.1,Branding,QGWS-3.1.5,Qatar Flag,M1,"• Qatar’s flag must always be first, bigger, and on top of any other flags, e.g. a cultural Qatari-Japanese event website, the Qatari Flag must always be displayed as the primary flag.
+• Qatar’s flag colors must always be calibrated, White: #FFFFFF, and Maroon: #8A1538
+",YES,,,,,Y,,
+27,QGWS-3,Layout ,QGWS-3.1,Branding,QGWS-3.1.6,Additional Logo(s),M3,"Entities can add additional logo(s) to their page layouts in the footer section such as QDG, MADA, Hukoomi, World Cup 2022, etc.",YES,,,,,Y,,
+28,QGWS-3,Layout ,QGWS-3.1,Branding,QGWS-3.1.3,Sitename,M2,Respective agencies will follow their own brand guideline. ,,,,,,Y,,
+29,QGWS-3,Layout ,QGWS-3.1,Branding,QGWS-3.1.4,Introduction,M3,Respective agencies will follow their own brand guideline. ,,,,,,Y,,
+30,QGWS-3,Layout ,QGWS-3.1,Branding,QGWS-3.1.5,Flag Positioning,M2,Respective agencies will follow their own brand guideline. ,,,,,,Y,,
+31,QGWS-3,Layout ,QGWS-3.1,Branding,QGWS-3.1.6,Qatar Digital Government(QDG) Logo,M2,"Respective agencies should display QDG Logo, and that link should direct to QDG Site. ",,,,,,Y,,
+32,QGWS-3,Layout ,QGWS-3.1,Branding,QGWS-3.1.7,MADA Logo,M2,"Respective agencies should display MADA Logo, and that link should direct to MADA Site. ",,,,,,Y,,
+33,QGWS-3,Layout ,QGWS-3.1,Branding,QGWS-3.1.8,Hukoomi Logo,M2,"Respective agencies should display Hukoomi Logo, and that link should direct to Hukoomi Site. ",,,,,,Y,,
+34,QGWS-3,Layout ,QGWS-3.2,Top Menu,QGWS-3.2.1,Language options,M1,Language switcher must be clearly displayed in the header of all pages.,YES,,,,,Y,,
+35,QGWS-3,Layout ,QGWS-3.2,Top Menu,QGWS-3.2.2,Accessibility Buttons,M1,"Accessibility controls such as Zoom in and out, change colors, etc. must be clearly displayed in the top menu of all pages",YES,,,,,Y,,
+36,QGWS-3,Layout ,QGWS-3.2,Top Menu,QGWS-3.2.3,Login/Register links,M2,"In case the website requires user login, Login & Register links must be clearly displayed in the header of all pages.",YES,,,,,Y,,
+37,QGWS-3,Layout ,QGWS-3.2,Top Menu,QGWS-3.2.4,Social Media Icons,M3,Social Media Icons can be added to the top menu,YES,,,,,Y,,
+38,QGWS-3,Layout ,QGWS-3.3,Site Utilities,QGWS-3.3.1,Contact Us,M2,Contact information and links must be clearly displayed on all pages and within at least the main menu and footer.,YES,,,,,Y,,
+39,QGWS-3,Layout ,QGWS-3.3,Site Utilities,QGWS-3.3.2,Sitemap,M2,"Sitemap link can be either displayed within the header, footer, or both.",YES,,,,,Y,,
+40,QGWS-3,Layout ,QGWS-3.3,Site Utilities,QGWS-3.3.3,Search,M2,"Search must be clearly visible on all pages, e.g. header, footer, carousel, etc. ",YES,,,,,Y,,
+41,QGWS-3,Layout ,QGWS-3.3,Site Utilities,QGWS-3.3.4,Help,M2,"Help / Support links must be clearly visible on all pages, e.g. header, footer, fixed sides, or all.",YES,,,,,Y,,
+42,QGWS-3,Layout ,QGWS-3.3,Site Utilities,QGWS-3.3.5,Print,M2,A print functionality must be clearly visible on all pages and configured to print the core content of the page only.,YES,,,,,Y,,
+43,QGWS-3,Layout ,QGWS-3.3,Site Utilities,QGWS-3.3.6,Scroll to Top,M2,Long scrolling pages must have scroll to top button/link.,YES,,,,,Y,,
+44,QGWS-3,Layout ,QGWS-3.3,Site Utilities,QGWS-3.3.7,Feedback,M2,"Collecting users’ feedbacks help improving the website, thus, feedback widgets/links must be clearly visible on all pages, e.g. header, footer, fixed sides, etc. to encourage users’ engagement.",YES,,,,,Y,,
+45,QGWS-3,Layout ,QGWS-3.4,Navigation,QGWS-3.4.1,Main Menu,M2,"• Main Menu must be identical and clearly visible at the top of all pages.
+• Main Menu must be displayed on a clear solid background, in case of using image background behind the menu, contrast ratio must follow WCAG 2.1 standards at all time, contrast ratio can be measured using this free tool: https://contrast-ratio.com/.
+• Main Menu must be structured and formed from well-structured HTML elements.
+• Assistive technologies must support the full set of navigation elements.
+• Menu font-style (size, family, etc.) must be distinguished from the rest of the page text.
+• Main menu must be responsive, and humberger menu can only be used on medium size and lower screen resolutions, e.g. M, S, and XS.
+• 
+• s and Icons are allowed if used to enhance the user-experience.
+• Current selected menu item must be clearly distinguished from other items.
+
+",YES,,,,,Y,,
+46,QGWS-3,Layout ,QGWS-3.4,Navigation,QGWS-3.4.2,Secondary Menu,M3,"• Secondary Menu can be displayed horizontally or vertically based on the UI design and must be identical through all pages.
+• Secondary Menu must be displayed on a clear solid background, in case of using image background behind the menu, contrast ratio must follow WCAG 2.1 standards at all time, contrast ratio can be measured using this free tool: https://contrast-ratio.com/.
+• Main Menu must be structured and formed from well-structured HTML elements.
+• Assistive technologies must support the full set of navigation elements.
+• Menu font-style (size, family, etc.) must be distinguished from the rest of the page text.
+• Secondary menu must be responsive, and humberger menu can only be used on medium size and lower screen resolutions, e.g. M, S, and XS.
+• Bullets and Icons are allowed if used to enhance the user-experience.
+• Current selected menu item must be clearly distinguished from other items.
+
+",YES,,,,,Y,,
+47,QGWS-3,Layout ,QGWS-3.4,Menu List ,QGWS-3.4.1,Placement of Menu,M2,"The wesbite should have menu that are clear, visible, and responsive",,,,,,Y,,
+48,QGWS-3,Layout ,QGWS-3.5,Carousel,QGWS-3.5.1,Placement of carousel,M2,"In case the website has a carousel, it must be displayed in the header, under the logo and main menu, and before any other content.",YES,,,,,Y,,
+49,QGWS-3,Layout ,QGWS-3.5,Carousel,QGWS-3.5.2,Carousel Size,M3,"Carousel width is recommended to be 100%, and height 50% of the screen height at most.",YES,,,,,Y,,
+50,QGWS-3,Layout ,QGWS-3.5,Carousel,QGWS-3.5.3,Carousel Controls,M2,"Carousel controls (next, previous, etc.) must always be visible, gestures (swipe left and right) must also be registered for small screen sizes such as tablet and mobile views.",YES,,,,,Y,,
+51,QGWS-3,Layout ,QGWS-3.5,Carousel,QGWS-3.5.4,Carousel Text,M2,Carousel text must be short and clearly visible with high contrast ratio against the background image. It is highly recommended to wrap the text in solid colored box. Contrast ratio can be measured using this free tool: https://contrast-ratio.com/.,YES,,,,,Y,,
+52,QGWS-3,Layout ,QGWS-3.5,Carousel,QGWS-3.5.5,Carousel Content,M2,"Carousel are used to display or highlight important messages. Number of messages must not exceed 5, 3 is the recommended number, to preserve the main objective of placing a carousel and maintain the webpage loading time.",YES,,,,,Y,,
+53,QGWS-3,Layout ,QGWS-3.5,Carousel,QGWS-3.5.6,Carousel Animation,M3,It is highly recommended to avoid unnecessary animation to avoid users’ devices crashes. Simple slide or fade transitions are recommended if needed.,YES,,,,,Y,,
+54,QGWS-3,Layout ,QGWS-3.6,Banner,QGWS-3.6.1,Placement of Banners,M3,Banners can be displayed on both home and subpages and should not interfere with the page main content.,YES,,,,,Y,,
+55,QGWS-3,Layout ,QGWS-3.6,Banner,QGWS-3.6.2,Banners Content,M1,"Commercial advertising banners are not permitted on any page housed under government domains (gov.qa), and that include banner adverts provided directly from third parties such as Bing ads, Google display Network, etc.
+
+The use of banner adverts provided by other Qatari government entities is allowed such as World Cup 2022, Expo 2021, etc.
+
+It is acceptable to acknowledge sponsorship on government project/event websites – for example of an exhibition or award – and to provide a link, via text and/or the sponsor’s logo, to the sponsor's website, but these links must not imply that the government endorses a particular product or service, and no personal remuneration of any kind may be derived from resources provided by the government.
+",YES,,,,,Y,,
+56,QGWS-3,Layout ,QGWS-3.7,Services Catalog,QGWS-3.7.1,Placement of Services Catalog,M2,"Websites must display the entity/project services within the main menu and on homepage using a widget that allows browsing by audience, type, interest, etc. ",YES,,,,,Y,,
+57,QGWS-3,Layout ,QGWS-3.8,Footer,QGWS-3.8.1,Standard Footer,M2,"There are three major considerations when it comes to determining the website footer design, Content, Structure, and Aesthetics, and must be identical across all the website pages.",YES,,,,,Y,,
+58,QGWS-3,Layout ,QGWS-3.8,Footer,QGWS-3.8.2,Quick Links,M3,Quick links in the footer can help users who scrolled to the bottom of the page but have not yet found what they were looking for. Featured links can also be displayed to promote certain services or pages.,YES,,,,,Y,,
+59,QGWS-3,Layout ,QGWS-3.8,Footer,QGWS-3.8.3,Logo(s),M3,"Entity logo can be displayed again at the footer to increase brand awareness. Other awards, certificates logos can also be added at the footer.",YES,,,,,Y,,
+60,QGWS-3,Layout ,QGWS-3.8,Footer,QGWS-3.8.4,Contact Information,M2,"Contact information such as email, phone, and address must be displayed in the footer. ",YES,,,,,Y,,
+61,QGWS-3,Layout ,QGWS-3.8,Footer,QGWS-3.8.5,Mobile Apps,M3,"If exist, government entities must provide a list of their owned mobile apps and links for both popular platforms (Android, and iOS) in the form of icons.",YES,,,,,Y,,
+62,QGWS-3,Layout ,QGWS-3.8,Footer,QGWS-3.8.6,Social Media Icons,M3,Links to entities social media channels can be added in the footer in the form of icons.,YES,,,,,Y,,
+63,QGWS-3,Layout ,QGWS-3.8,Footer,QGWS-3.8.7,Helpline Number,M2,All government entities must display their respective Helpline / toll free number(s) in the footer. ,YES,,,,,Y,,
+64,QGWS-3,Layout ,QGWS-3.8,Footer,QGWS-3.8.8,Live Chat / Support,M2,"Government entities that provide live chat / support must be clearly visible and fixed at the bottom of the page, and above the footer to avoid interfering with other content.",YES,,,,,Y,,
+65,QGWS-3,Layout ,QGWS-3.8,Footer,QGWS-3.8.9,Disclaimers and Copyrights,M2,All government entities must include links to disclaimers and copyrights in the footer. ,YES,,,,,Y,,
+66,QGWS-3,Layout ,QGWS-3.8,Footer,QGWS-3.8.10,Additional Content,M3,"Additional content such as map, newsletter, working days and hours, sitemap, etc. can be added in the footer, in addition to complimentary graphics and ornaments that complete the website overall design. ",YES,,,,,Y,,
+67,QGWS-3,Layout ,QGWS-3.8,Footer,QGWS-3.8.2,Fat Footer,M2,"Incase the website has a fat footer, it should be in the footer and comprehensive.",,,,,,Y,,
+68,QGWS-3,Layout ,QGWS-3.8,Footer,QGWS-3.8.3,Disclaimer,M2,The website should have a clear and findable disclaimer,,,,,,Y,,
+69,QGWS-3,Layout ,QGWS-3.8,Footer,QGWS-3.8.4,Copyright,M2,The website should have a clear and findable copyright information,,,,,,Y,,
+70,QGWS-3,Layout ,QGWS-3.8,Footer,QGWS-3.8.5,Link to WoG,M2,The website should have a clear and findable link to whould of government websites,,,,,,Y,,
+71,QGWS-3,Layout ,QGWS-3.9,Social Media,QGWS-3.9.1,Social Media Banner,M2,"• Social Media buttons must be clearly visible on all pages, the recommended location is the footer.
+• Social Media share button must be configured properly and clearly visible on each content page, the recommended location is directly next to the page print button.
+",,,,,,Y,,
+72,QGWS-3,Layout ,QGWS-3.10,Support,QGWS-3.10.1,Link to 109 GCC,M2,The website should have a clear and findable link to Shared services Support center,,,,,,Y,,
+73,QGWS-3,Layout ,QGWS-3.10,Support,QGWS-3.10.2,Placement of Chatbot,M2,"Incase the website provides a chatbot, it should be easily findable, the placement of chatbot should not interfere with other information and services. ",,,,,,Y,,
+74,QGWS-3,Layout ,QGWS-3.10,Support,QGWS-3.10.3,Placement of Chat Support,M2,"Incase the website provides chat support, it should be easily findable, the placement of chatbot should not interfere with other information and services. ",,,,,,Y,,
+75,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.1,Acronyms and abbreviations,M2,Acronyms and abbreviations shall be unique differentiated from rest of the Text. These should follow the Qatar Govt. Website CSS and Style Templates,,,,,,Y,,
+76,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.2,Bullet points,M3,A bulleted list should not be inserted into the middle of a sentence. It should follow the Qatar Govt. Website CSS and Style Templates,,,,,,Y,,
+77,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.1,Page Alignment,M2,"For English pages content must be left aligned, and right aligned for Arabic pages.",YES,,,,,Y,,
+78,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.2,Listings,M3,"Bulleted and numbered lists are easy to scan and to highlight important information. They are great in breaking up content while providing skim-able content, rather than a wall of text.
+• Use bulleted lists instead of paragraphs to pull out key ideas.
+• Unordered lists are great for providing content that all has the same weight but may not merit a paragraph (ex – a list of capabilities).
+• Ordered lists are more for showing importance or instruction. These are also great for breaking up paragraphs and limiting text.
+• List items in the logical order for user.
+• Limit number of items in a list to 10 (7 is preferable).
+• Subdivide long lists into short lists of related items.
+• Provide descriptive headings for lists when possible
+",YES,,,,,Y,,
+79,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.3,Capitalization,M3,"Do capitalize
+• Job titles, but only where it is followed by the name of the person holding the position
+• Ministerial titles
+• Titles of specific Acts or Bills 
+• Buildings
+• Place names
+• Brand names
+
+Don't capitalize
+• Don't capitalize the words public service, government, job description.  
+• Acronym for a group of words. 
+• Use sentence case for page names, headings and short titles.
+",YES,,,,,Y,,
+80,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.4,Text Size & Units,M2,"Websites must conform to the minimum text sizes, as specified below. The default and most recommended body text size in pixels is 16px, based on this value and it will be considered as 100%.
+
+The site navigation must be larger than 120% (optional bold font weight) of the default text value of the page.
+
+The minimum size of text within other sections must be:
+
+Body – 100%
+Site utilities – 75%
+Section navigation – between 100% and 120%
+Section navigation sub-items - 100%
+Page options – 75%
+Breadcrumbs – 75%
+Heading 1 – 160%
+Heading 2 – 140%
+Heading 3 – 120%
+Heading 4 – 100% (different font-family or style than default text)
+Last updated date – 75%
+Captions – 75%
+Footer – 75%.
+",YES,,,,,Y,,
+81,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.5,Emphasis - Bold and italics,M3,"• Use of bold letters to be avoided. 
+• Block capital letters for emphasis should be avoided.  
+• Italics should be used for legislation and regulations.
+• Single quotation marks should be used for document titles.",YES,,,,,Y,,
+82,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.6,Address,M3,"•• All addresses should be complete.
+• Street and postal addresses should be written with as little punctuation as possible.
+• Add Embedded-Map or Map-URLs (Google, Bing, etc.) where possible to facilitate user access to locations
+",YES,,,,,Y,,
+83,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.7,Date and Time,M3,"Defined format of Date and Time to be used. The convention should follow:
+• DD-MMM-YYYY e.g. 03-Jan-1983
+• HH:MM hours (12 hour Format) e.g. 08:00 AM
+",YES,,,,,Y,,
+84,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.8,Titles and Headings,M2,"• Page titles must be styled starting from heading 1 <h1> downward.
+• Page titles must have a different color and or styling and a contrast ratio of at least 3:1.
+",YES,,,,,Y,,
+85,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.9,Links,M2,"• Text buttons should be short and describe the action that it will perform. E.g. Submit, Download, Upload Document, etc.
+• Links must have different text color and must be underlined.
+• Links to external pages that are not hosted on the same server must be opened in a new Tab “_blank”, and it’s recommended to notify the user that he will be redirected to an external website, portal, etc.
+",YES,,,,,Y,,
+86,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.10,Special Instructions,M3,Special instructions should be direct and to the point,,,,,,Y,,
+87,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.10,Numbers and measurements,M3,"• 'To' should be used to indicate range.
+• Million and billion should be used for large numbers.
+• Always a space should be given between the number and the unit of measure except - per cent and degrees, e.g. 100 m, 45%, 28.
+",YES,,,,,Y,,
+88,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.11,Currency,M2,"• Use ‘,’ to separate thousands, add two decimals separated by ‘.’, and place currency symbol before the number e.g. QAR 1,227,000.00",YES,,,,,Y,,
+89,QGWS-4,styles guide,QGWS-4.1,Typography,QGWS-4.1.14,People and pronouns,M2,"HH (His Highness) the Amir Sheikh Tamim bin Hamad Al Thani,: With the Amir, HH is used. Also, “Amir”, not “Emir” is used.
+
+Standardize the writing style for individuals’ names:
+- Title, First Name, Middle Name (If any), Surname for Non Arabic Names
+- Example for Arabic Names (Abdulrahman Bin Hamad Al Thani)",,,,,,Y,,
+90,QGWS-5,Information Architecture,QGWS-5.1,Navigation,QGWS-5.1.1,Site navigation,M2,"The site navigation bar must be located horizontally below header, and must appear identically on every page including the homepage.
+
+The height of the site navigation must be flexible to allow navigation items to wrap to more than one line when necessary.
+",,,,,,Y,,
+91,QGWS-5,Information Architecture,QGWS-5.1,Navigation,QGWS-5.1.2,Section navigation,M2,"The section navigation bar must be located vertically on the left hand side of the screen.
+
+The section navigation must be a list of straight text links, an expandable menu or a combination of both depending on the navigation requirements of the site section.
+
+The width of the section navigation must be identical for all sites as defined in the Qatar Govt. Website Template.
+",,,,,,Y,,
+92,QGWS-5,Information Architecture,QGWS-5.1,Navigation,QGWS-5.1.3,Expandable menus,M2,"Expandable menus must be formed from well-structured HTML.
+
+Assistive technologies must support the full set of navigation elements.
+",,,,,,Y,,
+93,QGWS-5,Information Architecture,QGWS-5.1,Navigation,QGWS-5.1.4,Skip to content Links,M2,"At a minimum, websites must include ‘Skip to content’, and must be used wherever there needs the utility of skip to contents.",,,,,,Y,,
+94,QGWS-5,Information Architecture,QGWS-5.1,Navigation,QGWS-5.1.5,Scroll to top,M2,"For any page with scrolling, there should always be a link to scroll to top.",,,,,,Y,,
+95,QGWS-5,Information Architecture,QGWS-5.1,Navigation,QGWS-5.1.1,Main Menu,M2,"• Only most important links/sections must always be displayed in the main menu.
+• In case of large number of links, use sub or mega menus to accommodate all links.
+• Main menu must be organized, grouped, and segmented per audiences, types, sections, etc.
+• A well-organized menu will help users reach desired content with few clicks.
+",,YES,,,,Y,,
+96,QGWS-5,Information Architecture,QGWS-5.1,Navigation,QGWS-5.1.2,Sub Menus,M2,"Sub Menus are used to help users navigate across different pages within the same section, only links of this particular section can be displayed, in addition to two featured links if needed.",,YES,,,,Y,,
+97,QGWS-5,Information Architecture,QGWS-5.1,Navigation,QGWS-5.1.3,Breadcrumb,M2,"• Breadcrumbs must be used on all subpages where more than one level of navigation exist.
+• Breadcrumbs must appear at the top of the content and clearly separated from the main and sub navigations. 
+• Breadcrumbs must support assistive technologies.
+",,YES,,,,Y,,
+98,QGWS-5,Information Architecture,QGWS-5.1,Navigation,QGWS-5.1.4,Quick Navigations,M2,"• Back button must be available on all subpages.
+• Next and Previous buttons must be available for content-items such as articles, events, etc.
+• Other quick navigations can be added to facilitate the navigation for users.
+",,YES,,,,Y,,
+99,QGWS-5,Information Architecture,QGWS-5.2,Content Structure,QGWS-5.2.1,Page Title,M2,"• Page Titles are very important for both visitors and search engines; thus, they must be clear, concise, and clearly describe the content of the page.
+• Page titles should make sense in isolation and allow users to differentiate from other titles in search results.
+• It is important to add the name of the entity at the end of the title as most pages name are provided by the majority of entities via their websites, e.g. About Ministry of Interior, About Katara. 
+• Search Engines and browsers will cut long titles and add an ellipsis (""..."") which might replace important part of the title. 
+• Files need to have sensible names that give an indication of what the document is.
+• Title should be short, without symbols.
+• Abbreviations and acronyms should be avoided.
+• Question as a heading should not be used
+",,YES,,,,Y,,
+100,QGWS-5,Information Architecture,QGWS-5.2,Content Structure,QGWS-5.2.2,Mandatory Pages,M2,"Content and pages differ from one site to another depending on the website type: informative, services, promotional, etc. yet for government websites, the following pages must be available in the structure: Homepage, About, Mission/Vision/Objectives, Organizational Structure, Latest News, Policies & Standards, Contact, Services/Products/Features list, Open Data, e-Participation, and Careers.
+
+Government micro-sites that have short timespans such as Events, Projects, etc. can be exempted.
+",,YES,,,,Y,,
+101,QGWS-5,Information Architecture,QGWS-5.2,Content Structure,QGWS-5.2.3,Optional Pages,M3,"Depending on the business nature of the entity, optional pages can be added to the structure such as: Media & Press Release, Events, Training & development, Auctions, Tenders, Photos/Videos Galleries, Publications, Mobile App(s).",,YES,,,,Y,,
+102,QGWS-5,Information Architecture,QGWS-5.2,Content Structure,QGWS-5.2.4,Breadcrumbs,M2,"Breadcrumbs must be used on every page of a site where there is more than one level of navigation.
+
+The breadcrumb must appear at the top of the content.
+
+The breadcrumb must be clearly separated from the section navigation heading and the page title.
+
+Assistive technologies must support the breadcrumbs.
+",,,,,,Y,,
+103,QGWS-5,Information Architecture,QGWS-5.2,Content Structure,QGWS-5.2.5,Main Content,M3,"Content must be left aligned for english and right aligned for Arabic, as per the style guide and content layout ",,,,,,Y,,
+104,QGWS-5,Information Architecture,QGWS-5.2,Content Structure,QGWS-5.2.4,Services Listing,M2,"Services listing must be arranged and ordered based on the following criteria:
+• Type (Online / Offline)
+• Personas (Citizens, Residents, Visitors, Business)
+• Popularity (Most used / important)
+
+Other criteria can be added depending on the nature of the entity.
+Filters, and search options must be available for lists that include more than 8 services.
+Services listing snippet/widget must be available on the homepage for easy and direct access to users
+",,YES,,,,Y,,
+105,QGWS-5,Information Architecture,QGWS-5.2,Content Structure,QGWS-5.2.7,Last Updated,M2,"The last updated date must appear directly after the main content.
+
+The last updated date element must appear on all content pages (e.g. not the homepage).",,,,,,Y,,
+106,QGWS-5,Information Architecture,QGWS-5.2,Content Structure,QGWS-5.2.8,Last Reviewed,M2,Websites may display last reviewed date,,,,,,Y,,
+107,QGWS-5,Information Architecture,QGWS-5.2,Content Structure,QGWS-5.2.9,Download links,M2,"Government agencies shall provide the links for downloading all applications owned by the entity on the most important platforms, such as Android, iOS etc.",,,,,,Y,,
+108,QGWS-5,Information Architecture,QGWS-5.2,Content Structure,QGWS-5.2.5,Last Updated/Reviewed,M2,"All content published on government websites must be up-to-date and must display the date of the last update or review has been done for each, this will increase creditability and assurance for users.",,YES,,,,Y,,
+109,QGWS-5,Information Architecture,QGWS-5.2,Content Structure,QGWS-5.2.6,References,M2,"• Sources of information, whether it is government, semi-government, or private websites or docs, must be acknowledged.
+• For an in-text reference to a work with more than 3 authors, only the name of the first-listed author should be included, followed by the abbreviation of the others.
+• If a material published in multiple medium, then the print version should be used for citation.
+",,YES,,,,Y,,
+110,QGWS-5,Information Architecture,QGWS-5.3,Sitemap,QGWS-5.3.1,HTML Sitemap,M2,"As per the United Nation eGovernment & search engines guidelines, HTML sitemap is an important part of any government website; However, search engines prefer and rely on XML sitemaps, HTML sitemaps are more for users to quickly discover and find what they are looking for. E.g. https://www.usa.gov/site-index",,YES,,,,Y,,
+111,QGWS-5,Information Architecture,QGWS-5.3,Sitemap,QGWS-5.3.2,XML Sitemap,M2,"XML sitemaps are the easiest way to tell search engines what pages are available in the site, and which should and should not be indexed. In addition, xml sitemaps include additional attributes such as <lastmod>, <priority>, and <changefreq>. These attributes will help search engines to understand how frequently the website should be crawled, and which pages have been newly added or updated.
+
+There are many reliable XML sitemaps generators available online, that can be used to create the main draft of the XML sitemap and then manually updated if necessary.
+
+",,YES,,,,Y,,
+112,QGWS-5,Information Architecture,QGWS-5.3,Sitemap,QGWS-5.3.3,Broken Links,M2,A mechanism for periodically validating links to related information should be established.,,YES,,,,Y,,
+113,QGWS-5,Information Architecture,QGWS-5.4, Copyrights and Credits,QGWS-5.4.1,Copyrights,M1,"All content created for entities, either internally or by external content editors must be copyrighted and clearly mentioning it within the website copyrights and disclaimers.",,YES,,,,Y,,
+114,QGWS-5,Information Architecture,QGWS-5.4, Copyrights and Credits,QGWS-5.4.2,Credits,M1,"All content including text, image, audio, video, etc. used from other sources, must have usage license, and credit must be mentioned.",,YES,,,,Y,,
+115,QGOC-1,Content -Information,QGOC-1.1,Language Versions,QGOC-1.1.1,(English and Arabic),M1,"All content pages must have both English and Arabic Versions.
+When toggling between the Arabic and English sites it must go to the specific landing page the user is reading or using and not to the home page.
+",,,,,,Y,,
+116,QGOC-1,Content -Information,QGOC-1.1,Language ,QGOC-1.1.1,Bilingual,M1,"All government websites must be provided in both English and Arabic.
+Additional languages could be added, but only when the main two languages are available.
+Toggling between site languages must redirect users to the same opened page, and not to the homepage where users will re-navigate again.
+",,YES,,,,Y,,
+117,QGOC-1,Content -Information,QGOC-1.1,Language ,QGOC-1.1.2,Spellcheck and Grammar,M2,"Spellcheck and grammar must be checked prior publishing any page online, based on both UK and US dictionaries with UK as priority.",,YES,,,,Y,,
+118,QGOC-1,Content -Information,QGOC-1.1,Language ,QGOC-1.1.3,Tone and Voice,M2,"Passive voice is the official style for government websites, with legal, firm, and scientific writing style. Active voice can only be used when it can be written in simpler manners when compared to passive voice, as it often uses fewer words to say the same thing.",,YES,,,,Y,,
+119,QGOC-1,Content -Information,QGOC-1.1,Language ,QGOC-1.1.4,"Acronyms, Abbreviation, and Jargon",M2,"Acronyms, Abbreviation, Jargon, and legalese should be avoided as possible on all pages, in an effort to maximize the friendliness and user proximity of the content. If a term is frequently used in a certain context, it may be abbreviated in the course of the content. It always must be expanded the first time it is used and include it at the bottom of the page as a note, e.g. MOTC: Ministry of Transport & Communication.",,YES,,,,Y,,
+120,QGOC-1,Content -Information,QGOC-1.1,Language ,QGOC-1.1.5,Punctuation,M3,"Punctuations to be avoided in general and should be used only when necessary or no other means involved. Some examples: 
+• Always 'and' should be used rather than '&'. 
+• Apostrophes should be used to indicate ownership and contractions. 
+• Use of brackets should be avoided, if use of brackets is unavoidable then always round brackets ‘()’ should be used.
+",,YES,,,,Y,,
+121,QGOC-1,Content -Information,QGOC-1.1,Language ,QGOC-1.1.6,People and Pronouns,M2,"• HH (His Highness) the Amir Sheikh Tamim bin Hamad Al Thani, with the Amir, HH is used.
+• Use “Amir” and not “Emir”.
+• Text should be gender-neutral.
+• Pronouns should point clearly to antecedents.
+• Standardize the writing style for individuals’ names
+• Follow this official format for naming, Title (If available), First Name, Middle Name (If available), and Surname, e.g. Dr. Abdulrahman Bin Hamad Al Thani.
+",,YES,,,,Y,,
+122,QGOC-1,Content -Information,QGOC-1.2,  Forms,QGOC-1.2.1,Forms Architecture,M2,"• Always group entry fields and add separators to break long forms, e.g. Personal Information (Name, Age, Gender, etc.), Contact Information (Address, Phone, Mobile, Email, etc.)
+• For extra-long forms especially for e-services, consider breaking them into wizard style, where users can save their progress after 2 or 3 entry fields groups before moving forward.
+• Forms elements language must follow the page language and alignment, avoid using bilingual unified forms. 
+• All entry fields must have clear labels, e.g. Name, Age, Gender, Email, etc.
+• Labels must be outside the entry fields.
+• Consider adding description for the not-so-clear entry fields.
+• Use text fields for short data entry (less than 60 characters).
+• Use text areas for long data entry (more than 60 characters).
+• Use radio buttons for exclusive selection (2 or 3 options).
+• Use dropdowns for exclusive long selection (4+ options)
+• Use checkboxes for multiple user selections.
+• Minimize users’ data entry and request only the required and unobtainable information.
+• Instead of requesting users’ names, ages, genders, etc., request users’ QID to obtain the rest of the information from NAS, this will keep forms smaller and minimize wrong inputs.
+",,YES,,,,Y,,
+123,QGOC-1,Content -Information,QGOC-1.2,  Forms,QGOC-1.2.2,Forms Design,M2,"• Forms must be responsive to fit all screen widths without horizontal scrolling.
+• Forms elements such as entry fields, labels, buttons, etc. must follow the website design language, e.g. font-family, colors, rounded vs squared buttons shape etc.
+• Forms must clearly distinguish between the required and the optional entry fields.
+• Distinguish between forms buttons, e.g. use different colors for ‘save’, ’submit’, ‘cancel’, etc.
+• Allow users to clearly see their entered data.
+",,YES,,,,Y,,
+124,QGOC-1,Content -Information,QGOC-1.2,  Forms,QGOC-1.2.3,Forms Validation,M2,"• Users’ inputs must be validated on both client and server sides.
+• Always use Captcha or other human-checker security features.
+• Error messages must clearly display the missing entry fields or the wrong inputs.
+• Do not reset the entered fields in case an error occurred, just highlight the error(s).
+• Always disable the ‘submit’ button once clicked to avoid multiple requests.
+• Always display a thank you message upon successful submission, and inform the user about the next step, e.g. ‘you will receive a confirmation email’, ‘an agent will contact you’, etc.
+",,YES,,,,Y,,
+125,QGOC-1,Content -Information,QGOC-1.2,Language and Grammar,QGOC-1.2.1,Language and Grammar,M3,Spell and grammar checkers for both UK and US English should be enabled.,,,,,,Y,,
+126,QGOC-1,Content -Information,QGOC-1.3,Voice,QGOC-1.3.1,Voice,M3,"Passive voice is the traditional style of government, legal and scientific writing. 
+
+But active voice only be used when it can be written in simpler manner when compared to passive voice, as it often uses fewer words to say the same thing.
+",,,,,,Y,,
+127,QGOC-1,Content -Information,QGOC-1.4,Jargon and legalese,QGOC-1.4.1,Jargon and legalese,M3,"Unnecessary jargon and technical terms, unexplained abbreviations or acronyms should be avoided. ",,,,,,Y,,
+128,QGOC-1,Content -Information,QGOC-1.5,"Titles, labels, headings",QGOC-1.5.1,"Titles, labels, headings",M1,"• Page titles, labels and headings be clear, concise and clearly describe the content of a page or section.
+• Page titles should make sense in isolation and allow users to differentiate from other titles in search results. It is important to add the name of the entity at the end of the title as this service is provided by the majority of entities via their websites Example: 
+• Service: Apply for Job at Ministry of Interior
+• Another Service: Apply for Job at Katara
+• Files need to have sensible names that give an indication of what the document is.
+• Title should be short, without symbols.
+• Abbreviations and acronyms should be avoided.
+• Question as a heading should not be used.
+",,,,,,Y,,
+129,QGOC-1,Content -Information,QGOC-1.6,Abbreviations,QGOC-1.6.1,Abbreviations,M3,"• For using an abbreviation or acronym on a page for first time, agencies should write it in full, and then refer to it by initials in parentheses– e.g. Ministry of Transport and Communications (MOTC)
+• Agencies should not include acronyms in page titles.
+• Unexplained abbreviations or acronyms should be avoided.
+",,,,,,Y,,
+130,QGOC-1,Content -Information,QGOC-1.7,References,QGOC-1.7.1,References,M2,"• Sources of information, whether it is government, semi-government, or Private Web sites or docs, should be acknowledged
+• For an in-text reference to a work with more than 3 authors, only the name of the first-listed author should be included, followed by the abbreviation et al.
+• If a material published in multiple medium then the print version should be used for citation.
+",,,,,,Y,,
+131,QGOC-1,Content -Information,QGOC-1.8,People and pronouns,QGOC-1.8.1,People and pronouns,M2,"• Text should be gender-neutral.
+• Pronouns should points clearly to antecedents.
+",,,,,,Y,,
+132,QGOC-1,Content -Information,QGOC-1.9,Punctuation and spelling,QGOC-1.9.1,Punctuation and spelling,M3,"Punctuations to be avoided in general, and should be used only when necessary or no other means involved. Some examples: 
+• Always 'and' should be used rather than '&'. 
+• Apostrophes should be used to indicate ownership and contractions. 
+• Use of brackets should be avoided, if use of brackets is unavoidable then always round brackets ‘()’ should be used.
+",,,,,,Y,,
+133,QGOC-1,Content -Information,QGOC-1.10,Links and Broken Links,QGOC-1.10.1,Links and Broken Links,M2,A mechanism for periodically validating links to related information should be established.,,,,,,Y,,
+134,QGOC-1,Content -Information,QGOC-1.11,Widgets,QGOC-1.11.1,Widgets,M3,"Requirements of widgets are:
+• Distinguish Required and Optional Data Entry Fields. 
+• Label Pushbuttons Clearly. 
+• Label Data Entry Fields Consistently.
+• Minimize User Data Entry.
+• Allow Users to See Their Entered Data.
+• Use Radio Buttons for Mutually Exclusive Selections.
+• Anticipate Typical User Errors.
+• Prioritize Pushbuttons.
+• Use Check Boxes to Enable Multiple Selections.
+• Use Open Lists to Select One from Many.
+",,,,,,Y,,
+135,QGOC-1,Content -Information,QGOC-1.3,Content Workflow,QGOC-1.3.1,Process,M2,"Entities must have a documented content Contribution, Moderation & Approval Policy or CMAP, in addition to audit trail to ensure that content has an appropriate authorization from within the department/entity prior publishing",,YES,,,,Y,,
+136,QGOC-1,Content -Information,QGOC-1.3,Content Workflow,QGOC-1.3.2,For Small Websites,M2,"Entities running small websites (information and content only) shall adopt a 2-tiered structure to implement CMAP, requiring minimum of two officials to execute the CMAP roles, viz.,
+• Contributor
+• Moderator/Approver
+",,YES,,,,Y,,
+137,QGOC-1,Content -Information,QGOC-1.3,Content Workflow,QGOC-1.3.3,For Large Websites,M2,"Entities running small websites (information, content, and e-services) shall adopt a 3-tiered structure to implement CMAP, requiring minimum 4 officials to execute the CMAP roles, viz.,
+• Contributor
+• Moderator
+• Approver
+",,YES,,,,Y,,
+138,QGOC-1,Content -Information,QGOC-1.4,      Content Audit,QGOC-1.4.1,Content Review,M2,"Every piece of content published online must have a review date. Web content management systems must be configured to notify content authors on time to review the content and either delete it or set a new review date. However, some content requires immediate review and update once specific events occur such as new minister appointment, new department, service cancelation, etc.",,YES,,,,Y,,
+139,QGOC-1,Content -Information,QGOC-1.4,      Content Audit,QGOC-1.4.2,Review & Expiry Date,M3,"Review date can vary between 1 and 52 weeks depending on the content nature, use the below matrix as a general guideline to determine both review and expiry dates.
+
+Content Element /Review Frequency /Expiry Date
+About entity/head/department/ 6 months/ N/A
+Vision, mission, objectives, and other static pages /12 months/ N/A
+Policies, standards, guidelines, acts, rules /6 months/ N/A
+Services/ 3 months/ Based on service availability
+Directory/ 3 months / audited by AD team N/A
+Homepage highlighted messages (carousel)/ 1 week /4 weeks at most
+Banners /4 weeks/ 12 weeks
+Tenders publishing /1 week /Tender end date
+Events micro pages /1 week /Event end date
+Articles and news 6 months N/A
+Photo galleries 6 months N/A
+",,YES,,,,Y,,
+140,QGOC-1,Content -Information,QGOC-1.13,Content Review,QGOC-1.13.1,Static Content Page,M2,Agencies shall review and update the content to keep it updated as and when it is changed ,,,,,,Y,,
+141,QGOC-1,Content -Information,QGOC-1.13,Content Review,QGOC-1.13.2,Information Page,M2,Agencies shall review and update the content to keep it update in Daily Frequency,,,,,,Y,,
+142,QGOC-1,Content -Information,QGOC-1.13,Content Review,QGOC-1.13.3,"Newsletter, Circulars, Notifications etc",M2,Review and update the content is not required,,,,,,Y,,
+143,QGOC-1,Content -Information,QGOC-1.13,Content Review,QGOC-1.13.4,"Acts, Rules",M2,Agencies shall review and update the content to keep it updated as and when it is changed or yearly.,,,,,,Y,,
+144,QGOC-1,Content -Information,QGOC-1.5,Content Archival,QGOC-1.5.1,Archival,M2,Entities shall archive online content and information shall be archived after entering (Yth) year from the date of publishing.,,YES,,,,Y,,
+145,QGOC-1,Content -Information,QGOC-1.5,Content Archival,QGOC-1.5.2,Retrieval,M2,"Entities shall maintain the archive for a period of 8 years to allow for the retrieval of content, which has expired.",,YES,,,,Y,,
+146,QGOC-1,Content -Information,QGOC-1.5,Content Archival,QGOC-1.5.3,Purge,M2,"Entities shall purge expired contents, such as Schemes, Tenders, Forms, Recruitment Notices, which have been withdrawn, or discontinued, or have exceeded more than 8 after archiving, may be expunged",,YES,,,,Y,,
+147,QGOC-1,Content -Information,QGOC-1.15,Social Media,QGOC-1.15.1,Account,M2,Only verified social media accounts should be listed on government websites; exceptions could be given in case the account is in the verification process.,,,,,,Y,,
+148,QGOC-1,Content -Information,QGOC-1.15,Social Media,QGOC-1.15.2,Meta tags,M3,"Use appropriate tags for social media channels such as Facebook and Twitter, which require specific og-meta-tags to be added in the HTML header to describe and specify the content type/group of the page. ",,,,,,Y,,
+149,QGOC-1,Content -Information,QGOC-1.15,Social Media,QGOC-1.15.3,Purge,M2,"Agencies shall purge expired contents, such as Schemes, Tenders, Forms, Recruitment Notices, which have been withdrawn, or discontinued, or have exceeded more than 8 after archiving, may be expunged",,,,,,Y,,
+150,QGWS-2,Content (Graphics and Multimedia),QGWS-2.1,Logos,QGWS-2.1.1,Size,M2,"The logo has to be based on the visual identity policy, and the size in the portal shall be within the range 250 px (width) x 100 px (height)",,,,,,Y,,
+151,QGWS-2,Content (Graphics and Multimedia),QGOC-2.1,Logos,QGWS-2.1.2,Positioning,M1,The Logo shall be positioned as per the Qatar Govt. Website Layout and Mobile Layout.,,,,,,Y,,
+152,QGWS-2,Content (Graphics and Multimedia),QGWS-2.1,Logos,QGWS-2.1.3,Alt Text,M1,Logo should have an Alternative text in both English and Arabic,,,,,,Y,,
+153,QGWS-2,Content (Graphics and Multimedia),QGWS-2.1,Logos,QGWS-2.3.4,Resolution,M1,Logo image must be in the following resolution range should be 72 PPI or more,,,,,,Y,,
+154,QGOC-2,Content (Graphics and Multimedia),QGOC-2.1,Images,QGOC-2.1.1,Image Usage,M2,"• All images must be correctly labeled, e.g. <img src=""..."" alt=”Ministry Main Building"" />
+• Images using wide color palettes such as photos, portrait, etc. must be saved as JPG.
+• Images using few color palettes such as graphs, ornaments, etc., must be saved as PNG.
+• All images must be saved for web with 72 dpi.
+• Images file size must not exceed 50kb for thumbnails, and 200kb for large images.
+• Images must not be stretched or squeezed and must maintain its original aspect ratio.
+• Images must not be mirrored for aesthetic reasons.
+• Images must be resized and cropped to the desired dimension prior adding it to the content.
+
+",,YES,,,,Y,,
+155,QGOC-2,Content (Graphics and Multimedia),QGOC-2.1,Images,QGOC-2.1.2,Royal Photos,M1,All photos of the Amir and the royal family must be approved ahead by the Amiri Diwan prior publishing on government websites.,,YES,,,,Y,,
+156,QGOC-2,Content (Graphics and Multimedia),QGOC-2.1,Images,QGOC-2.1.3,Royalty-Free Images,M2,"• Use proprietary images to increase the content ingenuity.
+• Searching for free images using search engines such Google, Bing, etc. might pick original or reused copyrighted images from different sites, thus, using free images is NOT allowed.
+• Stock and Royalty-Free images purchased/downloaded from stock images providers such as Shutterstock, Getty Images, iStock, etc. can be used without referrals or contributions.
+• Using images from different websites is allowed but must add referrals or contribution.
+• A general rule for using royalty-free images is reading the term and license prior usage.
+",,YES,,,,Y,,
+157,QGOC-2,Content (Graphics and Multimedia),QGOC-2.1,Images,QGOC-2.1.4,Background Image,M2,"Background images must be simple and carefully used, especially if used behind text. contrast ratio must follow WCAG 2.1 standards at all time. Contrast ratio can be measured using this free tool: https://contrast-ratio.com/
+
+xt. ",,YES,,,,Y,,
+158,QGOC-2,Content (Graphics and Multimedia),QGOC-2.1,Images,QGOC-2.1.5,Thumbnails,M3,"Thumbnails are used to preview actual large images prior opening and loading the full size; thus, all thumbnails must be scaled down from actual images while maintaining the aspect ratio and ‘saved as’ into new files to reduce the actual file size. The recommended width of thumbnails is 480px to preserve resolution once viewed on small devices.",,YES,,,,Y,,
+159,QGWS-2,Content (Graphics and Multimedia),QGWS-2.2,Images,QGWS-2.2.4,Alt Text,M2,Logo should have an Alternative text in both English and Arabic,,,,,,Y,,
+160,QGWS-2,Content (Graphics and Multimedia),QGWS-2.2,Images,QGWS-2.2.5,Resolution,M3,"Any image published in the website of mobile site, should have a minimum resolution of 72 DPI",,,,,,Y,,
+161,QGWS-2,Content (Graphics and Multimedia),QGWS-2.3,Royal Photos,QGWS-2.3.1,Photo of Amir,M1,"Policy for posting Amir's Photo to be followed as specified by Qatar Visual Identity. It must not be preceded by any image or, otherwise, the image is replaced by one relevant to the news content.",,,,,,Y,,
+162,QGWS-2,Content (Graphics and Multimedia),QGWS-2.3,Royal Photos,QGWS-2.3.2,Photo of Family Members,M1,Policy for posting Royal Family Member's Photo,,,,,,Y,,
+163,QGWS-2,Content (Graphics and Multimedia),QGWS-2.3,Royal Photos,QGWS-2.3.3,Photo of Royal Institutions,M1,Policy for posting Royal Institution's Photo,,,,,,Y,,
+164,QGWS-2,Content (Graphics and Multimedia),QGWS-2.3,Royal Photos,QGWS-2.3.4,Alt Text,M1,Logo should have an Alternative text in both English and Arabic,,,,,,Y,,
+165,QGWS-2,Content (Graphics and Multimedia),QGWS-2.3,Royal Photos,QGWS-2.3.5,Resolution,M1,"Any image published in the website of mobile site, should have a minimum resolution of 72 DPI",,,,,,Y,,
+166,QGOC-2,Content (Graphics and Multimedia),QGOC-2.2,Data Visualization,QGOC-2.2.1,Choice of Visualization,M3,"It is highly recommended to use dynamic graphical charts to display data sets instead of long tables or images, as they will be responsive and can have additional functionalities such as hover, filters, and more. Choice of chart type should be according to the data set visualized, and colors must follow the website visuals identity.
+
+",,YES,,,,Y,,
+167,QGOC-2,Content (Graphics and Multimedia),QGOC-2.2,Data Visualization,QGOC-2.2.2,Data Labels & Number Annotations,M3,Include actual data labels and values with graphical displays of data when precise reading of the data is required,,YES,,,,Y,,
+168,QGOC-2,Content (Graphics and Multimedia),QGOC-2.3,Videos,QGOC-2.3.1,Video Usage,M3,"• Use videos and animations only when they help to convey or support your page content, such as how to use an e-service that includes many and complicated steps. 
+• Avoid excessive use of videos and animations, sometimes listing few steps is more convenient.
+",,YES,,,,Y,,
+169,QGOC-2,Content (Graphics and Multimedia),QGOC-2.3,Videos,QGOC-2.3.2,Video Hosting,M2,"Hosting videos on entities’ servers using a proprietary digital asset management system is the safest option, however, it can get quite expensive, challenging to maintain/support, and the loading speed will not be good enough comparing to other cloud video hosting services.
+
+Embedding videos on entities websites from free video hosting services such as YouTube, Facebook, Vimeo, Dailymotion, etc. is not allowed, to avoid inappropriate ads and/or next suggested videos, even after disabling ads and monetization. 
+
+Using premium enterprise cloud video hosting services that support Content Delivery Network or CDN such as Azure Media Services, is the highly recommended option, with advanced features like customizable players, security tools, custom branding, CRM and CMS integration, world-wide high-speed playbacks, support, and more.
+",,YES,,,,Y,,
+170,QGOC-2,Content (Graphics and Multimedia),QGOC-2.4,Content Consideration,QGOC-2.4.1,Contents Considerations,M2,"Content should respect Qatari cultural values at all times. Any content related to the any of the following topic is strictly restricted and prohibited:
+• Gambling
+• Offensive Content
+• Nudity/Sexually explicit or suggestive
+• Non Sharia Complaint
+• Illegal Activities Promotion
+• Advocating against culture, religion, and leadership
+",,YES,,,,Y,,
+171,QGOC-2,Content (Graphics and Multimedia),QGOS-2.5,Copyright & Credits,QGOS-2.5.1,Copyright,M1,"All content created for the agencies, by the agencies, shall be copyrighted.
+
+Using free images from stock websites required to credit them. Always read the terms of an image's license before you use it.
+",,YES,,,,Y,,
+172,QGOC-2,Content (Graphics and Multimedia),QGOS-2.5,Copyright & Credits,QGOS-2.5.2,Credits,M1,"All content (including text, image, audio, video) used from other sources, must have usage license, and credit must be mentioned",,YES,,,,Y,,
+173,QGOC-2,Content (Graphics and Multimedia),QGOS-2.6,Organization Chart,QGOS-2.6.1,Organization Structure,M1,"All agencies must provide the organization structure of the respective agency, with clear profiles and roles",,YES,,,,Y,,
+174,QGWS-3,Content (Eservices),QGWS-3.1,Eservices Listing,QGWS-3.1.1,Eservices Page,M1,Agencies must provide dedicated page for all Eservices,,YES,,,,Y,,
+175,QGWS-3,Content (Eservices),QGWS-3.1,Eservices Listing,QGWS-3.1.2,Eservices Lists,M1,"The dedicated Eservices page must provide a list of Eservices provided by the Ministry or Agencies.
+
+The users should be able to view the Eservices in a list view or a grid view",,YES,,,,Y,,
+176,QGWS-3,Content (Eservices),QGWS-3.1,Eservices Listing,QGWS-3.1.3,Most used / Trending Eservices,M2,The most used and trending eServices should also be displayed in the Eservices Page,,YES,,,,Y,,
+177,QGWS-3,Content (Eservices),QGWS-3.1,Eservices Listing,QGWS-3.1.4,Search Eservices,M1,"Users should be able to Search  Eservices on the Eservices Page.
+
+Eservices will be searchable by applicable options for each agency or ministry, including but not limited to Department, Persona, Type, etc.",,YES,,,,Y,,
+178,QGWS-3,Content (Eservices),QGWS-3.1,Eservices Listing,QGWS-3.1.5,Sort Eservices,M1,"Users must  be able to atleast Sort Eservices on the Eservices Page by Name. 
+
+Agencies may also provide other sort option such as sort by department / persona / type / etc.",,YES,,,,Y,,
+179,QGWS-3,Content (Eservices),QGWS-3.1,Eservices Listing,QGWS-3.1.6,Pagination or Scroll down,M1,"For minsitries and agencies providing a long list of Eservice, there should be provision for pagination or scroll down for more Eservices",,YES,,,,Y,,
+180,QGWS-3,Content (Eservices),QGWS-3.1,Eservices Listing,QGWS-3.1.7,Eservices Icon,M1,Minsitries or Agencies must provide an Icon to uniquely identify an Eservice,,YES,,,,Y,,
+181,QGWS-3,Content (Eservices),QGWS-3.1,Eservices Listing,QGWS-3.1.8,Eservices Name,M1,Minsitries or Agencies must provide an Name to uniquely identify an Eservice,,YES,,,,Y,,
+182,QGWS-3,Content (Eservices),QGWS-3.1,Eservices Listing,QGWS-3.1.9,Eservices Brief Description,M1,Minsitries or Agencies must provide a brief description of the Eservices,,YES,,,,Y,,
+183,QGWS-3,Content (Eservices),QGWS-3.1,Eservices Listing,QGWS-3.1.10,Eservices Parameters,M1,"Minsitries or Agencies must provide parametric information applicabel for the agency or minisitry , such as, but not limited to Department, Persona, Type, Sector, etc",,YES,,,,Y,,
+184,QGWS-3,Content (Eservices),QGWS-3.1,Eservices Listing,QGWS-3.1.11,Eservices Link,M1,"On click on Eservices, the users should be navigated to the respective Eservice Page.",,YES,,,,Y,,
+185,QGWS-6,Search,QGWS-6.1,Search Scope - Internal,QGWS-6.1.1,Current site,M2,"Entities must provide options to user to choose to search in the current agency in the website.
+
+",,YES,,,,Y,,
+186,QGWS-6,Search,QGWS-6.1,Search Scope - Across Ministries,QGWS-6.1.2,All Qatar government websites,M2,Entities  must provide options to user to choose across all Qatar government websites.,,YES,,,,Y,,
+187,QGWS-6,Search,QGWS-6.2,Search Results,QGWS-6.2.1,Page header and footer,M2,The search page should have a clear header and footer,,YES,,,,Y,,
+188,QGWS-6,Search,QGWS-6.2,Search Results,QGWS-6.2.2,Breadcrumbs,M2,If rest of the site uses breadcrumbs then breadcrumbs must be used in the search result page.,,YES,,,,Y,,
+189,QGWS-6,Search,QGWS-6.2,Search Results,QGWS-6.2.3,Site utilities search box,M2,The search box should have clear options to search in the site and search across whole of government.,,YES,,,,Y,,
+190,QGWS-6,Search,QGWS-6.2,Search Results,QGWS-6.2.4,Page title (heading),M2,"The search result page title or page heading must be ‘Search results’.
+The title or heading must be a H1.
+The title or heading must follow section 6: style requirements ",,YES,,,,Y,,
+191,QGWS-6,Search,QGWS-6.2,Search Results,QGWS-6.2.5,Result set description,M2,The result set must display the total number of results and which of these results are being displayed on the current page. The result set must indicate the search terms used.,,YES,,,,Y,,
+192,QGWS-6,Search,QGWS-6.2,Search Results,QGWS-6.2.6,Search result entries,M2,"• Search results must have a relevant title linked to the result followed by a short description of the search result. 
+• The search result title must be hyperlinked to the search result. 
+• The text size of the title should be greater than the brief description of the result. 
+• The results must be displayed in vertical list.
+• The results must be ordered according to the relevance to the search terms, from most relevant to least relevant.",,YES,,,,Y,,
+193,QGWS-6,Search,QGWS-6.2,Search Results,QGWS-6.2.7,File type and size,M2,"• The file type and size must be adjacent to the search result title
+• It should not be hyperlink.
+• Must be in the format ‘file type’, ‘numeric size’, ‘unit of measure’) e.g. (PDF, 1.7 MB)  ",,YES,,,,Y,,
+194,QGWS-6,Search,QGWS-6.2,Search Results,QGWS-6.2.8,Pagination,M2,"For user’s easy navigation pagination must be used.
+• Each page must display 10 search results at a time unless there are fewer number of results than 10.
+• Search result page must display linked page number for each search page
+• Must provide ‘Next’ and ‘Previous’ links at either end of the pagination if there are more than one page.
+• Pagination element must be displayed at the bottom of the page just below the last search result.   
+",,YES,,,,Y,,
+195,QGWS-6,Search,QGWS-6.3,No Search Results,QGWS-6.3.1,No search results message text,M2,"The 'no search results' message text must be displayed below the Search box group, 'featured search' result or 'spelling suggestion', whichever comes last.
+Example 'no search results message text':
+'Your search for (insert search terms) did not return any results.",,YES,,,,Y,,
+196,QGWS-6,Search,QGWS-6.3,No Search Results,QGWS-6.3.2,Search tips,M2,"The search tips must be provided when ‘no search results’ is found. 
+The search tips must have a heading of ‘Tips for searching’",,YES,,,,Y,,
+197,QGWS-6,Search,QGWS-6.3,No Search Results,QGWS-6.3.3,Alternative search options,M3,"The alternative search options should be provided when ‘no search results’ is found. 
+The alternative search options must have a heading of ‘Alternatively you can try’",,YES,,,,Y,,
+198,QGWS-6,Search,QGWS-6.4,Featured Searches,QGWS-6.4.1,Featured search result,M3,"Predefined recommended search results are ‘featured search’ results. These are displayed in search result page when search terms match predefined condition. 
+• “Featured search” should be displayed above the normal search results.",,YES,,,,Y,,
+199,QGWS-6,Search,QGWS-6.5,Spelling Suggestions,QGWS-6.5.1,Spelling suggestions display,M3,"When search terms are not recognized by the search engine then ‘spelling suggestions’ are displayed as alternative.
+• The suggestions must follow the text ‘Did you mean:’.
+• The line must end with a question mark.
+• Corrected term must be bold. 
+• ‘Spelling suggestions’ must be displayed above the search result entries.
+",,YES,,,,Y,,
+200,QGWS-7,Accessibility,QGWS-7.1,Assistive technologies ,QGWS-7.1.1,Text Zoom,M1,"• There should be option to resize text by the browser without loss of content or functionality. 
+• The default browser function for text resizing should always be available.
+",YES,,,,,Y,,
+201,QGWS-7,Accessibility,QGWS-7.1,Assistive technologies ,QGWS-7.1.2,Screen Reader,M1,"• Websites and mobile apps should be accessible by screen readers by providing textual alternatives for any non-text content.
+• Entities should provide text alternatives for any non-text content so that it can be changed into speech.
+• The websites should be rigorously tested using screen readers
+
+",YES,,,,,Y,,
+202,QGWS-7,Accessibility,QGWS-7.1,Assistive technologies ,QGWS-7.1.3,Color Inversion,M1,The website should provide controls that allows users to invert the colors.,YES,,,,,Y,,
+203,QGWS-7,Accessibility,QGWS-7.1,Assistive technologies ,QGWS-7.1.4,Virtual Keyboard,M1,"Entities should provide virtual keyboards supporting English and Arabic Keyboards, and option to choose in the forms",YES,,,,,Y,,
+204,QGWS-7,Accessibility,QGWS-7.2,"Navigation, Content Structure, Sitemap",QGWS-7.2.1,"Website Platform, Structure, Layout and Design",M1,"• The web pages should appear and operate in predictable ways by structuring the web content systematically so as to enhance user interaction.
+• All website links and buttons should actable by all the input devices.
+• Website must be response and accessible when accessed using multiple devices; E.g. Tablets, mobile devices
+",YES,,,,,Y,,
+205,QGWS-7,Accessibility,QGWS-7.2,"Navigation, Content Structure, Sitemap",QGWS-7.2.2,Web Site Navigation ,M1,"• Pages that have no navigational options should not be created or user should not be directed into such pages.
+• Browser’s Back button should not be disabled in Web pages.
+• The hyperlinks on the horizontal navigation panel shall be consistent across the website.
+• The website shall have a common, Web site-wide navigational scheme.
+• On long pages, provide a ‘list of contents’ with links that take users to the corresponding content farther down the page.
+",YES,,,,,Y,,
+206,QGWS-7,Accessibility,QGWS-7.3,Style,QGWS-7.3.1,Colors and Contrast,M2,"Contrast (Minimum): The visual presentation of text and images of text has a contrast ratio of at least 4.5:1. WCAG 2.0 (AA)
+o Web page background and foreground text colors should contrast
+to the minimum requirements
+o All visual presentations in the website which include; Web Design,
+Flash, Videos, Photos and Graphics must have sufficient contrast
+• Contrast (Enhanced): The visual presentation of text and images of text has a contrast ratio of at least 7:1. WCAG 2.0 (AAA)
+• If Red TEXT is used on a white background, achieve a 8:1 contrast ratio or better Usability.
+
+",YES,,,,,Y,,
+207,QGWS-7,Accessibility,QGWS-7.3,Style,QGWS-7.3.2,CSS and Website Accessibility Features ,M2,"CSS shall be designed as per WCAG Guidelines or follow Qatar Govt. Website CSS and Style Templates which is as per WCAG standards.
+
+Organize web pages so users may read / view web pages without associated style sheets.
+",YES,,,,,Y,,
+208,QGWS-7,Accessibility,QGWS-7.3,Style,QGWS-7.3.3,Frame / iFrame ,M3,"The iframes should avoided. If not, then it has to be as per WCAG Guidelines with Alternative Text and support assistive technologies",YES,,,,,Y,,
+209,QGWS-7,Accessibility,QGWS-7.3,Style,QGWS-7.3.4,Tables,M3,Not Recommended for only layout purposes. Use Tables only for Tabular data as per WCAG Guidelines with Table caption and Table header,YES,YES,,,,Y,,
+210,QGWS-7,Accessibility,QGWS-7.3,Style,QGWS-7.3.5,Text ,M2,"Should support WCAG Guidelines.
+
+For English Text
+o Use open typeface; San-Serif, recommended fonts are Verdana or Arial. 
+If possible, avoid using Serif style typeface.
+o Minimum Font size, CSS 100%, equivalent to 12 points
+o Fonts must be able to scale to 200% without clipping or run off
+
+For Arabic Text
+o Use Arabic “Naskh” Type, equivalent web font;
+Comic Sans MS, Cursive, Arial or Tahoma as second choices
+o Minimum Font size, CSS 140%, equivalent to 16 points
+o Font must be able to scale to 240% without clipping or run off
+o Use the Right to Left attribute for Arabic text;
+ 
+When using CSS fonts, always use scalable relative sizing (%).
+",YES,YES,,,,Y,,
+211,QGWS-7,Accessibility,QGWS-7.3,Style,QGWS-7.3.6,Headings ,M2,"The text content should be readable so that screen readers and assistive technologies can correctly present and pronounce content written in multiple human languages.
+
+Use Heading structure; Titles H1, Main Headings H2, Sub Headings H3
+",YES,YES,,,,Y,,
+212,QGWS-7,Accessibility,QGWS-7.3,Style,QGWS-7.3.7,Links and Labeling,M2,"• LLink names with their destination pages should be matched
+• Link phase shall be descriptive 
+• Text links should be used rather than image links.
+• App should indicate to users when a link has been visited. (e.g but not limited to color changes)
+• Avoid using the following phrases: More info, Read more, Click here
+• Use label element on form fields.
+• Use ARIA Labels on custom user interfaces where required..
+
+",YES,YES,,,,Y,,
+213,QGWS-7,Accessibility,QGWS-7.4,Content (Graphics & Multimedia),QGWS-7.4.1,Multi-Media Content,M2,"Should provide accessible content for all multimedia content in both English and Arabic
+For Audio-only and Video-only (Prerecorded):
+• Prerecorded Video : Provide synchronized Caption (Sub-Title) with the video
+
+• If online tools are used, the content will still be edited to make sure it is correct and avoid any inaccuracy.
+• Videos with no speech/conversation will require editors to provide the relevant content describing the action taking place.
+• The captioning must include descriptions accounting for audible outputs derived from the environment in the video (e.g. shutting of door, car engine ignition, gusting of wind, etc.)
+
+• Prerecorded Audio: Provide Caption or Text Transcript.
+• If Text Transcript is used, the link should be clearly labeled
+• The alternative text content must include descriptions accounting for audible outputs derived from the environment in the audio (e.g. shutting of door, car engine ignition, gusting of wind, etc.)
+
+• Provide Audio description / Narration where there is no spoken dialogue in videos
+",YES,YES,,,,Y,,
+214,QGWS-7,Accessibility,QGWS-7.4,Content (Graphics & Multimedia),QGWS-7.4.2,Images and Graphics,M2,"Should provide alternative text for all images and graphics, in both English and Arabic. The text alternative of an image used as a link or as a button should describe the functionality of the link or button rather than the visual image.
+
+When using complex images; charts, flow charts and diagrams, use LONG description attribute in the image source tag linked to a text only equivalent webpage.
+",YES,YES,,,,Y,,
+215,QGWS-7,Accessibility,QGWS-7.5,Content (Information),QGWS-7.5.1,"Space, Alignment, and Consistency ",M2,"All web content shall use a simple, usable, visual layout of, and use a consistent style of presentation between pages.
+
+Consistency: all important usable functions and content must be consistently placed on all web pages.
+",YES,YES,,,,Y,,
+216,QGWS-7,Accessibility,QGWS-7.6,Content (Forms),QGWS-7.6.1,Using Forms ,M2,"Forms must be navigable and actable all the input device and in logical tab order.
+
+Consistency: all important usable functions and content must be consistently placed on all web pages.
+",YES,YES,,,,Y,,
+217,QGWS-8,Search Engine Optimization (SEO),QGWS-8.1,URL Persistence,QGWS-8.1.1,URL Design,M2,"• The directory structure of the URLs should be simple and logical.
+• Always include main keywords/article title in URL
+• Don’t merge words in URLs, always use hyphen to make it readable. 
+Do: /apply-for-family-visa/
+Don’t: /applyforfamilyvisa/",YES,,,,,Y,,
+218,QGWS-8,Search Engine Optimization (SEO),QGWS-8.1,URL Persistence,QGWS-8.1.2,Appropriate Usage of HTTPS Methods,M2,"• Enable SSL for the websites for high ranking in search engines.
+• Gain the trust of portal visitors & stop portal from showing ""Not Secure"" In Browser.
+",YES,,,,,Y,,
+219,QGWS-8,Search Engine Optimization (SEO),QGWS-8.1,URL Persistence,QGWS-8.1.3,Error handling and Status,M2,"• Configure the web server to give a meaningful and helpful 404 HTTP status code when the page doesn’t exist. 
+• Use server-side 301 code to redirect the users from old page or old domain to new page or new domain.
+",YES,,,,,Y,,
+220,QGWS-8,Search Engine Optimization (SEO),QGWS-8.2,Tags ,QGWS-8.2.1,Title Tags ,M2,"Each page should have a title tag with unique & relevant content, <title>text</title>",YES,,,,,Y,,
+221,QGWS-8,Search Engine Optimization (SEO),QGWS-8.2,Tags ,QGWS-8.2.2,Meta description tags,M2,Each page should have a meta description tag with unique & relevant content. e.g. <meta name=“description” content=“The Official Website of the Ministry of Transport and Communications”>,YES,,,,,Y,,
+222,QGWS-8,Search Engine Optimization (SEO),QGWS-8.2,Tags ,QGWS-8.2.3,Heading Tags,M2,There should be only one h1 tag per page. The tags are formatted from h1 (which is most important) to h6 (least important).,YES,,,,,Y,,
+223,QGWS-8,Search Engine Optimization (SEO),QGWS-8.3,Language Specific URLs,QGWS-8.3.1,English,M2,"Use different URLs for each language version of a page. 
+Examples:
+English, e.g. https://www.MOTC.gov.qa/en
+Arabic, e.g. https://www.MOTC.gov.qa/ar/
+",YES,,,,,Y,,
+224,QGWS-8,Search Engine Optimization (SEO),QGWS-8.3,Language Specific URLs,QGWS-8.3.2,Arabic,M2,"Use different URLs for each language version of a page. 
+Examples:
+English, e.g. https://www.MOTC.gov.qa/en
+Arabic, e.g. https://www.MOTC.gov.qa/ar/
+",YES,,,,,Y,,
+225,QGWS-8,Search Engine Optimization (SEO),QGWS-8.4,Empty Pages (Content less pages),QGWS-8.4.1,Empty Pages,M2,"No page in portal should be content-less, always write some description to help visitors & search engines understand the theme of the page. 
+Example of content-less page: /wps/portal/MobileServices
+",YES,,,,,Y,,
+226,QGWS-8,Search Engine Optimization (SEO),QGWS-8.5,Tracking Tools,QGWS-8.5.1,Tracking Tools,M2,"Below mentioned three tracking tools should be implemented before any portal/site is gone live otherwise we will lose the statistics for the time of non-availability of the tools.
+1. GTM (Google Tag Manager)
+2. Google Analytics
+3. Google Search Console   
+",YES,,,,,Y,,
+227,QGWS-8,Search Engine Optimization (SEO),QGWS-8.6,Predefined Validation Error Messages,QGWS-8.6.1,Validation messages,M2,Validation error messages like; Sorry no content found or try again or no result found etc.   should not be written inside H tags (h1 to h6 tags) and users should not able see these predefined message in HTML source code otherwise search engines will scan it & show it in search results.,YES,,,,,Y,,
+228,QGWS-8,Search Engine Optimization (SEO),QGWS-8.7,Toggle Button Expand/Collapse,QGWS-8.7.1,Toggle Button Collapse/Expand,M2,"Never wrap important content or links inside toggle button (which expands/collapses when you click on it), Search engines cannot enter or expands or read the text/links, which are hidden inside toggle button.
+
+Example of links hidden inside toggle button: /wps/portal/services
+",YES,,,,,Y,,
+229,QGWS-9,Performance and monitoring,QGWS-9.1,Website performance,QGWS-9.1.1,Load time,M2,"Optimize the size of each page to reduce the load time. 
+Optimize the image size to reduce the load time.
+Website load time within 3 seconds is desirable. 
+The website shall implement lazy loading whenever heavy content provided, such as scrolling content loads.
+",YES,YES,YES,YES,YES,Y,,
+230,QGWS-9,Performance and monitoring,QGWS-9.1,Website performance,QGWS-9.1.2,Website Availability,M2,Entities shall ensure that websites are available for 24X7. Downtime to be properly documented.,YES,YES,YES,YES,YES,Y,,
+231,QGWS-9,Performance and monitoring,QGWS-9.1,Website performance,QGWS-9.1.3,Time-out Secure Information,M2,"Design pages that require or present secure information, to time-out automatically.
+Also, warn users before time expires with the option to request additional time.
+",YES,YES,YES,YES,YES,Y,,
+232,QGWS-9,Performance and monitoring,QGWS-9.2,"Monitoring, reporting and analytics",QGWS-9.2.1,Monitoring and reporting ,M2,Websites should be monitored periodically in accordance with the plan to address and fix the quality and compatibility issues.,YES,YES,YES,YES,YES,Y,,
+233,QGWS-9,Performance and monitoring,QGWS-9.2,"Monitoring, reporting and analytics",QGWS-9.2.2,Load time report,M3,All important pages of the website should be tested for load time and same should be monitored and documented.,YES,YES,YES,YES,YES,Y,,
+234,QGWS-9,Performance and monitoring,QGWS-9.2,"Monitoring, reporting and analytics",QGWS-9.2.3,Traffic Analysis,M3,The site traffic should be regularly monitored to analyze the usage patterns as well as visitors’ profile and preferences.,YES,YES,YES,YES,YES,Y,,
+235,QGWS-9,Performance and monitoring,QGWS-9.2,"Monitoring, reporting and analytics",QGWS-9.2.4,Analytics,M3,"• With the help of analytics the government Entities should identify which components are most used, and clearly highlight the components on  the entity homepage.
+• With Google Analytics, Entities should monitor the behavior of visitors in order to improve user experience with the insight that this provides.
+• Entities shall use reports provided by Google Analytics to help it to understand website traffic and webpage usage.
+
+",YES,YES,YES,YES,YES,Y,,
+236,QGWS-11,Support (chat/helpline),QGWS-11.1,Support / Helpline,QGWS-11.1.1,Support / Helpline,M2,"• • In ‘contact us’ there must be email address, operating hours, the main telephone number for each call center
+• Providing online tutorial/help with screen shots and instructions. Online self-help like FAQs will be useful. 
+• Where an e-Service is complex and is for a specific group of users or corporate users, training and hands-on workshops shall be provided
+
+Entities must provide the following:
+1. For general enquiry - A service Helpline/Hotline
+2. For transaction enquiry 
+a. If services are supported by Govt Contact Center: Link to 109 GCC, Widget of 109 Live Chat Window, Widget of 109 chatbot
+b. If services are not supported by Govt Contact Center: Phone number of service helpline must be provided 
+c. Map location of the address
+.
+",YES,,YES,,,Y,,
+237,QGWS-11,Support (chat/helpline),QGWS-11.2,Chat,QGWS-11.2.1,Chat,M2,"When users encounter problems or difficulties with using the website or services then Entities shall provide live chat with service agents, especially for services targeting remote users such as overseas citizens, tourists, businesses etc. Ideally, chat support for such services should be provided 24/7 considering different time zones per user locations.s.",YES,,YES,,,Y,,
+238,QGWS-11,Support (chat/helpline),QGWS-11.3,Bot Usage Guidelines,QGWS-11.3.1,Bot Usage Guidelines,M3,"• It should be apparent to the user that they are not having an interaction with another person.
+• A seamless hand-off to a human should be ensured where the human-bot exchange leads to interactions that exceed the bot’s competence.
+• Entities should ensure that the bot is reliable.
+• The bot should respect user privacy.
+• Entities are accountable for the bots they deploy.
+",YES,,YES,,,Y,,
+239,QGWS-11,Support (chat/helpline),QGWS-11.4,Site Tour,QGWS-11.4.1,Site Tour,M3,"• The site tour should be precise. 
+• The most important or frequently used features should come first in the site tour.
+• Easy option for leaving the site tour in between should be provided, e.g. pressing the escape key of keyboard.
+",YES,,YES,,,Y,,
+240,QGWS-12,General requirements,QGWS-12.1,General Requirements,QGWS-12.1.1,Browser and device support,M2,"• Design, develop and test the website for the most common browsers.
+• Design, develop and test the website for the most common devices.",YES,,,,,Y,,
+241,QGWS-12,General requirements,QGWS-12.1,General Requirements,QGWS-12.1.2,Font,M2,"• The content of the site should be readable in electronic and print format with default standard fonts of user’s system.
+• Use a familiar font such as Times New Roman or Georgia (serif fonts), or Arial, Helvetica, or Verdana (sans serif fonts), to achieve the best possible reading speed.
+• Use at least a 12-point font (e.g., typeface) on all Web pages.
+",,,,,,Y,,
+242,QGWS-12,General requirements,QGWS-12.1,General Requirements,QGWS-12.1.3,Pop-ups or New window,M3,"• Do not have unsolicited windows or graphics ‘pop-up’ to users.
+• Websites should not launch new browser windows.
+• When linking to non-HTML files, such as Excel, Word or PDF, these documents should open in standalone applications or in a new window.
+• Applications hosted on secure sites may open in new window
+• New window can be used in a situations where interactive content on a page will be lost  - e.g. where a user is filling out a form and a link leads to explanatory text.
+",YES,,,,,Y,,
+243,QGWS-12,General requirements,QGWS-12.1,General Requirements,QGWS-12.1.4,Web assets and resources optimization,M3,"All web resources and assets should be optimized for performance. This includes images, stylesheets, scripts, PDF, and PowerPoint.",YES,,,,,Y,,
+244,QGWS-12,General requirements,QGWS-12.1,General Requirements,QGWS-12.1.5,Printability,M2,"• The content of the site should be readable in print format with default standard fonts of user’s system.
+• Agencies must include CSS to provide stripped down print-friendly versions of web pages.
+",YES,,,,,Y,,
+245,QGWS-12,General requirements,QGWS-12.1,General Requirements,QGWS-12.1.6,Popular Operating Systems,M2,"• Design the Web site so it will work well with the most popular operating systems.
+• Designers should attempt to accommodate majority of all users.
+• Ensure that all testing of a Web site is done using the most common operating systems.
+",YES,,,,,Y,,
+246,QGWS-12,General requirements,QGWS-12.1,General Requirements,QGWS-12.1.7,Screen Resolutions,M3,"• Design website for monitors with the screen resolution set at 1366x768 pixels. 
+• Designers should attempt to accommodate majority of all users.
+• The websites should be tested and it should function properly for other common higher and lower resolution settings as well.
+",YES,,,,,Y,,
+247,QGWS-12,General requirements,QGWS-12.1,General Requirements,QGWS-12.1.8,System Requirements,M3,"• Minimum supported web browsers and their version number should be displayed on the website home page.
+• Information about any required plug-in software should also be displayed before the plug-ins are used.
+• A link should be provided in order that users not having the required software may download and install in their in computing hardware
+",YES,,,,,Y,,
+248,QGWS-12,General requirements,QGWS-12.1,General Requirements,QGWS-12.1.9,Advertising,M2,"Commercial advertising is not permitted on any pages housed under government (gov.qa) domains.
+The use of banner adverts provided directly from a third party (Bing ads, Google display Network, etc…) is not permitted.
+The use of banner adverts provided by other Qatari government entities is allowed such as World Cup 2022, Expo 2021, etc.
+It is acceptable to acknowledge sponsorship – for example of an exhibition or award – and to provide a link, via text and/or the sponsor’s logo, to the sponsor's website, but these links must not imply that the government endorses a particular product or service, and no personal remuneration of any kind may be derived from resources provided by the government.
+",YES,,,,,Y,,
+249,QGWS-12,General requirements,QGWS-12.1,General Requirements,QGWS-12.1.10,Print,M2,Agencies should provide a print friendly function which is configured to print the core content of the page only.,YES,,,,,Y,,
+250,QGWS-12,General requirements,QGWS-12.1,General Requirements,QGWS-12.1.11,Email marketing or email alert subscription,M3,"Users of the website to be provided an option to subscribe to email or newsletters from the agency or portal.
+
+In order to automate email alert campaigns portal should have a category-wise feed and subscription form with multi-selection options.
+e.g. https://connect.usa.gov/subscribe?email
+https://www.government.ae/en/footer/newsletter
+
+",YES,,,,,Y,,
+251,QGWS-13,Security and Privacy,QGWS-13.1,Web Application Security Standards,QGWS-13.1.1,Active content,M2,All active content on their Web servers is reviewed for security issues. Entities should follow the documentation provided in the Open Web Application Security Project (OWASP) guide to building secure Web applications and Web services,YES,,,,,Y,,
+252,QGWS-13,Security and Privacy,QGWS-13.1,Web Application Security Standards,QGWS-13.1.2,Application component connectivity,M2,Connectivity and access between each Web application component is minimised.,YES,,,,,Y,,
+253,QGWS-13,Security and Privacy,QGWS-13.1,Web Application Security Standards,QGWS-13.1.3,Cryptography,M2,That Personal Information and sensitive data is protected whilst in storage and in transmission using appropriate cryptographic controls,YES,,,,,Y,,
+254,QGWS-13,Security and Privacy,QGWS-13.1,Web Application Security Standards,QGWS-13.1.4,SSL,M2,"Critical sector websites that need to be strongly authenticated, use SSL certificates provided from a Certificate Service Provider (CSP) licensed in the State of Qatar.",YES,,,,,Y,,
+255,QGWS-13,Security and Privacy,QGWS-13.1,Web Application Security Standards,QGWS-13.1.5,Firewall,M2,Critical sector websites that need to be strongly authenticated use SSL certificates provided from a Certificate Service Provider (CSP) licensed in the State of Qatar.,YES,,,,,Y,,
+256,QGWS-13,Security and Privacy,QGWS-13.1,Web Application Security Standards,QGWS-13.1.6,System Security,M2,"• Government Entities should refer to ‘CS-CSPS - Information Security Controls for Website Development and Hosting’ when developing or enhancing websites.
+• Cloud Security Policy for Government Entities should be complied with whenever cloud solutions are opted.
+• It should also be ensured that the hardware and software are compliant to the requirements laid down in the National Information Assurance Policy v2.0.
+
+",YES,,,,,Y,,
+257,QGWS-13,Security and Privacy,QGWS-13.2,Digital signature,QGWS-13.2.1,Digital signature,M2,"Entities shall follow the policies, standards and guidelines of Electronic Signature Formats Standards, Version : 1.0
+Electronic Signature Overview & Specification, Version: 1.0
+",YES,,,,,Y,,
+258,QGWS-13,Security and Privacy,QGWS-13.3,Privacy,QGWS-13.3.1,Privacy Statement,M2,"Each website shall contain a privacy statement. Giving notice to website visitors about how the Agency collects and uses personal information is good practice and will assist the agency in both complying with privacy laws and principles, and gaining public trust and confidence in those who use government website and services. The statement shall clearly indicate:
+• the scope of the statement;
+•  the circumstances in which personal information is collected, by whom it is held (e.g. the responsible Agency and/or any other third parties);
+•  the uses to which such collected personal information may be put by",YES,,,,,Y,,
+259,QGWS-13,Security and Privacy,QGWS-13.3,Privacy,QGWS-13.3.2,Cookies,M2,"If cookies are used, a statement and a brief description of its purpose should be included. User consent should be solicited. 
+
+ Users may refuse the use of cookies by selecting the appropriate settings on their browser, in that case agency shall mention that the user may not be able to use the full functionality of this website.
+The allowed types of cookies are:
+• Analytics cookies for anonymously remembering user's computer or mobile device to keep track of browsing patterns.
+• Service cookies for helping us to make Entities’ website work efficiently, remembering users' registration and login details, settings preferences, and keeping track of the page views.
+• Non-persistent cookies/per-session cookies. Per-session cookies serve technical purposes, like providing seamless navigation through the websites.
+
+",YES,,,,,Y,,
+260,QGWS-13,Security and Privacy,QGWS-13.3,Privacy,QGWS-13.3.3,Analytics,M3,"•With the help of analytics the government Entities should identify which components are most used, and clearly highlight the components on the entity homepage.
+• With Google Analytics, Entities should monitor the behavior of visitors in order to improve user experience with the insight that this provides.
+• Entities shall use reports provided by established analytics platforms (e.g. Google Analytics) to help it to understand website traffic and webpage usage.
+.
+",YES,,,,,Y,,
+261,QGMS-1,Mobile App Registration,QGMS-1.1,Registration,QGMS-1.1.1,Android- Play Store,M1,Agencies should register the app in Google play store,YES,,,,,,Y,
+262,QGMS-1,Mobile App Registration,QGMS-1.1,Registration,QGMS-1.1.2,iOs App Store,M1,Agencies should register the app in iOS App Store,YES,,,,,,Y,
+263,QGMS-1,Mobile App Registration,QGMS-1.1,Registration,QGMS-1.1.3,Hukoomi portal,M1,The government mobile apps must be registered in Hukoomi Portal,YES,,,,,,Y,
+264,QGMS-1,Mobile App Registration,QGMS-1.2,Link for app,QGMS-1.2.1,iOS app links,M1,Links of the app in iOS App store should be provided in Hukoomi portal,YES,,,,,,Y,
+265,QGMS-1,Mobile App Registration,QGMS-1.2,Link for app,QGMS-1.2.2,Android app links,M1,Links of the app in Google play store should be provided in Hukoomi portal,YES,,,,,,Y,
+266,QGMS-1,Mobile App Registration,QGMS-1.3,Naming Convention ,QGMS-1.3.1,App Name ,M2,"The App name shall not be more than two words. 
+
+If the App Name contains the name or short name of the agency, the splash screen must contain the name and logo of the agency.
+
+If the App Name does not contain the entity name, the splash screen must contain the agency Logo and Name. 
+
+If the App combines multiple agencies, then the splash screen must contain Hukoomi Logo and Name
+",YES,,,,,,Y,
+267,QGMS-1,Mobile App Registration,QGMS-1.3,Naming Convention ,QGMS-1.3.2,App Icon,M1,"The App Icon shall be as per the visual identity policy of respective agencies. Incase visual identity policy is not defined, then it should follow the visual identity policy for the state of Qatar.",YES,,,,,,Y,
+268,QGMS-2,Access & Authentication,QGMS-2.1,External user registration (Individual),QGMS-2.1.1,Minimalistic,M1,The NAS registration should be minimalistic to only achieve registration function. The profile management should be decoupled to agencies as there is no centralized profile management function / department in MOTC,YES,,,,,,Y,
+269,QGMS-2,Access & Authentication,QGMS-2.1,External user registration (Individual),QGMS-2.1.2,Extension,M1,"• The agencies can access the national profile
+• The agencies can further add additional registration fields that would be stored in their own LDAP. This will allow for agencies to manage the quality of profile data
+",YES,,,,,,Y,
+270,QGMS-2,Access & Authentication,QGMS-2.2,External user authorization (Business),QGMS-2.2.1,Centralized,M2,EID profile can be used for centralized authorization ,YES,,,,,,Y,
+271,QGMS-2,Access & Authentication,QGMS-2.2,External user authorization (Business),QGMS-2.2.2,Distributed,M3,For specific organization level use cases (services) the distributed authorization model can be used. This must confirm to SAML based definitions so that the same can easily be centralized later,YES,,,,,,Y,
+272,QGMS-2,Access & Authentication,QGMS-2.3,External user authentication (Individual and Business),QGMS-2.3.1,Two-level authentication,M1,Username / Password,YES,,,,,,Y,
+273,QGMS-2,Access & Authentication,QGMS-2.3,External user authentication (Individual and Business),QGMS-2.3.2,Multi factor authentication,M1,"• Username / Password + SMS OTP
+• Username / Password + Softtoken OTP
+• Username / Password + Email OTP
+• Fingerprint authentication
+",YES,,,,,,Y,
+275,QGMS-3,Layout (Mobile),QGMS-3.1,Branding,QGMS-3.1.1,State of Qatar Logo,M2,"The App should clearly display State of Qatar Logo, and respective agencies will follow their own brand guideline",YES,,,,,,Y,
+276,QGMS-3,Layout (Mobile),QGMS-3.1,Branding,QGMS-3.1.2,Agency Name,M2,"The App should clearly display Agency Name, and respective agencies will follow their own brand guideline",YES,,,,,,Y,
+277,QGMS-3,Layout (Mobile),QGMS-3.1,Branding,QGMS-3.1.3,App Name and Logo,M2,"The App should clearly display App Name and Logo, and respective agencies will follow their own brand guideline",YES,,,,,,Y,
+278,QGMS-3,Layout (Mobile),QGMS-3.1,Branding,QGMS-3.1.4,Introduction,M3,"The App should clearly display the Introduction, tailored for Mobile App or Layout, as per branding guideline of respective agency.",YES,,,,,,Y,
+279,,,,,QGMS-3.1.5,Deleted,Deleted,Deleted,,,,,,,Y,
+280,QGMS-3,Layout (Mobile),QGMS-3.1,Branding,QGMS-3.1.5,Qatar Digital Government(QDG) Logo,M3,"The App to clearly display logo of QDG, and respective agencies will follow their own brand guideline, and clicking on the link should take users to QDG website",YES,,,,,,Y,
+281,QGMS-3,Layout (Mobile),QGMS-3.1,Branding,QGMS-3.1.6,MADA Logo,M3,"The App to clearly display logo of MADA if it is MADA certified, and respective agencies will follow their own brand guideline, and clicking on the link should take users to MADA website",YES,,,,,,Y,
+282,QGMS-3,Layout (Mobile),QGMS-3.1,Branding,QGMS-3.1.7,Hukoomi Logo,M3,"The App to clearly display logo ot QDG, and respective agencies will follow their own brand guideline, and clicking on the link should take users to QDG website",YES,,,,,,Y,
+283,QGMS-3,Layout (Mobile),QGMS-3.2,Header,QGMS-3.2.1,Language options,M2,The Mobile App should have English and Arabic options in the header,YES,,,,,,Y,
+284,QGMS-3,Layout (Mobile),QGMS-3.2,Header,QGMS-3.2.2,Accessibility Buttons,M2,The Mobile App should have Accessibility buttons in the header,YES,,,,,,Y,
+285,QGMS-3,Layout (Mobile),QGMS-3.2,Header,QGMS-3.2.3,Login/Register links,M2,The Mobile App should have clear and findable Login & Register links in the header,YES,,,,,,Y,
+286,QGMS-3,Layout (Mobile),QGMS-3.2,Header,QGMS-3.2.4,Feedback,M2,The Mobile App provide a clear and findable link to provide feedback,YES,,,,,,Y,
+287,QGMS-3,Layout (Mobile),QGMS-3.3,Site/App Utilities,QGMS-3.3.1,Contact Us,M2,The Mobile App provide a clear and findable option to find contact information,YES,,,,,,Y,
+288,QGMS-3,Layout (Mobile),QGMS-3.3,Site/App Utilities,QGMS-3.3.2,Sitemap,M3,The Mobile App provide a clear and findable link sitemap,YES,,,,,,Y,
+289,QGMS-3,Layout (Mobile),QGMS-3.3,Site/App Utilities,QGMS-3.3.3,Search,M2,The Mobile App provide a clear and findable link to search in the Mobile App or across whole of government,YES,,,,,,Y,
+290,QGMS-3,Layout (Mobile),QGMS-3.3,Site/App Utilities,QGMS-3.3.4,Help,M2,The Mobile App provide a clear and findable link for online help,YES,,,,,,Y,
+291,QGMS-3,Layout (Mobile),QGMS-3.4,Menu List,QGMS-3.4.1,Placement of Menu,M2,"The Mobile App should have menu that are clear, visible, and responsive",YES,,,,,,Y,
+292,QGMS-3,Layout (Mobile),QGMS-3.5,Carousel,QGMS-3.5.1,Placement of carousel,M3,"Incase the Mobile App has a carousel, it should be responsive ",YES,,,,,,Y,
+293,QGMS-3,Layout (Mobile),QGMS-3.6,Banner,QGMS-3.6.1,Placement of Banners,M3,The parameter should follow Qatar Govt. Mobile Layout Template for the respective page type.,YES,,,,,,Y,
+294,QGMS-3,Layout (Mobile),QGMS-3.7,Services Catalog,QGMS-3.7.1,Placement of eServices,M3,"The Mobile App should place Eservices links on the menu, and Eservices Catalog in the respective pages. The Eservices links should be easily findable, searchable, and sortable.",YES,,,,,,Y,
+295,QGMS-3,Layout (Mobile),QGMS-3.8,Footer,QGMS-3.8.1,Footer,M3,"Only for Mobile Site or Hybrid App - Incase the Mobile App has a standard footer, it should be in the footer and comprehensive.
+
+For Native App - The content on footer can be placed as a Hamburger Menu or Nav Bars",YES,,,,,,Y,
+296,QGMS-3,Layout (Mobile),QGMS-3.8,Footer,QGMS-3.8.2,Disclaimer,M3,The Mobile App should have a clear and findable disclaimer,YES,,,,,,Y,
+297,QGMS-3,Layout (Mobile),QGMS-3.8,Footer,QGMS-3.8.3,Copyright,M2,The Mobile App should have a clear and findable copyright information,YES,,,,,,Y,
+298,QGMS-3,Layout (Mobile),QGMS-3.8,Footer,QGMS-3.8.4,Link to WoG,M3,The Mobile App should have a clear and findable link to whould of government Mobile Apps,YES,,,,,,Y,
+299,QGMS-3,Layout (Mobile),QGMS-3.9,Social Media,QGMS-3.9.1,Social Media Buttons,M2,"• Social Media buttons must be clearly visible on contextual flash screens
+• Social Media share button must be configured properly and clearly visible on each content page, the recommended location is directly next to the page print button.",YES,,,,,,Y,
+300,QGMS-3,Layout (Mobile),QGMS-3.10,Support,QGMS-3.10.1,Link to 109 GCC,M2,The Mobile App should have a clear and findable link to Shared services Support center,YES,,,,,,Y,
+301,QGMS-3,Layout (Mobile),QGMS-3.10,Support,QGMS-3.10.1,Placement of Chatbot,M2,"Incase the Mobile App provides a chatbot, it should be easily findable, the placement of chatbot should not interfere with other information and services. ",YES,,,,,,Y,
+302,QGMS-3,Layout (Mobile),QGMS-3.10,Support,QGMS-3.10.1,Placement of Chat Support,M2,"Incase the Mobile App provides chat support, it should be easily findable, the placement of chatbot should not interfere with other information and services. ",YES,,,,,,Y,
+303,QGMS-3,Layout (Mobile),QGMS-3.11,Responsive Design,QGMS-3.11.1,Auto Adjustment,M2,The screen should be responsive and auto adjust based on resizing the App on the device.,YES,,,,,,Y,
+304,QGMS-3,Layout (Mobile),QGMS-3.12,Screen Orientation,QGMS-3.12.1,Auto Adjustment,M2,The screen should orient itself to the device’s orientation,YES,,,,,,Y,
+305,QGMS-3,Layout (Mobile),QGMS-3.13,Site Tour,QGMS-3.13.1,Site Tour,M3,"The Site tour should take care of user onboarding and cover one of the following scenarios:
+• Progressing Onboarding – demonstrating the steps of usage and app’s features
+• Functional Onboarding – demonstrating main functionality of the app along with time and method
+• Benefit Oriented Onboarding – showcasing the benefits of the app
+",YES,,,,,,Y,
+306,QGMS-3,Layout (Mobile),QGMS-3.13,Site Tour,QGMS-3.13.2,Skip to content Links,M3,"At a minimum, app must include ‘Skip to content’, and must be used wherever there needs the utility of skip to contents.",YES,,,,,,Y,
+307,QGMS-4,Stylesheet,QGMS-4.1,Typography,QGMS-4.1.1,Acronyms and abbreviations,M2,Acronyms and abbreviations shall be unique differentiated from rest of the Text. These should follow the Qatar Govt. Mobile CSS and Style Templates,YES,,,,,,Y,
+308,QGMS-4,Stylesheet,QGMS-4.1,Typography,QGMS-4.1.2,Bullet points,M3,A bulleted list should not be inserted into the middle of a sentence. ,YES,,,,,,Y,
+309,QGMS-4,Stylesheet,QGMS-4.1,Typography,QGMS-4.1.3,Capitalization,M3,"Do capitalize
+• Job titles, but only where it is followed by the name of the person holding the position
+• Ministerial titles
+• Titles of specific Acts or Bills 
+• Buildings
+• Place names
+• Brand names
+
+Don't capitalize
+• Don't capitalize the words public service, government, job description.  
+• Acronym for a group of words. 
+• Use sentence case for page names, headings and short titles.
+",YES,,,,,,Y,
+310,QGMS-4,Stylesheet,QGMS-4.1,Typography,QGMS-4.1.4,Text  (R2L and L2R),M2,"Apps must conform to the minimum text sizes, as specified below.
+
+Text size cannot be smaller than the corresponding platform standards. For Android the range is between 12 and 22 scale independent pixel, and for IOS the range is between 22 and 34 points. 
+
+Text should be distinguishable when background colors are changed.
+",YES,,,,,,Y,
+311,QGMS-4,Stylesheet,QGMS-4.1,Typography,QGMS-4.1.5,Emphasis - Bold and italics,M3,"• Use of bold letters to be avoided. 
+• Block capital letters for emphasis should be avoided.  
+• Italics should be used for legislation and regulations.
+• Single quotation marks should be used for document titles.
+",YES,,,,,,Y,
+312,QGMS-4,Stylesheet,QGMS-4.1,Typography,QGMS-4.1.6,Address,M3,"• All addresses should be complete.
+• Street and postal addresses should be written with as little punctuation as possible.
+• Add Google Map URL where available to facilitate user access to location of service provider
+
+",YES,,,,,,Y,
+313,QGMS-4,Stylesheet,QGMS-4.1,Typography,QGMS-4.1.7,Date and Time,M3,"Defined format of Date and Time to be used. The convention should follow:
+DD-MMM-YYYY
+HH:MM hours (12 hour Format)
+
+",YES,,,,,,Y,
+314,QGMS-4,Stylesheet,QGMS-4.1,Typography,QGMS-4.1.8,Lists,M3,Numbered lists should only be used for lists where the order is important,YES,,,,,,Y,
+315,QGMS-4,Stylesheet,QGMS-4.1,Typography,QGMS-4.1.9,"Titles, labels, headings",M3,"• The page title within the content section must be styled as a heading 1 <h1> in HTML.
+• The page title within the content section must have a contrast ratio of at least 3:1.
+• The page title and page title element must be in sentence case, not title case.
+",YES,,,,,,Y,
+316,QGMS-4,Stylesheet,QGMS-4.1,Typography,QGMS-4.1.10,Special Instructions,M3,Special instructions should be direct and to the point,YES,,,,,,Y,
+317,QGMS-4,Stylesheet,QGMS-4.1,Typography,QGMS-4.1.11,Links,M3,"• Button text should be short and describe the action the button performs.
+• Link shall direct the user to the page that the user needs to see not to a generic page.
+• Default text link colors should be used.
+",YES,,,,,,Y,
+318,QGMS-4,Stylesheet,QGMS-4.1,Typography,QGMS-4.1.12,Numbers and measurements,M3,"• 'To' should be used to indicate range.
+• Million and billion should be used for large numbers.
+• Always a space should be given between the number and the unit of measure except - percent and degrees.
+",YES,,,,,,Y,
+319,QGMS-4,Stylesheet,QGMS-4.1,Typography,QGMS-4.1.13,Currency,M2,"• Place the currency symbol, with two decimal places. Such as QAR 299.99 
+• For other currencies, place the symbol before the numeral.
+",YES,,,,,,Y,
+320,QGMS-4,Stylesheet,QGMS-4.1,Typography,QGMS-4.1.14,People and pronouns,M2,"HH (His Highness) the Amir Sheikh Tamim bin Hamad Al Thani,: With the Amir, HH is used. Also, “Amir”, not “Emir” is used.
+
+Standardize the writing style for individuals’ names:
+- Title, First Name, Middle Name (If any), Surname for Non Arabic Names
+- Example for Arabic Names (Abdulrahman Bin Hamad Al Thani)
+",YES,,,,,,Y,
+321,QGMS-5,"Navigation, Content Structure, Sitemap",QGMS-5.1,Navigation,QGMS-5.1.1,App navigation,M2,The site navigation bar must be located at the top of the screen identically on every screen including the home screen.,,YES,,,,,Y,
+322,QGMS-5,"Navigation, Content Structure, Sitemap",QGMS-5.1,Navigation,QGMS-5.1.2,Expandable menus,M2,"Expandable menus must be formed from well-structured HTML.
+
+Assistive technologies must support the full set of navigation elements.
+",,YES,,,,,Y,
+323,QGMS-5,"Navigation, Content Structure, Sitemap",QGMS-5.1,Navigation,QGMS-5.1.3,Scroll to top,M2,"For any screen with scrolling, there should always be a link to scroll to top.",,YES,,,,,Y,
+324,QGMS-5,"Navigation, Content Structure, Sitemap",QGMS-5.2,Content Structure,QGMS-5.2.1,Mandatory Menu Items,M2,"The site navigation shall maintain consistent Mandatory Menu Items such as  Home, About Us, eServices,  Open Data, eParticipation, Contact Us, Job opportunities.",,YES,,,,,Y,
+325,QGMS-5,"Navigation, Content Structure, Sitemap",QGMS-5.2,Content Structure,QGMS-5.2.2,"Optional Menu Items (e.g. Others, news, broadcast, etc etc)",M3,"Depending on the business nature of the entity, optional pages can be added to the structure such as: Media & Press Release, Events, Training & development, Auctions, Tenders, Photos/Videos Galleries, Publications, Mobile App(s).",,YES,,,,,Y,
+326,QGMS-5,"Navigation, Content Structure, Sitemap",QGMS-5.2,Content Structure,QGMS-5.2.3,Breadcrumbs,M2,"For Hybrid App or Mobile sites:
+- Breadcrumbs must be used on every screen of a site where there is more than one level of navigation.
+
+- The breadcrumb must appear at the top of the content.
+
+- The breadcrumb must be clearly separated from the section navigation heading and the page title.
+
+- Assistive technologies must support the breadcrumbs.
+
+
+For Native App - 
+- The navigation forward and backward in the mobile app should be handled using Bottom Nav bar or Hamburger Menu or equivalent as per Android Material UI guidelines / IOS Human Interface guidelines guidelines
+",,YES,,,,,Y,
+327,QGMS-5,"Navigation, Content Structure, Sitemap",QGMS-5.2,Content Structure,QGMS-5.2.4,Main Content,M3,"Content must be aligned, as per the style guide and content layout",,YES,,,,,Y,
+328,QGMS-5,"Navigation, Content Structure, Sitemap",QGMS-5.2,Content Structure,QGMS-5.2.5,Services Listing,M2,Services listing should be findable in the menu or navigation structure ,,YES,,,,,Y,
+329,QGMS-5,"Navigation, Content Structure, Sitemap",QGMS-5.2,Content Structure,QGMS-5.2.6,Last Updated,M2,"The last updated date must appear directly after the main content.
+
+The last updated date element must appear on all content pages 
+",,YES,,,,,Y,
+330,QGMS-5,"Navigation, Content Structure, Sitemap",QGMS-5.2,Content Structure,QGMS-5.2.7,Last Reviewed,M3,App may display last reviewed date,,YES,,,,,Y,
+331,QGMS-5,"Navigation, Content Structure, Sitemap",QGMS-5.2,Content Structure,QGMS-5.2.8,Download links,M2,"Government agencies shall provide the links for downloading all applications owned by the entity on the most important platforms, such as Android, iOS etc.",,YES,,,,,Y,
+332,QGOC-1,Content (Information),QGOC-1.1,Language Versions,QGOC-1.1.1,English and Arabic,M1,"All content screen must have both English and Arabic Versions.
+When toggling between the Arabic and English screens it must go to the specific landing page the user is reading or using and not to the home page.
+",,YES,,,,,Y,
+333,QGOC-1,Content (Information),QGOC-1.2,Language and Grammar,QGOC-1.2.1,Language and Grammar,M3,Spell and grammar checkers Spell and grammar checkers for both UK and US English should be enabled.,,YES,,,,,Y,
+334,QGOC-1,Content (Information),QGOC-1.3,Voice,QGOC-1.3.1,Voice,M3,"Passive voice is the traditional style of government, legal and scientific writing. 
+
+But active voice only be used when it can be written in simpler manner when compared to passive voice, as it often uses fewer words to say the same thing.
+",,YES,,,,,Y,
+335,QGOC-1,Content (Information),QGOC-1.4,Jargon and legalese,QGOC-1.4.1,Jargon and legalese,M3,"Unnecessary jargon and technical terms, unexplained abbreviations, or acronyms should be avoided.",,YES,,,,,Y,
+336,QGOC-1,Content (Information),QGOC-1.5,"Titles, labels, headings",QGOC-1.5.1,"Titles, labels, headings",M1,"• Screen titles, labels and headings be clear, concise and clearly describe the content of a page or section.
+• Screen titles should make sense in isolation and allow users to differentiate from other titles in search results. It is important to add the name of the entity at the end of the title as this service is provided by the majority of entities via their websites Example: 
+• Service: Apply for Job at Ministry of Interior
+• Another Service: Apply for Job at Katara
+• Files need to have sensible names that give an indication of what the document is.
+• Title should be short, without symbols.
+• Abbreviations and acronyms should be avoided.
+• Question as a heading should not be used.
+",,YES,,,,,Y,
+337,QGOC-1,Content (Information),QGOC-1.6,Abbreviations,QGOC-1.6.1,Abbreviations,M3,"• For using an abbreviation or acronym on a page for first time, agencies should write it in full, and then refer to it by initials in parentheses– e.g. Ministry of Transport and Communications (MOTC)
+• Agencies should not include acronyms in page titles.
+• Unexplained abbreviations or acronyms should be avoided.
+",,YES,,,,,Y,
+338,QGOC-1,Content (Information),QGOC-1.7,References,QGOC-1.7.1,References,M2,"• Sources of information, whether it is government, semi-government, or Private Web sites or docs, should be acknowledged
+• For an in-text reference to a work with more than 3 authors, only the name of the first-listed author should be included, followed by the abbreviation et al.
+• If a material published in multiple medium then the print version should be used for citation.
+",,YES,,,,,Y,
+339,QGOC-1,Content (Information),QGOC-1.8,People and pronouns,QGOC-1.8.1,People and pronouns,M2,"• Text should be gender-neutral.
+• Pronouns should points clearly to antecedents.",,YES,,,,,Y,
+340,QGOC-1,Content (Information),QGOC-1.9,Punctuation and spelling,QGOC-1.9.1,Punctuation and spelling,M3,"Punctuations to be avoided in general, and should be used only when necessary or no other means involved. Some examples: 
+• Always 'and' should be used rather than '&'. 
+• Apostrophes should be used to indicate ownership and contractions. 
+• Use of brackets should be avoided, if use of brackets is unavoidable then always round brackets ‘()’ should be used.
+",,YES,,,,,Y,
+341,QGOC-1,Content (Information),QGOC-1.10,Links & Broken Links,QGOC-1.10.1,Links and Broken Links,M2,A mechanism for periodically validating links to related information should be established,,YES,,,,,Y,
+342,QGOC-1,Content (Information),QGOC-1.11,Widgets,QGOC-1.11.1,Widgets,M3,"Requirements of widgets are:
+• Distinguish Required and Optional Data Entry Fields. 
+• Label Pushbuttons Clearly. 
+• Label Data Entry Fields Consistently.
+• Minimize User Data Entry.
+• Allow Users to See Their Entered Data.
+• Use Radio Buttons for Mutually Exclusive Selections.
+• Anticipate Typical User Errors.
+• Prioritize Pushbuttons.
+• Use Check Boxes to Enable Multiple Selections.
+• Use Open Lists to Select One from Many.
+",,YES,,,,,Y,
+343,QGOC-1,Content (Information),QGOC-1.12,"Content Contribution, Moderation, & Approval",QGOC-1.12.1,Process,M2,Agencies' must have a (documented) approval process and audit trail to ensure that content has an appropriate authorization from within the Department/Agency before being published to the website,,YES,,,,,Y,
+344,QGOC-1,Content (Information),QGOC-1.12,"Content Contribution, Moderation, & Approval",QGOC-1.12.2,Small Mobile Services  (Information and Content Only Mobile Apps),M2,"Agencies shall adopt a 2-tiered structure to implement CMAP requiring
+minimum 2 officials to execute the CMAP roles, viz.,
+•  Contributor
+•  Moderator/Approver
+",,YES,,,,,Y,
+345,QGOC-1,Content (Information),QGOC-1.12,"Content Contribution, Moderation, & Approval",QGOC-1.12.3,"Large Mobile Services (Information, Content, and eServices)",M2,"Agencies shall adopt a 3-tiered structure to implement CMAP needing minimum 3 officials to execute the CMAP roles, viz.,
+•  Contributor
+•  Moderator
+•  Approver",,YES,,,,,Y,
+346,QGOC-1,Content (Information),QGOC-1.13,Content Review ,QGOC-1.13.1,Static Content Page,M2,Agencies shall review and update the content to keep it updated as and when it is changed ,,YES,,,,,Y,
+347,QGOC-1,Content (Information),QGOC-1.13,Content Review ,QGOC-1.13.2,Information Page,M2,Agencies shall review and update the content to keep it update in Daily Frequency,,YES,,,,,Y,
+348,QGOC-1,Content (Information),QGOC-1.13,Content Review ,QGOC-1.13.3,"Newsletter, Circulars, Notifications etc",M2,Review and update the content is not required,,YES,,,,,Y,
+349,QGOC-1,Content (Information),QGOC-1.13,Content Review ,QGOC-1.13.4,"Acts, Rules",M2,Agencies shall review and update the content to keep it updated as and when it is changed or yearly.,,YES,,,,,Y,
+350,QGOC-1,Content (Information),QGOC-1.14,Content Archival ,QGOC-1.14.1,Archival,M2,Agencies shall archive online content and information shall be archived after entering (Yth) year from the date of publishing.,,YES,,,,,Y,
+351,QGOC-1,Content (Information),QGOC-1.14,Content Archival ,QGOC-1.14.2,Retrieval,M2,"Agencies shall maintain the archive for a period of N years to allow for the retrieval of content, which has expired.",,YES,,,,,Y,
+352,QGOC-1,Content (Information),QGOC-1.14,Content Archival ,QGOC-1.14.3,Purge,M2,"Agencies shall purge expired contents, such as Schemes, Tenders, Forms, Recruitment Notices, which have been withdrawn, or discontinued, or have exceeded more than N year after archiving, may be expunged",,YES,,,,,Y,
+353,QGOC-2,Content (Graphics & Multimedia),QGOC-2.1,Logos,QGOC-2.1.1,Size,M2,"The logo or icon has to be based on the visual identity policy, and the size in the mobile app shall be within the range 120x120 Px for IOS, and 44x44 Px for Android. ",,YES,,,,,Y,
+354,QGOC-2,Content (Graphics & Multimedia),QGOC-2.1,Logos,QGOC-2.1.2,Positioning,M1,"Only for Mobile site, Logo/Icon should have an Alternative text in both English and Arabic. It is not applicable for Mobile App.",,YES,,,,,Y,
+355,QGOC-2,Content (Graphics & Multimedia),QGOC-2.1,Logos,QGOC-2.1.3,Alt Text,M1,"Only for Mobile site, Logo/Icon should have an Alternative text in both English and Arabic. It is not applicable for Mobile App.",,YES,,,,,Y,
+356,QGOC-2,Content (Graphics & Multimedia),QGOC-2.1,Logos,QGOC-2.1.4,Resolution,M1,Logo image must be in the following resolution range should be 72 PPI or more,,YES,,,,,Y,
+357,QGOC-2,Content (Graphics & Multimedia),QGOC-2.2,Images,QGOC-2.2.1,Background Image,M2,"Background images should be sparingly used and should be simple, especially if they are used behind text.",,YES,,,,,Y,
+358,QGOC-2,Content (Graphics & Multimedia),QGOC-2.2,Images,QGOC-2.2.2,Thumbnails,M3,"When viewing of full-size images is not
+critical, thumbnails for the images may be provided for large images
+",,YES,,,,,Y,
+359,QGOC-2,Content (Graphics & Multimedia),QGOC-2.2,Images,QGOC-2.2.3,Image Usage,M2,"All images on the Mobile app must support both landscape and portrait aspect ratio.
+
+Images should be cropped and resized appropriately to the correct dimensions provided by the developer before uploading. 
+
+Images aspect ratio to be preserved and not stretched or squeezed.
+
+Using meaningful images and must have a meaningful file name.
+
+Every image on the website needs a caption.
+
+Images should not be mirrored (flipped) images for aesthetic reasons.",,YES,,,,,Y,
+360,QGOC-2,Content (Graphics & Multimedia),QGOC-2.2,Images,QGOC-2.2.4,Alt Text,M2,"For Mobile site and Hybrid App - Logo/Icon should have an Alternative text in both English and Arabic.
+
+It is not required for Native App",,YES,,,,,Y,
+361,QGOC-2,Content (Graphics & Multimedia),QGOC-2.3,Royal Photos,QGOC-2.3.1,Photo of Amir,M1,"Policy for posting Amir's Photo to be followed as specified by Qatar Visual Identity. It must not be preceded by any image or, otherwise, the image is replaced by one relevant to the news content.",,YES,,,,,Y,
+362,QGOC-2,Content (Graphics & Multimedia),QGOC-2.3,Royal Photos,QGOC-2.3.2,Photo of Family Members,M1,Policy for posting Royal Family Member's Photo.,,YES,,,,,Y,
+363,QGOC-2,Content (Graphics & Multimedia),QGOC-2.3,Royal Photos,QGOC-2.3.3,Photo of Royal Institutions,M1,Policy for posting Royal Institution's Photo,,YES,,,,,Y,
+364,QGOC-2,Content (Graphics & Multimedia),QGOC-2.3,Royal Photos,QGOC-2.3.4,Alt Text,M1,"For Mobile site and Hybrid App - Logo/Icon should have an Alternative text in both English and Arabic.
+
+It is not required for Native App",,YES,,,,,Y,
+365,QGOC-2,Content (Graphics & Multimedia),QGOC-2.3,Royal Photos,QGOC-2.3.5,Resolution,M1,"Any image published in the mobile app/site, should have a minimum resolution of 72 DPI",,YES,,,,,Y,
+366,QGOC-2,Content (Graphics & Multimedia),QGOC-2.4,Data Visualization,QGOC-2.4.1,Choice of Visualization,M3,"Usage of graphic format to display data when users must monitor changing data. 
+
+Choice of chart type should be according to the data set visualized
+",,YES,,,,,Y,
+367,QGOC-2,Content (Graphics & Multimedia),QGOC-2.4,Data Visualization,QGOC-2.4.2,Data Labels & Number Annotations,M3,Include actual data labels and values with graphical displays of data when precise reading of the data is required.,,YES,,,,,Y,
+368,QGOC-2,Content (Graphics & Multimedia),QGOC-2.5,Videos,QGOC-2.5.1,Usage,M2,"Use video, animation, and audio only when they help to convey, or are supportive of, the mobile site / app’s message or other content.",,YES,,,,,Y,
+369,QGOC-2,Content (Graphics & Multimedia),QGOC-2.6,Contents Consideration,QGOC-2.6.1,Contents Considerations,M2,"Content should respect Qatari cultural values at all times. Any content related to the any of the following topic is strictly restricted and prohibited:
+• Gambling
+• Offensive Content
+• Nudity/Sexually explicit or suggestive
+• Non Sharia Complaint
+• Illegal Activities Promotion
+• Advocating against culture, religion, and leadership
+",,YES,,,,,Y,
+370,QGOC-2,Content (Graphics & Multimedia),QGOC-2.7,Copyright & Credits,QGOC-2.7.1,Copyright,M1,"All content created for the agencies, by the agencies, shall be copyrighted.",,YES,,,,,Y,
+371,QGOC-2,Content (Graphics & Multimedia),QGOC-2.7,Copyright & Credits,QGOC-2.7.2,Credits,M1,"All content (including text, image, audio, video) used from other sources, must have usage license, and credit must be mentioned",,YES,,,,,Y,
+372,QGOC-2,Content (Graphics & Multimedia),QGOC-2.8,Organization Chart,QGOC-2.8.1,Organization Structure,M1,"All agencies must provide the organization structure of the respective agency, with clear profiles and roles",,YES,,,,,Y,
+373,QGOC-3,Content (Eservices),QGOC-3.1,Eservices Listing,QGOC-3.1.1,Eservices Page,M1,Agencies must provide dedicated page for all Eservices,,YES,,,,,Y,
+374,QGOC-3,Content (Eservices),QGOC-3.1,Eservices Listing,QGOC-3.1.2,Eservices Lists,M1,"The dedicated Eservices page must provide a list of Eservices provided by the Ministry or Agencies.
+
+The users should be able to view the Eservices in a list view or a grid view",,YES,,,,,Y,
+375,QGOC-3,Content (Eservices),QGOC-3.1,Eservices Listing,QGOC-3.1.3,Most used / Trending Eservices,M2,The most used and trending eServices should also be displayed in the Eservices Page,,YES,,,,,Y,
+376,QGOC-3,Content (Eservices),QGOC-3.1,Eservices Listing,QGOC-3.1.4,Search Eservices,M1,"Users should be able to Search  Eservices on the Eservices Page.
+
+Eservices will be searchable by applicable options for each agency or ministry, including but not limited to Department, Persona, Type, etc.",,YES,,,,,Y,
+377,QGOC-3,Content (Eservices),QGOC-3.1,Eservices Listing,QGOC-3.1.5,Sort Eservices,M1,"Users must  be able to atleast Sort Eservices on the Eservices Page by Name. 
+
+Agencies may also provide other sort option such as sort by department / persona / type / etc.",,YES,,,,,Y,
+378,QGOC-3,Content (Eservices),QGOC-3.1,Eservices Listing,QGOC-3.1.6,Pagination or Scroll down,M1,"For minsitries and agencies providing a long list of Eservice, there should be provision for pagination or scroll down for more Eservices",,YES,,,,,Y,
+379,QGOC-3,Content (Eservices),QGOC-3.1,Eservices Listing,QGOC-3.1.7,Eservices Icon,M1,Minsitries or Agencies must provide an Icon to uniquely identify an Eservice,,YES,,,,,Y,
+380,QGOC-3,Content (Eservices),QGOC-3.1,Eservices Listing,QGOC-3.1.8,Eservices Name,M1,Minsitries or Agencies must provide an Name to uniquely identify an Eservice,,YES,,,,,Y,
+381,QGOC-3,Content (Eservices),QGOC-3.1,Eservices Listing,QGOC-3.1.9,Eservices Brief Description,M1,Minsitries or Agencies must provide a brief description of the Eservices,,YES,,,,,Y,
+382,QGOC-3,Content (Eservices),QGOC-3.1,Eservices Listing,QGOC-3.1.10,Eservices Parameters,M1,"Minsitries or Agencies must provide parametric information applicabel for the agency or minisitry , such as, but not limited to Department, Persona, Type, Sector, etc",,YES,,,,,Y,
+383,QGOC-3,Content (Eservices),QGOC-3.1,Eservices Listing,QGOC-3.1.11,Eservices Link,M1,"On click on Eservices, the users should be navigated to the respective Eservice Page.",,YES,,,,,Y,
+384,QGMS-6,Search,QGMS-6.1,Search Scope - Internal,QGMS-6.1.1,Current App,M2,Agencies must provide options to user to choose to search in the current agency in the App,,YES,,,,,Y,
+385,QGMS-6,Search,QGMS-6.1,Search Scope - Across Ministries,QGMS-6.1.2,All Qatar government,M2,Agencies must provide options to user to choose across all Qatar government in the App,,YES,,,,,Y,
+386,QGMS-6,Search,QGMS-6.2,Search Results,QGMS-6.2.1,Page header and footer,M2,"The screen header and footer must comply with the layout and style, for mobile web",,YES,,,,,Y,
+387,QGMS-6,Search,QGMS-6.2,Search Results,QGMS-6.2.2,Breadcrumbs,M2,If rest of the app uses breadcrumbs then breadcrumbs must be used in the search result page.,,YES,,,,,Y,
+388,QGMS-6,Search,QGMS-6.2,Search Results,QGMS-6.2.3,Result set description,M2,The result set must display the total number of results and which of these results are being displayed on the current screen. The result set must indicate the search terms used.,,YES,,,,,Y,
+389,QGMS-6,Search,QGMS-6.2,Search Results,QGMS-6.2.4,Search result entries,M2,"• Search results must have a relevant title linked to the result followed by a short description of the search result. 
+• The search result title must be hyperlinked to the search result. 
+• The text size of the title should be greater than the brief description of the result. 
+• The results must be displayed in vertical list.
+• The results must be ordered according to the relevance to the search terms, from most relevant to least relevant.
+",,YES,,,,,Y,
+390,QGMS-6,Search,QGMS-6.2,Search Results,QGMS-6.2.5,File type and size,M2,"• The file type and size must be adjacent to the search result title
+• It should not be hyperlink.
+• Must be in the format ‘file type’, ‘numeric size’, ‘unit of measure’) e.g. (PDF, 1.7 MB)  
+",,YES,,,,,Y,
+391,QGMS-6,Search,QGMS-6.2,Search Results,QGMS-6.2.6,Pagination,M2,"For user’s easy navigation pagination must be used.
+• Each page must display 10 search results at a time unless there are fewer number of results than 10.
+• Search result page must display linked page number for each search screen
+• Must provide ‘Next’ and ‘Previous’ links at either end of the pagination if there are more than one page.
+• Pagination element must be displayed at the bottom of the page just below the last search result.   
+",,YES,,,,,Y,
+392,QGMS-6,Search,QGMS-6.3,No Search Results,QGMS-6.3.1,No search results message text,M2,"The 'no search results' message text must be displayed below the Search box group, 'featured search' result or 'spelling suggestion', whichever comes last.
+Example 'no search results message text':
+'Your search for (insert search terms) did not return any results.
+",,YES,,,,,Y,
+393,QGMS-6,Search,QGMS-6.3,No Search Results,QGMS-6.3.2,Search tips,M2,"The search tips must be provided when ‘no search results’ is found. 
+The search tips must have a heading of ‘Tips for searching’
+",,YES,,,,,Y,
+394,QGMS-6,Search,QGMS-6.3,No Search Results,QGMS-6.3.3,Alternative search options,M3,"The alternative search options should be provided when ‘no search results’ is found. 
+The alternative search options must have a heading of ‘Alternatively you can try’
+",,YES,,,,,Y,
+395,QGMS-6,Search,QGMS-6.4,Featured Searches,QGMS-6.4.1,Featured search result,M3,"Predefined recommended search results are ‘featured search’ results. These are displayed in search result page when search terms match predefined condition. 
+• “Featured search” should be displayed above the normal search results.
+",,YES,,,,,Y,
+396,QGMS-6,Search,QGMS-6.5,Spelling Suggestions,QGMS-6.5,Spelling suggestions display,M3,"When search terms are not recognized by the search engine then ‘spelling suggestions’ are displayed as alternative.
+• The suggestions must follow the text ‘Did you mean:’.
+• The line must end with a question mark.
+• Corrected term must be bold. 
+• ‘Spelling suggestions’ must be displayed above the search result entries.
+",,YES,,,,,Y,
+397,QGMS-7, Accessibility,QGMS-7.1,Assistive technologies,QGMS-7.1.1,Text Zoom,M1,"• There should be option to resize text by the app without loss of content or functionality. 
+• The default browser function for text resizing should always be available.
+",YES,,,,,,Y,
+398,QGMS-7, Accessibility,QGMS-7.1,Assistive technologies,QGMS-7.1.2,Screen Reader,M1,"• Apps should support screen readers by providing textual alternatives for any non-text content.
+• Agencies should provide text alternatives for any non-text content so that it can be changed into speech.
+• The apps should be rigorously tested using screen readers
+",YES,,,,,,Y,
+399,QGMS-7, Accessibility,QGMS-7.1,Assistive technologies,QGMS-7.1.3,Color Inversion,M1,The app should provide controls that allows users to invert the colors.,YES,,,,,,Y,
+400,QGMS-7, Accessibility,QGMS-7.1,Assistive technologies,QGMS-7.1.4,Assistive Touch,M1,The app should provide a assistive touch feature,YES,,,,,,Y,
+401,QGMS-7, Accessibility,QGMS-7.1,Assistive technologies,QGMS-7.1.5,Led Flash Alerts,M1,The App should provide feature to provide LED flash for any notification of Alerts,YES,,,,,,Y,
+402,QGMS-7, Accessibility,QGMS-7.2,"Navigation, Content Structure, Sitemap",QGMS-7.2.1,App Content Structure,M3,"• Content structure should provide quick access to required content.
+• App should not allow for horizontal scrolling on mobile devices
+• Orientation on mobile devices; not fixed, device allows Landscape and Portrait
+",YES,,,,,,Y,
+403,QGMS-7, Accessibility,QGMS-7.2,"Navigation, Content Structure, Sitemap",QGMS-7.2.2,App Navigation,M3,"• Screens that have no navigational options should not be created or user should not be directed into such pages.
+•  The hyperlinks on the horizontal navigation panel shall be consistent across the app.
+• The App shall have a common, App-wide navigational scheme.
+• On long pages, provide a ‘list of contents’ with links that take users to the corresponding content farther down the screen.
+• Ensure menus in responsive mode are accessible by Gesture (E.g. IOS Left or Right Swipe to navigate between links or buttons)
+",YES,,,,,,Y,
+404,QGMS-7, Accessibility,QGMS-7.3,Style,QGMS-7.3.1,Colors and Contrast,M2,"Contrast (Minimum): The visual presentation of text and images of text has a contrast ratio of at least 4.5:1. WCAG 2.0 (AA)
+o Web page background and foreground text colors should contrast
+to the minimum requirements
+o All visual presentations in the website which include; Web Design,
+Flash, Videos, Photos and Graphics must have sufficient contrast
+• Contrast (Enhanced): The visual presentation of text and images of text has a contrast ratio of at least 7:1. WCAG 2.0 (AAA)
+• If Red TEXT is used on a white background, achieve a 6:1 contrast ratio or better Usability.
+
+",YES,,,,,,Y,
+405,QGMS-7, Accessibility,QGMS-7.3,Style,QGMS-7.3.2,Text,M2,CSS shall be designed as per WCAG Guidelines or follow Qatar Govt. Mobile App CSS and Style Templates which is as per WCAG standards.,YES,,,,,,Y,
+406,QGMS-7, Accessibility,QGMS-7.3,Style,QGMS-7.3.3,Frame / iFrame ,M3,"Content, if any, in Iframes in website, should be converted and displayed in mobile supported technologies such as full model",YES,,,,,,Y,
+407,QGMS-7, Accessibility,QGMS-7.3,Style,QGMS-7.3.4,Tables,M3,Not Recommended for only layout purposes. Use Tables only for Tabular data as per WCAG Guidelines with Table caption and Table header,YES,YES,,,,,Y,
+408,QGMS-7, Accessibility,QGMS-7.4,Content (Graphics & Multimedia),QGMS-7.4.1,Multi-Media Content,M3,"Should provide accessible content for all multimedia content in both English and Arabic
+For Audio-only and Video-only (Prerecorded):
+• Prerecorded Video : Provide synchronized Caption (Sub-Title) with the video
+
+• If online tools are used, the content will still be edited to make sure it is correct and avoid any inaccuracy.
+• Videos with no speech/conversation will require editors to provide the relevant content describing the action taking place.
+• The captioning must include descriptions accounting for audible outputs derived from the environment in the video (e.g. shutting of door, car engine ignition, gusting of wind, etc.)
+
+• Prerecorded Audio: Provide Caption or Text Transcript.
+• If Text Transcript is used, the link should be clearly labeled
+• The alternative text content must include descriptions accounting for audible outputs derived from the environment in the audio (e.g. shutting of door, car engine ignition, gusting of wind, etc.)
+
+• Provide Audio description / Narration where there is no spoken dialogue in videos
+",YES,YES,,,,,Y,
+409,QGMS-7, Accessibility,QGMS-7.4,Content (Graphics & Multimedia),QGMS-7.4.2,Images and Graphics,M3,"Should provide alternative text for all images and graphics, in both English and Arabic. The text alternative of an image used as a link or as a button should describe the functionality of the link or button rather than the visual image.
+
+When using complex images; charts, flow charts and diagrams, use LONG description attribute in the image source tag linked to a text only equivalent webpage.
+",YES,YES,,,,,Y,
+410,QGMS-7, Accessibility,QGMS-7.5,Content (Information),QGMS-7.5.1,"Space, Alignment, and Consistency",M3,"All content shall use a simple, usable, visual layout of, and use a consistent style of presentation between Screens.
+
+Consistency: all important usable functions and content must be consistently placed on all mobile screens.
+QGMS-7.5
+",YES,YES,,,,,Y,
+411,QGMS-7, Accessibility,QGMS-7.6,Content (Forms),QGMS-7.6.1,Using Forms,M3,"Forms must be navigable by touch feature and in logical tab order.
+
+Consistency: all important usable functions and content must be consistently placed on all mobile screens.
+",YES,YES,,,,,Y,
+412,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.1,Browser and device support,M2,"For Mobile Website
+• Design, develop and test the website for the most common browsers.
+• Design, develop and test the website for the most common devices.
+
+For Mobile Apps
+• Design, develop and test the website for the Android and IOS platforms.
+• Design, develop and test the website for the most common devices such as smartphone, PDAs.
+",YES,,,,,,Y,
+413,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.2,Font,M2,"• The content of the site should be readable in electronic and print format with default standard fonts of user’s system.
+• Use a familiar font such as Times New Roman or Georgia (serif fonts), or Arial, Helvetica, or Verdana (sans serif fonts), to achieve the best possible reading speed.
+",YES,,,,,,Y,
+414,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.3,Pop-ups or New window,M3,"For Mobile Site:
+• Do not have unsolicited windows or graphics ‘pop-up’ to users.
+• Mobile sites should not launch new browser windows.
+• When linking to non-HTML files, such as Excel, Word or PDF, these documents should open in standalone applications or in a new window.
+• Applications hosted on secure sites may open in new window
+• New window can be used in a situations where interactive content on a page will be lost  - e.g. where a user is filling out a form and a link leads to explanatory text.
+
+Not required for Native App",YES,,,,,,Y,
+415,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.4,Application Size,M3,"The App shall be designed in such a way that after Quality and Size trade off, the core application size is no larger than 100 MB",YES,,,,,,Y,
+416,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.5,Display Resolution,M3,"Resolution depends on targeted device, and it is recommended to have flexible display resolutions.",YES,,,,,,Y,
+417,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.6,Popular Operating Systems,M2,"• The Mobile App shall work shall be developed on at least one, preferably android first) of the two commonly used platforms (Android, and Google). 
+
+•  Incase the App is developed for only one platform; the Agency shall exhibit the roadmap of supporting both platforms.
+
+• Ensure that all testing of a Mobile app  is done on the selected OS
+",YES,,,,,,Y,
+418,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.7,Mobile App Download Prompt,M2,"Visitors to the Mobile Website, shall be prompted to download the Mobile App for the platform the user is using to browse.
+
+Users should be given the choice to accept or reject the download. 
+",YES,,,,,,Y,
+419,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.8,Battery Life Conditions,M2,"The App should be designed keeping in mind the battery power it will consume, and the app shall be designed such that it consumes minimum battery power.
+
+The use of repaint is to be avoided.
+
+Minimization of size and activity of Javascripts to be practiced. 
+",YES,,,,,,Y,
+420,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.9,Terms of Use,M2,"Terms, Conditions, and Privacy Policy Agreements should be displayed to the user at least once, preferable during the time of installation, or onboarding of the user.
+
+Users shall be given full access to the app only after they have agreed to the terms and conditions.
+",YES,,,,,,Y,
+421,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.10,Advertising,M2,"Commercial advertising is not permitted on any pages housed under government (gov.qa) domains.
+The use of banner adverts provided directly from a third party (Bing ads, Google display Network, etc…) is not permitted.
+The use of banner adverts provided by other Qatari government entities is allowed such as World Cup 2022, Expo 2021, etc.
+It is acceptable to acknowledge sponsorship – for example of an exhibition or award – and to provide a link, via text and/or the sponsor’s logo, to the sponsor's website, but these links must not imply that the government endorses a particular product or service, and no personal remuneration of any kind may be derived from resources provided by the government.
+
+",YES,,,,,,Y,
+422,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.11,Offline Use,M2,"Wherever Applicable, allow users to view content on mobile app when offline.
+
+Users shall be able to access the content, last state of transactions or service requests, and also create new service requests offline that will be synchronized later when online. 
+",YES,,,,,,Y,
+423,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.12,Alerts and Notification,M2,"Mobile app shall provide clear status information and update in form of Alerts and Notifications to the user.
+
+Local Notification: Notifications are to be delivered to app, when the app is in foreground.
+
+Remote/Push Notification: Notifications to be delivered to be app, when the app is in background.
+
+Respective methods of IOS and Android to be used.
+
+Users shall be prompted for the choice of notifications (i.e Silent Notification, where the alert and notification will be update in the App, or Notification shall be displayed on Screen)
+",YES,,,,,,Y,
+424,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.13,Mobile Value Adds,M2,"Apps shall use the inbuilt capability of the device. For example, the app shall allow the customer to engage with government at a time and place convenient to them; ability to use their phone’s inbuilt camera or GPS.",YES,,,,,,Y,
+425,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.14,App Version,M2,"Always show technical details of the App to the user, including but not limited to version, release dates, updates, etc.",YES,,,,,,Y,
+426,QGMS-8,General Requirements,QGMS-8.1,General Requirements,QGMS-8.1.15,App Update,M2,"The app shall be able to auto update if device settings allow auto update. 
+Incase the Device App is not updated and auto update has failed, notify and encourage users to update to latest versions.
+",YES,,,,,,Y,
+427,,,,,,,,,,,,,,,Y,
+428,,,,,,,,,,,,,,,Y,
+429,,,,,,,,,,,,,,,Y,
+430,QGMS-10,Security and Privacy,QGMS-10.1,Mobile App Security,QGMS-10.1.1,Usage,M2,"• Ensure that there are no duplicate or malicious copies in the appstore
+• Refer user to appropriate app store links wherever published
+• Avoid SMS for notifications of sensitive data
+• Provide warning and highlight security risks of mishandling password of the device
+",YES,,,,,,Y,
+431,QGMS-10,Security and Privacy,QGMS-10.1,Mobile App Security,QGMS-10.1.2,Device Security & Access,M2,"The App shall follow same level of Access and Authentication policies and standards as mandated by QCERT.
+
+However, mobile apps can provide some value adds once authenticated by Centralized NAS system, such as providing access by using fingerprint scanner of the device to provide access.
+",YES,,,,,,Y,
+432,QGMS-10,Security and Privacy,QGMS-10.1,Mobile App Security,QGMS-10.1.3,Cryptography,M2,"That Personal Information and sensitive data is protected in device and in transmission using appropriate cryptographic controls.
+
+Follow SHA-512 Standards. 
+
+Use of at least 128 bit encryption for communication is mandated.
+",YES,,,,,,Y,
+433,QGMS-10,Security and Privacy,QGMS-10.1,Mobile App Security,QGMS-10.1.4,Session Management,M2,"Appropriate Authentication, Authorization, and Session Management processes to be implemented, and limit session time to an acceptable limit.  ",YES,,,,,,Y,
+434,QGMS-10,Security and Privacy,QGMS-10.1,Mobile App Security,QGMS-10.1.5,Log Management,M2,"Use cross device libraries to monitor real time app performance across entire application.
+
+Configure app login to quickly identify new device configurations that causes issues with the app.
+
+Maintain logs for suitable amount of time 
+",YES,,,,,,Y,
+435,QGMS-10,Security and Privacy,QGMS-10.1,Mobile App Security,QGMS-10.1.6,Payment,M2,"Must Follow international standards such as PCI DSS. 
+
+Should add extra layer of security for mobile credit / debit card transactions with -3D Secure. 
+
+No more than 25% of sensitive data related to payments shall be displayed on mobile app, such as first or last 4 digits of card.
+",YES,,,,,,Y,
+436,QGMS-10,Security and Privacy,QGMS-10.2,Digital signature,QGMS-10.2.1,Digital signature,M2,"Agencies shall follow the policies, standards and guidelines of Electronic Signature Formats Standards, Version : 1.0
+Electronic Signature Overview & Specification, Version: 1.0
+",YES,,,,,,Y,
+437,QGMS-10,Security and Privacy,QGMS-10.3,Privacy,QGMS-10.3.1,Privacy Statement,M2,"Each Mobile app or mobile site shall contain a privacy statement. Giving notice to users about how the Agency collects and uses personal information is good practice and will assist the agency in both complying with privacy laws and principles, and gaining public trust and confidence in those who use government website and services. The statement shall clearly indicate:
+• the scope of the statement;
+•  the circumstances in which personal information is collected, by whom it is held (e.g. the responsible Agency and/or any other third parties);
+•  the uses to which such collected personal information may be put by
+",YES,,,,,,Y,
+438,QGMS-10,Security and Privacy,QGMS-10.3,Privacy,QGMS-10.3.2,Cookies,M2,"Only Applicable to Mobile Sites and Not Apps:
+
+If cookies are used, a statement and a brief description of its purpose should be included. User consent should be solicited. 
+
+ Users may refuse the use of cookies by selecting the appropriate settings on their browser, in that case agency shall mention that the user may not be able to use the full functionality of this Mobile App.
+The allowed types of cookies are:
+• Analytics cookies for anonymously remembering user's computer or mobile device to keep track of browsing patterns.
+• Service cookies for helping us to make agencies’ Mobile App work efficiently, remembering users' registration and login details, settings preferences, and keeping track of the page views.
+• Non-persistent cookies/per-session cookies. Per-session cookies serve technical purposes, like providing seamless navigation through the Mobile Apps.",YES,,,,,,Y,
+439,QGMS-11,Support (chat/helpline),QGMS-11.1,Support / Helpline,QGMS-11.1.1,Support / Helpline,M2,"• In ‘contact us’ there must be email address, operating hours, the main telephone number for each call center
+• Providing online tutorial/help with screen shots and instructions. Online self-help like FAQs will be useful. 
+• Where an e-Service is complex and is for a specific group of users or corporate users, training and hands-on workshops shall be provided
+
+Agencies must provide the following:
+1. For general Compliant and enquiry - A service Helpline/Hotline
+2. For transaction enquiry 
+a. If services are supported by Govt Contact Center: Link to 109 GCC, Widget of 109 Live Chat Window, Widget of 109 chatbot
+b. If services are not supported by Govt Contact Center: Phone number of service helpline must be provided 
+c. Map location of the address.
+",YES,,YES,,,,Y,
+440,QGMS-11,Support (chat/helpline),QGMS-11.2,Chat,QGMS-11.2.1,Chat,M2,"When users encounter problems or difficulties with using the mobile app or services then agencies shall provide live chat with service agents, especially for services targeting remote users such as overseas citizens, tourists, businesses etc. Ideally, chat support for such services should be provided 24/7 considering different time zones per user locations.",YES,,YES,,,,Y,
+441,QGMS-11,Support (chat/helpline),QGMS-11.3,Bot Usage Guidelines,QGMS-11.3.1,Bot Usage Guidelines,M3,"• It should be apparent to the user that they are not having an interaction with another person.
+• A seamless hand-off to a human should be ensured where the human-bot exchange leads to interactions that exceed the bot’s competence.
+• Agencies should ensure that the bot is reliable.
+• The bot should respect user privacy.
+• Agencies are accountable for the bots they deploy.
+",YES,,YES,,,,Y,
+442,QGES-1,Eservices Profile ,QGES-1.1,EServices Taxonomy,QGES-1.1.1,Services Classification,M2,"Entities must classify the Service in the service profile page, whether it is G2C, G2B, or G2G",,YES,,,,,,Y
+443,QGES-1,Eservices Profile ,QGES-1.1,EServices Taxonomy,QGES-1.1.2,Service name,M2,"Entities must provide a clear, short, and meaningful name, with which consumers can easily identify what the services is about.",,YES,,,,,,Y
+444,QGES-1,Eservices Profile ,QGES-1.1,EServices Taxonomy,QGES-1.1.3,Services Alternate Name,M3,"In case, there are too many similarities in the names of services, Entities may also provide alternative names of the services.",,YES,,,,,,Y
+445,QGES-1,Eservices Profile ,QGES-1.1,EServices Taxonomy,QGES-1.1.4,Service code,M2,"Service code shall be a code to uniquely identify service across Entities and systems based on Service Coding Guide.
+",,YES,,,,,,Y
+446,QGES-1,Eservices Profile ,QGES-1.1,EServices Taxonomy,QGES-1.1.5,Services type ,M2,"Entities must further classify the Service in the service profile page.
+
+e.g. Emergency relief, etc
+",,YES,,,,,,Y
+447,QGES-1,Eservices Profile ,QGES-1.2,EServices Ontology,QGES-1.2.1,Delivery Channels,M2,"Entities must provide details for online and offline delivery channels.
+
+For online channel, the Entities shall provide one click Service URL to the services landing page.
+
+For offline channels, the Entities shall list service centers, with:
+- Location Name
+- Opening Hours
+- Contact Person
+- Address
+- Phone Number 
+- Map location
+",,YES,,,,,,Y
+448,QGES-1,Eservices Profile ,QGES-1.2,EServices Ontology,QGES-1.2.2,Services Target Group,M2,"Entities must uniquely identify the target group for whom the services are intended.
+
+Entities are allowed to use a target group name from the approved list of Target Group or Persona Names.
+",,YES,,,,,,Y
+449,QGES-1,Eservices Profile ,QGES-1.2,EServices Ontology,QGES-1.2.3,Life Event,M2,"If the services are associated with individual personas, then Entities must indicate the life event the service is associated with. Refer to appendix Life Events.",,YES,,,,,,Y
+450,QGES-1,Eservices Profile ,QGES-1.2,EServices Ontology,QGES-1.2.4,Business Event,M2,"For services associated with business personas, then Entities must provide associated business event for the service.",,YES,,,,,,Y
+451,QGES-1,Eservices Profile ,QGES-1.2,EServices Ontology,QGES-1.2.5,Related Service ,M3,"If the services are related to any other services, Entities may identify those services, and provide the Service Name and URL to Service Landing Page.",,YES,,,,,,Y
+452,QGES-1,Eservices Profile ,QGES-1.2,EServices Ontology,QGES-1.2.6,Services Bundling,M3,Entities must indicate whether the Service is a Bundled Services or an individual service. It should indicate all the sub services as well.,,YES,,,,,,Y
+453,QGES-1,Eservices Profile ,QGES-1.2,EServices Ontology,QGES-1.2.7,Service Provider Primary,M2,"Service provider name shall uniquely identify which Agency is providing the service, confirming to legal name of the agency and URL.",,YES,,,,,,Y
+454,QGES-1,Eservices Profile ,QGES-1.2,EServices Ontology,QGES-1.2.8,Service Provider Secondary,M3,"Entities must also provide Service provider names of engaged Entities if they are part of providing the services. The engaged Entities shall be uniquely identify which service the Entities is providing, confirming to legal name of the agency.",,YES,,,,,,Y
+455,QGES-1,Eservices Profile ,QGES-1.2,EServices Ontology,QGES-1.2.9,Sector and Department Mapping,M2,"Entities shall map the service with the respective sector.
+e.g. Healthcare, Labor, Education and Higher Education, Tourism and Leisure, Hospitals & Health Facilities, Youth and Sports, etc
+
+",,YES,,,,,,Y
+456,QGES-1,Eservices Profile ,QGES-1.2,EServices Ontology,QGES-1.2.10,Services Fees by Target Group,M2,"Entities shall provide the services fees for availing the services. 
+Entities must provide Service Fees by Target Group, in event that the user falls under multiple target groups.
+Target Group, Fees, Offers should be provided
+Entities may also provide offers, if any.
+
+",,YES,,,,,,Y
+457,QGES-1,Eservices Profile ,QGES-1.2,EServices Ontology,QGES-1.2.11,Services SLA,M2,"Entities must provide the Service Level Agreements. Following to be provided:
+1. Estimated time to Service Fulfillment
+2. Information on what to do in case SLA's not met
+",,YES,,,,,,Y
+458,QGES-2,Eservices Information ,QGES-2.1,EServices Publication (Other details for publication),QGES-2.1.1,Services Description,M2,"Entities shall provide a detailed description of the Services
+
+• When are the services applicable
+• What does the Service do
+• Who is it for
+• How to avail the service
+• Where to avail the services 
+
+",,YES,,,,,,Y
+459,QGES-2,Eservices Information ,QGES-2.1,EServices Publication (Other details for publication),QGES-2.1.2,Services Conditions,M2,"Entities may list what are the Pre-requisites and conditions for the services, and any required    payment/fees.",,YES,,,,,,Y
+460,QGES-2,Eservices Information ,QGES-2.1,EServices Publication (Other details for publication),QGES-2.1.3,Services Documentations ,M2,"Entities may list what documents need to be furnished for availing the services, along with from where or how to get the documents from
+• Document Name,
+• Location / Service from where to get the document
+",,YES,,,,,,Y
+461,QGES-2,Eservices Information ,QGES-2.1,EServices Publication (Other details for publication),QGES-2.1.4,Services Process & Steps,M2,"Entities must describe what the processes and steps for availing the services.
+For each Process:
+• Step Name, 
+• Description, 
+• Inputs, 
+• Output, 
+• Status
+• SLA 
+
+",,YES,,,,,,Y
+462,QGES-2,Eservices Information ,QGES-2.1,EServices Publication (Other details for publication),QGES-2.1.5,Services Infographic,M3,Entities may provide the processes and steps in the form of a infographic.,,YES,,,,,,Y
+463,QGES-2,Eservices Information ,QGES-2.1,EServices Publication (Other details for publication),QGES-2.1.6,General User Guide,M3,Entities may provide additional information as user guide.,,YES,,,,,,Y
+464,QGES-2,Eservices Information ,QGES-2.1,EServices Publication (Other details for publication),QGES-2.1.7,Services FAQ,M3,Entities shall maintain a knowledge base of frequency asked question for publishing and updating time to time at the Services FAQ Page.,,YES,,,,,,Y
+465,QGES-2,Eservices Information ,QGES-2.1,EServices Publication (Other details for publication),QGES-2.1.8,External Links,M3,"If there are any external links to other ministries to be provide, Entities may list them under external links.",,YES,,,,,,Y
+466,QGES-3,Eservices Functionality,QGES-3.1,EServices Access,QGES-3.1.1,Service Access,M2,"The Eservices should be accessible to its intended beneficiary through all supported channels, such as Website, Mobile App, and Hukoomi. ",YES,,,,,,,Y
+467,QGES-3,Eservices Functionality,QGES-3.1,EServices Access,QGES-3.1.2,Service Authentication,M2,The Eservices should be available only to authenticated and eligible users. The Authentication will be done by the channels. The service providers shall validate if the authenticated user is eligible to access the service and provide access.,,,YES,,,,,Y
+468,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.1,Form Layout,M3,"Layout should be clean, simple and clear to maximize usability. All elements should aid communication with the user.",,,YES,,,,,Y
+469,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.2,Form ID,M2,"All forms shall have a Form ID, that will be interoperable between offline and online modes. Form ID will be issued to the form, as soon as the transaction is initiated.
+
+Refer to Appendix Form Coding Standards.
+A Bar Code, or QR Code to be assigned.
+",,,YES,,,,,Y
+470,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.3,Form Title,M2,"Each form should have unique and descriptive title, starting with a verb",,,YES,,,,,Y
+471,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.4,Applicant Details,M2,"Should provide fields for Applicant details.
+
+For authenticated users, Applicant details shall be pre-filled based on Applicant's ID.
+
+For non-Authenticated users, Applicant details may be prefilled from cookies if enabled
+",,,YES,,,,,Y
+472,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.5,Service Details,M2,Appropriate fields to be provided according to the respective service,,,YES,,,,,Y
+473,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.6,Supporting Documentation,M3,"If the service warrants the need for supporting documentation, a feature to upload supporting documentation should be provided.
+
+Feature to support Standard Office Documents, PDF, Images
+",,,YES,,,,,Y
+474,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.7,Fee Details,M2,"Should provide fields for Fee Details in Local QAR.
+
+In case of services to international consumers, fee details in respective country shall be provided.
+",,,YES,,,,,Y
+475,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.8,Form Review,M2,System shall provide review of application details before submission.,,,YES,,,,,Y
+476,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.9,Declaration,M2,"Forms may provide, depending on the applicability, a declaration from the user, regarding data accuracy in the form.",,,YES,,,,,Y
+477,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.10,Field Level Validation,M2,"Field Level Validation must be provided to matches entered data with the expected input, and shall be triggered when the user leaves the field.
+
+Incase of an error:
+-Field shall be highlighted
+-Error message and location shall be highlighted
+",,,YES,,,,,Y
+478,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.11,Page validation,M2,"To ensure that all mandatory or required fields have been completed and all dependencies have been completed, page validations must also be provided.
+
+In case of an error, the error message should be displayed when next page and/or submit button is selected.
+",,,YES,,,,,Y
+479,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.12,Submission & Confirmation,M2,"Once transaction is submitted successfully, a confirmation, with unique transaction ID to be generated, and notified to user, on preferred digital channel.
+
+Refer to Appendix “Transaction Coding System”.
+
+Submit & Print Buttons should be provided
+",,,YES,,,,,Y
+480,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.12,Accessibility,M2,"Form Fields, Fields Description, Action Buttons, Error Messages should support Accessibility as per WCAG Standards (AA).",,,YES,,,,,Y
+481,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.13,Form Download,M3,"Ability to download the electronic version of the form for lengthy forms, in editable PDF or Excel, may be provided to users for filling it offline.",,,YES,,,,,Y
+482,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.14,Form Upload,M3,Ability to upload a form online may be provided for lengthy forms.,,,YES,,,,,Y
+483,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.15,Client-side scripting,M3,Process completion must not rely on client-side scripting or embedded objects.,,,YES,,,,,Y
+484,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.16,Terminology,M2,Standardize terminology across action buttons and links within an application.,,,YES,,,,,Y
+485,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.17,Form input,M2,Forms should retain the entered inputs on event of an error.,,,YES,,,,,Y
+486,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.18,Usability testing,M2,Each new Eform  must undergo usability testing.,,,YES,,,,,Y
+487,QGES-3,Eservices Functionality,QGES-3.2,Service Request (Online) - E-Forms,QGES-3.2.19,Placement of error messages,M2,Input error messages should appear near the relevant form control.,,,YES,,,,,Y
+488,QGES-3,Eservices Functionality,QGES-3.3,Services Request (Offline),QGES-3.3.1,Service Request (Downloadable  Forms),M2,"Incase the service can only be availed offline, a downloadable form to be provided to the users. Users can print the empty forms, or filled up form, and approach for availing the services.
+
+Entities shall also provide details to the users on how to request for the services, along with features to submit required documents.
+",,,YES,,,,,Y
+489,QGES-3,Eservices Functionality,QGES-3.4,Submission and Modificiation,QGES-3.4.1,Services Request Submission,M2,"The services requestor / user shall be able to submit Eservices request online or offline using  the Request Form. On submission of the request, an Unique Request ID shall be generated and notified to the user.",,,YES,,,,,Y
+490,QGES-3,Eservices Functionality,QGES-3.4,Submission and Modificiation,QGES-3.4.2,Users’  Requests,M2,The services requestor / user shall be able to view all his requests and the corresponting status and call to actions (if any) ,,,YES,,,,,Y
+491,QGES-3,Eservices Functionality,QGES-3.4,Submission and Modificiation,QGES-3.4.3,Services Request Change,M3,The services requestor / user shall be able to modify the request by changing the type of services requested,,,,YES,,,,Y
+492,QGES-3,Eservices Functionality,QGES-3.4,Submission and Modificiation,QGES-3.4.4,Services Request Update,M2,"The services requestor / user shall be able to update information related to the request, add supporting evidence or files, during the coure of service processing, when the services request has already been submitted.",,,,YES,,,,Y
+493,QGES-3,Eservices Functionality,QGES-3.4,Submission and Modificiation,QGES-3.4.5,Services Request Suspension,M2,"The services requestor / user shall be able to suspend or pause the request. The entities may decide, how long a suspended request be kept active.",,,,YES,,,,Y
+494,QGES-3,Eservices Functionality,QGES-3.4,Submission and Modificiation,QGES-3.4.6,Services Request Reinitiation,M2,"Once the services request is suspended / paused, the services requestor should be able to re-instate or initiate the services request again ",,,,YES,,,,Y
+495,QGES-3,Eservices Functionality,QGES-3.4,Submission and Modificiation,QGES-3.4.7,Services Request Termination,M2,"The services requestor / user shall be able to terminate the services request at anytime during the services processing. 
+
+Services termination, along with refunds or rollbacks, shall be based on the services terms and conditions.",,,,YES,,,,Y
+496,QGES-3,Eservices Functionality,QGES-3.5,EServices Interactions ,QGES-3.5.1,Services Request  Status,M2,"For every transaction in progress, Entities must provide the service status to the requestor / user. The Services Status should clearly show the appropriate services status understandable to end user. Examples  are intiated, inprogress, closed, etc.",,,YES,YES,YES,,,Y
+497,QGES-3,Eservices Functionality,QGES-3.5,EServices Interactions ,QGES-3.5.2,Service Request Alerts,M2,"During the transaction progress, for any incident which needs action from the user, an alert should be generated and sent across online channels - Email, SMS, Update in the Portal/Mobile App
+
+Incase SLAs are breached due to delay in actionable input:
+1. If services fee's are paid: User shall be contacted over phone using the outbound contact center services. SLA's to be refined accordingly.
+2. If services fee's are unpaid: A general alert through online channels are enough.
+",,,YES,YES,YES,,,Y
+498,QGES-3,Eservices Functionality,QGES-3.5,EServices Interactions ,QGES-3.5.3,Service Request  Notification,M2,"For every status change, the Entities must provide notifications through online delivery channels - Email, SMS, Update in the Portal/Mobile App",,,YES,YES,YES,,,Y
+499,QGES-3,Eservices Functionality,QGES-3.5,EServices Interactions ,QGES-3.5.4,Services Request Feedback,M2,"Service Requestor / users should be able to provide services feedback.
+
+Eservices must capture:
+• Service Rating
+• Improvement Options
+• General Feedback
+",,,,,YES,,,Y
+500,QGES-4,Eservices Functionality,QGES-3.5,EServices Interactions ,QGES-3.5.5,Services Request Escalation,M2,"Service Requestor/ User should be able to escalate the request, and provide reasons and justtifications",,,,YES,YES,,,Y
+501,QGES-5,Eservices Functionality,QGES-3.5,EServices Interactions ,QGES-3.5.6,Request Appeal,M3,Service Requestor/ User should be able to put a general appeal related to services or any topic,,,YES,YES,YES,,,Y
+502,QGES-3,Eservices Functionality,QGES-3.5,EServices Interactions ,QGES-3.5.7,Services Survey,M2,Entities may take time to time feedback from user base on services relevance and fulfillment using online / offline surveys,,,,,YES,,,Y
+503,QGES-3,Eservices Functionality,QGES-3.6,Exception Handling ,QGES-3.6.1,Exception Handling,M2,"In case of an exception at any stage of a transaction, an appropriate exception handler should be triggered.
+
+Alerts shall be sent to user, as well as, service operations team, for further actions.  
+
+The exception should provide errors containing audit trail details such as:
+- Transaction Id
+- Error Description
+- Time of error
+- Source of error
+",,,YES,YES,YES,,,Y
+504,QGES-3,Eservices Functionality,QGES-3.6,Exception Handling ,QGES-3.6.2,Service rollback,M2,"In case of an exception, that could not be resolved, the transaction should be rolled back. The systems should initiate a process of rollback.
+
+Process of rollback shall reset the transaction and provide refunds incase fees are already paid.
+",,,YES,YES,YES,,,Y
+505,QGES-3,Eservices Functionality,QGES-3.7,EServices Administration - Front Office,QGES-3.7.1,Request Validation,M2,"Should provide features for 1st level validation. Incase of missing data, the Front office users should be able to send back the request to the user.",,,,YES,,,,Y
+506,QGES-3,Eservices Functionality,QGES-3.7,EServices Administration - Front Office,QGES-3.7.2,Request Duplication,M2,"Should provide features to check similar or duplicate request, and take corrective actions. Deduplication should be allowed either through cancelation after intimation to the user, or merging multiple requests into one.",,,,YES,,,,Y
+507,QGES-3,Eservices Functionality,QGES-3.7,EServices Administration - Front Office,QGES-3.7.3,Request Status,M2,"Should provide features to show the request status such as Initiated, In Progress, Completed",,,,YES,,,,Y
+508,QGES-3,Eservices Functionality,QGES-3.7,EServices Administration - Front Office,QGES-3.7.4,Request Search,M2,"Should provide features to search through requests based on user details such as ID, Name, Telephone Number, Request IDs, Date, or a combination of the search parameters.",,,,YES,,,,Y
+509,QGES-3,Eservices Functionality,QGES-3.7,EServices Administration - Front Office,QGES-3.7.5,Request Modification,M2,Should provide features to modify the service request from the front office. Any modifications should maintain the reasons and audit trail,,,,YES,,,,Y
+510,QGES-3,Eservices Functionality,QGES-3.7,EServices Administration - Front Office,QGES-3.7.6,Request Suspension,M2,Should provide features to Suspend the service request from the front office. Any modifications should maintain the reasons and audit trail,,,,YES,,,,Y
+511,QGES-3,Eservices Functionality,QGES-3.7,EServices Administration - Front Office,QGES-3.7.7,Request Re-Submission,M2,Should provide features to Re-Submit suspended service request from the front office. Any resubmissions should maintain the reasons and audit trail.,,,,YES,,,,Y
+512,QGES-3,Eservices Functionality,QGES-3.7,EServices Administration - Front Office,QGES-3.7.8,Request Termination,M2,Should provide features to terminate the service request from front office. Any services closure /  termination should maintain the reasons and audit trail,,,,YES,,,,Y
+513,QGES-3,Eservices Functionality,QGES-3.7,EServices Administration - Front Office,QGES-3.7.9,Request Priority,M2,"Should provide features to change the priority of the request, fast track in queue, or send for special approval. Any such changes in priority should maintain reasons and audit trail.",,,,YES,,,,Y
+514,QGES-3,Eservices Functionality,QGES-3.7,EServices Administration - Front Office,QGES-3.7.10,Request Escalation,M2,"Should provide features to view and qualify all escalations. All qualified escalations must be aggregated,  processed, and reported.",,,,YES,,,,Y
+515,QGES-3,Eservices Functionality,QGES-3.7,EServices Administration - Front Office,QGES-3.7.11,Request Appeal,M2,"Should provide features to view and qualify all appeals. All qualified appeals must be aggregated, processed, and reported.",,,,YES,,,,Y
+516,QGES-3,Eservices Functionality,QGES-3.8,EServices Administration - Mid & Back Office,QGES-3.8.1,Past Requests,M2,"Should provide features to mid office users to view all past requests, and details of each requests",,,,YES,,,,Y
+517,QGES-3,Eservices Functionality,QGES-3.8,EServices Administration - Mid & Back Office,QGES-3.8.2,Maker Checker Review,M3,To provide feature for maker checker verfication for services request,,,,YES,,,,Y
+518,QGES-3,Eservices Functionality,QGES-3.8,EServices Administration - Mid & Back Office,QGES-3.8.3,Special Review,M3,To provide feature for special  verfication by SME  for services request,,,,YES,,,,Y
+519,QGES-3,Eservices Functionality,QGES-3.8,EServices Administration - Mid & Back Office,QGES-3.8.4,Approve Request,M2,Should provide features to view and approve the verfied service request for fulfillment from the mid office. Any suspension should maintain the reasons and audit trail,,,,YES,,,,Y
+520,QGES-3,Eservices Functionality,QGES-3.8,EServices Administration - Mid & Back Office,QGES-3.8.5,Bulk Approve Request,M2,"Should provide features to list, view, and  bulk approve the verified service requests for fulfillment from the mid office. Any suspension should maintain the reasons and audit trail",,,,YES,,,,Y
+521,QGES-3,Eservices Functionality,QGES-3.8,EServices Administration - Mid & Back Office,QGES-3.8.6,Forward Request,M3,To provide features to forward a service request for verification or approval. Any forward should maintain the reasons and audit trail.,,,,YES,,,,Y
+522,QGES-3,Eservices Functionality,QGES-3.8,EServices Administration - Mid & Back Office,QGES-3.8.7,Authorize Request,M3,To provide features to use authorizations to approve a service requests.  Any Approvals based on authorizations should be maintain with reasons and audit trail.,,,,YES,,,,Y
+523,QGES-3,Eservices Functionality,QGES-3.8,EServices Administration - Mid & Back Office,QGES-3.8.8,Special Approve Request,M3,"Should provide features to list and view the verified service requests that need special approval for fulfillment from the mid office. 
+
+There should be mechanisms for special approvals, including delagation of authority. All special approvals shoud maintain the reasons and ausit trails.",,,,YES,,,,Y
+524,QGES-3,Eservices Functionality,QGES-3.8,EServices Administration - Mid & Back Office,QGES-3.8.9,Suspend Request,M2,Should provide features to Suspend a service request from the mid office. Any suspension should maintain the reasons and audit trail,,,,YES,,,,Y
+525,QGES-3,Eservices Functionality,QGES-3.8,EServices Administration - Mid & Back Office,QGES-3.8.10,Backlist Requestor,M3,"To provide features to blacklist a requestor/user. If an requestor is blacklisted, appropriate reasons and audit trail should be maintained.",,,,YES,,,,Y
+526,QGES-3,Eservices Functionality,QGES-3.8,EServices Administration - Mid & Back Office,QGES-3.8.11,Whitelist Requestor,M3,"To provide features to whitelist a requestor/user. If an requestor is blacklisted, appropriate reasons and audit trail should be maintained.",,,,YES,,,,Y
+527,QGES-3,Eservices Functionality,QGES-3.8,EServices Administration - Mid & Back Office,QGES-3.8.12,Auto / Rule Based Actions,M2,"To provide rule based features, if all conditions are met, to verify, and approve Service Requests.
+
+Only in case of exceptions by different configurable conditions, services requests to be forwarded for manual processing and intervention.",,,,YES,,,,Y
+528,QGES-3,Eservices Functionality,QGES-3.8,EServices Administration - Mid & Back Office,QGES-3.8.13,Services Fulfilment,M2,"Entities must fulfill the verfied and approved services requests. The fulfilment details must be captured against a service request. Only post fulfillment, the services to be closed.",,,,YES,,,,Y
+529,QGES-3,Eservices Functionality,QGES-3.9,EServices Support ,QGES-3.9.1,Services Support Information,M2,"Entities must provide the following:
+1. For general complaint / enquiry - A service Helpline/Hotline
+2. For transaction enquiry 
+a. If services are supported by Govt Contact Center: Link to 109 GCC, Widget of 109 Live Chat Window, Widget of 109 chatbot
+b. If services are not supported by Govt Contact Center: Phone number of service helpline must be provided",,YES,YES,,,,,Y
+530,QGES-3,Eservices Functionality,QGES-3.9,EServices Support ,QGES-3.9.2,Eservices Support Request Registration,M2,"Any enquiry of support request related to a Eservices Request, should be addressed either by Agency Helpline or Govt Contact Centers. For each enquiry or support request, a case for the support request must be registered and should be managed as unique cases.",,,,YES,YES,,,Y
+531,QGES-3,Eservices Functionality,QGES-3.9,EServices Support ,QGES-3.9.3,EServices Support Request Search,M2,"Should maintain all the Services Request Support cases, and provide feature to seach and sort through support cases. ",,,,YES,YES,,,Y
+532,QGES-3,Eservices Functionality,QGES-3.9,EServices Support ,QGES-3.9.4,Eservices Support Request Case Assignment,M2,Should provide features to assign support cases. ,,,,YES,YES,,,Y
+533,QGES-3,Eservices Functionality,QGES-3.9,EServices Support ,QGES-3.9.5,Eservices Support Request Case Tracking,M2,Should be able to track the different status of Services request support cases. ,,,,YES,YES,,,Y
+534,QGES-3,Eservices Functionality,QGES-3.9,EServices Support ,QGES-3.9.6,Eservices Support Request Case Resolution,M2,Should be able to add resolutions and case details to any Services Request Support Case,,,,YES,YES,,,Y
+535,QGES-3,Eservices Functionality,QGES-3.9,EServices Support ,QGES-3.9.7,Eservices Support Request Case Closure,M2,Should provide features to close a support case. ,,,,YES,YES,,,Y
+536,QGES-3,Eservices Functionality,QGES-3.9,EServices Support ,QGES-3.9.8,Eservices Support Request Case Feedback,M2,"Should provide features to capture feedback for the support case resolution, including feedback and suggestions.",,,,YES,YES,,,Y
+537,QGES-3,Eservices Functionality,QGES-3.10,Knowledge  Base,QGES-3.10.1,Services Requests Knowledge Base,M3,"Entities to maintain the knowledge base related to Services Requests, Verification, Processing,  Full filment, Feedbacks, Escalations, and Appeals. ",,,,YES,YES,,,Y
+538,QGES-3,Eservices Functionality,QGES-3.10,Knowledge  Base,QGES-3.10.2,Services Support Knowledge Base,M3,"Entities to maintain the knowledge base related to Services Support, and Resolution.",,,,YES,YES,,,Y
+539,QGES-4,Eservices Technical Standards,QGES-4.1,"Description, Transport & Protocol Standards",QGES-4.1.1,Description Language,M3,"The syntactic description of Eservices shall follow WSDL Standards
+
+The standards shall also support for:
+- ADS (Advertisement and Discovery Services Protocol)
+- SDL (Services Description Language Protocol)
+",YES,,,,,,,Y
+540,QGES-4,Eservices Technical Standards,QGES-4.1,"Description, Transport & Protocol Standards",QGES-4.1.2,Service Publishing ,M3,"The syntactic publication of Eservices for systems to identify the Eservices should follow UDDI Standards
+
+UDDI or compatible publishing protocols",YES,,,,,,,Y
+541,QGES-4,Eservices Technical Standards,QGES-4.1,"Description, Transport & Protocol Standards",QGES-4.1.3,Service Discovery ,M3,"The systems should be able to discover services that were published described by SDL equivalent.
+
+SRL (Service Request Language) or equivalent that are able to discover eServices described using SDL",YES,,,,,,,Y
+542,QGES-4,Eservices Technical Standards,QGES-4.1,"Description, Transport & Protocol Standards",QGES-4.1.4,Service Invocation ,M3,"The syntactic invocation operation that allows to invoke a service at system level.
+
+SOAP and
+the emerging W3C XML Protocol (XP)",YES,,,,,,,Y
+543,QGES-4,Eservices Technical Standards,QGES-4.2,Quality of Services,QGES-4.2.1,Transaction,M3,"Transaction Systems shall follow technical standards that works in open environment where transactions can span hours or even days.
+
+Systems to follow XAML/XLANG/Equivalent standards
+",YES,,,,,,,Y
+544,QGES-4,Eservices Technical Standards,QGES-4.2,Quality of Services,QGES-4.2.2,Security,M3,"All the business related eservices Shall use encrypted communications with authentication
+
+Systems to follow HTTP over SSL standards
+",YES,,,,,,,Y
+545,QGES-4,Eservices Technical Standards,QGES-4.2,Quality of Services,QGES-4.2.3,Reliability,M3,"Systems should maintain QoS goals for throughput, response time, cost.",YES,,,,,,,Y
+546,QGES-4,Eservices Technical Standards,QGES-4.3,Data Standards ,QGES-4.3.1,Data Standards and Payload,M3,"System should support interoperable data standards
+
+Should follow dictionary defined XML, or JSON standards
+",YES,,,,,,,Y
+547,QGES-5,E-Service Management ,QGES-5.1,Services Monitoring,QGES-5.1.1,SLA Reporting,M2,"Entities shall be able to report SLA / SLM Parameters.
+
+Should report parameters such as:
+- SLA Breaches
+- Ageing Reports 
+- Failures and Rollbacks 
+
+",,,YES,YES,YES,,,Y
+548,QGES-5,E-Service Management ,QGES-5.1,Services Monitoring,QGES-5.1.2,Services Dashboard,M2,"Entities should also be able to provide dashboards on critical QoS Parameters 
+
+Such as but not limited to:
+- Requests by channels
+- Fulfilment breakup
+- Throughput
+- Avg Response Time
+- Customer Feedback
+- Support requests
+- SLA Performance 
+",,,YES,YES,YES,,,Y
+549,QGES-5,E-Service Management ,QGES-5.1,Services Monitoring,QGES-5.1.3,Services Reporting and Audit,M2,"Entities should report the Services Quality such as:
+- Availability
+- Downtime 
+- Transaction Failures
+- Rollback
+
+Entities should provide audit reports on services quality.",,,YES,YES,YES,,,Y
+550,QGES-5,E-Service Management ,QGES-5.2,Services Lifecycle Management,QGES-5.2.1,Services Registration,M2,"For a service to be launched, both semantic and syntactic description needs to be publish. So, will be provided to the Service Broker Authority, in the Hukoomi Portal team, along with Checklist and supporting documents.
+",YES,,,,,,,Y
+551,QGES-5,E-Service Management ,QGES-5.2,Services Lifecycle Management,QGES-5.2.2,Services Marketing,M2,"For the service to be marketed in the portal, as news or banners, such content shall be provided to the communications team, for publishing in the respective sections in the portal",YES,,,,,,,Y
+552,QGES-5,E-Service Management ,QGES-5.2,Services Lifecycle Management,QGES-5.2.3,Services Decommissioning,M2,"In Event that the service has to be decommissioned, the Entities shall provide the semantic and syntactic details to the Service Broker Authority in the Hukoomi Portal team, before unplugging the services at the Entitiy end.",YES,,,,,,,Y
+553,QGES-5,E-Service Management ,QGES-5.2,Services Lifecycle Management,QGES-5.2.4,Periodic review,M2,All eservices shall be reviewed at least once every three years to stay relevant.,YES,,,,,,,Y
+554,QGEP-1,E-Payment,QGEP-1.1,Online payments ,QGEP-1.1.1,Credit card payment,M1,Master card based MIGS (Master card Internet gateway services) is the current accepted payment method,YES,,,,,,,Y
+555,QGEP-1,E-Payment,QGEP-1.1,Online payments ,QGEP-1.1.2,Account to Account payment (Debit card / Account debit),M1,"• Account debit – This allows for large debit transaction (i.e. customs payments) 
+• Card debit – This allows for smaller debit transactions (i.e. VISA, Traffic fines, Healthcard etc.)
+",YES,,,,,,,Y
+556,QGEP-1,E-Payment,QGEP-1.2,Offline payments (Proposed),QGEP-1.2.1,POS based payment,M2,"The POS based payment should trigger MOTC payment controller that generates a payment receipt, provides centralized payment tracking and also leverages MOTC communication services. This should be triggered at the application level upon receiving payment confirmation from POS systems",YES,,,,,,,Y
+557,QGEP-1,E-Payment,QGEP-1.2,Offline payments (Proposed),QGEP-1.2.2,Other banking instruments,M2,Other banking services based payment should be triggered manually by a back office user and can be used for tracking all secondary payments like bonds / tax obligations etc.  ,YES,,,,,,,Y
