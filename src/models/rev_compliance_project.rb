@@ -54,7 +54,10 @@ class App::Models::RevComplianceProject < Sequel::Model
           compliance_project_id: id,
           stage_gates: Sequel.pg_array(rp.stage_gates, Integer)
         })
-        variation_arr.each{|v| rec.merge(platform_language: v); res << rec}
+        variation_arr.each do |v| 
+          rec1 = rec.merge(platform_language: v)
+          res << rec1
+        end
         res
       end
       App::Models::RevComplianceRecord.multi_insert(data)
