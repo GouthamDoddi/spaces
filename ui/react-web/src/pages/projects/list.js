@@ -1,163 +1,240 @@
-import React, { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
-import HeaderBar from '../../shared/header_bar';
-import Table, { Header, Row } from '../../shared/table';
-import LeftMenu from '../../shared/left-menu';
-import Banner from '../../shared/hmc-banner';
-
-import { entitiesData, entityTypes } from '../../store/master-data';
-import { Link, NavLink, Route, Switch, useParams } from 'react-router-dom';
-import { entityEnter, entityList } from '../../pages/routes';
-import { Input } from '../../components/form';
-import { Button } from '../../shared/button';
-
-import EntityElem from '../../pages/entities';
-import makeStore from '../../store/make-store';
+import Pagination from '@material-ui/lab/Pagination';
 import { useStore } from 'effector-react';
-import { hasMenuAccess } from '../../store/user';
-import qgate from '../../assets/images/qgate.png';
-import { NewLayout } from '../entities/list';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
+import BasicTable from '../../shared/table-material';
+import makeStore from '../../store/make-store';
+import { cleanedEntities, projectCategoryTypes } from '../../store/master-data';
+import { Progress } from '../entities';
+import { PaginationWrapper } from './compliance-records/attributes';
 
-//imported sub-components
-import MasterProjectProfile from './master-project-profile';
-import CompilanceProjectDetails from './compilance-project-details';
-import CompilanceRecords from './compliance-records';
-import CaseManagement from './case-management';
+const { store, load } = makeStore('rev-projects');
+const { load: loadEntities } = makeStore('entities');
 
-const { store, load } = makeStore('entities/list');
+const headlines = [
+  { headline: 'Master Project Name', key: 'project_name' },
+  { headline: 'Category', key: 'project_type_id' },
+  { headline: 'Owner', key: 'owner_id' },
+  { headline: 'Sponsor', key: '' },
+  { headline: 'Start Date', key: 'start_date' },
+  { headline: 'End Date', key: 'end_date' },
+  { headline: 'Progress', key: 'progress' },
+  { headline: 'Compliance Records', key: 'compliance_records_count' },
+  { headline: 'Issues', key: 'issues_count' },
+  { headline: 'Challenges', key: 'challenges_count' },
+];
 
-const AngleRight = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="10.801"
-      height="20"
-      viewBox="0 0 10.801 20"
-    >
-      <path
-        fill="#cfcfcf"
-        d="M128.316,9.451,119.065.226a.775.775,0,1,0-1.095,1.1L126.67,10l-8.7,8.676a.775.775,0,0,0,1.1,1.1l9.251-9.225a.775.775,0,0,0,0-1.1Z"
-        transform="translate(-117.742 0)"
-      />
-    </svg>
-  );
-};
-
-const columns1 = '80px 3.5fr 1.5fr repeat(7, 1fr);';
-export default function (props) {
-  const { entity_id } = useParams();
-  const [bannerTitle, setBannerTitle] = useState('');
-  const data = Object.values(entitiesData);
-  const [filterVal, setFilterVal] = useState('');
-  const filter = (metadata, { key, value }) =>
-    metadata.filter((o) =>
-      o[key]?.toLowerCase()?.includes(value.toLowerCase().trim())
-    );
-
-  const [step, setStep] = useState(1);
-  const [profileData, setProfileData] = useState({});
-
-  const handleNext = (data) => {
-    if (step === 1) {
-      setProfileData(data);
-    }
-
-    setStep((prevVal) => prevVal + 1);
-  };
+const ProjectList = () => {
+  const history = useHistory();
+  const [entities, setEntities] = useState([]);
+  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState([]);
+  const [pageNo, setPageNo] = useState(1);
+  const pageSize = 10;
 
   useEffect(() => {
-    if (!entity_id) {
+    loadEntities('', (data) => {
+      setEntities(data);
       load();
-    }
-    entity_id
-      ? setBannerTitle(entitiesData[entity_id]?.name || 'Entities')
-      : setBannerTitle('Entities');
-  }, [entity_id]);
+    });
+  }, []);
 
-  const entityStore = useStore(store);
-  const entityData = entityStore.data || [];
+  let data = useStore(store).data || [];
+
+  if (search || filters.length) {
+    data = data.filter(({ project_name, owner_id, project_type_id }) => {
+      const caseInsesitiveSearch = search.toLowerCase();
+      const entityName = entities.find(({ id }) => id === owner_id)?.name;
+
+      return (
+        (project_name.toLowerCase().includes(caseInsesitiveSearch) ||
+          entityName.toLowerCase().includes(caseInsesitiveSearch)) &&
+        // apply filters only if any
+        (filters.length
+          ? filters.includes(
+              projectCategoryTypes[project_type_id]?.label?.toLowerCase()
+            )
+          : true)
+      );
+    });
+  }
+
+  const handleFiltersChange = ({ target: { value } }) => {
+    if (filters.includes(value)) {
+      setFilters((prevVal) => prevVal.filter((val) => val !== value));
+    } else {
+      setFilters((prevVal) => prevVal.concat([value]));
+    }
+  };
+
+  const dataPaginated = data.slice(
+    (pageNo - 1) * pageSize,
+    pageNo * pageSize - 1
+  );
 
   return (
     <>
-      <div className="custom_container">
-        <ul className="breadcrumb entity_detail_menu">
-          <li>
-            <span
-              className={step === 1 ? 'active' : 'clickable'}
-              onClick={step !== 1 ? () => setStep(1) : undefined}
-            >
-              <span className="step_count">1</span>
-              <span className="detail">
-                <span className="title">Master Project Profile</span>
-                <span className="sub_title"> Summary of roject </span>
-              </span>
-            </span>
-          </li>
-          <li className="separator">
-            <AngleRight />
-          </li>
-          <li>
-            <span
-              className={step === 2 ? 'active' : 'clickable'}
-              onClick={step !== 2 ? () => setStep(2) : undefined}
-            >
-              <span className="step_count">2</span>
-              <span className="detail">
-                <span className="title">Compilance Project Details</span>
-                <span className="sub_title"> Detailed view of project </span>
-              </span>
-            </span>
+      <div className="entity_cards">
+        <ul className="entity_boardcard_wrap">
+          <li className="entity_boardcard">
+            <a className="inner_wrap">
+              <span className="title">Compliance Project - Completed</span>
+
+              <span className="count">34</span>
+            </a>
           </li>
 
-          <li className="separator">
-            <AngleRight />
-          </li>
-          <li>
-            <span
-              className={step === 3 ? 'active' : 'clickable'}
-              onClick={step !== 3 ? () => setStep(3) : undefined}
-            >
-              <span className="step_count">3</span>
-              <span className="detail">
-                <span className="title">Compilance Records</span>
-                <span className="sub_title">
-                  {' '}
-                  Detailed view of compilance records{' '}
-                </span>
-              </span>
-            </span>
+          <li className="entity_boardcard">
+            <a className="inner_wrap">
+              <span className="title">Compliance Project - In Progress</span>
+              <span className="count">34</span>
+            </a>
           </li>
 
-          <li className="separator">
-            <AngleRight />
+          <li className="entity_boardcard">
+            <a className="inner_wrap">
+              <span className="title">Compliance Project - Not Started</span>
+              <span className="count">34</span>
+            </a>
           </li>
-          <li>
-            <span
-              className={step === 4 ? 'active' : 'clickable'}
-              onClick={step !== 4 ? () => setStep(4) : undefined}
-            >
-              <span className="step_count">4 </span>
-              <span className="detail">
-                <span className="title">Case Management</span>
-                <span className="sub_title">Detailed view of issues/cases</span>
-              </span>
-            </span>
+
+          <li className="entity_boardcard">
+            <a className="inner_wrap">
+              <span className="title">Total Compliance Issues</span>
+              <span className="count">34</span>
+            </a>
+          </li>
+
+          <li className="entity_boardcard">
+            <a className="inner_wrap">
+              <span className="title">Total Challenges Issues</span>
+              <span className="count">34</span>
+            </a>
           </li>
         </ul>
       </div>
-      {step === 1 && <MasterProjectProfile onSubmit={handleNext} />}
-      {step === 2 && (
-        <CompilanceProjectDetails
-          onSubmit={handleNext}
-          profileData={profileData}
-        />
-      )}
-      {step === 3 && (
-        <CompilanceRecords onSubmit={handleNext} profileData={profileData} />
-      )}
-      {step === 4 && (
-        <CaseManagement onSubmit={handleNext} profileData={profileData} />
-      )}
+
+      <div className="custom_container ">
+        <div className="custom_row">
+          <div className="flex_row padding-t-b table-header">
+            <div className="input_col">
+              <div className="text_field_wrapper">
+                <input
+                  type="text"
+                  className="srch_input"
+                  placeholder="Search projects by Name/Owner"
+                  value={search}
+                  onChange={({ target: { value } }) => setSearch(value)}
+                />
+              </div>
+            </div>
+
+            <div className="action_col">
+              <div className="flex_row">
+                <div className="flex_col_sm_8">
+                  <ul className="filter_check">
+                    <li>Show only </li>
+
+                    <li>
+                      <div className="checkbox_wrap agree_check">
+                        <input
+                          className="filter-type filled-in"
+                          type="checkbox"
+                          name="filter"
+                          id="ministry"
+                          value="website / portals"
+                          onChange={handleFiltersChange}
+                        />
+                        <label htmlFor="ministry">Website/Portals </label>
+                      </div>
+                    </li>
+
+                    <li>
+                      <div className="checkbox_wrap agree_check">
+                        <input
+                          className="filter-type filled-in"
+                          type="checkbox"
+                          name="filter"
+                          id="Authority"
+                          value="mobile app"
+                          onChange={handleFiltersChange}
+                        />
+                        <label htmlFor="Authority">Mobile </label>
+                      </div>
+                    </li>
+
+                    <li>
+                      <div className="checkbox_wrap agree_check">
+                        <input
+                          className="filter-type filled-in"
+                          type="checkbox"
+                          name="filter"
+                          id="Agency"
+                          value="e-service"
+                          onChange={handleFiltersChange}
+                        />
+                        <label htmlFor="Agency">E-Services </label>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div className="flex_col_sm_4 text-right">
+                  <NavLink to="/projects/new">
+                    <button className="btn_solid">+ Create Project </button>
+                  </NavLink>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="table_wrapper">
+            <BasicTable
+              tableCells={headlines}
+              rows={dataPaginated}
+              renderCol={(colIndex, col) => {
+                if (colIndex === 1) {
+                  return projectCategoryTypes[col]?.label;
+                }
+
+                if (colIndex === 2) {
+                  return entities.find(({ id }) => id === col)?.name;
+                }
+
+                if (colIndex === 6) {
+                  return (
+                    <>
+                      <span className="count green bg_green">{`${
+                        col || '0'
+                      }%`}</span>
+                      <span className="progressbar_wrap">
+                        <Progress
+                          className="progress"
+                          width={`${col || '0'}%`}
+                        />
+                      </span>
+                    </>
+                  );
+                }
+
+                return false;
+              }}
+              keyField="id"
+              onRowClick={(id) => history.push(`/projects/${id}`)}
+            />
+          </div>
+
+          <PaginationWrapper>
+            <Pagination
+              page={pageNo}
+              count={Math.ceil(data.length / pageSize)}
+              onChange={(_, pageNo) => setPageNo(pageNo)}
+              size="small"
+            />
+          </PaginationWrapper>
+        </div>
+      </div>
     </>
   );
-}
+};
+
+export default ProjectList;

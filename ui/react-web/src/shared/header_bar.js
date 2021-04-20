@@ -161,11 +161,16 @@ export default withRouter(function ({ className, ...props }) {
                   </ActiveSpan>
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink to="/governance/case-management/snapshot"> Case Management</NavLink>
-              </li>
+              </li> */}
               <li>
-                <NavLink to="/governance/policy/snapshot"> Policy Grounds</NavLink>
+                {/* <NavLink to="/governance/policy/snapshot"> Policy Grounds</NavLink> */}
+                <NavLink to="/policy">
+                  <ActiveSpan active={checkActiveLink({ route: '/policy' })}>
+                    {'Policy Grounds'}
+                  </ActiveSpan>
+                </NavLink>
               </li>
               <li>
                 <NavLink to="#"> Resources</NavLink>

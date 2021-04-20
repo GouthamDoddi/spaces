@@ -231,6 +231,11 @@ export const sponsorOptions = {
   'jawda': {value: 'jawda', label: 'Jawda'},
 }
 
+export const projectSponsorOptions = {
+  2: {value: 'self-test', label: 'Self Test'},
+  1: {value: 'jawda', label: 'Jawda'},
+}
+
 // export const notTestableReasons = {
 //   1: { value: 1, label: 'Unable to Access' },
 //   2: { value: 2, label: 'Missing Test Data ' },

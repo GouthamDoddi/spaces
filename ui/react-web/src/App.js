@@ -32,8 +32,11 @@ import Bcp from './components/dashboards/bcp'
 import Entity from './pages/entities'
 import Resources from './pages/resources'
 // import Projects from './pages/project/list'
-import Projects from './pages/projects/index'
+// import Projects from './pages/projects/index'
+import Policy from './pages/policy'
+import Projects from './pages/projects'
 import ProjectCase from './pages/projects/case-detail'
+import SelectedPolicy from './pages/policy/selectedItem'
 
 import SetPassword from './pages/set-password'
 import ForgotPassword from './pages/forgot-password'
@@ -48,7 +51,7 @@ import { ThemeProvider as TP } from 'styled-components'
 import cs from './utils/colors'
 import setPassword from './pages/set-password';
 import { ToastContainer } from 'react-toastify';
-import {setLang as setLangT} from './utils/translate'
+import { setLang as setLangT } from './utils/translate'
 import Home1 from './pages/home';
 import MotcHome from './components/dashboards/motc-home';
 import AgencyHome from './components/dashboards/agency-home';
@@ -64,7 +67,7 @@ function Routes() {
 
   const [loaded, setLoaded] = useState(false)
   useEffect(() => {
-    if(!window.mdata) masterData(null, () => {
+    if (!window.mdata) masterData(null, () => {
       setLoaded(true)
       // resetData()
     })
@@ -75,7 +78,7 @@ function Routes() {
 
 function AllRoutes(props) {
   const [lang, setLang] = useState('en')
-  const options = {lang, setLang}
+  const options = { lang, setLang }
   const theme = cs.newdesign
   theme.rtl = (lang == 'ar')
   theme.dir = theme.rtl ? 'rtl' : 'ltr'
@@ -87,7 +90,7 @@ function AllRoutes(props) {
 
   return (
     <>
-      <ToastContainer 
+      <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -102,7 +105,7 @@ function AllRoutes(props) {
       <Switch>
         <Route path="/timeline"> <Header /> <TP theme={cs.home}> <Timeline /> </TP> </Route>
         <Route path="/kanban"> <Header /> <TP theme={cs.home}> <Kanban /> </TP> </Route>
-        <Route path="/dashboard"> <TP theme={cs.home}> { dbForRole(role(), lang, setLang) } </TP> </Route>
+        <Route path="/dashboard"> <TP theme={cs.home}> {dbForRole(role(), lang, setLang)} </TP> </Route>
         <Route path="/formulation"> <Header /> <TP theme={cs.fs}> <Formulation /> </TP> </Route>
         <Route path="/collaboration"> <Header /> <TP theme={cs.cs}> <Collaboration /> </TP> </Route>
         <Route path="/activation"> <Header /> <TP theme={cs.as}> <Activation /> </TP> </Route>
@@ -114,22 +117,25 @@ function AllRoutes(props) {
         <Route path="/bcp"> <TP theme={cs.cps}> <Bcp /> </TP> </Route>
         <Route path="/entities"> <TP theme={cs.newdesign}> <Entity /> </TP> </Route>
         <Route path="/projects"> <TP theme={cs.newdesign}> <Projects /> </TP> </Route>
-        
+
         {/* {'Just Added for Testing'} */}
-        <Route path="/case"> <TP theme={cs.newdesign}> <ProjectCase /> </TP> </Route>
+        <Route path="/policy"> <TP theme={cs.newdesign}> <Policy /> </TP> </Route>
+        <Route path="/project/case"> <TP theme={cs.newdesign}> <ProjectCase /> </TP> </Route>
+        <Route path="/project/case/ground"> <TP theme={cs.newdesign}> <ProjectCase ground={true} /> </TP> </Route>
+        <Route path="/selected/policy">  <TP theme={cs.newdesign}> <SelectedPolicy/> </TP>  </Route>
         {/* {'Just Added for Testing'} */}
 
         <Route path="/resources"> <TP theme={cs.newdesign}> <Resources /> </TP> </Route>
-        <Route path="/a-dashboard"> 
-          <TP theme={cs.cps}> 
-            { dbForRole(role())}
-          </TP> 
+        <Route path="/a-dashboard">
+          <TP theme={cs.cps}>
+            {dbForRole(role())}
+          </TP>
         </Route>
 
         <Route path="/qg/:entity_id/:project_id"> <TP theme={theme}> <Qg {...options} /> </TP> </Route>
         <Route path="/board"> <TP theme={theme}><Board {...options} /> </TP> </Route>
         <Route path="/agency/:entity_id"> <TP theme={theme}> <Agency {...options} /> </TP> </Route>
-        <Route exact path="/"> <TP theme={cs.home}> { dbForRole(role())} </TP></Route>
+        <Route exact path="/"> <TP theme={cs.home}> {dbForRole(role())} </TP></Route>
       </Switch>
     </>)
 }
@@ -137,10 +143,10 @@ function AllRoutes(props) {
 
 
 function dbForRole(role, lang, setLang) {
-  if(role == 0) {
-      return <MotcHome lang={lang} setLang={setLang} translate />
-      // return <JawdaHome />
-  } else if( [11,12,13,14].includes(role)) {
+  if (role == 0) {
+    return <MotcHome lang={lang} setLang={setLang} translate />
+    // return <JawdaHome />
+  } else if ([11, 12, 13, 14].includes(role)) {
     return <JawdaHome lang={lang} setLang={setLang} translate />
   } else {
     return <AgencyHome lang={lang} setLang={setLang} translate />
@@ -150,23 +156,23 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path='/home'> <Home1 /></Route> 
+        <Route path='/home'> <Home1 /></Route>
         <Route path='/login'><Login /></Route>
         <Route path="/set-password/:token"> <TP theme={cs.newdesign}> <SetPassword /> </TP> </Route>
         <Route path="/forgot-password"> <TP theme={cs.newdesign}> <ForgotPassword /> </TP> </Route>
         <Route path='/'
-                render={({ location }) =>
-                loggedIn() ? (
-                  <Routes />
-                ) : (
-                  <Redirect
-                    to={{
-                      pathname: "/login",
-                      state: { from: location }
-                    }}
-                  />
-                )
-              }
+          render={({ location }) =>
+            loggedIn() ? (
+              <Routes />
+            ) : (
+              <Redirect
+                to={{
+                  pathname: "/login",
+                  state: { from: location }
+                }}
+              />
+            )
+          }
         />
       </Switch>
     </Router>

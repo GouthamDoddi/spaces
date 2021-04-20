@@ -131,9 +131,9 @@ const SuggestionBox = styled.div`
 
     .checkbox_wrap {
       padding: 10px;
-      color: #999999 !important;
 
       label {
+        color: #999999 !important;
         width: 100%;
       }
     }
