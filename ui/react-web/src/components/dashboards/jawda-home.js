@@ -3,13 +3,8 @@ import styled from 'styled-components'
 
 import Status from './status'
 import StatusWithGraph from './status_with_graph'
-import HeaderBar from './header_bar'
-import QuickActions from './quick_actions'
-import List from './list'
-import Table, { Header, Row } from './table'
-import LeftMenu from './left-menu'
-import SquareBanner from './square-banner'
-import Banner from './hmc-banner'
+import HeaderBar from '../../shared/header_bar'
+
 import Jawda from '../../pages/home/jawda'
 
 
@@ -21,7 +16,7 @@ export default function(props) {
   return(
     <div>
       <Content>
-        <HeaderBar className='hb' />
+        <HeaderBar className="hb" />
         <Jawda />
       </Content>  
     </div>

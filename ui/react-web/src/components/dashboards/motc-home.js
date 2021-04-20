@@ -1,15 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Status from './status'
-import StatusWithGraph from './status_with_graph'
-import HeaderBar from './header_bar'
-import QuickActions from './quick_actions'
-import List from './list'
-import Table, { Header, Row } from './table'
-import LeftMenu from './left-menu'
-import SquareBanner from './square-banner'
-import Banner from './hmc-banner'
+import HeaderBar from '../../shared/header_bar'
 import Motc from '../../pages/home/motc'
 
 const columns1 = '1.5fr .5fr .5fr .5fr .4fr .4fr'
