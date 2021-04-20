@@ -1,32 +1,104 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import makeStore from '../../store/make-store';
+import { projectCategoryTypes, projectConsumerTypes } from '../../store/master-data';
+import AutoComplete from './auto_complete';
+import { ButtonLink } from './details';
+import { UserTag } from './entity-communication';
 
-const PortalApps = ({ defaultData, onSubmit }) => {
-  const [data, setData] = useState({
-    name: '',
-    name_ar: '',
-    description: '',
-    description_ar: '',
-    project_spoc: '',
-    type: 'test1',
-    consumer_type: [],
-  });
+const { load, create, update, remove } = makeStore(
+  ({ entity_id, user_id }) =>
+    `${entity_id}/rev-projects${user_id ? `/${user_id}` : ''}`
+);
+const { load: loadUsers } = makeStore(
+  ({ entity_id, user_id }) =>
+    `entities/${entity_id}/users${user_id ? `/${user_id}` : ''}`
+);
+
+const PortalApps = ({ setTableProps }) => {
+  const { entity_id } = useParams();
+  const [users, setUsers] = useState([]);
+  const defaultData = {
+    project_name: '',
+    project_name_ar: '',
+    project_description: '',
+    project_description_ar: '',
+    spoc_ids: [],
+    project_type_id: 1,
+    consumer_type_ids: [],
+  };
+  const [data, setData] = useState(defaultData);
   const [errors, setErrors] = useState({});
   const [submitClicked, setSubmitClicked] = useState(false);
 
+  const handleEdit = (id) => {
+    load({ entity_id, user_id: id }, (data) => setData(data));
+  };
+
+  const handleRemove = (user_id) => {
+    remove({ entity_id, user_id });
+    setTableProps((prevValue) => ({
+      ...prevValue,
+      rows: prevValue.rows.filter(({ id }) => id !== user_id),
+    }));
+  };
+
   useEffect(() => {
-    if (defaultData) {
-      setData(defaultData);
+    loadUsers({ entity_id }, (data) => setUsers(data));
+  }, []);
+
+  useEffect(() => {
+    if (users.length) {
+      load({ entity_id }, (data) =>
+        setTableProps({
+          rows: data,
+          renderCol: (colIndex, col) => {
+            if (colIndex === 0) {
+              return col && projectCategoryTypes[col]?.label;
+            }
+
+            if (colIndex === 4) {
+              const userIndex = Array.isArray(col) && col.findIndex((i) => users.find(({ id }) => id === i));
+              const user = users[userIndex];
+
+              return (
+                <>
+                  {user?.first_name && <UserTag>{user?.first_name}</UserTag>}
+                  {col?.length > 1 && <UserTag>+{col?.length - 1}</UserTag>}
+                </>
+              );
+            }
+
+            if (colIndex === 3) {
+              return <>{col?.map((id) => projectConsumerTypes[id].label).join(', ')}</>
+            }
+
+            if (colIndex === 5) {
+              return (
+                <>
+                  <ButtonLink onClick={() => handleEdit(col)}>Edit</ButtonLink>
+                  <ButtonLink onClick={() => handleRemove(col)}>
+                    Delete
+                  </ButtonLink>
+                </>
+              );
+            }
+
+            return false;
+          },
+        })
+      );
     }
-  }, [defaultData]);
+  }, [users]);
 
   const errorLabels = {
-    name: 'Name',
-    name_ar: 'Name',
-    description: 'Description',
-    description_ar: 'Description',
-    project_spoc: 'Project SPOC',
-    type: 'Type',
-    consumer_type: 'Consumer type',
+    project_name: 'Name',
+    project_name_ar: 'Name',
+    project_description: 'Description',
+    project_description_ar: 'Description',
+    spoc_ids: 'Project SPOC',
+    project_type_id: 'Type',
+    consumer_type_ids: 'Consumer type',
   };
 
   const isEmpty = (name, value) =>
@@ -34,14 +106,15 @@ const PortalApps = ({ defaultData, onSubmit }) => {
 
   const isInvalid = (name, value) => {
     switch (name) {
-      case 'name':
-      case 'name_ar':
-      case 'description':
-      case 'description_ar':
-      case 'type':
-      case 'consumer_type':
-      case 'project_spoc':
+      case 'project_name':
+      case 'project_name_ar':
+      case 'project_description':
+      case 'project_description_ar':
+      case 'consumer_type_ids':
+      case 'spoc_ids':
         return isEmpty(name, value);
+      case 'project_type_id':
+        return isEmpty(name, `${value}`);
       default:
         return false;
     }
@@ -62,14 +135,15 @@ const PortalApps = ({ defaultData, onSubmit }) => {
   };
 
   const handleChange = ({ target: { value, name, type } }) => {
+    console.log(value);
     if (type === 'checkbox') {
-      if (data[name].includes(value)) {
+      if (data[name].includes(parseInt(value))) {
         updateData(
           name,
-          data[name].filter((val) => val !== value)
+          data[name].filter((val) => val !== parseInt(value))
         );
       } else {
-        updateData(name, data[name].concat([value]));
+        updateData(name, data[name].concat([parseInt(value)]));
       }
 
       return;
@@ -95,18 +169,49 @@ const PortalApps = ({ defaultData, onSubmit }) => {
     }, false);
 
     if (!hasErrors) {
-      onSubmit(data);
+      data.owner_id = entity_id;
+
+      if (data.id) {
+        update({
+          data,
+          cb: (data) => {
+            setData(defaultData);
+            setTableProps((prevData) => {
+              const prevUsers = [...prevData.rows];
+
+              const updatedIndex = prevUsers.find(({ id }) => id === data.id);
+              prevUsers[updatedIndex] = data;
+
+              return { ...prevData, rows: [...prevUsers] };
+            });
+          },
+          entity_id,
+          user_id: data.id,
+        });
+      } else {
+        create({
+          data,
+          cb: (data) => {
+            setData(defaultData);
+            setTableProps((prevUsers) => ({
+              ...prevUsers,
+              rows: prevUsers.rows.concat([data]),
+            }));
+          },
+          entity_id,
+        });
+      }
     }
   };
 
   const {
-    name,
-    name_ar,
-    description,
-    description_ar,
-    type,
-    consumer_type,
-    project_spoc,
+    project_name,
+    project_name_ar,
+    project_description,
+    project_description_ar,
+    project_type_id,
+    consumer_type_ids,
+    spoc_ids,
   } = data;
 
   return (
@@ -118,10 +223,12 @@ const PortalApps = ({ defaultData, onSubmit }) => {
               Type <mark>*</mark>
             </label>
             <div className="text_field_wrapper">
-              <select name="type" value={type} onChange={handleChange}>
-                <option value="test1">Test1</option>
+              <select name="project_type_id" value={project_type_id} onChange={handleChange}>
+                {Object.values(projectCategoryTypes).slice(0, 2).map(({ value, label }) => (
+                  <option id={value} value={value}>{label}</option>
+                ))}
               </select>
-              <div className="error_messg">{errors.type}</div>
+              <div className="error_messg">{errors.project_type_id}</div>
             </div>
           </div>
         </div>
@@ -133,38 +240,22 @@ const PortalApps = ({ defaultData, onSubmit }) => {
             </label>
             <div className="text_field_wrapper">
               <div className="checkbox_wrap agree_check">
-              <input
-                  className="filter-type filled-in"
-                  type="checkbox"
-                  name="consumer_type"
-                  value="government"
-                  onChange={handleChange}
-                  checked={consumer_type.includes('government')}
-                  id="government"
-                />
-                <label htmlFor="government">Government </label>
-                <input
-                  className="filter-type filled-in"
-                  type="checkbox"
-                  name="consumer_type"
-                  value="business"
-                  onChange={handleChange}
-                  checked={consumer_type.includes('business')}
-                  id="business"
-                />
-                <label htmlFor="business">Business </label>
-                <input
-                  className="filter-type filled-in"
-                  type="checkbox"
-                  name="consumer_type"
-                  value="individual"
-                  onChange={handleChange}
-                  checked={consumer_type.includes('individual')}
-                  id="individual"
-                />
-                <label htmlFor="individual">Individual </label>
+                {Object.values(projectConsumerTypes).map(({ value, label }) => (
+                  <>
+                    <input
+                      className="filter-type filled-in"
+                      type="checkbox"
+                      name="consumer_type_ids"
+                      value={value}
+                      onChange={handleChange}
+                      checked={consumer_type_ids.includes(value)}
+                      id={label}
+                    />
+                    <label htmlFor={label}>{label}</label>
+                  </>
+                ))}
               </div>
-              <div className="error_messg">{errors.consumer_type}</div>
+              <div className="error_messg">{errors.consumer_type_ids}</div>
             </div>
           </div>
         </div>
@@ -180,11 +271,11 @@ const PortalApps = ({ defaultData, onSubmit }) => {
               <input
                 type="text"
                 placeholder="Enter name"
-                name="name"
-                value={name}
+                name="project_name"
+                value={project_name}
                 onChange={handleChange}
               />
-              <div className="error_messg">{errors.name}</div>
+              <div className="error_messg">{errors.project_name}</div>
             </div>
           </div>
         </div>
@@ -198,11 +289,11 @@ const PortalApps = ({ defaultData, onSubmit }) => {
               <input
                 type="text"
                 placeholder="أدخل اسم المستخدم"
-                name="name_ar"
-                value={name_ar}
+                name="project_name_ar"
+                value={project_name_ar}
                 onChange={handleChange}
               />
-              <div className="error_messg">{errors.name_ar}</div>
+              <div className="error_messg">{errors.project_name_ar}</div>
             </div>
           </div>
         </div>
@@ -217,11 +308,11 @@ const PortalApps = ({ defaultData, onSubmit }) => {
             <div className="text_field_wrapper">
               <textarea
                 placeholder="Enter description"
-                name="description"
-                value={description}
+                name="project_description"
+                value={project_description}
                 onChange={handleChange}
               />
-              <div className="error_messg">{errors.description}</div>
+              <div className="error_messg">{errors.project_description}</div>
             </div>
           </div>
         </div>
@@ -234,11 +325,11 @@ const PortalApps = ({ defaultData, onSubmit }) => {
             <div className="text_field_wrapper">
               <textarea
                 placeholder="أدخل الوصف"
-                name="description_ar"
-                value={description_ar}
+                name="project_description_ar"
+                value={project_description_ar}
                 onChange={handleChange}
               />
-              <div className="error_messg">{errors.description_ar}</div>
+              <div className="error_messg">{errors.project_description_ar}</div>
             </div>
           </div>
         </div>
@@ -247,17 +338,17 @@ const PortalApps = ({ defaultData, onSubmit }) => {
       <div className="flex_col_sm_12">
         <div className="form_field_wrapper">
           <label className="form_label">
-            Prject SPOC <mark>*</mark>
+            Project SPOC <mark>*</mark>
           </label>
           <div className="text_field_wrapper">
-            <input
-              type="text"
+            <AutoComplete
               placeholder="Search and select user group"
-              name="project_spoc"
-              value={project_spoc}
+              name="spoc_ids"
+              values={spoc_ids}
               onChange={handleChange}
+              error={errors.spoc_ids}
+              options={users.map(({ id, first_name }) => ({ value: id, label: first_name })) }
             />
-            <div className="error_messg">{errors.project_spoc}</div>
           </div>
         </div>
       </div>

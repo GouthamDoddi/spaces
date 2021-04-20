@@ -29,7 +29,7 @@ export default function () {
       <div className="custom_container">
         <ul className="breadcrumb entity_detail_menu">
           <li>
-            <NavLink to={`/entities/${entity_id}`} activeClassName="active">
+            <NavLink to={`/entities/${entity_id}`} activeClassName="active" exact>
               <span className="step_count">1</span>
               <span className="detail">
                 <span className="title">Entity Profie</span>
@@ -41,7 +41,7 @@ export default function () {
             <AngleRight />
           </li>
           <li>
-            <NavLink to={`/entities/${entity_id}/details`} activeClassName="active">
+            <NavLink to={`/entities/${entity_id}/details`} activeClassName="active" exact>
               <span className="step_count">2</span>
               <span className="detail">
                 <span className="title">Entity Details</span>
@@ -55,8 +55,8 @@ export default function () {
         <Route path="/entities/:entity_id" exact>
           <Profile />
         </Route>
-        <Route path="/entities/:entity_id/details" exact>
-          <Details profileData={{}} />
+        <Route path={["/entities/:entity_id/details", "/entities/:entity_id/details/:user_id"]} exact>
+          <Details />
         </Route>
       </Switch>
     </div>

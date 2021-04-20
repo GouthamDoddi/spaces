@@ -1,16 +1,61 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router';
 import styled from 'styled-components';
+import BasicTable from '../../shared/table-material';
+import makeStore from '../../store/make-store';
 import EServices from './e-services';
 import EntityCommunication from './entity-communication';
 import EntityUsers from './entity-users';
 import PortalApps from './portal_apps';
 
-const Details = ({ profileData }) => {
+const { load } = makeStore(({ entity_id }) => entity_id ? `entities/${entity_id}` : 'entities');
+
+const tableHeadlines = {
+  1: [
+    { headline: 'Name', key: 'first_name' },
+    { headline: 'Email', key: 'email' },
+    { headline: 'Phone', key: 'phone' },
+    { headline: 'Role', key: 'role' },
+    { headline: '', key: 'id' },
+  ],
+  2: [
+    { headline: 'User Groups', key: 'user_ids' },
+    { headline: 'Subject', key: 'subject' },
+    { headline: 'Purpose', key: 'purpose' },
+    { headline: 'Details', key: 'details' },
+    { headline: '', key: 'id' },
+  ],
+  3: [
+    { headline: 'Type', key: 'project_type_id' },
+    { headline: 'Name', key: 'project_name' },
+    { headline: 'Description', key: 'project_description' },
+    { headline: 'Consumer Type', key: 'consumer_type_ids' },
+    { headline: 'Project SPOC', key: 'spoc_ids' },
+    { headline: '', key: 'id' },
+  ],
+  4: [
+    { headline: 'Name', key: 'project_name' },
+    { headline: 'Channels', key: 'project_ids' },
+    { headline: 'Description', key: 'project_description' },
+    { headline: 'Consumer Type', key: 'consumer_type_ids' },
+    { headline: 'Project SPOC', key: 'spoc_ids' },
+    { headline: '', key: 'id' },
+  ],
+}
+
+const Details = () => {
+  const history = useHistory();
+  const { entity_id } = useParams();
+  const [profileData, setProfileData] = useState({});
+  const [tableProps, setTableProps] = useState({
+    rows: [],
+    renderCol: () => {},
+  });
   const {
     id: entityId,
     logo: entityLogo,
     name: entityName,
-    name_ar: entityNameAr,
+    ar_name: entityNameAr,
     description: entityDescription,
     description_ar: entityDescriptionAr,
     short_name: entityShortName,
@@ -18,11 +63,21 @@ const Details = ({ profileData }) => {
 
   const [files, setFiles] = useState([]);
   const [step, setStep] = useState(1);
-  const [data, setData] = useState({});
 
-  const handleAdd = () => {
-    
-  };
+  useEffect(() => {
+    if (/\d/.test(entity_id)) {
+      load({ entity_id }, (data) => setProfileData(data));
+    } else {
+      history.push('/entities/new');
+    }
+  }, []);
+
+  useEffect(() => {
+    setTableProps({
+      rows: [],
+      renderCol: () => {},
+    })
+  }, [step]);
 
   return (
     <DetailsElement className="custom_container">
@@ -106,17 +161,16 @@ const Details = ({ profileData }) => {
             <div className="flex_col_sm_9">
               {step === 1 ? (
                 <EntityUsers
-                  data={data}
                   files={files}
                   setFiles={setFiles}
-                  onSubmit={handleAdd}
+                  setTableProps={setTableProps}
                 />
               ) : step === 2 ? (
-                <EntityCommunication data={data} onSubmit={handleAdd} />
+                <EntityCommunication setTableProps={setTableProps} />
               ) : step === 3 ? (
-                <PortalApps data={data} onSubmit={handleAdd} />
+                <PortalApps setTableProps={setTableProps} />
               ) : (
-                <EServices data={data} onSubmit={handleAdd} />
+                <EServices setTableProps={setTableProps} />
               )}
             </div>
           </div>
@@ -138,6 +192,15 @@ const Details = ({ profileData }) => {
               Next{' '}
             </button>
           </div>
+
+          <div className="table_wrapper">
+            <BasicTable
+              tableCells={tableHeadlines[step]}
+              rows={tableProps.rows}
+              renderCol={tableProps.renderCol}
+              keyField="id"
+            />
+          </div>
         </div>
       </div>
     </DetailsElement>
@@ -146,6 +209,14 @@ const Details = ({ profileData }) => {
 
 const DetailsElement = styled.div`
   padding-top: 60px !important;
+`;
+
+export const ButtonLink = styled.button`
+  border: none;
+  background: none;
+  color: #4C54B6;
+  text-decoration: underline;
+  margin: 0px 8px;
 `;
 
 export default Details;
