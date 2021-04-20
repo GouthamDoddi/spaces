@@ -101,9 +101,9 @@ const Profile = () => {
 
     if (!hasErrors) {
       if (entity_id !== 'new') {
-        update({ data, cb: () => history.push(entityDetails(entity_id)), entity_id });
+        update({ data, cb: () => history.push(`/entities/${entity_id}/details`), entity_id });
       } else {
-        create({ data, cb: () => history.push(entityDetails(entity_id)) })
+        create({ data, cb: (data) => history.push(`/entities/${data.id}/details`) });
       }
     }
   };
