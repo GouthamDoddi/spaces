@@ -335,9 +335,9 @@ export const entityUserRole = {
 }
 
 
-['Admin', 'Steering Committee', 'Executive Committee', 'Operating Committee', 'Ops Staff', 
-    'Support Staff', 'Beneficiary', 'Entity Admin',
-    'Entity Manager', 'Tester', 'Consultant', 'Jawda Tester', 'Jawda Test Manager', 'Jawda Board Member', 'Jawda Policies Manager', 'Jawda Communications Manager']
+// ['Admin', 'Steering Committee', 'Executive Committee', 'Operating Committee', 'Ops Staff', 
+//     'Support Staff', 'Beneficiary', 'Entity Admin',
+//     'Entity Manager', 'Tester', 'Consultant', 'Jawda Tester', 'Jawda Test Manager', 'Jawda Board Member', 'Jawda Policies Manager', 'Jawda Communications Manager']
 export const cleanedEntities = {
     0: {label: 'All', name: 'All', name_ar: 'الكل', value: 0},
     9: {value: 9, label: 'Ministry of Municipality and Environment', "name":"Ministry of Municipality and Environment","name_ar":"وزارة البلدية والبيئة","id":9,"description":"","completed":15,"wip":10,"not_started":9,"prog":79},

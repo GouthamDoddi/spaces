@@ -3,7 +3,6 @@
 import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
-import { Progress } from '../pages/entities';
 
 const useStyles = makeStyles({
   table: {
@@ -27,16 +26,16 @@ export default function BasicTable ({ tableCells, rows, renderCol, keyField, onR
         <TableHead>
           <TableRow className={classes.row}>
             { tableCells.map(({ headline }, index) => (
-              <TableCell key={index} align="right">{headline} <SortIcon /> </TableCell>
+              <TableCell key={index} align={index !== 0 ? 'right' : 'center'}>{headline} {headline && <SortIcon />} </TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row, rowIndex) =>
-            <TableRow className={`${classes.row} ${onRowClick ? classes.clickable : ''}`} key={row[keyField]} onClick={() => onRowClick(row[keyField])}>
+            <TableRow className={`${classes.row} ${onRowClick ? classes.clickable : ''}`} key={row[keyField]} onClick={() => onRowClick && onRowClick(row[keyField])}>
               {tableCells.map(({ key }, colIndex) => 
                 <Fragment key={key}>
-                  <TableCell>
+                  <TableCell align={colIndex !== 0 ? 'right' : undefined}>
                     {renderCol(colIndex, row[tableCells[colIndex]?.key], rowIndex, row) || row[tableCells[colIndex]?.key]}
                   </TableCell>
                 </Fragment>

@@ -1,30 +1,79 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import makeStore from '../../store/make-store';
+import { entityUserRole } from '../../store/master-data';
 import CropModal from './crop-modal';
 import DropZone from './drop-zone';
+import { ButtonLink } from './details';
 
-const EntityUsers = ({ files, setFiles, defaultData, onSubmit }) => {
-  const [data, setData] = useState({
-    full_name: '',
+const { load, create, update, remove } = makeStore(
+  ({ entity_id, user_id }) =>
+    `entities/${entity_id}/users${user_id ? `/${user_id}` : ''}`
+);
+
+const EntityUsers = ({
+  files,
+  setFiles,
+  setTableProps,
+}) => {
+  const { entity_id, user_id } = useParams();
+  const defaultData = {
+    first_name: '',
     email: '',
     phone: '',
-    role: 'test1',
-    profile_picture: null,
-  });
+    role: entityUserRole['7'].value,
+    profile_pic: null,
+  };
+  const [data, setData] = useState(defaultData);
   const [errors, setErrors] = useState({});
   const [submitClicked, setSubmitClicked] = useState(false);
 
+  const handleEdit = (id) => {
+    load({ entity_id, user_id: id }, (data) => setData(data));
+  };
+
+  const handleRemove = (user_id) => {
+    remove({ entity_id, user_id });
+    setTableProps((prevValue) => ({
+      ...prevValue,
+      rows: prevValue.rows.filter(({ id }) => id !== user_id)
+    }))
+  }
+
   useEffect(() => {
-    if (defaultData) {
-      setData(defaultData);
-    }
-  }, [defaultData]);
+    load({ entity_id, user_id }, (data) =>
+      setTableProps({
+        rows: data,
+        renderCol: (colIndex, col, rowIndex, row) => {
+          if (colIndex === 0) {
+            return row.first_name;
+          }
+
+          if (colIndex === 3) {
+            return entityUserRole[col]?.label;
+          }
+
+          if (colIndex === 4) {
+            return (
+              <>
+                <ButtonLink onClick={() => handleEdit(col)}>Edit</ButtonLink>
+                <ButtonLink onClick={() => handleRemove(col)}>Delete</ButtonLink>
+              </>
+            );
+          }
+
+          return false;
+        },
+      })
+    );
+  }, []);
 
   const errorLabels = {
-    full_name: 'Full name',
+    first_name: 'Full name',
     email: 'Email',
     phone: 'Phone',
     role: 'Role',
-    profile_picture: 'Profile picture',
+    profile_pic: 'Profile picture',
   };
 
   const isEmpty = (name, value) =>
@@ -32,7 +81,7 @@ const EntityUsers = ({ files, setFiles, defaultData, onSubmit }) => {
 
   const isInvalid = (name, value) => {
     switch (name) {
-      case 'full_name':
+      case 'first_name':
       case 'email':
       case 'role':
         return isEmpty(name, value);
@@ -76,22 +125,49 @@ const EntityUsers = ({ files, setFiles, defaultData, onSubmit }) => {
     }, false);
 
     if (!hasErrors) {
-      onSubmit(data);
+      const userId = user_id || data.id;
+
+      if (userId) {
+        update({
+          data,
+          cb: (data) => {
+            setData(defaultData);
+            setTableProps((prevData) => {
+              const prevUsers = [...prevData.rows];
+
+              const updatedIndex = prevUsers.find(({ id }) => id === userId);
+              prevUsers[updatedIndex] = data;
+
+              return { ...prevData, rows: [...prevUsers] };
+            });
+          },
+          entity_id,
+          user_id: userId,
+        });
+      } else {
+        create({ data, cb: (data) => {
+          setData(defaultData);
+          setTableProps((prevUsers) => ({
+            ...prevUsers,
+            rows: prevUsers.rows.concat([data]),
+          }))
+        }, entity_id });
+      }
     }
   };
 
   const setFile = (value) => {
     setFiles(value || []);
-  }
+  };
 
-  const { full_name, email, phone, role, profile_picture } = data;
+  const { first_name, email, phone, role, profile_pic } = data;
 
   return (
     <>
       <CropModal
         file={files[0]?.preview}
         setFile={setFile}
-        setCroppedImage={(value) => updateData('profile_picture', value)}
+        setCroppedImage={(value) => updateData('profile_pic', value)}
       />
       <div className="flex_row">
         <div className="flex_col_sm_6">
@@ -103,11 +179,11 @@ const EntityUsers = ({ files, setFiles, defaultData, onSubmit }) => {
               <input
                 type="text"
                 placeholder="Enter user's full name"
-                name="full_name"
-                value={full_name}
+                name="first_name"
+                value={first_name}
                 onChange={handleChange}
               />
-              <div className="error_messg">{errors.full_name}</div>
+              <div className="error_messg">{errors.first_name}</div>
             </div>
           </div>
         </div>
@@ -155,7 +231,13 @@ const EntityUsers = ({ files, setFiles, defaultData, onSubmit }) => {
             </label>
             <div className="text_field_wrapper">
               <select name="role" value={role} onChange={handleChange}>
-                <option value="test1">Test1</option>
+                {Object.values(entityUserRole)
+                  .slice(1, 4)
+                  .map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
               </select>
               <div className="error_messg">{errors.role}</div>
             </div>
@@ -167,11 +249,7 @@ const EntityUsers = ({ files, setFiles, defaultData, onSubmit }) => {
         <div className="flex_col_sm_6">
           <div className="form_field_wrapper">
             <label className="form_label">Upload profile picture</label>
-            <DropZone
-              files={files}
-              setFiles={setFiles}
-              preview={profile_picture}
-            />
+            <DropZone files={files} setFiles={setFiles} preview={profile_pic} />
           </div>
         </div>
       </div>

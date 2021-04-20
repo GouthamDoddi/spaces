@@ -50,7 +50,7 @@ export default function () {
           </div>
         </FilterBreadcrumb>
         <Switch>
-          <Route path={['/entities/:entity_id', '/entities/:entity_id/details']} exact>
+          <Route path={['/entities/:entity_id', '/entities/:entity_id/details', '/entities/:entity_id/details/:user_id']} exact>
             <EntityElem />
           </Route>
           <Route path={'/entities'} exact>
@@ -497,6 +497,9 @@ export const NewLayout = styled.div`
   .form_field_wrapper {
     margin-bottom: 20px;
   }
+  .text_field_wrapper {
+    position: relative;
+  }
   .form_label {
     margin-bottom: 4px;
     display: block;
@@ -504,6 +507,9 @@ export const NewLayout = styled.div`
     letter-spacing: 0px;
     color: #000000;
     font-size: 14px;
+  }
+  .auto_suggest_wrapper {
+    postion: absolute;
   }
 
   .error_messg {
@@ -746,6 +752,7 @@ export const NewLayout = styled.div`
     display: flex;
     justify-content: space-between;
     margin-top: 42px;
+    margin-bottom: 16px;
   }
 
   .filter_breadcrumb ul {
