@@ -3,9 +3,8 @@ Sequel.migration do
     create_table(:rev_compliance_record_comments) do
       primary_key :id
       Integer :compliance_record_id
-      Integer :user_id
-      Date :date
       String :comment, text: true
+      jsonb :attachments, default: '[]'      
       
       
       TrueClass :active, :default => true

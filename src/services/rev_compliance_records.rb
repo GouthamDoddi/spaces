@@ -127,9 +127,7 @@ class App::Services::RevComplianceRecords < App::Services::Base
 
   def self.fields
     {
-      save: [ :platform_language, :result, 
-
-      ]
+      save: [ :platform_language, :result]
     }
   end
 end

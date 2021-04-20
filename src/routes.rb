@@ -141,14 +141,18 @@ class App::Routes < Roda
           opts = {project_id: project_id}
           RevComplianceRecords[r, opts].report
         end
-
-        r.on Integer, 'compl-records' do |project_id|
-          opts = {project_id: project_id}
-          do_crud(RevComplianceRecords, r, 'CRUDL', opts)
-        end
         
         do_crud(RevProjects, r, 'CRUDL', {entity_id: entity_id} )
         
+      end
+
+
+      r.on 'rev-compl-records' do
+        r.on Integer, 'comments' do |compl_rec_id|
+          puts "here1"
+          do_crud(RevRecordComments, r, 'CL', {compl_rec_id: compl_rec_id})
+        end
+        do_crud(RevComplianceRecords, r, 'UR', {})
       end
 
       r.on(Integer, 'rev-compl-projects') do |project_id|
