@@ -7,7 +7,14 @@ class App::Services::ReferenceData < App::Services::Base
     id = rp[:project_id]
     cond = id ? :project_ids.pg_array.contains(Sequel.pg_array([id], Integer)) : {}
     data = App::Models::RevComplianceProject.where(cond)
-    return_success(refify(data, :project_name))
+    return_success(full_obj(data, :project_name))
+  end
+
+  def compliance_projects_eservices
+    id = rp[:project_id]
+    cond = id ? :project_ids.pg_array.contains(Sequel.pg_array([id], Integer)) : {}
+    data = App::Models::RevComplianceProject.where(cond).where(type_id: 3)
+    return_success(full_obj(data, :project_name))
   end
 
   def sections
@@ -28,6 +35,12 @@ class App::Services::ReferenceData < App::Services::Base
   def refify(arr, label=:name, id= :id)
     arr.reduce({}) do |h, o|
       h.merge!({o.id => {value: o.send(id), label: o.send(label)}})
+    end
+  end
+
+  def full_obj(arr, label=:name, id=:id)
+    arr.reduce({}) do |h, o|
+      h.merge!({o.id => {value: o.send(id), label: o.send(label)}.merge!(o.as_json)})
     end
   end
   

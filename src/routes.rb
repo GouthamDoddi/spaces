@@ -100,6 +100,9 @@ class App::Routes < Roda
         r.get('rev-projects', [Integer, true], 'compliance-projects') do |project_id|
           ReferenceData[r, {project_id: project_id}].compliance_projects
         end
+        r.get('rev-projects', [Integer, true], 'compliance-projects-eservices') do |project_id|
+          ReferenceData[r, {project_id: project_id}].compliance_projects_eservices
+        end
 
         r.get('sections') do 
           ReferenceData[r].sections

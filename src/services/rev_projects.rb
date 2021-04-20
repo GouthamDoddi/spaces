@@ -17,7 +17,6 @@ class App::Services::RevProjects < App::Services::Base
     return_success(data)
   end
 
-
   def create
     obj = model.new(data_for(:save))
     save(obj)

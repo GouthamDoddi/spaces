@@ -40,7 +40,7 @@ class App::Services::RevCases < App::Services::Base
       :attribute_id, :parameter_id, :category_id, :priority],
 
       save: [:name, :description, :attachments],
-
+      # [{name, code}, {}, {}]
       # save: [
       #   [:compliance_project_id, :section_id, 
       #   :attribute_id, :parameter_id, :category_id, :priority, :name, :description, 
