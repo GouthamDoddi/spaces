@@ -12,7 +12,6 @@ code {
     monospace;
 } */
 
-
 /* html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -55,3 +54,28 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 } */
+
+/*  React Select */
+
+.hide-options .Select-arrow-zone {
+  display: none !important;
+}
+
+.hide-options .Select-menu-outer {
+  display: none !important;
+}
+
+.css-1hb7zxy-IndicatorsContainer {
+  display: none !important;
+}
+
+.css-1rhbuit-multiValue {
+	background: #043555 !important;
+    color: #fff  !important;
+	padding: 5px 5px !important;
+    border-radius: 15px !important;
+}
+
+.css-12jo7m5 {
+	color: #fff  !important;
+}

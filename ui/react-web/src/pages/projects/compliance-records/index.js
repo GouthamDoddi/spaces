@@ -5,6 +5,16 @@ import Sections from './sections';
 import Parameters from './parameters';
 import Attributes from './attributes';
 
+// const headlines = [
+//   { headline: 'Name', key: 'name' },
+//   { headline: 'Shortname', key: 'short_name' },
+//   { headline: 'Type', key: 'type_id' },
+//   { headline: 'Websites', key: 'websites' },
+//   { headline: 'Mobile', key: 'mobile' },
+//   { headline: 'E-Services', key: 'e_services' },
+//   { headline: 'Completion Percentage', key: 'completion_percentage' },
+// ];
+
 const CompilanceProjectDetails = ({ profileData }) => {
   const {
     logo: projectLogo,
@@ -15,6 +25,7 @@ const CompilanceProjectDetails = ({ profileData }) => {
     short_name: projectShortName,
   } = profileData;
 
+  const [tableProps, setTableProps] = useState([]);
   const [step, setStep] = useState(1);
   const [data, setData] = useState({});
   const [selected, setSelected] = useState({});
@@ -60,11 +71,11 @@ const CompilanceProjectDetails = ({ profileData }) => {
                   <span className={step === 1 ? 'active' : 'clickable'}>
                     <span className="step_count">1</span>
                     <span className="detail">
-                      <span className="title">Compliance Records</span>
+                      <span className="title">Compliance Projects</span>
                       <span className="sub_title">
                         {step !== 1 && selected['1'] ? (
                           <StepCompleteBadge>
-                            {selected['1']}
+                            {selected['1']?.name}
                             <CheckIcon />
                           </StepCompleteBadge>
                         ) : (
@@ -83,7 +94,7 @@ const CompilanceProjectDetails = ({ profileData }) => {
                       <span className="sub_title">
                         {step !== 2 && selected['2'] ? (
                           <StepCompleteBadge>
-                            {selected['2']}
+                            {selected['2']?.name}
                             <CheckIcon />
                           </StepCompleteBadge>
                         ) : (
@@ -102,7 +113,7 @@ const CompilanceProjectDetails = ({ profileData }) => {
                       <span className="sub_title">
                         {step !== 1 && selected['3'] ? (
                           <StepCompleteBadge>
-                            {selected['3']}
+                            {selected['3']?.name}
                             <CheckIcon />
                           </StepCompleteBadge>
                         ) : (
@@ -119,7 +130,7 @@ const CompilanceProjectDetails = ({ profileData }) => {
                     <span className="detail">
                       <span className="title">Parameters</span>
                       <span className="sub_title">
-                        {step !== 1 && selected['4'] ? (
+                        {step !== 1 && selected['4']?.name ? (
                           <StepCompleteBadge>
                             {selected['4']}
                             <CheckIcon />
@@ -135,13 +146,13 @@ const CompilanceProjectDetails = ({ profileData }) => {
             </div>
             <div className="flex_col_sm_9">
               {step === 1 ? (
-                <Parameters data={data} onSubmit={handleAdd} />
+                <Parameters data={data} onSubmit={handleAdd} setTableProps={setTableProps} selected={selected} />
               ) : step === 2 ? (
-                <Sections data={data} onSubmit={handleAdd} />
+                <Sections data={data} onSubmit={handleAdd} selected={selected} />
               ) : step === 3 ? (
-                <Attributes data={data} onSubmit={handleAdd} />
+                <Attributes data={data} onSubmit={handleAdd} selected={selected} />
               ) : (
-                <Records data={data} onSubmit={handleAdd} />
+                <Records data={data} onSubmit={handleAdd} selected={selected} />
               )}
             </div>
           </div>

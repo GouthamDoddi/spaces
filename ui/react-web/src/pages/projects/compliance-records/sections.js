@@ -1,8 +1,18 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import makeStore from '../../../store/make-store';
+
+const { load } = makeStore(({ project_id }) => `rev-compl-projects/${project_id}/sections-report`);
 
 const Sections = ({ onSubmit }) => {
+  const { project_id } = useParams();
+  const [sections, setSections] = useState([]);
+
+  useEffect(() => {
+    load({ project_id }, (data) => setSections(data));
+  }, []);
+
   return (
     <>
       <div className="flex_row">
@@ -19,64 +29,22 @@ const Sections = ({ onSubmit }) => {
               </tr>
             </Thead>
             <Tbody>
-              <tr onClick={() => onSubmit('Verify Educational Certificate')}>
-                <td>Verify Educational Certificate</td>
-                <td>2</td>
-                <td>16</td>
-                <td>0</td>
-                <td>10</td>
-                <td>
-                  <NavLink to="">Create Case</NavLink> /{' '}
-                  <NavLink to="">Report Issue</NavLink>
-                </td>
-              </tr>
-              <tr onClick={() => onSubmit('eService Information')}>
-                <td>eService Information</td>
-                <td>2</td>
-                <td>16</td>
-                <td>0</td>
-                <td>10</td>
-                <td>
-                  <NavLink to="">Create Case</NavLink> /{' '}
-                  <NavLink to="">Report Issue</NavLink>
-                </td>
-              </tr>
-              <tr onClick={() => onSubmit('eService Functionality')}>
-                <td>eService Functionality</td>
-                <td>2</td>
-                <td>16</td>
-                <td>0</td>
-                <td>10</td>
-                <td>
-                  <NavLink to="">Create Case</NavLink> /{' '}
-                  <NavLink to="">Report Issue</NavLink>
-                </td>
-              </tr>
-              <tr onClick={() => onSubmit('Verify Educational Certificate')}>
-                <td>Verify Educational Certificate</td>
-                <td>2</td>
-                <td>16</td>
-                <td>0</td>
-                <td>10</td>
-                <td>
-                  <NavLink to="">Create Case</NavLink> /{' '}
-                  <NavLink to="">Report Issue</NavLink>
-                </td>
-              </tr>
-              <tr onClick={() => onSubmit('ePayment')}>
-                <td>ePayment</td>
-                <td>2</td>
-                <td>16</td>
-                <td>0</td>
-                <td>10</td>
-                <td>
-                  <NavLink to="">Create Case</NavLink> /{' '}
-                  <NavLink to="">Report Issue</NavLink>
-                </td>
-              </tr>
+              {sections.map(({ id, section_name, attribute_count, parameter_count, completed, not_tested }) => (
+                <tr onClick={() => onSubmit({ name: section_name, id })}>
+                  <td>{section_name}</td>
+                  <td>{attribute_count}</td>
+                  <td>{parameter_count}</td>
+                  <td>{completed}</td>
+                  <td>{not_tested}</td>
+                  <td>
+                    <NavLink to="">Create Case</NavLink> /{' '}
+                    <NavLink to="">Report Issue</NavLink>
+                  </td>
+                </tr>
+              ))}
             </Tbody>
           </Table>
-          <LoadMoreButton>Load More</LoadMoreButton>
+          {!!sections.length && <LoadMoreButton>Load More</LoadMoreButton>}
         </div>
       </div>
     </>

@@ -46,6 +46,7 @@ const PortalMobileApps = ({ setTableProps }) => {
 
   useEffect(() => {
     loadComplianceProjects({ project_id }, (data) => {
+      console.log({data},'---')
       data = Object.values(data).filter(({ type_id }) => type_id !== 3);
 
       if (data[0]?.id) {
