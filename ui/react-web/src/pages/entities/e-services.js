@@ -28,8 +28,8 @@ const EServices = ({ setTableProps }) => {
     project_name_ar: '',
     project_description: '',
     project_description_ar: '',
-    spoc_ids: [1],
-    project_ids: '',
+    spoc_ids: [],
+    project_ids: [],
     consumer_type_ids: [],
   };
   const [data, setData] = useState(defaultData);
@@ -344,7 +344,6 @@ const EServices = ({ setTableProps }) => {
                 error={errors.project_ids}
                 options={projects.map(({ id, project_name }) => ({ value: id, label: project_name })) }
               />
-              <div className="error_messg">{errors.project_ids}</div>
             </div>
           </div>
         </div>

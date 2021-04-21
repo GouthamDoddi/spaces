@@ -152,16 +152,13 @@ const CompilanceProjectDetails = ({ profileData }) => {
             >
               Previous{' '}
             </button>
-            <button
-              className="btn_solid"
-              onClick={
-                step !== 4
-                  ? () => setStep((prevValue) => prevValue + 1)
-                  : undefined
-              }
-            >
-              Next{' '}
-            </button>
+            {step !== 4 && (
+              <button
+                className="btn_solid"
+                onClick={() => setStep((prevValue) => prevValue + 1)}>
+                Next{' '}
+              </button>
+            )}
           </div>
         </div>
       </div>
