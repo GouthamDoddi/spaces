@@ -12,9 +12,12 @@ import { useParams } from 'react-router';
 import { projectCategoryTypes } from '../../../store/master-data';
 import AutoComplete from '../../entities/auto_complete';
 
-const { load, create, update } = makeStore(
+const { load } = makeStore(
   ({ project_id, id }) =>
     `${project_id}/rev-compl-projects${id ? `/${id}` : ''}`
+);
+const { update: updateProject } = makeStore(
+  ({ id }) => `rev-compl-projects/${id}`
 );
 const { load: loadUsers } = makeStore(
   ({ project_id }) => `rev-projects/${project_id}/users`
@@ -31,11 +34,12 @@ const SubmitEvidence = ({ setTableProps }) => {
   const [end_date, setEndDate] = React.useState(new Date());
   const [update, forceUpdate] = React.useState({});
 
-  const [data, setData] = useState({
+  const defaultData = {
     spoc_ids: [],
     notes: '',
     logo: null,
-  });
+  };
+  const [data, setData] = useState(defaultData);
 
   const errorLabels = {
     spoc_ids: 'Full Name',
@@ -65,7 +69,7 @@ const SubmitEvidence = ({ setTableProps }) => {
 
   const handleEdit = (id) => {
     setId(id);
-    load({ id }, (data) =>
+    load({ project_id, id }, (data) =>
       setData(
         data.reduce((prevVal, { id, question, answer }) => {
           return {
@@ -82,8 +86,8 @@ const SubmitEvidence = ({ setTableProps }) => {
       setUsers(data);
 
       load({ project_id }, (data) => {
-        setId(data.id);
-        load({ id: data }, (data) => setData(data[0]));
+        setId(data[0]?.id);
+        load({ project_id, id: data[0]?.id }, (data) => setData(data[0]));
 
         setTableProps({
           rows: data,
@@ -121,13 +125,14 @@ const SubmitEvidence = ({ setTableProps }) => {
 
   const handleChange = ({ target: { value, name, type } }) => {
     if (type === 'checkbox') {
-      if (data[name].includes(parseInt(value))) {
+      const values = Array.isArray(data[name]) ? data[name] : [];
+      if (values.includes(parseInt(value))) {
         updateData(
           name,
-          data[name].filter((val) => val !== parseInt(value))
+          values.filter((val) => val !== parseInt(value))
         );
       } else {
-        updateData(name, data[name].concat([parseInt(value)]));
+        updateData(name, values.concat([parseInt(value)]));
       }
 
       return;
@@ -153,6 +158,7 @@ const SubmitEvidence = ({ setTableProps }) => {
     }, false);
 
     if (!hasErrors) {
+      updateProject({ data: { spoc_ids, notes }, id, cb: () => setData(defaultData) });
     }
   };
 
@@ -189,7 +195,7 @@ const SubmitEvidence = ({ setTableProps }) => {
                 values={spoc_ids}
                 onChange={handleChange}
                 error={errors.spoc_ids}
-                options={users.map(({ id, first_name }) => ({ value: id, label: first_name })) }
+                options={users.map(({ id, first_name }) => ({ value: id, label: first_name })) || []}
               />
             </div>
           </div>

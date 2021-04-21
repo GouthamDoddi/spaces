@@ -9,6 +9,7 @@ const AutoComplete = ({
   options,
   error,
 }) => {
+  values = values || [];
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
 
