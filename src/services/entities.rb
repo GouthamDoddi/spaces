@@ -3,12 +3,20 @@ class App::Services::Entities < App::Services::Base
   def model; Entity; end
 
   def list
-    if App.cu.role == 0
-      super
-    else
-      entity_ids = App.cu.user_obj.auth_entity_ids
-      return_success( entity_ids.present? ? model.where(id: entity_ids).order(Sequel.desc(:created_at)).all.map(&:to_pos) : [])
+    cond = App.cu.role == 0 ? {} : { id: App.cu.user_obj.entity_ids.to_a}
+
+    entities = model.eager(:rev_compliance_projects).where(cond).order(Sequel.desc(:created_at)).all
+
+    data = entities.map do |e|
+      h = e.to_pos
+      grp = e.rev_compliance_projects.group_by(&:type_id)
+      h[:mobile_count] = grp[2]&.length || 0
+      h[:portal_count] = grp[1]&.length || 0
+      h[:eservices_count] = grp[3]&.length || 0
+      h
     end
+    return_success( data )
+
   end
 
   # def create
