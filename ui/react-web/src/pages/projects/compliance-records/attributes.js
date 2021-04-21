@@ -1,9 +1,21 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Pagination from '@material-ui/lab/Pagination';
+import makeStore from '../../../store/make-store';
 
-const Attributes = ({ onSubmit }) => {
+const { load } = makeStore(({ project_id, attribute_id }) => `rev-compl-projects/${project_id}/section/${attribute_id}/attribute-report`);
+
+const Attributes = ({ onSubmit, selected }) => {
+  const { project_id } = useParams();
+  const [attributes, setAttributes] = useState([]);
+
+  useEffect(() => {
+    if (selected['3']?.id) {
+      load({ project_id, attribute_id: selected['3'].id }, (data) => setAttributes(data));
+    }
+  }, []);
+
   return (
     <>
       <div className="flex_row">
@@ -19,56 +31,18 @@ const Attributes = ({ onSubmit }) => {
               </tr>
             </Thead>
             <Tbody>
-              <tr onClick={() => onSubmit('Verify Educational Certificate')}>
-                <td>Verify Educational Certificate</td>
-                <td>2</td>
-                <td>16</td>
-                <td>10</td>
-                <td>
-                  <NavLink to="">Create Case</NavLink> /{' '}
-                  <NavLink to="">Report Issue</NavLink>
-                </td>
-              </tr>
-              <tr onClick={() => onSubmit('eService Information')}>
-                <td>eService Information</td>
-                <td>2</td>
-                <td>16</td>
-                <td>10</td>
-                <td>
-                  <NavLink to="">Create Case</NavLink> /{' '}
-                  <NavLink to="">Report Issue</NavLink>
-                </td>
-              </tr>
-              <tr onClick={() => onSubmit('eService Functionality')}>
-                <td>eService Functionality</td>
-                <td>2</td>
-                <td>16</td>
-                <td>10</td>
-                <td>
-                  <NavLink to="">Create Case</NavLink> /{' '}
-                  <NavLink to="">Report Issue</NavLink>
-                </td>
-              </tr>
-              <tr onClick={() => onSubmit('Verify Educational Certificate')}>
-                <td>Verify Educational Certificate</td>
-                <td>2</td>
-                <td>16</td>
-                <td>10</td>
-                <td>
-                  <NavLink to="">Create Case</NavLink> /{' '}
-                  <NavLink to="">Report Issue</NavLink>
-                </td>
-              </tr>
-              <tr onClick={() => onSubmit('ePayment')}>
-                <td>ePayment</td>
-                <td>2</td>
-                <td>16</td>
-                <td>10</td>
-                <td>
-                  <NavLink to="">Create Case</NavLink> /{' '}
-                  <NavLink to="">Report Issue</NavLink>
-                </td>
-              </tr>
+              {attributes.map(({ section_name, attribute_count, parameter_count, completed, not_tested }) => (
+                <tr onClick={() => onSubmit(section_name)}>
+                  <td>{section_name}</td>
+                  <td>{attribute_count}</td>
+                  <td>{completed}</td>
+                  <td>{not_tested}</td>
+                  <td>
+                    <NavLink to="">Create Case</NavLink> /{' '}
+                    <NavLink to="">Report Issue</NavLink>
+                  </td>
+                </tr>
+              ))}
             </Tbody>
           </Table>
           <PaginationWrapper>

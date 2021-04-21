@@ -4,11 +4,14 @@ import styled, { css } from 'styled-components';
 import { useStore } from 'effector-react';
 import makeStore from '../../../store/make-store';
 import AutoComplete from '../../entities/auto_complete';
+import Select from 'react-select'
+import { caseCategoryTypes, casePriorityTypes } from '../../../store/master-data'
 
-const { store: complianceStore, load: loadComplianceProjects } = makeStore('reference-data/rev-projects/2/compliance-projects');
-const { store: parameterStore, load: loadParameters } = makeStore('reference-data/attributes/2/parameters');
+const { store: complianceStore, load: loadComplianceProjects } = makeStore(({ project_id }) => `reference-data/rev-projects/${project_id}/compliance-projects`);
+const { store: parameterStore, load: loadParameters } = makeStore(({ project_id }) => `reference-data/attributes/${project_id}/parameters`);
 const { store: sectionStore, load: loadSections } = makeStore('reference-data/sections');
-const { store: attributeStore, load: loadAttribute } = makeStore('reference-data/sections/2/attributes');
+const { store: attributeStore, load: loadAttribute } = makeStore(({ project_id }) => `reference-data/sections/${project_id}/attributes`);
+const { load, create, update } = makeStore(({ project_id }) => `rev-projects/${project_id}/cases`);
 
 const Profile = ({ defaultData, onSubmit }) => {
   const { project_id } = useParams();
@@ -29,16 +32,15 @@ const Profile = ({ defaultData, onSubmit }) => {
   let dataSections = useStore(sectionStore).data || [];
   let dataAttribute = useStore(attributeStore).data || [];
 
-
   useEffect(() => {
     if (defaultData) {
       setData(defaultData);
     }
-    loadComplianceProjects();
-    loadParameters();
+    loadComplianceProjects({ project_id });
+    loadParameters({ project_id });
     loadSections();
-    loadAttribute();
-  }, []);
+    loadAttribute({ project_id });
+  }, [defaultData]);
 
   const errorLabels = {
     compliance_record: 'Compliance record',
@@ -82,18 +84,21 @@ const Profile = ({ defaultData, onSubmit }) => {
 
   const handleChange = ({ target: { value, name, type } }) => {
     if (type === 'checkbox') {
+      console.log("inside")
       if (data[name].includes(value)) {
+        console.log("inside -- if")
         updateData(
           name,
           data[name].filter((val) => val !== value)
         );
       } else {
+        console.log("inside -- else")
         updateData(name, data[name].concat([value]));
       }
-
       return;
     }
 
+    console.log("inside -- end", { name, value })
     updateData(name, value);
   };
 
@@ -114,11 +119,58 @@ const Profile = ({ defaultData, onSubmit }) => {
     }, false);
 
     if (!hasErrors) {
-      onSubmit(data);
+      console.log({ data })
+
+      let {
+        compliance_record,
+        section,
+        attribute,
+        parameter,
+        category,
+        business_priority,
+      } = data;
+
+      let filterCategory = [];
+      if(category && Array.isArray(category) && category.length){
+        filterCategory = category.map(item => parseInt(item));
+      }
+
+      if (project_id) {
+        update({
+          data: {
+            "compliance_project_id": compliance_record,
+            "section_id": section,
+            "attribute_id": attribute,
+            "parameter_id": parameter,
+            "category_id": filterCategory,
+            "priority": [+business_priority]
+          },
+          cb:(callback_element) => {
+            console.log({callback_element})   
+          },
+          project_id
+        });
+      } else {
+        create({
+          data: {
+            "compliance_project_id": compliance_record,
+            "section_id": section,
+            "attribute_id": attribute,
+            "parameter_id": parameter,
+            "category_id": filterCategory,
+            "priority": [+business_priority]
+          },
+          cb:(callback_element) => {
+            console.log({callback_element})   
+          },
+          project_id
+        });
+      }
+      // onSubmit(data);
     }
   };
 
-  const {
+  let {
     compliance_record,
     section,
     attribute,
@@ -126,7 +178,15 @@ const Profile = ({ defaultData, onSubmit }) => {
     category,
     business_priority,
   } = data;
-  
+
+  const handleChangeMultiSelect = (name, val) => {
+    let valueItems = [];
+    if (val && Array.isArray(val) && val.length) {
+      valueItems = val.map(item => item.value);
+      updateData(name, valueItems);
+    }
+  }
+
   return (
     <>
       <div className="flex_row">
@@ -136,14 +196,17 @@ const Profile = ({ defaultData, onSubmit }) => {
               Compliance Record <mark>*</mark>
             </label>
             <div className="text_field_wrapper">
-              <AutoComplete
-                placeholder="Search and select user group"
-                name="compliance_record"
-                values={compliance_record}
-                onChange={handleChange}
-                error={errors.compliance_record}
-                options={Object.keys(dataCompilance).map(key => ({ label: dataCompilance[key].project_name, value: dataCompilance[key].id }))}
-              />
+              <div className="hide-options">
+                <Select
+                  options={Object.keys(dataCompilance).map(key => ({ label: dataCompilance[key].project_name, value: dataCompilance[key].id }))}
+                  isMulti={true}
+                  placeholder="Search and select"
+                  name="compliance_record"
+                  values={compliance_record}
+                  onChange={(val) => { handleChangeMultiSelect('compliance_record', val) }}
+                />
+                <div className="error_messg">{errors.compliance_record}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -153,22 +216,17 @@ const Profile = ({ defaultData, onSubmit }) => {
               Section <mark>*</mark>
             </label>
             <div className="text_field_wrapper">
-              <AutoComplete
-                placeholder="Search and select user group"
-                name="section"
-                values={section}
-                onChange={handleChange}
-                error={errors.section}
-                options={Object.keys(dataSections).map(key => ({ label: dataSections[key].label, value: dataSections[key].value }))}
-              />
-              {/* <input
-                type="text"
-                placeholder="Search and select"
-                name="section"
-                value={section}
-                onChange={handleChange}
-              />
-              <div className="error_messg">{errors.section}</div> */}
+              <div className="hide-options">
+                <Select
+                  options={Object.keys(dataSections).map(key => ({ label: dataSections[key].label, value: dataSections[key].value }))}
+                  isMulti={true}
+                  placeholder="Search and select"
+                  name="section"
+                  values={section}
+                  onChange={(val) => { handleChangeMultiSelect('section', val) }}
+                />
+                <div className="error_messg">{errors.section}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -178,14 +236,17 @@ const Profile = ({ defaultData, onSubmit }) => {
               Attribute <mark>*</mark>
             </label>
             <div className="text_field_wrapper">
-              <input
-                type="text"
-                placeholder="Search and select"
-                name="attribute"
-                value={attribute}
-                onChange={handleChange}
-              />
-              <div className="error_messg">{errors.attribute}</div>
+              <div className="hide-options">
+                <Select
+                  options={Object.keys(dataAttribute).map(key => ({ label: dataAttribute[key].label, value: dataAttribute[key].value }))}
+                  isMulti={true}
+                  placeholder="Search and select"
+                  name="attribute"
+                  values={attribute}
+                  onChange={(val) => { handleChangeMultiSelect('attribute', val) }}
+                />
+                <div className="error_messg">{errors.attribute}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -195,14 +256,17 @@ const Profile = ({ defaultData, onSubmit }) => {
               Parameter <mark>*</mark>
             </label>
             <div className="text_field_wrapper">
-              <input
-                type="text"
-                placeholder="Search and select"
-                name="parameter"
-                value={parameter}
-                onChange={handleChange}
-              />
-              <div className="error_messg">{errors.parameter}</div>
+              <div className="hide-options">
+                <Select
+                  options={Object.keys(dataParameter).map(key => ({ label: dataParameter[key].label, value: dataParameter[key].value }))}
+                  isMulti={true}
+                  placeholder="Search and select"
+                  name="parameter"
+                  values={parameter}
+                  onChange={(val) => { handleChangeMultiSelect('parameter', val) }}
+                />
+                <div className="error_messg">{errors.parameter}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -215,90 +279,27 @@ const Profile = ({ defaultData, onSubmit }) => {
               Category <mark>*</mark>
             </label>
             <div className="text_field_wrapper">
-              <CheckboxCard>
-                <div className="checkbox_wrap agree_check">
-                  <input
-                    className="filter-type filled-in"
-                    type="checkbox"
-                    name="category"
-                    id="clarification"
-                    value="clarification"
-                    checked={category.includes('clarification')}
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="clarification">Clarification</label>
-                </div>
-              </CheckboxCard>
-              <CheckboxCard>
-                <div className="checkbox_wrap agree_check">
-                  <input
-                    className="filter-type filled-in"
-                    type="checkbox"
-                    name="category"
-                    id="exception"
-                    value="exception"
-                    checked={category.includes('exception')}
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="exception">Exception</label>
-                </div>
-              </CheckboxCard>
-              <CheckboxCard>
-                <div className="checkbox_wrap agree_check">
-                  <input
-                    className="filter-type filled-in"
-                    type="checkbox"
-                    name="category"
-                    id="support"
-                    value="support"
-                    checked={category.includes('support')}
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="support">Support</label>
-                </div>
-              </CheckboxCard>
-              <CheckboxCard>
-                <div className="checkbox_wrap agree_check">
-                  <input
-                    className="filter-type filled-in"
-                    type="checkbox"
-                    name="category"
-                    id="relief"
-                    value="relief"
-                    checked={category.includes('relief')}
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="relief">Relief</label>
-                </div>
-              </CheckboxCard>
-              <CheckboxCard>
-                <div className="checkbox_wrap agree_check">
-                  <input
-                    className="filter-type filled-in"
-                    type="checkbox"
-                    name="category"
-                    id="suggestion"
-                    value="suggestion"
-                    checked={category.includes('suggestion')}
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="suggestion">Suggestion</label>
-                </div>
-              </CheckboxCard>
-              <CheckboxCard>
-                <div className="checkbox_wrap agree_check">
-                  <input
-                    className="filter-type filled-in"
-                    type="checkbox"
-                    name="category"
-                    id="others"
-                    value="others"
-                    checked={category.includes('others')}
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="others">Others</label>
-                </div>
-              </CheckboxCard>
+              {/* {caseCategoryTypes} */}
+              {caseCategoryTypes && Object.keys(caseCategoryTypes).length ?
+                Object.keys(caseCategoryTypes).map(key => (
+                  <CheckboxCard>
+                    <div className="checkbox_wrap agree_check">
+                      <input
+                        className="filter-type filled-in"
+                        type="checkbox"
+                        name="category"
+                        id={(caseCategoryTypes[key].label).toLowerCase()}
+                        value={caseCategoryTypes[key].value}
+                        checked={category.includes((caseCategoryTypes[key].value).toString())}
+                        onChange={handleChange}
+                      />
+                      <label htmlFor={(caseCategoryTypes[key].label).toLowerCase()}>
+                        {caseCategoryTypes[key].label}
+                      </label>
+                    </div>
+                  </CheckboxCard>
+                ))
+                : null}
               <div className="error_messg">{errors.category}</div>
             </div>
           </div>
@@ -309,57 +310,28 @@ const Profile = ({ defaultData, onSubmit }) => {
               Business Priority <mark>*</mark>
             </label>
             <div className="text_field_wrapper">
-              <CheckboxCard>
-                <div className="checkbox_wrap agree_check">
-                  <input
-                    className="filter-type filled-in"
-                    type="radio"
-                    name="business_priority"
-                    id="p1"
-                    value="p1"
-                    checked={business_priority === 'p1'}
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="p1">
-                    <PriorityBadge color="danger">P1</PriorityBadge>
-                    P1 - Outmost priority with 4 hours of TAT
-                  </label>
-                </div>
-              </CheckboxCard>
-              <CheckboxCard>
-                <div className="checkbox_wrap agree_check">
-                  <input
-                    className="filter-type filled-in"
-                    type="radio"
-                    name="business_priority"
-                    id="p2"
-                    value="p2"
-                    checked={business_priority === 'p2'}
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="p2">
-                    <PriorityBadge color="primary">P2</PriorityBadge>P2 -
-                    Moderate priority with 12 hours of TAT
-                  </label>
-                </div>
-              </CheckboxCard>
-              <CheckboxCard>
-                <div className="checkbox_wrap agree_check">
-                  <input
-                    className="filter-type filled-in"
-                    type="radio"
-                    name="business_priority"
-                    id="p3"
-                    value="p3"
-                    checked={business_priority === 'p3'}
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="p3">
-                    <PriorityBadge color="warning">P3</PriorityBadge>P3 - Low
-                    priority with 48 hours of TAT
-                  </label>
-                </div>
-              </CheckboxCard>
+              {casePriorityTypes && Object.keys(casePriorityTypes).length ?
+                Object.keys(casePriorityTypes).map(key => (
+                  <CheckboxCard>
+                    <div className="checkbox_wrap agree_check">
+                      <input
+                        className="filter-type filled-in"
+                        type="radio"
+                        name="business_priority"
+                        id={(casePriorityTypes[key].badge).toLowerCase()}
+                        value={casePriorityTypes[key].value}
+                        checked={business_priority === (casePriorityTypes[key].value).toString()}
+                        onChange={handleChange}
+                      />
+                      <label htmlFor={(casePriorityTypes[key].badge).toLowerCase()}>
+                        <PriorityBadge color={casePriorityTypes[key].color}>
+                          {casePriorityTypes[key].badge}
+                        </PriorityBadge>
+                        {casePriorityTypes[key].label}
+                      </label>
+                    </div>
+                  </CheckboxCard>
+                )) : null}
               <div className="error_messg">{errors.business_priority}</div>
             </div>
           </div>
