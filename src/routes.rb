@@ -117,6 +117,10 @@ class App::Routes < Roda
         end        
       end
 
+      r.on('rev-projects', Integer, 'resources') do |project_id|
+        do_crud(RevResources, r, 'CRUDL', {project_id: project_id})
+      end
+
       r.on([Integer, true], 'rev-projects') do  |entity_id|
 
         # r.on('e-services') do 
@@ -146,6 +150,10 @@ class App::Routes < Roda
         
       end
 
+      # r.on('rev-projects', Integer, 'resources', [Integer, true]) do  |project_id, type_id|
+      #   do_crud(RevResources, r, 'L', {project_id: project_id, type_id: type_id})
+      # end
+
 
       r.on 'rev-compl-records' do
         r.on Integer, 'comments' do |compl_rec_id|
@@ -154,6 +162,9 @@ class App::Routes < Roda
         end
         do_crud(RevComplianceRecords, r, 'UR', {})
       end
+
+
+
 
       r.on(Integer, 'rev-compl-projects') do |project_id|
         do_crud(RevComplianceProjects, r, 'L', {project_id: project_id})
