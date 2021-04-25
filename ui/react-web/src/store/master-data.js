@@ -180,9 +180,9 @@ export const caseCategoryTypes = {
 }
 
 export const casePriorityTypes = {
-  1: { value: 1, label: 'High (P1)', badge: 'P1', color:'danger' },
-  2: { value: 2, label: 'Medium (P2)', badge: 'P2', color:'primary' },
-  3: { value: 3, label: 'Low (P3)', badge: 'P3', color:'warning' },
+  1: { value: 1, label: 'P1 - Outmost priority with 4 hours TAT', badge: 'P1', color:'danger' },
+  2: { value: 2, label: 'P2 - Moderate priority with 12 hours TAT', badge: 'P2', color:'primary' },
+  3: { value: 3, label: 'P3 - Low priority with 48 hours TAT', badge: 'P3', color:'warning' },
 }
 
 export const statusTypes = {

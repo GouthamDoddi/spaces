@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import styled, { css } from 'styled-components';
-import { CheckIcon } from '../compliance-records/records';
+import makeStore from '../../../store/make-store';
+import { caseCategoryTypes, casePriorityTypes } from '../../../store/master-data';
+import { CheckIcon } from '../compliance-projects/parameters';
 
-const Action = ({ defaultData, onSubmit }) => {
+const { load: loadCases } = makeStore(({ project_id, case_id }) => `rev-projects/${project_id}/cases${case_id ? `/${case_id}` : ''}`);
+
+const Action = ({ setTableProps }) => {
+  const { project_id } = useParams();
   const [data, setData] = useState({
     ground: '',
     comments: '',
@@ -11,10 +17,39 @@ const Action = ({ defaultData, onSubmit }) => {
   const [submitClicked, setSubmitClicked] = useState(false);
 
   useEffect(() => {
-    if (defaultData) {
-      setData(defaultData);
-    }
-  }, [defaultData]);
+    loadCases({ project_id }, (data) =>
+      setTableProps({
+        rows: data,
+        renderCol: (colIndex, col) => {
+          if (colIndex === 0) {
+            return <Badge status={col}>{col}</Badge>
+          }
+
+          if (colIndex === 3) {
+            return ' ';
+          }
+
+          if (colIndex === 4) {
+            return <Priority active={col}>{casePriorityTypes[col]?.badge}</Priority>
+          }
+
+          if (colIndex === 5) {
+            return col ? col.map((key) => <CatergoryBadge key={key}>{caseCategoryTypes[key]?.label}</CatergoryBadge>) : '';
+          }
+
+          if (colIndex === 6) {
+            return ' ';
+          }
+
+          if (colIndex === 7) {
+            return col ? new Date(col).toLocaleDateString() : '';
+          }
+
+          return false;
+        },
+      })
+    );
+  }, []);
 
   const errorLabels = {
     ground: 'Ground',
@@ -69,7 +104,6 @@ const Action = ({ defaultData, onSubmit }) => {
     }, false);
 
     if (!hasErrors) {
-      onSubmit(data);
     }
   };
 
@@ -265,5 +299,43 @@ const PlusIcon = () => (
     </g>
   </svg>
 );
+
+const CatergoryBadge = styled.span`
+    padding: 5px 10px;
+    background:#F5F5F5;
+    color:#1A6B8F;
+    border-radius:15px;
+    margin: 0px 4px 4px 0px;
+`;
+
+const Priority = styled.span`
+  background-color: ${props => props.active === 1 ? '#FFF1F1' : props.active === 2 ? '#EAF4FF' : '#FFF5DF'};
+  color: ${props => props.active === 1 ? '#FF6060' : props.active === 2 ? '#005CC8' : '#FFB300'};
+  border: ${props => props.active === 1 ? '1px solid #FF6060' : props.active === 2 ? '1px solid #005CC8' : '1px solid #FFB300'};
+  font-size: 12px;
+  padding: 3px;
+  border-radius: 3px;
+`;
+
+const Alphabet = styled.span`
+    background: #2B3F58;
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 2px;
+    margin-right: 5px;
+`;
+
+const Badge = styled.span`
+  padding:5px 10px;
+  background:${props => props.review ? '#EB622B' :
+    props.approve ? '#3FBF11' :
+      props.rejected ? '#FF6060' :
+        props.draft ? '#FFBF00' :
+          props.onHold ? '#999999' :
+            props.submitted ? '#0064FE' : '#EB622B'};         
+    color: #fff;
+    border-radius: 15px;
+    text-transform: capitalize;
+`;
 
 export default Action;
