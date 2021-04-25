@@ -121,6 +121,11 @@ class App::Routes < Roda
         do_crud(RevResources, r, 'CRUDL', {project_id: project_id})
       end
 
+      r.on('case-grounds') do 
+        puts "in here"
+        do_crud(CaseGrounds, r, 'CRUDL',{})
+      end
+
       r.on([Integer, true], 'rev-projects') do  |entity_id|
 
         # r.on('e-services') do 
@@ -137,7 +142,13 @@ class App::Routes < Roda
         end
 
         r.on Integer, 'cases' do |project_id|
-          opts = {project_id: project_id}
+          opts = { project_id: project_id }
+          r.post(Integer, 'approve') do |id|
+            RevCases[r, {id: id}].approve
+          end
+          r.post(Integer, 'reject') do |id|
+            RevCases[r, {id: id}].approve
+          end
           do_crud(RevCases, r, 'CRUDL', opts)
         end
 

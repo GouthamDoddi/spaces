@@ -14,6 +14,8 @@ Sequel.migration do
       String :name
       String :description, text: true
 
+      String :agent_comment, text: true
+
       jsonb :attachments, default: '[]'
       String :status # ( submitted / approved / rejected / onHold / created)
       Integer :ground_id

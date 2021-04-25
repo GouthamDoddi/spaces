@@ -27,6 +27,21 @@ class App::Services::RevCases < App::Services::Base
     save(item)
   end
 
+  def approve
+    data ||= data_for(:manage)
+    item.set_fields(data, data.keys)
+    item.status = 'approved'
+  end
+
+
+  def reject
+    data ||= data_for(:manage)
+    item.set_fields(data, data.keys)
+    item.status = 'rejected'
+  end
+
+
+
   def project
     @project ||= begin
       id = rp[:project_id]
@@ -40,6 +55,8 @@ class App::Services::RevCases < App::Services::Base
       :attribute_id, :parameter_id, :category_ids, :priority],
 
       save: [:name, :description, :attachments],
+
+      manage: [:agent_comment, :ground_id, :ground_comment]
       # [{name, code}, {}, {}]
       # save: [
       #   [:compliance_project_id, :section_id, 
