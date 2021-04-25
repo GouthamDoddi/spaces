@@ -3,32 +3,29 @@ import { useParams } from 'react-router';
 import styled, { css } from 'styled-components';
 import makeStore from '../../../store/make-store';
 import { complianceProjectResults } from '../../../store/master-data';
+import { ButtonLink } from '../../entities/details';
 
-const { loadParameters } = makeStore(
-  ({ project_id, attribute_id }) =>
-    `rev-compl-projects/${project_id}/attribute/${attribute_id}/parameters`
+const { load } = makeStore(
+  ({ compliance_project_id, attribute_id }) =>
+    `rev-compl-projects/${compliance_project_id}/attribute/${attribute_id}/parameters`
 );
-const { loadVariance } = makeStore(
-  ({ project_id, parameter_id }) =>
-    `rev-compl-projects/${project_id}/parameter/${parameter_id}/variations`
+const { load: loadVariations } = makeStore(
+  ({ compliance_project_id, parameter_id }) =>
+    `rev-compl-projects/${compliance_project_id}/parameter/${parameter_id}/variations`
 );
-const { load, update } = makeStore(
-  ({ record_id }) => `rev-compl-records/${record_id}`
-);
-const { load: loadComments, create: createComment } = makeStore(
-  ({ record_id }) => `rev-compl-records/${record_id}/comments`
-);
-const { loadProjects } = makeStore(({ project_id }) => `reference-data/rev-projects/${project_id}/compliance-projects`);
+const { load: loadComments, create: createComments } = makeStore(({ compliance_record_id }) => `rev-compl-records/${compliance_record_id}/comments`);
+const { load: loadComplianceRecords, update: updateComplianceRecord } = makeStore(({ compliance_record_id }) => `rev-compl-records${compliance_record_id ? `/${compliance_record_id}` : ''}`);
 
-const EServices = ({ onSubmit, selected }) => {
+const Projects = ({ selected, setTableProps }) => {
   const { project_id } = useParams();
   const [parameters, setParameters] = useState([]);
-  const [data, setData] = useState({
-    parameter: '',
-    platform: '',
-    language: '',
+  const [variations, setVariations] = useState([]);
+  const defaultData = {
+    parameter_id: '',
+    platform_language: '',
     result: '',
-  });
+  };
+  const [data, setData] = useState(defaultData);
   const [errors, setErrors] = useState({});
   const [attachments, setAttachments] = useState([]);
   const defaultAttachmentData = {
@@ -38,28 +35,77 @@ const EServices = ({ onSubmit, selected }) => {
   const [attachmentData, setAttachmentData] = useState(defaultAttachmentData);
   const [submitClicked, setSubmitClicked] = useState(false);
 
+  const handleEdit = (id) => {
+    loadComplianceRecords({ compliance_record_id: id }, (data) => setData(data));
+    loadComments({ compliance_record_id: id }, (data) => setAttachments(data));
+  };
+
   useEffect(() => {
-    if (selected['4']?.id) {
-      loadParameters({ project_id, attribute_id: selected['3'].id }, (data) =>
-        setParameters(data)
+    if (selected['1']?.id && selected['3']?.id) {
+      load(
+        {
+          compliance_project_id: selected['1'].id,
+          attribute_id: selected['3']?.id,
+        },
+        (data) => {
+          setParameters(data);
+
+          if (data[0]?.parameter_id) {
+            loadVariations({ compliance_project_id: selected['1'].id, parameter_id: data[0].parameter_id }, (data) => 
+              setVariations(data)
+            );
+          }
+
+          setTableProps({
+            rows: data,
+            renderCol: (colIndex, col) => {
+              if (colIndex === 1) {
+                return (
+                  <SelectBadge>
+                    {col.includes('web') ? <WebLogo /> : col.includes('android') ? <AndroidLogo /> : col.includes('ios') ? <AppleLogo /> : null}
+                    {col.includes('ar') ? 'Arabic' : col.includes('en') ? 'English' : ''}
+                  </SelectBadge>
+                );
+              }
+  
+              if (colIndex === 2) {
+                return complianceProjectResults[col]?.label;
+              }
+
+              if (colIndex === 3) {
+                return ' ';
+              }
+
+              if (colIndex === 4) {
+                return (
+                  <>
+                    <ButtonLink onClick={() => handleEdit(col)}>Edit</ButtonLink>
+                    {/* <ButtonLink onClick={() => {}}>
+                      Delete
+                    </ButtonLink> */}
+                  </>
+                );
+              }
+  
+              return false;
+            },
+          });
+        }
       );
     }
   }, []);
 
   useEffect(() => {
-    if (parameter) {
-      loadVariance({ project_id, parameter_id: data.parameter }, (data) => console.log(data));
+    if (data.parameter_id) {
+      loadVariations({ parameter_id: data.parameter_id }, (data) => 
+        setVariations(data)
+      );
     }
-  }, [data.parameter]);
-
-  const handleComments = (record_id) => {
-    loadComments({ record_id }, (data) => setAttachments(data));
-  };
+  }, [data.parameter_id]);
 
   const errorLabels = {
-    parameter: 'Name',
-    platform: 'Platform',
-    language: 'Language',
+    parameter_id: 'Parameter',
+    platform_language: 'Platform and language',
     result: 'Result',
   };
 
@@ -68,9 +114,9 @@ const EServices = ({ onSubmit, selected }) => {
 
   const isInvalid = (name, value) => {
     switch (name) {
-      case 'parameter':
-      case 'platform':
-      case 'language':
+      case 'parameter_id':
+      case 'platform_language':
+        return isEmpty(name, value + '');
       case 'result':
         return isEmpty(name, value);
       default:
@@ -113,7 +159,23 @@ const EServices = ({ onSubmit, selected }) => {
     }, false);
 
     if (!hasErrors) {
-      onSubmit(data);
+      if (data.id) {
+        updateComplianceRecord({
+          data,
+          cb: (data) => {
+            setData(defaultData);
+            setTableProps((prevData) => {
+              const prevUsers = [...prevData.rows];
+
+              const updatedIndex = prevUsers.find(({ id }) => id === data.id);
+              prevUsers[updatedIndex] = data;
+
+              return { ...prevData, rows: [...prevUsers] };
+            });
+          },
+          compliance_record_id: data.id,  
+        })
+      }
     }
   };
 
@@ -128,16 +190,19 @@ const EServices = ({ onSubmit, selected }) => {
 
   const handleSubmit = () => {
     if (file || comment) {
-      setAttachments((prevValue) =>
-        prevValue.concat([
-          { ...attachmentData, date: new Date().toLocaleDateString() },
-        ])
-      );
-      setAttachmentData(defaultAttachmentData);
+      createComments({ data: { comment }, cb: () => {
+        setAttachments((prevValue) =>
+          prevValue.concat([
+            { ...attachmentData, date: new Date().toLocaleDateString() },
+          ])
+        );
+
+        setAttachmentData(defaultAttachmentData);
+      }, compliance_record_id: data.id });
     }
   };
 
-  const { parameter, platform, language, result } = data;
+  const { parameter_id, platform_language, result } = data;
 
   return (
     <>
@@ -150,17 +215,15 @@ const EServices = ({ onSubmit, selected }) => {
               </label>
               <div className="text_field_wrapper">
                 <select
-                  name="parameter"
-                  value={parameter}
+                  name="parameter_id"
+                  value={parameter_id}
                   onChange={handleChange}
                 >
-                  {parameters.map(({ label, value }) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
+                  {parameters.map(({ parameter_id, parameter_name }) => (
+                    <option value={parameter_id}>{parameter_name}</option>
                   ))}
                 </select>
-                <div className="error_messg">{errors.parameter}</div>
+                <div className="error_messg">{errors.parameter_id}</div>
               </div>
             </div>
           </div>
@@ -169,67 +232,41 @@ const EServices = ({ onSubmit, selected }) => {
               <label className="form_label">
                 Platform &amp; Language <mark>*</mark>
               </label>
-              <SelectBadge
-                selected={language === 'english'}
-                onClick={() => updateData('language', 'english')}
-              >
-                English{language === 'english' && <CheckIcon />}
-              </SelectBadge>
-              <SelectBadge
-                selected={language === 'arabic'}
-                onClick={() => updateData('language', 'arabic')}
-              >
-                Arabic{language === 'arabic' && <CheckIcon />}
-              </SelectBadge>
-              {parameter === 'mobile_app' && (
-                <>
-                  <SelectBadge
-                    selected={platform === 'android'}
-                    onClick={() => updateData('platform', 'android')}
-                  >
-                    <AppleLogo />
-                    Android{platform === 'android' && <CheckIcon />}
-                  </SelectBadge>
-                  <SelectBadge
-                    selected={platform === 'ios'}
-                    onClick={() => updateData('platform', 'ios')}
-                  >
-                    <AndroidLogo />
-                    Apple{platform === 'ios' && <CheckIcon />}
-                  </SelectBadge>
-                </>
+              {variations.map(({ id, platform_language: key}) => 
+                <SelectBadge
+                  key={id}
+                  selected={platform_language === id}
+                  onClick={() => updateData('platform_language', id)}
+                >
+                  {key.includes('web') ? <WebLogo /> : key.includes('android') ? <AndroidLogo /> : key.includes('ios') ? <AppleLogo /> : null}
+                  {key.includes('ar') ? 'Arabic' : key.includes('en') ? 'English' : ''}
+                  {platform_language === id && <CheckIcon />}
+                </SelectBadge>
               )}
               <div className="error_messg">
-                {errors.platform || errors.language}
+                {errors.platform_language}
               </div>
-            </div>
-
-            <div className="flex_col_sm_12">
-              <div className="form_field_wrapper">
-                <label className="form_label">
-                  Result <mark>*</mark>
-                </label>
-                <div className="text_field_wrapper">
-                  <select name="result" value={result} onChange={handleChange}>
-                    {Object.values(complianceProjectResults).map(({ value, label }) => (
-                      <option key={value} value={value}>
-                        {label}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="error_messg">{errors.result}</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex_col_sm_12 text-right">
-              <button className="add_more" onClick={handleSave}>
-                Save
-              </button>
             </div>
           </div>
+          <div className="flex_col_sm_12">
+            <div className="form_field_wrapper">
+              <label className="form_label">
+                Result <mark>*</mark>
+              </label>
+              <div className="text_field_wrapper">
+                <select name="result" value={result} onChange={handleChange}>
+                  {Object.values(complianceProjectResults).map(({ value, label }) => <option key={value} value={value}>{label}</option>)}
+                </select>
+                <div className="error_messg">{errors.result}</div>
+              </div>
+            </div>
+          </div>
+          <div className="flex_col_sm_12 text-right">
+            <button className="add_more" onClick={handleSave}>
+              Save
+            </button>
+          </div>
         </div>
-
         <div className="flex_col_sm_6">
           <div className="flex_col_sm_12">
             <Heading>Test Profile, Test Data &amp; Comments</Heading>
@@ -270,7 +307,7 @@ const EServices = ({ onSubmit, selected }) => {
               }}
             />
             <UploadButton htmlFor="file">Upload Attachment </UploadButton>
-            <button className="btn_solid" onClick={handleSubmit}>
+            <button className="btn_solid" onClick={handleSubmit} disabled={!data.id}>
               Submit{' '}
             </button>
           </Footer>
@@ -441,7 +478,7 @@ const AndroidLogo = () => (
   </svg>
 );
 
-const BrowserLogo = () => (
+const WebLogo = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="20.51"
@@ -463,4 +500,4 @@ const BrowserLogo = () => (
   </svg>
 );
 
-export default EServices;
+export default Projects;

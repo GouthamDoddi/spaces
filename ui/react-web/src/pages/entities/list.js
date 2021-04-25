@@ -7,7 +7,7 @@ import { entityTypes } from '../../store/master-data';
 import makeStore from '../../store/make-store';
 import { Progress } from '.';
 import { entityEnter } from '../routes';
-import { PaginationWrapper } from '../projects/compliance-records/attributes';
+import { PaginationWrapper } from '../projects/compliance-projects/attributes';
 
 const { store, load } = makeStore('entities');
 

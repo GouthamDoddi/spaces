@@ -2,15 +2,50 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import makeStore from '../../../store/make-store';
+import { casePriorityTypes, caseCategoryTypes } from '../../../store/master-data';
 
 const { load } = makeStore(({ project_id }) => `rev-projects/${project_id}/compl-projects-report`);
+const { load: loadCases } = makeStore(({ project_id }) => `rev-projects/${project_id}/cases`);
 
-const PortalMobileApps = ({ onSubmit }) => {
+const PortalMobileApps = ({ onSubmit, setTableProps }) => {
   const { project_id } = useParams();
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     load({ project_id }, (data) => setProjects(data));
+
+    loadCases({ project_id }, (data) =>
+      setTableProps({
+        rows: data,
+        renderCol: (colIndex, col) => {
+          if (colIndex === 0) {
+            return <Badge status={col}>{col}</Badge>
+          }
+
+          if (colIndex === 3) {
+            return ' ';
+          }
+
+          if (colIndex === 4) {
+            return <Priority active={col}>{casePriorityTypes[col]?.badge}</Priority>
+          }
+
+          if (colIndex === 5) {
+            return col ? col.map((key) => <CatergoryBadge key={key}>{caseCategoryTypes[key]?.label}</CatergoryBadge>) : '';
+          }
+
+          if (colIndex === 6) {
+            return ' ';
+          }
+
+          if (colIndex === 7) {
+            return col ? new Date(col).toLocaleDateString() : '';
+          }
+
+          return false;
+        },
+      })
+    );
   }, []);
 
   return (
@@ -72,6 +107,7 @@ const Thead = styled.thead`
     td {
       font: normal normal normal 12px/18px Muli;
       color: #666666;
+      white-space: nowrap;
     }
   }
 `;
@@ -103,8 +139,11 @@ const Tbody = styled.tbody`
 const colors = {
   submitted: '#0064FE',
   draft: '#FFBF00',
+  created: '#FFBF00',
   in_review: '#EB622B',
-  presented: '#3FBF11',
+  approved: '#3FBF11',
+  rejected: '#FF6060',
+  on_hold: '#999999',
 }
 
 const Badge = styled.span`${({ status }) => css`
@@ -114,8 +153,26 @@ const Badge = styled.span`${({ status }) => css`
   color: white;
   border-radius: 11px;
   font: normal normal normal 12px/20px Muli;
-  background-color: ${colors[status]}
+  background-color: ${colors[status]};
   text-transform: capitalize;
+  text-align: center;
 `}`;
+
+const Priority = styled.span`
+  background-color: ${props => props.active === 1 ? '#FFF1F1' : props.active === 2 ? '#EAF4FF' : '#FFF5DF'};
+  color: ${props => props.active === 1 ? '#FF6060' : props.active === 2 ? '#005CC8' : '#FFB300'};
+  border: ${props => props.active === 1 ? '1px solid #FF6060' : props.active === 2 ? '1px solid #005CC8' : '1px solid #FFB300'};
+  font-size: 12px;
+  padding: 3px;
+  border-radius: 3px;
+`;
+
+const CatergoryBadge = styled.span`
+    padding: 5px 10px;
+    background:#F5F5F5;
+    color:#1A6B8F;
+    border-radius:15px;
+    margin: 0px 4px 4px 0px;
+`;
 
 export default PortalMobileApps;
