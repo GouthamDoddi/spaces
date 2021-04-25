@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Records from './records';
 import Sections from './sections';
 import Parameters from './parameters';
 import Attributes from './attributes';
+import makeStore from '../../../store/make-store';
+import { useHistory, useParams } from 'react-router';
 
 // const headlines = [
 //   { headline: 'Name', key: 'name' },
@@ -15,13 +17,19 @@ import Attributes from './attributes';
 //   { headline: 'Completion Percentage', key: 'completion_percentage' },
 // ];
 
-const CompilanceProjectDetails = ({ profileData }) => {
+const { load } = makeStore(({ project_id }) => `rev-projects/${project_id}`);
+
+const CompilanceProjectDetails = () => {
+  const { project_id } = useParams();
+  const history = useHistory();
+  const [profileData, setProfileData] = useState({});
   const {
+    id: projectId,
     logo: projectLogo,
-    name: projectName,
-    name_ar: projectNameAr,
-    description: projectDescription,
-    description_ar: projectDescriptionAr,
+    project_name: projectName,
+    project_name_ar: projectNameAr,
+    project_description: projectDescription,
+    project_description_ar: projectDescriptionAr,
     short_name: projectShortName,
   } = profileData;
 
@@ -29,6 +37,14 @@ const CompilanceProjectDetails = ({ profileData }) => {
   const [step, setStep] = useState(1);
   const [data, setData] = useState({});
   const [selected, setSelected] = useState({});
+
+  useEffect(() => {
+    if (/\d/.test(project_id)) {
+      load({ project_id }, (data) => setProfileData(data));
+    } else {
+      history.push('/projects/new');
+    }
+  }, []);
 
   const handleAdd = (value) => {
     setSelected((prevValue) => ({
@@ -44,7 +60,7 @@ const CompilanceProjectDetails = ({ profileData }) => {
       <div className="flex_row">
         <div className="flex_col_sm_4">
           <div className="moci_block">
-            <div className="logo_moci">
+          <div className="logo_moci">
               <figure className="logo_mci">
                 <img src={projectLogo} alt="logo" />
               </figure>
@@ -53,11 +69,17 @@ const CompilanceProjectDetails = ({ profileData }) => {
               </div>
             </div>
 
-            <span className="ministry"> {projectName} </span>
+            <span className="ministry">
+              {' '}
+              {projectId} - {projectName}{' '}
+            </span>
 
             <p className="para">{projectDescription}</p>
 
-            <span className="mci_bottom"> {projectNameAr}</span>
+            <span className="mci_bottom">
+              {' '}
+              {projectId} - {projectNameAr}
+            </span>
 
             <p className="para text-right arbic_para">{projectDescriptionAr}</p>
           </div>
@@ -75,7 +97,7 @@ const CompilanceProjectDetails = ({ profileData }) => {
                       <span className="sub_title">
                         {step !== 1 && selected['1'] ? (
                           <StepCompleteBadge>
-                            {selected['1']?.name}
+                            <span>{selected['1']?.name}</span>
                             <CheckIcon />
                           </StepCompleteBadge>
                         ) : (
@@ -94,7 +116,7 @@ const CompilanceProjectDetails = ({ profileData }) => {
                       <span className="sub_title">
                         {step !== 2 && selected['2'] ? (
                           <StepCompleteBadge>
-                            {selected['2']?.name}
+                            <span>{selected['2']?.name}</span>
                             <CheckIcon />
                           </StepCompleteBadge>
                         ) : (
@@ -113,7 +135,7 @@ const CompilanceProjectDetails = ({ profileData }) => {
                       <span className="sub_title">
                         {step !== 1 && selected['3'] ? (
                           <StepCompleteBadge>
-                            {selected['3']?.name}
+                            <span>{selected['3']?.name}</span>
                             <CheckIcon />
                           </StepCompleteBadge>
                         ) : (
@@ -132,8 +154,8 @@ const CompilanceProjectDetails = ({ profileData }) => {
                       <span className="sub_title">
                         {step !== 1 && selected['4']?.name ? (
                           <StepCompleteBadge>
-                            {selected['4']}
-                            <CheckIcon />
+                            <span>{selected['4']}
+                            <CheckIcon /></span>
                           </StepCompleteBadge>
                         ) : (
                           'Parameters based on attributes'
@@ -182,7 +204,7 @@ const DetailsElement = styled.div`
 `;
 
 const StepCompleteBadge = styled.span`
-  width: 189px;
+  width: 100%;
   height: 30px;
   background: #f5f5f5 0% 0% no-repeat padding-box;
   border: 1px solid #043555;
@@ -192,6 +214,13 @@ const StepCompleteBadge = styled.span`
   border-radius: 15px;
   color: #043555;
   padding: 0px 10px 0px 16px;
+
+  > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 4px;
+  }
 `;
 
 const CheckIcon = () => (

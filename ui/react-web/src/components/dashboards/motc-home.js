@@ -12,7 +12,7 @@ export default function({ lang, setLang, translate }) {
   return(
     <div>
       <Content>
-        <HeaderBar className='hb' lang={lang} setLang={setLang} translate={translate} />
+        <HeaderBar className='hb' lang={lang} setLang={setLang} translate={translate} langSwitch />
         <Motc />
       </Content>  
     </div>

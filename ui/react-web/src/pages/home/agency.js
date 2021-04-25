@@ -147,6 +147,7 @@ const Content = styled.div`
 `
 
 const Wrapper = styled.div`
+  margin-top: 85px;
   background: #FFFFFF 0% 0% no-repeat padding-box;
 `
 const Box = styled.div`

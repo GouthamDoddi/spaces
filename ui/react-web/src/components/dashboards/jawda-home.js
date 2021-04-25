@@ -16,7 +16,7 @@ export default function(props) {
   return(
     <div>
       <Content>
-        <HeaderBar className="hb" />
+        <HeaderBar className="hb" langSwitch {...props} />
         <Jawda />
       </Content>  
     </div>

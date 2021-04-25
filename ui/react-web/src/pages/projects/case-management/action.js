@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import styled, { css } from 'styled-components';
 import makeStore from '../../../store/make-store';
 import { caseCategoryTypes, casePriorityTypes } from '../../../store/master-data';
-import { CheckIcon } from '../compliance-projects/parameters';
+import { CheckIcon } from '../compliance-records/parameters';
 
 const { load: loadCases } = makeStore(({ project_id, case_id }) => `rev-projects/${project_id}/cases${case_id ? `/${case_id}` : ''}`);
 

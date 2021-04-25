@@ -280,7 +280,7 @@ const SubmitEvidence = ({ setTableProps }) => {
 
       <div className="flex_col_sm_12 text-right">
         <button className="add_more" onClick={handleSubmit}>
-          Submit &amp; Add more
+          Submit
         </button>
       </div>
     </>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Header from '../shared/header'
+import HeaderBar from '../../../shared/header_bar';
 import styled from 'styled-components'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Pie, PieChart, Cell, ResponsiveContainer } from 'recharts';
 import { BarChart, Bar, Legend } from 'recharts';
@@ -114,7 +114,7 @@ export default function({lang, setLang, ...props}) {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   return (
     <Layout dir={lang == 'ar' ? 'rtl' : 'ltr'}>
-      <Header viewType='Project View' viewName={report.name} lang={lang} setLang={setLang}></Header>
+      <HeaderBar lang={lang} setLang={setLang} langSwitch />
       <Content>
         <Filters {...{lang, setLang}} />
         <MainInfo>
@@ -289,6 +289,7 @@ const Layout = styled.div`
 `
 
 const Content = styled.div`
+  margin-top: 75px;
   align-items: center;
   flex-grow: 1;
   width: 100%;

@@ -1,7 +1,28 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import styled, { css } from 'styled-components';
+import makeStore from '../../../store/make-store';
+import { resultTypes } from '../../../store/master-data';
 
-const EServices = ({ defaultData, onSubmit }) => {
+const { loadParameters } = makeStore(
+  ({ project_id, attribute_id }) =>
+    `rev-compl-projects/${project_id}/attribute/${attribute_id}/parameters`
+);
+const { loadVariance } = makeStore(
+  ({ project_id, parameter_id }) =>
+    `rev-compl-projects/${project_id}/parameter/${parameter_id}/variations`
+);
+const { load, update } = makeStore(
+  ({ record_id }) => `rev-compl-records/${record_id}`
+);
+const { load: loadComments, create: createComment } = makeStore(
+  ({ record_id }) => `rev-compl-records/${record_id}/comments`
+);
+const { loadProjects } = makeStore(({ project_id }) => `reference-data/rev-projects/${project_id}/compliance-projects`);
+
+const EServices = ({ onSubmit, selected }) => {
+  const { project_id } = useParams();
+  const [parameters, setParameters] = useState([]);
   const [data, setData] = useState({
     parameter: '',
     platform: '',
@@ -18,10 +39,22 @@ const EServices = ({ defaultData, onSubmit }) => {
   const [submitClicked, setSubmitClicked] = useState(false);
 
   useEffect(() => {
-    if (defaultData) {
-      setData(defaultData);
+    if (selected['4']?.id) {
+      loadParameters({ project_id, attribute_id: selected['3'].id }, (data) =>
+        setParameters(data)
+      );
     }
-  }, [defaultData]);
+  }, []);
+
+  useEffect(() => {
+    if (parameter) {
+      loadVariance({ project_id, parameter_id: data.parameter }, (data) => console.log(data));
+    }
+  }, [data.parameter]);
+
+  const handleComments = (record_id) => {
+    loadComments({ record_id }, (data) => setAttachments(data));
+  };
 
   const errorLabels = {
     parameter: 'Name',
@@ -121,8 +154,11 @@ const EServices = ({ defaultData, onSubmit }) => {
                   value={parameter}
                   onChange={handleChange}
                 >
-                  <option value="portal">Portal</option>
-                  <option value="mobile_app">Mobile App</option>
+                  {parameters.map(({ label, value }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
                 </select>
                 <div className="error_messg">{errors.parameter}</div>
               </div>
@@ -167,74 +203,78 @@ const EServices = ({ defaultData, onSubmit }) => {
                 {errors.platform || errors.language}
               </div>
             </div>
-          </div>
-        </div>
-        <div className="flex_col_sm_12">
-          <div className="form_field_wrapper">
-            <label className="form_label">
-              Result <mark>*</mark>
-            </label>
-            <div className="text_field_wrapper">
-              <select name="result" value={result} onChange={handleChange}>
-                <option value="fully_compliant">Fully Compliant</option>
-                <option value="partially_compliant">Partially Compliant</option>
-                <option value="non_compliant">Non Compliant</option>
-              </select>
-              <div className="error_messg">{errors.result}</div>
+
+            <div className="flex_col_sm_12">
+              <div className="form_field_wrapper">
+                <label className="form_label">
+                  Result <mark>*</mark>
+                </label>
+                <div className="text_field_wrapper">
+                  <select name="result" value={result} onChange={handleChange}>
+                    {Object.values(resultTypes).map(({ value, label }) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="error_messg">{errors.result}</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex_col_sm_12 text-right">
+              <button className="add_more" onClick={handleSave}>
+                Save
+              </button>
             </div>
           </div>
         </div>
 
-        <div className="flex_col_sm_12 text-right">
-          <button className="add_more" onClick={handleSave}>
-            Save
-          </button>
-        </div>
-      </div>
-      <div className="flex_col_sm_6">
-        <div className="flex_col_sm_12">
-          <Heading>Test Profile, Test Data &amp; Comments</Heading>
-        </div>
-        <Scroll className="flex_col_sm_12">
-          {attachments.map(({ file, comment, date }) => (
-            <FileCard>
-              <FileCardHeader>
-                <Badge>Reviewer</Badge>
-                <span>{date}</span>
-              </FileCardHeader>
-              <div>{comment}</div>
-              <div>{file}</div>
-            </FileCard>
-          ))}
-        </Scroll>
-        <br />
-        <br />
-        <div className="flex_col_sm_12">
-          <div className="form_field_wrapper">
-            <div className="text_field_wrapper">
-              <textarea
-                placeholder="Add a comment"
-                value={comment}
-                onChange={({ target: { value } }) =>
-                  updateAttachmentData('comment', value)
-                }
-              />
-            </div>
-            <div className="error_messg">{errors.result}</div>
+        <div className="flex_col_sm_6">
+          <div className="flex_col_sm_12">
+            <Heading>Test Profile, Test Data &amp; Comments</Heading>
           </div>
+          <Scroll className="flex_col_sm_12">
+            {attachments.map(({ file, comment, date }) => (
+              <FileCard>
+                <FileCardHeader>
+                  <Badge>Reviewer</Badge>
+                  <span>{date}</span>
+                </FileCardHeader>
+                <div>{comment}</div>
+                <div>{file}</div>
+              </FileCard>
+            ))}
+          </Scroll>
+          <br />
+          <br />
+          <div className="flex_col_sm_12">
+            <div className="form_field_wrapper">
+              <div className="text_field_wrapper">
+                <textarea
+                  placeholder="Add a comment"
+                  value={comment}
+                  onChange={({ target: { value } }) =>
+                    updateAttachmentData('comment', value)
+                  }
+                />
+              </div>
+              <div className="error_messg">{errors.result}</div>
+            </div>
+          </div>
+          <Footer className="flex_col_sm_12">
+            <UploadInput
+              onChange={({ target }) => {
+                updateAttachmentData('file', target.value);
+                target.value = null;
+              }}
+            />
+            <UploadButton htmlFor="file">Upload Attachment </UploadButton>
+            <button className="btn_solid" onClick={handleSubmit}>
+              Submit{' '}
+            </button>
+          </Footer>
         </div>
-        <Footer className="flex_col_sm_12">
-          <UploadInput
-            onChange={({ target }) => {
-              updateAttachmentData('file', target.value);
-              target.value = null;
-            }}
-          />
-          <UploadButton htmlFor="file">Upload Attachment </UploadButton>
-          <button className="btn_solid" onClick={handleSubmit}>
-            Submit{' '}
-          </button>
-        </Footer>
       </div>
     </>
   );
@@ -397,6 +437,28 @@ const AndroidLogo = () => (
           transform="translate(-425.4 -171.535)"
         />
       </g>
+    </g>
+  </svg>
+);
+
+const BrowserLogo = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20.51"
+    height="17.267"
+    viewBox="0 0 20.51 17.267"
+  >
+    <g transform="translate(0 -40.484)">
+      <path
+        fill="#666"
+        d="M19.03,40.484H1.48A1.48,1.48,0,0,0,0,41.964v2.7H20.51v-2.7a1.48,1.48,0,0,0-1.48-1.48ZM2.567,43.214a.643.643,0,1,1,.643-.643A.643.643,0,0,1,2.567,43.214Zm2.613,0a.643.643,0,1,1,.643-.643A.643.643,0,0,1,5.181,43.214Zm2.732,0a.643.643,0,1,1,.643-.643A.643.643,0,0,1,7.912,43.214Z"
+        transform="translate(0)"
+      />
+      <path
+        fill="#666"
+        d="M0,176.808v10.325a1.48,1.48,0,0,0,1.48,1.48H19.03a1.48,1.48,0,0,0,1.48-1.48V176.808Zm6.76,4.767-.836,2.431a.639.639,0,0,1-.593.431H5.32a.639.639,0,0,1-.6-.41l-.3-.789-.264.768a.639.639,0,0,1-.593.431H3.554a.638.638,0,0,1-.6-.41L2.027,181.6a.638.638,0,0,1,1.193-.456l.3.789.264-.768a.641.641,0,0,1,1.2-.021l.3.789.264-.768a.639.639,0,0,1,1.208.415Zm5.865,0-.836,2.431a.639.639,0,0,1-.593.431h-.011a.638.638,0,0,1-.6-.41l-.3-.789-.264.768a.639.639,0,0,1-.593.431H9.419a.638.638,0,0,1-.6-.41L7.892,181.6a.638.638,0,0,1,1.193-.456l.3.789.264-.768a.645.645,0,0,1,1.2-.021l.3.789.264-.768a.639.639,0,0,1,1.208.415Zm5.866,0-.836,2.431a.639.639,0,0,1-.593.431h-.011a.638.638,0,0,1-.6-.41l-.3-.789-.264.768a.639.639,0,0,1-.593.431h-.011a.639.639,0,0,1-.6-.41l-.931-2.431a.639.639,0,0,1,1.193-.456l.3.789.264-.769a.64.64,0,0,1,1.2-.021l.3.789.264-.768a.639.639,0,0,1,1.208.415Z"
+        transform="translate(0 -130.863)"
+      />
     </g>
   </svg>
 );
