@@ -9,7 +9,7 @@ Sequel.migration do
       Integer :section_id
       Integer :attribute_id
       Integer :parameter_id
-      Integer :category_id
+      Integer :category_ids
       Integer :priority
       String :name
       String :description, text: true

@@ -37,7 +37,7 @@ class App::Services::RevCases < App::Services::Base
   def self.fields
     {
       create: [:compliance_project_id, :section_id, 
-      :attribute_id, :parameter_id, :category_id, :priority],
+      :attribute_id, :parameter_id, :category_ids, :priority],
 
       save: [:name, :description, :attachments],
       # [{name, code}, {}, {}]
