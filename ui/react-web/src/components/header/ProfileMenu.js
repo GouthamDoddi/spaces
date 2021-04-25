@@ -5,7 +5,6 @@ import cs from '../../utils/colors.js'
 export default function (props) {
   return (
     <ProfileMenu>
-      <div className="menuHeaderText">MY PROFILE</div>
       <div className="actionMenuSub">
         <div className="menuText">System Logs</div>
         <div
@@ -37,14 +36,14 @@ const ProfileMenu = styled.div`
     text-align: left;
   }
   .menuText {
-    padding: 5px 10px;
+    padding: 5px 22px;
     text-align: left;
     font-weight: bold;
   }
   .actionMenuSub {
-    background-color: #fff;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 3px;
     color: black;
-    border-radius: 0px 0px 6px 6px;
-    padding-bottom: 4px;
+    padding: 24px 0px;
   }
 `

@@ -17,6 +17,7 @@ import Insights from '../shared/insights'
 import { BarProgressCard, CircularProgressCard } from '../shared/progress-card'
 import rtl from 'styled-components-rtl'
 import { t, T, To, numberToArabic, translateObjectKeys } from '../../../utils/translate';
+import HeaderBar from '../../../shared/header_bar';
 // import Card from '../shared/card'
 
 const defaultSelectedEntity = { label: 'All', value: 0 }
@@ -222,7 +223,7 @@ export default function ({ lang, setLang, ...props }) {
   console.log("report.section_wise_status", translateObjectKeys(report.section_wise_status, ['Fully Compliant', 'Partially Compliant', 'Non Compliant']))
   return (
     <Layout dir={lang == 'ar' ? 'rtl' : 'ltr'}>
-      <Header viewType='State View' viewName='Jawda' lang={lang} setLang={setLang}></Header>
+      <HeaderBar lang={lang} setLang={setLang} langSwitch />
       <Content>
         <Filters entities={gates} projects={[]} {...{ lang, setLang }} />
         <MainInfo>
@@ -385,6 +386,7 @@ const Layout = styled.div`
 `
 
 const Content = styled.div`
+  margin-top: 75px;
   align-items: center;
   flex-grow: 1;
   width: 100%;

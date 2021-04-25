@@ -14,7 +14,7 @@ export default function(props) {
   return(
     <div>
       <Content>
-        <HeaderBar className='hb' />
+        <HeaderBar className='hb' langSwitch {...props} />
         <Agency />
       </Content>  
     </div>

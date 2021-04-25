@@ -31,6 +31,7 @@ import Bcp from './components/dashboards/bcp'
 // import Entity from './components/dashboards/entities'
 import Entity from './pages/entities'
 import Resources from './pages/resources'
+import ResourceUpload from './pages/resources/upload'
 // import Projects from './pages/project/list'
 // import Projects from './pages/projects/index'
 import Policy from './pages/policy'
@@ -125,10 +126,11 @@ function AllRoutes(props) {
         <Route path="/selected/policy">  <TP theme={cs.newdesign}> <SelectedPolicy/> </TP>  </Route>
         {/* {'Just Added for Testing'} */}
 
-        <Route path="/resources"> <TP theme={cs.newdesign}> <Resources /> </TP> </Route>
+        <Route path="/resources" exact> <TP theme={cs.newdesign}> <Resources /> </TP> </Route>
+        <Route path="/resources/upload" exact> <TP theme={cs.newdesign}> <ResourceUpload /> </TP> </Route>
         <Route path="/a-dashboard">
           <TP theme={cs.cps}>
-            {dbForRole(role())}
+            {dbForRole(role(), lang, setLang)}
           </TP>
         </Route>
 

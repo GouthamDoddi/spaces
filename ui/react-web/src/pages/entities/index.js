@@ -84,6 +84,24 @@ export const Progress = styled.span`
 export const NewLayout = styled.div`
   padding-bottom: 20px;
 
+  .MuiInput-underline:before, MuiInput-underline:after {
+    display: none;
+  }
+
+  .MuiInputBase-root {
+    border: 1px solid #dedede;
+    height: 38px;
+    border-radius: 3px;
+
+    input[type='text'] {
+      border: none;
+    }
+  }
+
+  .MuiInput-underline:after {
+    border: none;
+  }
+
   ul {
     list-style: none;
     margin: 0px !important;
