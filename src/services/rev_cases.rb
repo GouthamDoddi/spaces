@@ -21,7 +21,7 @@ class App::Services::RevCases < App::Services::Base
   end
 
   def update
-    data ||= data_for(:submit)
+    data ||= data_for(:save)
     item.set_fields(data, data.keys)
     item.status = 'submitted'
     save(item)
