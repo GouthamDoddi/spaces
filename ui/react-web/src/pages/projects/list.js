@@ -6,7 +6,7 @@ import BasicTable from '../../shared/table-material';
 import makeStore from '../../store/make-store';
 import { cleanedEntities, projectCategoryTypes } from '../../store/master-data';
 import { Progress } from '../entities';
-import { PaginationWrapper } from './compliance-records/attributes';
+import { PaginationWrapper } from './compliance-projects/attributes';
 
 const { store, load } = makeStore('rev-projects');
 const { load: loadEntities } = makeStore('entities');

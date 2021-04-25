@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, Route, Switch, useParams } from 'react-router-dom';
 import MasterProjectProfile from './master-project-profile';
 import CompilanceProjectDetails from './compilance-project-details';
-import CompilanceRecords from './compliance-records';
+import CompilanceRecords from './compliance-projects';
 import CaseManagement from './case-management';
 
 const AngleRight = () => {
@@ -64,16 +64,16 @@ const Panel = () => {
           </li>
           <li>
             <NavLink
-              to={`/projects/${project_id}/compliance-records`}
+              to={`/projects/${project_id}/compliance-projects`}
               activeClassName="active"
               exact
             >
               <span className="step_count">3</span>
               <span className="detail">
-                <span className="title">Compilance Records</span>
+                <span className="title">Compilance Projects</span>
                 <span className="sub_title">
                   {' '}
-                  Detailed view of compilance records{' '}
+                  Detailed view of compilance projects{' '}
                 </span>
               </span>
             </NavLink>
@@ -104,7 +104,7 @@ const Panel = () => {
         <Route path="/projects/:project_id/compliance-project-details" exact>
           <CompilanceProjectDetails profileData={{}} />
         </Route>
-        <Route path="/projects/:project_id/compliance-records" exact>
+        <Route path="/projects/:project_id/compliance-projects" exact>
           <CompilanceRecords profileData={{}} />
         </Route>
         <Route path="/projects/:project_id/case-management" exact>

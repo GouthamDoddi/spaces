@@ -83,8 +83,8 @@ export const userComplianceTypes = {
   9: { value: 9, label: 'Requires Self-testing and Evidence' },
 }
 
-export const resultTypes = {
-  1: { value: 1, label: 'Fully Compliance'},
+export const complianceProjectResults = {
+  1: { value: 1, label: 'Fully Compliance' },
   2: { value: 2, label: 'Partially Compliance'},
   3: { value: 3, label: 'Non Compliance'},
 }
