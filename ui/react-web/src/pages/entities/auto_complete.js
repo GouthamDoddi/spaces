@@ -31,7 +31,7 @@ const AutoComplete = ({
 
           return (
             <Tag id={value}>
-              {label}
+              <span>{label}</span>
               <span
                 onClick={() => {
                   onChange({
@@ -85,7 +85,6 @@ const AutoComplete = ({
 const InputBox = styled.div`
   border: 1px solid #dedede;
   border-radius: 3px;
-  height: 36px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -109,10 +108,20 @@ const Tag = styled.span`
   background: #043555;
   padding: 0px 8px 0px 16px;
   color: white;
+  overflow: hidden;
 
   > span {
-    margin-left: 16px;
-    cursor: pointer;
+    :first-child {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: (100% - 24px);
+    }
+
+    :last-child {
+      margin-left: 16px;
+      cursor: pointer;
+    }
   }
 `;
 
@@ -122,7 +131,7 @@ const SuggestionBox = styled.div`
     border: 1px solid #dedede;
     border-radius: 3px;
     background: white;
-    top: 36px;
+    top: 100%;
     left: 0px;
     width: 100%;
     z-index: 1;

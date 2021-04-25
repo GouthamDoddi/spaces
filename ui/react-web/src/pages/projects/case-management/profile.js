@@ -4,51 +4,102 @@ import styled, { css } from 'styled-components';
 import { useStore } from 'effector-react';
 import makeStore from '../../../store/make-store';
 import AutoComplete from '../../entities/auto_complete';
-import Select from 'react-select'
 import { caseCategoryTypes, casePriorityTypes } from '../../../store/master-data'
 
 const { store: complianceStore, load: loadComplianceProjects } = makeStore(({ project_id }) => `reference-data/rev-projects/${project_id}/compliance-projects`);
-const { store: parameterStore, load: loadParameters } = makeStore(({ project_id }) => `reference-data/attributes/${project_id}/parameters`);
 const { store: sectionStore, load: loadSections } = makeStore('reference-data/sections');
-const { store: attributeStore, load: loadAttribute } = makeStore(({ project_id }) => `reference-data/sections/${project_id}/attributes`);
-const { load, create, update } = makeStore(({ project_id }) => `rev-projects/${project_id}/cases`);
+const { store: attributeStore, load: loadAttribute } = makeStore(({ section_id }) => `reference-data/sections/${section_id}/attributes`);
+const { store: parameterStore, load: loadParameters } = makeStore(({ attribute_id }) => `reference-data/attributes/${attribute_id}/parameters`);
+const { load: loadCases, create, update } = makeStore(({ project_id, case_id }) => `rev-projects/${project_id}/cases${case_id ? `/${case_id}` : ''}`);
 
-const Profile = ({ defaultData, onSubmit }) => {
+const Profile = ({ setTableProps, handleNext, rowId }) => {
   const { project_id } = useParams();
-  const [data, setData] = useState({
-    compliance_record: [],
-    section: [],
-    attribute: [],
-    parameter: [],
-    category: [],
-    business_priority: '',
-  });
+  const defaultData = {
+    compliance_project_id: [],
+    section_id: [],
+    attribute_id: [],
+    parameter_id: [],
+    category_ids: [],
+    priority: '',
+  };
+  const [data, setData] = useState(defaultData);
 
   const [errors, setErrors] = useState({});
   const [submitClicked, setSubmitClicked] = useState(false);
 
-  let dataCompilance = useStore(complianceStore).data || [];
-  let dataParameter = useStore(parameterStore).data || [];
-  let dataSections = useStore(sectionStore).data || [];
-  let dataAttribute = useStore(attributeStore).data || [];
+  let complianceProjects = useStore(complianceStore).data;
+  let parameters = useStore(parameterStore).data;
+  let sections = useStore(sectionStore).data;
+  let attributes = useStore(attributeStore).data;
+
+  complianceProjects = complianceProjects ? Object.values(complianceProjects) : [];
+  parameters = parameters ? Object.values(parameters) : [];
+  sections = sections ? Object.values(sections) : [];
+  attributes = attributes ? Object.values(attributes) : [];
 
   useEffect(() => {
-    if (defaultData) {
-      setData(defaultData);
-    }
     loadComplianceProjects({ project_id });
-    loadParameters({ project_id });
     loadSections();
-    loadAttribute({ project_id });
-  }, [defaultData]);
+
+    loadCases({ project_id }, (data) =>
+      setTableProps({
+        rows: data,
+        renderCol: (colIndex, col) => {
+          if (colIndex === 0) {
+            return <Badge status={col}>{col}</Badge>
+          }
+
+          if (colIndex === 3) {
+            return ' ';
+          }
+
+          if (colIndex === 4) {
+            return <Priority active={col}>{casePriorityTypes[col]?.badge}</Priority>
+          }
+
+          if (colIndex === 5) {
+            return col ? col.map((key) => <CatergoryBadge key={key}>{caseCategoryTypes[key]?.label}</CatergoryBadge>) : '';
+          }
+
+          if (colIndex === 6) {
+            return ' ';
+          }
+
+          if (colIndex === 7) {
+            return col ? new Date(col).toLocaleDateString() : '';
+          }
+
+          return false;
+        },
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    if (data.section_id) {
+      loadAttribute({ section_id: data.section_id });
+    }
+  }, [data.section_id]);
+
+  useEffect(() => {
+    if (data.attribute_id) {
+      loadParameters({ attribute_id: data.attribute_id });
+    }
+  }, [data.attribute_id]);
+
+  useEffect(() => {
+    if (rowId) {
+      loadCases({ project_id, case_id: rowId }, (data) => setData(data));
+    }
+  }, [rowId]);
 
   const errorLabels = {
-    compliance_record: 'Compliance record',
-    section: 'Section',
-    attribute: 'Attribute',
-    parameter: 'Parameter',
-    category: 'Category',
-    business_priority: 'Business priority',
+    compliance_project_id: 'Compliance record',
+    section_id: 'Section',
+    attribute_id: 'Attribute',
+    parameter_id: 'Parameter',
+    category_ids: 'Category',
+    priority: 'Business priority',
   };
 
   const isEmpty = (name, value) =>
@@ -56,12 +107,13 @@ const Profile = ({ defaultData, onSubmit }) => {
 
   const isInvalid = (name, value) => {
     switch (name) {
-      case 'compliance_record':
-      case 'section':
-      case 'attribute':
-      case 'parameter':
-      case 'category':
-      case 'business_priority':
+      case 'compliance_project_id':
+      case 'section_id':
+      case 'attribute_id':
+      case 'parameter_id':
+      case 'priority':
+        return isEmpty(name, value + '');
+      case 'category_ids':
         return isEmpty(name, value);
       default:
         return false;
@@ -83,24 +135,35 @@ const Profile = ({ defaultData, onSubmit }) => {
   };
 
   const handleChange = ({ target: { value, name, type } }) => {
+    const values = Array.isArray(data[name]) ? data[name] : [data[name]];
+
+    if (type === 'radio') {
+      value = parseInt(value);
+    }
+
     if (type === 'checkbox') {
-      console.log("inside")
-      if (data[name].includes(value)) {
-        console.log("inside -- if")
+      if (values.includes(parseInt(value))) {
         updateData(
           name,
-          data[name].filter((val) => val !== value)
+          values.filter((val) => val !== parseInt(value))
         );
       } else {
-        console.log("inside -- else")
-        updateData(name, data[name].concat([value]));
+        updateData(name, values.concat([parseInt(value)]));
       }
       return;
     }
 
-    console.log("inside -- end", { name, value })
     updateData(name, value);
   };
+
+  const {
+    compliance_project_id,
+    section_id,
+    attribute_id,
+    parameter_id,
+    category_ids,
+    priority,
+  } = data;
 
   const handleSave = () => {
     if (!submitClicked) {
@@ -118,74 +181,49 @@ const Profile = ({ defaultData, onSubmit }) => {
       return prevValue || hasError;
     }, false);
 
-    if (!hasErrors) {
-      console.log({ data })
+    if (!hasErrors) {console.log(data);
+      const reqData = {
+        priority,
+        category_ids,
+        compliance_project_id: Array.isArray(compliance_project_id) ? compliance_project_id[0] : compliance_project_id,
+        section_id: Array.isArray(section_id) ? section_id[0] : section_id,
+        attribute_id: Array.isArray(attribute_id) ? attribute_id[0] : attribute_id,
+        paramter_id: Array.isArray(parameter_id) ? parameter_id[0] : parameter_id,
+      };
 
-      let {
-        compliance_record,
-        section,
-        attribute,
-        parameter,
-        category,
-        business_priority,
-      } = data;
-
-      let filterCategory = [];
-      if(category && Array.isArray(category) && category.length){
-        filterCategory = category.map(item => parseInt(item));
-      }
-
-      if (project_id) {
+      if (data.id) {
         update({
-          data: {
-            "compliance_project_id": compliance_record,
-            "section_id": section,
-            "attribute_id": attribute,
-            "parameter_id": parameter,
-            "category_id": filterCategory,
-            "priority": [+business_priority]
+          data: reqData,
+          cb: (data) => {
+            setData(defaultData);
+            setTableProps((prevData) => {
+              const prevCases = [...prevData.rows];
+
+              const updatedIndex = prevCases.find(({ id }) => id === data.id);
+              prevCases[updatedIndex] = data;
+
+              return { ...prevData, rows: [...prevCases] };
+            });
           },
-          cb:(callback_element) => {
-            console.log({callback_element})   
-          },
-          project_id
+          project_id,
+          case_id: data.id,
         });
       } else {
         create({
-          data: {
-            "compliance_project_id": compliance_record,
-            "section_id": section,
-            "attribute_id": attribute,
-            "parameter_id": parameter,
-            "category_id": filterCategory,
-            "priority": [+business_priority]
+          data: reqData,
+          cb: (data) => {
+            setData(defaultData);
+            handleNext(data.id);
+            setTableProps((prevCases) => ({
+              ...prevCases,
+              rows: prevCases.rows.concat([data]),
+            }));
           },
-          cb:(callback_element) => {
-            console.log({callback_element})   
-          },
-          project_id
+          project_id,
         });
       }
-      // onSubmit(data);
     }
   };
-
-  let {
-    compliance_record,
-    section,
-    attribute,
-    parameter,
-    category,
-    business_priority,
-  } = data;
-
-  const handleChangeMultiSelect = (name, val) => {
-    let valueItems = [];
-    if (val && Array.isArray(val) && val.length) {
-      valueItems = val.map(item => item.value);
-      updateData(name, valueItems);
-    }
-  }
 
   return (
     <>
@@ -193,19 +231,18 @@ const Profile = ({ defaultData, onSubmit }) => {
         <div className="flex_col_sm_3">
           <div className="form_field_wrapper">
             <label className="form_label">
-              Compliance Record <mark>*</mark>
+              Compliance Project <mark>*</mark>
             </label>
             <div className="text_field_wrapper">
               <div className="hide-options">
-                <Select
-                  options={Object.keys(dataCompilance).map(key => ({ label: dataCompilance[key].project_name, value: dataCompilance[key].id }))}
-                  isMulti={true}
-                  placeholder="Search and select"
-                  name="compliance_record"
-                  values={compliance_record}
-                  onChange={(val) => { handleChangeMultiSelect('compliance_record', val) }}
+                <AutoComplete
+                  placeholder="Search and select compliance project"
+                  name="compliance_project_id"
+                  values={Array.isArray(compliance_project_id) ? compliance_project_id : [compliance_project_id]}
+                  onChange={handleChange}
+                  error={errors.compliance_project_id}
+                  options={complianceProjects.map(({ value, label }) => ({ value, label }))}
                 />
-                <div className="error_messg">{errors.compliance_record}</div>
               </div>
             </div>
           </div>
@@ -217,15 +254,14 @@ const Profile = ({ defaultData, onSubmit }) => {
             </label>
             <div className="text_field_wrapper">
               <div className="hide-options">
-                <Select
-                  options={Object.keys(dataSections).map(key => ({ label: dataSections[key].label, value: dataSections[key].value }))}
-                  isMulti={true}
-                  placeholder="Search and select"
-                  name="section"
-                  values={section}
-                  onChange={(val) => { handleChangeMultiSelect('section', val) }}
+                <AutoComplete
+                  placeholder="Search and select section"
+                  name="section_id"
+                  values={Array.isArray(section_id) ? section_id : [section_id]}
+                  onChange={handleChange}
+                  error={errors.section_id}
+                  options={sections.map(({ value, label }) => ({ value, label }))}
                 />
-                <div className="error_messg">{errors.section}</div>
               </div>
             </div>
           </div>
@@ -237,15 +273,14 @@ const Profile = ({ defaultData, onSubmit }) => {
             </label>
             <div className="text_field_wrapper">
               <div className="hide-options">
-                <Select
-                  options={Object.keys(dataAttribute).map(key => ({ label: dataAttribute[key].label, value: dataAttribute[key].value }))}
-                  isMulti={true}
-                  placeholder="Search and select"
-                  name="attribute"
-                  values={attribute}
-                  onChange={(val) => { handleChangeMultiSelect('attribute', val) }}
+                <AutoComplete
+                  placeholder="Search and select attribute"
+                  name="attribute_id"
+                  values={Array.isArray(attribute_id) ? attribute_id : [attribute_id]}
+                  onChange={handleChange}
+                  error={errors.attribute_id}
+                  options={attributes.map(({ value, label }) => ({ value, label }))}
                 />
-                <div className="error_messg">{errors.attribute}</div>
               </div>
             </div>
           </div>
@@ -257,15 +292,14 @@ const Profile = ({ defaultData, onSubmit }) => {
             </label>
             <div className="text_field_wrapper">
               <div className="hide-options">
-                <Select
-                  options={Object.keys(dataParameter).map(key => ({ label: dataParameter[key].label, value: dataParameter[key].value }))}
-                  isMulti={true}
-                  placeholder="Search and select"
-                  name="parameter"
-                  values={parameter}
-                  onChange={(val) => { handleChangeMultiSelect('parameter', val) }}
+                <AutoComplete
+                  placeholder="Search and select parameter"
+                  name="parameter_id"
+                  values={Array.isArray(parameter_id) ? parameter_id : [parameter_id]}
+                  onChange={handleChange}
+                  error={errors.parameter_id}
+                  options={parameters.map(({ value, label }) => ({ value, label }))}
                 />
-                <div className="error_messg">{errors.parameter}</div>
               </div>
             </div>
           </div>
@@ -280,27 +314,25 @@ const Profile = ({ defaultData, onSubmit }) => {
             </label>
             <div className="text_field_wrapper">
               {/* {caseCategoryTypes} */}
-              {caseCategoryTypes && Object.keys(caseCategoryTypes).length ?
-                Object.keys(caseCategoryTypes).map(key => (
-                  <CheckboxCard>
-                    <div className="checkbox_wrap agree_check">
-                      <input
-                        className="filter-type filled-in"
-                        type="checkbox"
-                        name="category"
-                        id={(caseCategoryTypes[key].label).toLowerCase()}
-                        value={caseCategoryTypes[key].value}
-                        checked={category.includes((caseCategoryTypes[key].value).toString())}
-                        onChange={handleChange}
-                      />
-                      <label htmlFor={(caseCategoryTypes[key].label).toLowerCase()}>
-                        {caseCategoryTypes[key].label}
-                      </label>
-                    </div>
-                  </CheckboxCard>
-                ))
-                : null}
-              <div className="error_messg">{errors.category}</div>
+              {Object.keys(caseCategoryTypes).map(key => (
+                <CheckboxCard>
+                  <div className="checkbox_wrap agree_check">
+                    <input
+                      className="filter-type filled-in"
+                      type="checkbox"
+                      name="category_ids"
+                      id={caseCategoryTypes[key].label}
+                      value={caseCategoryTypes[key].value}
+                      checked={category_ids?.includes(caseCategoryTypes[key].value)}
+                      onChange={handleChange}
+                    />
+                    <label htmlFor={caseCategoryTypes[key].label}>
+                      {caseCategoryTypes[key].label}
+                    </label>
+                  </div>
+                </CheckboxCard>
+              ))}
+              <div className="error_messg">{errors.category_ids}</div>
             </div>
           </div>
         </div>
@@ -310,29 +342,28 @@ const Profile = ({ defaultData, onSubmit }) => {
               Business Priority <mark>*</mark>
             </label>
             <div className="text_field_wrapper">
-              {casePriorityTypes && Object.keys(casePriorityTypes).length ?
-                Object.keys(casePriorityTypes).map(key => (
-                  <CheckboxCard>
-                    <div className="checkbox_wrap agree_check">
-                      <input
-                        className="filter-type filled-in"
-                        type="radio"
-                        name="business_priority"
-                        id={(casePriorityTypes[key].badge).toLowerCase()}
-                        value={casePriorityTypes[key].value}
-                        checked={business_priority === (casePriorityTypes[key].value).toString()}
-                        onChange={handleChange}
-                      />
-                      <label htmlFor={(casePriorityTypes[key].badge).toLowerCase()}>
-                        <PriorityBadge color={casePriorityTypes[key].color}>
-                          {casePriorityTypes[key].badge}
-                        </PriorityBadge>
-                        {casePriorityTypes[key].label}
-                      </label>
-                    </div>
-                  </CheckboxCard>
-                )) : null}
-              <div className="error_messg">{errors.business_priority}</div>
+              {Object.keys(casePriorityTypes).map(key => (
+                <CheckboxCard>
+                  <div className="checkbox_wrap agree_check">
+                    <input
+                      className="filter-type filled-in"
+                      type="radio"
+                      name="priority"
+                      id={casePriorityTypes[key].badge}
+                      value={casePriorityTypes[key].value}
+                      checked={priority === casePriorityTypes[key].value}
+                      onChange={handleChange}
+                    />
+                    <label htmlFor={casePriorityTypes[key].badge}>
+                      <PriorityBadge color={casePriorityTypes[key].color}>
+                        {casePriorityTypes[key].badge}
+                      </PriorityBadge>
+                      {casePriorityTypes[key].label}
+                    </label>
+                  </div>
+                </CheckboxCard>
+              ))}
+              <div className="error_messg">{errors.priority}</div>
             </div>
           </div>
         </div>
@@ -389,6 +420,44 @@ const PriorityBadge = styled.div`
     align-items: center;
     justify-content: center;
   `}
+`;
+
+const CatergoryBadge = styled.span`
+    padding: 5px 10px;
+    background:#F5F5F5;
+    color:#1A6B8F;
+    border-radius:15px;
+    margin: 0px 4px 4px 0px;
+`;
+
+const Priority = styled.span`
+  background-color: ${props => props.active === 1 ? '#FFF1F1' : props.active === 2 ? '#EAF4FF' : '#FFF5DF'};
+  color: ${props => props.active === 1 ? '#FF6060' : props.active === 2 ? '#005CC8' : '#FFB300'};
+  border: ${props => props.active === 1 ? '1px solid #FF6060' : props.active === 2 ? '1px solid #005CC8' : '1px solid #FFB300'};
+  font-size: 12px;
+  padding: 3px;
+  border-radius: 3px;
+`;
+
+const Alphabet = styled.span`
+    background: #2B3F58;
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 2px;
+    margin-right: 5px;
+`;
+
+const Badge = styled.span`
+  padding:5px 10px;
+  background:${props => props.review ? '#EB622B' :
+    props.approve ? '#3FBF11' :
+      props.rejected ? '#FF6060' :
+        props.draft ? '#FFBF00' :
+          props.onHold ? '#999999' :
+            props.submitted ? '#0064FE' : '#EB622B'};         
+    color: #fff;
+    border-radius: 15px;
+    text-transform: capitalize;
 `;
 
 export default Profile;
