@@ -3,9 +3,9 @@ require 'csv'
 class Parameters
 
   def fti(row)
-    if(row[14]&.downcase&.include?('y'))
+    if(row[15]&.downcase&.include?('y'))
       1
-    elsif(row[15]&.downcase&.include?('y'))
+    elsif(row[16]&.downcase&.include?('y'))
       2
     else
       3
@@ -14,19 +14,19 @@ class Parameters
 
   def stg(row)
     resp = []
-    if(row[9]&.downcase&.include?('y'))
+    if(row[10]&.downcase&.include?('y'))
       resp << 1
     end
-    if(row[10]&.downcase&.include?('y')) 
+    if(row[11]&.downcase&.include?('y')) 
       resp << 2
     end
-    if(row[11]&.downcase&.include?('y')) 
+    if(row[12]&.downcase&.include?('y')) 
       resp << 3
     end
-    if(row[12]&.downcase&.include?('y')) 
+    if(row[13]&.downcase&.include?('y')) 
       resp << 4
     end
-    if(row[13]&.downcase&.include?('y')) 
+    if(row[14]&.downcase&.include?('y')) 
       resp << 5
     end
     resp
@@ -45,11 +45,12 @@ class Parameters
         section_id: row[1].split('-').last.strip.to_i,
         code: row[1].split('-').first.strip,
         section_name: row[2],
-        attribute_id: row[3].split('.').last.strip.to_i,
-        attribute_name: row[4],
-        order: row[5].split('.').last.strip.to_i,
-        parameter_name: row[6], mandate: row[7],
-        description: row[8],
+        section_name_ar: row[3],
+        attribute_id: row[4].split('.').last.strip.to_i,
+        attribute_name: row[5],
+        order: row[6].split('.').last.strip.to_i,
+        parameter_name: row[7], mandate: row[8],
+        description: row[9],
         framework_type_id: fti(row),
         stage_gates: stg(row)
       )

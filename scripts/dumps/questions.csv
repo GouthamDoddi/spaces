@@ -1,21 +1,22 @@
-1,Portal,Internal site search,"Yes, No",,
-2,Portal,Search across multiple government agencies,"Yes, No",,
+1,Portal,Internal site search,"Yes, No",185,"185, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199"
+2,Portal,Search across multiple government agencies,"Yes, No",186,
 3,Portal,Registration / Login (Other than NAS),"Yes, No","19,20,21",
-4,Portal,Is the login mechanims NAS,"Yes, No",,"15,16,17,18"
-5,Portal,Caters to people with special needs,"Yes, No",,
-6,Portal,Advanced support options (Chat / ChatBot),"Yes, No",,
-7,Portal,Utilizes MOTC Contact Center,"Yes, No",,
-8,Mobile,Internal site search,"Yes, No",,
-9,Mobile,Search across multiple government agencies,"Yes, No",,
+4,Portal,Is the login mechanims NAS,"Yes, No","15,16,17,18",
+5,Portal,Caters to people with special needs,"Yes, No","35, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, ",
+6,Portal,Advanced support options (Chat / ChatBot),"Yes, No","237, 238",
+7,Portal,Utilizes MOTC Contact Center,"Yes, No",,236
+8,Mobile,Internal site search,"Yes, No",382,"382, 384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394"
+9,Mobile,Search across multiple government agencies,"Yes, No",383,
 10,Mobile,Registration / Login (Other than NAS),"Yes, No","272,273,274",
-11,Mobile,Is the login mechanims NAS,"Yes, No",,"268,269,270,271"
-12,Mobile,Caters to people with special needs,"Yes, No",,
-13,Mobile,Advanced support options (Chat / ChatBot),"Yes, No",,
-14,Mobile,Utilizes MOTC Contact Center,"Yes, No",,
-15,eServices, Require login,"Yes, No",,
-16,eServices,Utilizes MOTC Contact Center,"Yes, No",,
-17,eServices,eService technology and operations split into front / middle & Back office,"Yes, No",,
-18,eServices,Post submission engagements,"Yes, No",,
-19,eServices,Post fullfilment engagements,"Yes, No",,
-20,eServices,Utilizes MOTC Payment gate,"Yes, No",,
-21,eServices,Is it available on KIOSK ,"Yes, No",,
+11,Mobile,Is the login mechanims NAS,"Yes, No","268,269,270,271",
+12,Mobile,Caters to people with special needs,"Yes, No","282, 395, 396, 397, 398, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409",
+13,Mobile,Advanced support options (Chat / ChatBot),"Yes, No","438,439",
+14,Mobile,Utilizes MOTC Contact Center,"Yes, No",,437
+15,eServices,Require login,"Yes, No",465,
+16,eServices,Utilizes MOTC Contact Center,"Yes, No",,527
+17,eServices,eService Support helpdesk to assist with request and case management,"Yes, No",,"528, 529, 530, 531, 532, 533, 534"
+18,eServices,eService technology and operations split into front / middle & Back office,"Yes, No",,"539, 540, 541, 542, 543, 544"
+19,eServices,Post submission engagements,"Yes, No",,"487, 488, 489, 490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 500, 501, 502"
+20,eServices,Post fullfilment engagements,"Yes, No",,"545, 546, 547"
+21,eServices,Utilizes MOTC Payment gate,"Yes, No",552,
+22,eServices,Is it available on KIOSK ,"Yes, No",,
