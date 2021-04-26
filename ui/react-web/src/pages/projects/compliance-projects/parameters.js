@@ -3,7 +3,9 @@ import { useParams } from 'react-router';
 import styled, { css } from 'styled-components';
 import makeStore from '../../../store/make-store';
 import { complianceProjectResults } from '../../../store/master-data';
+import { isJAWDAUser, isMOTCUser } from '../../../store/user';
 import { ButtonLink } from '../../entities/details';
+import { CrossIcon } from '../case-management/action';
 
 const { load } = makeStore(
   ({ compliance_project_id, attribute_id }) =>
@@ -13,10 +15,19 @@ const { load: loadVariations } = makeStore(
   ({ compliance_project_id, parameter_id }) =>
     `rev-compl-projects/${compliance_project_id}/parameter/${parameter_id}/variations`
 );
-const { load: loadComments, create: createComments } = makeStore(({ compliance_record_id }) => `rev-compl-records/${compliance_record_id}/comments`);
-const { load: loadComplianceRecords, update: updateComplianceRecord } = makeStore(({ compliance_record_id }) => `rev-compl-records${compliance_record_id ? `/${compliance_record_id}` : ''}`);
+const { load: loadComments, create: createComments } = makeStore(
+  ({ compliance_record_id }) =>
+    `rev-compl-records/${compliance_record_id}/comments`
+);
+const {
+  load: loadComplianceRecords,
+  update: updateComplianceRecord,
+} = makeStore(
+  ({ compliance_record_id }) =>
+    `rev-compl-records${compliance_record_id ? `/${compliance_record_id}` : ''}`
+);
 
-const Projects = ({ selected, setTableProps }) => {
+const Parameters = ({ selected, setTableProps, updateStatus }) => {
   const { project_id } = useParams();
   const [parameters, setParameters] = useState([]);
   const [variations, setVariations] = useState([]);
@@ -36,7 +47,9 @@ const Projects = ({ selected, setTableProps }) => {
   const [submitClicked, setSubmitClicked] = useState(false);
 
   const handleEdit = (id) => {
-    loadComplianceRecords({ compliance_record_id: id }, (data) => setData(data));
+    loadComplianceRecords({ compliance_record_id: id }, (data) =>
+      setData(data)
+    );
     loadComments({ compliance_record_id: id }, (data) => setAttachments(data));
   };
 
@@ -51,23 +64,44 @@ const Projects = ({ selected, setTableProps }) => {
           setParameters(data);
 
           if (data[0]?.parameter_id) {
-            loadVariations({ compliance_project_id: selected['1'].id, parameter_id: data[0].parameter_id }, (data) => 
-              setVariations(data)
+            loadVariations(
+              {
+                compliance_project_id: selected['1'].id,
+                parameter_id: data[0].parameter_id,
+              },
+              (data) => setVariations(data)
             );
+
+            handleEdit(data[0].id);
           }
 
           setTableProps({
             rows: data,
+            keyField: 'parameter_id',
             renderCol: (colIndex, col) => {
               if (colIndex === 1) {
-                return (
-                  <SelectBadge>
-                    {col.includes('web') ? <WebLogo /> : col.includes('android') ? <AndroidLogo /> : col.includes('ios') ? <AppleLogo /> : null}
-                    {col.includes('ar') ? 'Arabic' : col.includes('en') ? 'English' : ''}
-                  </SelectBadge>
-                );
+                if (typeof col === 'string') {
+                  return (
+                    <SelectBadge>
+                      {col.includes('web') ? (
+                        <WebLogo />
+                      ) : col.includes('android') ? (
+                        <AndroidLogo />
+                      ) : col.includes('ios') ? (
+                        <AppleLogo />
+                      ) : null}
+                      {col.includes('ar')
+                        ? 'Arabic'
+                        : col.includes('en')
+                        ? 'English'
+                        : ''}
+                    </SelectBadge>
+                  );
+                }
+
+                return null;
               }
-  
+
               if (colIndex === 2) {
                 return complianceProjectResults[col]?.label;
               }
@@ -79,14 +113,16 @@ const Projects = ({ selected, setTableProps }) => {
               if (colIndex === 4) {
                 return (
                   <>
-                    <ButtonLink onClick={() => handleEdit(col)}>Edit</ButtonLink>
+                    <ButtonLink onClick={() => handleEdit(col)}>
+                      Edit
+                    </ButtonLink>
                     {/* <ButtonLink onClick={() => {}}>
                       Delete
                     </ButtonLink> */}
                   </>
                 );
               }
-  
+
               return false;
             },
           });
@@ -96,8 +132,8 @@ const Projects = ({ selected, setTableProps }) => {
   }, []);
 
   useEffect(() => {
-    if (data.parameter_id) {
-      loadVariations({ parameter_id: data.parameter_id }, (data) => 
+    if (data.parameter_id && selected[1].id) {
+      loadVariations({ parameter_id: data.parameter_id, compliance_project_id: selected[1].id }, (data) =>
         setVariations(data)
       );
     }
@@ -167,14 +203,14 @@ const Projects = ({ selected, setTableProps }) => {
             setTableProps((prevData) => {
               const prevUsers = [...prevData.rows];
 
-              const updatedIndex = prevUsers.find(({ id }) => id === data.id);
+              const updatedIndex = prevUsers.findIndex(({ id }) => id === data.id);
               prevUsers[updatedIndex] = data;
 
               return { ...prevData, rows: [...prevUsers] };
             });
           },
-          compliance_record_id: data.id,  
-        })
+          compliance_record_id: data.id,
+        });
       }
     }
   };
@@ -190,15 +226,19 @@ const Projects = ({ selected, setTableProps }) => {
 
   const handleSubmit = () => {
     if (file || comment) {
-      createComments({ data: { comment }, cb: () => {
-        setAttachments((prevValue) =>
-          prevValue.concat([
-            { ...attachmentData, date: new Date().toLocaleDateString() },
-          ])
-        );
+      createComments({
+        data: { comment },
+        cb: () => {
+          setAttachments((prevValue) =>
+            prevValue.concat([
+              { ...attachmentData, created_at: new Date() },
+            ])
+          );
 
-        setAttachmentData(defaultAttachmentData);
-      }, compliance_record_id: data.id });
+          setAttachmentData(defaultAttachmentData);
+        },
+        compliance_record_id: data.id,
+      });
     }
   };
 
@@ -216,8 +256,10 @@ const Projects = ({ selected, setTableProps }) => {
               <div className="text_field_wrapper">
                 <select
                   name="parameter_id"
+                  placeholder="Select parameter"
                   value={parameter_id}
                   onChange={handleChange}
+                  disabled={isJAWDAUser()}
                 >
                   {parameters.map(({ parameter_id, parameter_name }) => (
                     <option value={parameter_id}>{parameter_name}</option>
@@ -232,20 +274,32 @@ const Projects = ({ selected, setTableProps }) => {
               <label className="form_label">
                 Platform &amp; Language <mark>*</mark>
               </label>
-              {variations.map(({ id, platform_language: key}) => 
+              {variations.map(({ id, platform_language: key }) => (
                 <SelectBadge
                   key={id}
-                  selected={platform_language === id}
-                  onClick={() => updateData('platform_language', id)}
+                  selected={platform_language === id || platform_language === key}
+                  onClick={
+                    isJAWDAUser()
+                      ? undefined
+                      : () => updateData('platform_language', id)
+                  }
                 >
-                  {key.includes('web') ? <WebLogo /> : key.includes('android') ? <AndroidLogo /> : key.includes('ios') ? <AppleLogo /> : null}
-                  {key.includes('ar') ? 'Arabic' : key.includes('en') ? 'English' : ''}
-                  {platform_language === id && <CheckIcon />}
+                  {key.includes('web') ? (
+                    <WebLogo />
+                  ) : key.includes('android') ? (
+                    <AndroidLogo />
+                  ) : key.includes('ios') ? (
+                    <AppleLogo />
+                  ) : null}
+                  {key.includes('ar')
+                    ? 'Arabic'
+                    : key.includes('en')
+                    ? 'English'
+                    : ''}
+                  {(platform_language === id || platform_language === key) && <CheckIcon />}
                 </SelectBadge>
-              )}
-              <div className="error_messg">
-                {errors.platform_language}
-              </div>
+              ))}
+              <div className="error_messg">{errors.platform_language}</div>
             </div>
           </div>
           <div className="flex_col_sm_12">
@@ -254,17 +308,65 @@ const Projects = ({ selected, setTableProps }) => {
                 Result <mark>*</mark>
               </label>
               <div className="text_field_wrapper">
-                <select name="result" value={result} onChange={handleChange}>
-                  {Object.values(complianceProjectResults).map(({ value, label }) => <option key={value} value={value}>{label}</option>)}
+                <select
+                  name="result"
+                  value={result}
+                  onChange={handleChange}
+                  disabled={isJAWDAUser()}
+                >
+                  {Object.values(complianceProjectResults).map(
+                    ({ value, label }) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    )
+                  )}
                 </select>
                 <div className="error_messg">{errors.result}</div>
               </div>
             </div>
           </div>
           <div className="flex_col_sm_12 text-right">
-            <button className="add_more" onClick={handleSave}>
-              Save
-            </button>
+            {isMOTCUser() ? (
+              <button className="add_more" onClick={handleSave}>
+                Save
+              </button>
+            ) : isJAWDAUser() ? (
+              <JawdaActions>
+                <Button color="success" onClick={() => {
+                  if (selected[1].id && data.id) {
+                    updateStatus({
+                      checked: true,
+                      req: {
+                        data: {
+                          parameter_id: [data.id]
+                        },
+                        compliance_project_id: selected[1].id,
+                      },
+                    });
+                  }}}
+                >
+                  <CheckIcon />
+                  Approve
+                </Button>
+                <Button color="danger" onClick={() => {
+                  if (selected[1].id && data.id) {
+                    updateStatus({
+                      checked: false,
+                      req: {
+                        data: {
+                          parameter_id: [data.id]
+                        },
+                        compliance_project_id: selected[1].id,
+                      },
+                    });
+                  }}}
+                >
+                  <CrossIcon />
+                  Reject
+                </Button>
+              </JawdaActions>
+            ) : null}
           </div>
         </div>
         <div className="flex_col_sm_6">
@@ -272,11 +374,11 @@ const Projects = ({ selected, setTableProps }) => {
             <Heading>Test Profile, Test Data &amp; Comments</Heading>
           </div>
           <Scroll className="flex_col_sm_12">
-            {attachments.map(({ file, comment, date }) => (
+            {attachments.map(({ file, comment, created_at }) => (
               <FileCard>
                 <FileCardHeader>
                   <Badge>Reviewer</Badge>
-                  <span>{date}</span>
+                  <span>{new Date(created_at).toLocaleDateString()}</span>
                 </FileCardHeader>
                 <div>{comment}</div>
                 <div>{file}</div>
@@ -307,7 +409,11 @@ const Projects = ({ selected, setTableProps }) => {
               }}
             />
             <UploadButton htmlFor="file">Upload Attachment </UploadButton>
-            <button className="btn_solid" onClick={handleSubmit} disabled={!data.id}>
+            <button
+              className="btn_solid"
+              onClick={handleSubmit}
+              disabled={!data.id}
+            >
               Submit{' '}
             </button>
           </Footer>
@@ -408,6 +514,42 @@ const UploadButton = styled.label`
   cursor: pointer;
 `;
 
+const JawdaActions = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 64px;
+
+  > :first-child {
+    margin-right: 40px;
+  }
+`;
+
+const Button = styled.button`
+  ${({ color, width }) => css`
+    width: ${width || '116px'};
+    height: 36px;
+    color: white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 16px;
+    font: normal normal 600 14px/20px Muli;
+    background: ${color === 'danger'
+        ? '#F84848'
+        : color === 'success'
+        ? '#3FBF11'
+        : '#2680EB'}
+      0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #dddddd;
+    border: none;
+    white-space: nowrap;
+
+    > svg {
+      margin-right: 10px;
+    }
+  `}
+`;
+
 export const CheckIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -500,4 +642,4 @@ const WebLogo = () => (
   </svg>
 );
 
-export default Projects;
+export default Parameters;

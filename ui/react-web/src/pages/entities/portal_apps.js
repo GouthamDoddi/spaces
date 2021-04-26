@@ -179,7 +179,7 @@ const PortalApps = ({ setTableProps }) => {
             setTableProps((prevData) => {
               const prevUsers = [...prevData.rows];
 
-              const updatedIndex = prevUsers.find(({ id }) => id === data.id);
+              const updatedIndex = prevUsers.findIndex(({ id }) => id === data.id);
               prevUsers[updatedIndex] = data;
 
               return { ...prevData, rows: [...prevUsers] };

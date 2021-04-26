@@ -7,7 +7,7 @@ import DropZone from '../drop-zone';
 
 const { load: loadCases, update: updateCase } = makeStore(({ project_id, case_id }) => `rev-projects/${project_id}/cases${case_id ? `/${case_id}` : ''}`);
 
-const Details = ({ setTableProps, rowId }) => {
+const Details = ({ setTableProps, rowId, setRowId }) => {
   const { project_id } = useParams();
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState({});
@@ -128,10 +128,11 @@ const Details = ({ setTableProps, rowId }) => {
           data,
           cb: (data) => {
             setData(defaultData);
+            setRowId(null);
             setTableProps((prevData) => {
               const prevCases = [...prevData.rows];
 
-              const updatedIndex = prevCases.find(({ id }) => id === data.id);
+              const updatedIndex = prevCases.findIndex(({ id }) => id === data.id);
               prevCases[updatedIndex] = data;
 
               return { ...prevData, rows: [...prevCases] };
