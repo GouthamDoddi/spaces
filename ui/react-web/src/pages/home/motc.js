@@ -67,7 +67,7 @@ export default function(props) {
 
     <Content>
       <FlexWrapper>
-        <Entities style={{ marginLeft: '-5%', width: '33%' }}>
+        <Entities style={{ marginRight: '20px', width: 'calc(25% - 20px)' }}>
           <header>
             List of Entities
           </header>
@@ -76,13 +76,13 @@ export default function(props) {
           </div>
           
         </Entities>
-        <div>
+        {/* <div> */}
           {/* <QuickActions />
           <Insight hideFilter height='530px' /> */}
     
-        </div>
+        {/* </div> */}
 
-        <Projects style={{ marginLeft: '-5%', width: '33%' }}>
+        <Projects style={{ marginRight: '20px', width: 'calc(25% - 20px)' }}>
           <header>
             List of Projects
           </header>
@@ -351,11 +351,11 @@ function Cancel() {
 const FlexWrapper = styled.div`
   display: flex;
   margin-left: 100px;
+  margin-right: 100px;
   padding-top: 30px;
   margin-bottom: 30px;
   > div {
     width: 50%;
-    margin-right: 24px;
   }
 
 `
@@ -363,6 +363,7 @@ const FlexWrapper = styled.div`
 const Entities = styled.div`
   border: 1px solid #DDDDDD;
   background: #F7FAFD 0% 0% no-repeat padding-box;
+  height: 985px;
 
   > header {
     font: normal normal 600 25px/36px Muli;
@@ -372,9 +373,10 @@ const Entities = styled.div`
   }
   > div {
     // height: 700px;
-    height: 18%;
+    // height: 18%;
     overflow: auto;
     padding: 0px 12px;
+    max-height: calc(100% - 90px);
 
     /* total width */
     &::-webkit-scrollbar {
@@ -401,8 +403,10 @@ const Entities = styled.div`
 `
 
 const Projects = styled(Entities)`
+  height: 985px;
   > div {
     // height: 18%;
+    max-height: calc(100% - 90px);
 
     /* total width */
     &::-webkit-scrollbar {
