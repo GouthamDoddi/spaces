@@ -1,6 +1,7 @@
 class App::Services::RevComplianceRecords < App::Services::Base
 
 
+   STATUS = ['submitted', 'open', 'in-review', 'approved', 'rejected']
   def model; App::Models::RevComplianceRecord; end
 
   def list
@@ -20,13 +21,38 @@ class App::Services::RevComplianceRecords < App::Services::Base
     status = cp.compliance_records.map(&:status).uniq.compact
 
     
-    if status.include?('open') || status.blank?
+    if status.include?(1) || status.blank?
       'draft'
-    elsif status.include?('in-review')
+    elsif status.include?(2)
       'in-review'
-    elsif status.include?('completed')
+    elsif status.include?(4)
       'completed'
     end
+  end
+
+
+  def approve_reject_cond
+    valid_flags = %w[attribute_id, sections_id, parameter_id, compliance_record_id]
+    key = params.keys & valid_flags
+
+    if(key && key.length == 1 )
+      key = key.first  
+      key == 'compliance_record_id' ? {id: params[key]} : {key => params[key]} 
+    else
+      return_errors!("Invlid flag, it should be on e of #{valid_flags}")
+    end
+  end
+
+  def approve
+    o = model.where(approve_reject_cond).where(status: 2, compliance_project_id: rp[:compliance_project_id]).update(status: 4)
+    
+    return_success({"#{o} records approved"})
+  end
+
+
+  def reject
+    o = model.where(approve_reject_cond).where(status: 2, compliance_project_id: rp[:compliance_project_id]).update(status: 3)
+    return_success({"#{o} records rejected"})
   end
 
   def report

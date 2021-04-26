@@ -117,6 +117,15 @@ class App::Routes < Roda
         end        
       end
 
+      r.post('rev-compl-projects', Integer, 'approve') do |compliance_project_id|
+        puts "IN HERE"
+        RevComplianceRecords[r, {compliance_project_id: compliance_project_id}].approve
+      end
+      
+      r.post('rev-compl-projects', Integer, 'reject') do |compliance_project_id|
+        RevComplianceRecords[r, {compliance_project_id: compliance_project_id}].reject
+      end
+
       r.on('rev-projects', Integer, 'resources') do |project_id|
         do_crud(RevResources, r, 'CRUDL', {project_id: project_id})
       end

@@ -11,7 +11,8 @@ class App::Models::RevProject < Sequel::Model
 
   def after_save
     o =  main_compliance_project || App::Models::RevComplianceProject.new(project_ids: [id])
-    data = values.slice(:prject_name, :prject_name_ar, :project_description_ar, :project_description, :consumer_type_ids, :spoc_ids, :owner_id)
+  
+    data = values.slice(:project_name, :project_name_ar, :project_description_ar, :project_description, :consumer_type_ids, :spoc_ids, :owner_id)
     o.set_fields(data, data.keys )
     o.type_id = project_type_id
     o.start_date = start_date

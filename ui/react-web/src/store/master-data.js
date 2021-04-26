@@ -198,6 +198,13 @@ export const statusTypes = {
   close: { value: 'close', label: 'Close' },
 }
 
+export const recordStatusTypes = {
+  1: { value: 1, label: 'Draft' },
+  2: { value: 2, label: 'Submitted' },
+  3: { value: 3, label: 'Rejected' },
+  4: { value: 3, label: 'Approved' }
+}
+
 export const userRoleTypes = {
   1: { value: 1, label: 'Steering Committee' },
   3: { value: 3, label: 'Operational Committee' },
