@@ -46,13 +46,13 @@ class App::Services::RevComplianceRecords < App::Services::Base
   def approve
     o = model.where(approve_reject_cond).where(status: 2, compliance_project_id: rp[:compliance_project_id]).update(status: 4)
     
-    return_success({"#{o} records approved"})
+    return_success("#{o} records approved")
   end
 
 
   def reject
     o = model.where(approve_reject_cond).where(status: 2, compliance_project_id: rp[:compliance_project_id]).update(status: 3)
-    return_success({"#{o} records rejected"})
+    return_success("#{o} records rejected")
   end
 
   def report
