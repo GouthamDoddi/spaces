@@ -152,7 +152,7 @@ const CaseManagement = () => {
                 ) : step === 2 ? (
                   <Details setTableProps={setTableProps} rowId={rowId} setRowId={setRowId} />
                 ) : step === 3 ? (
-                  <Action setTableProps={setTableProps} rowId={rowId} />
+                  <Action setTableProps={setTableProps} rowId={rowId} setRowId={setRowId} />
                 ) : null}
               </div>
             </div>

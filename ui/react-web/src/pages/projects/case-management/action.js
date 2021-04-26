@@ -3,12 +3,17 @@ import { useParams } from 'react-router';
 import styled, { css } from 'styled-components';
 import makeStore from '../../../store/make-store';
 import { caseCategoryTypes, casePriorityTypes } from '../../../store/master-data';
+import { isJAWDAUser, isMOTCUser, role } from '../../../store/user';
 import { CheckIcon } from '../compliance-projects/parameters';
 
 const { load: loadCases } = makeStore(({ project_id, case_id }) => `rev-projects/${project_id}/cases${case_id ? `/${case_id}` : ''}`);
+const { create: approve } = makeStore(({ project_id, case_id }) => `rev-projects/${project_id}/cases/${case_id}/approve`);
+const { create: reject } = makeStore(({ project_id, case_id }) => `rev-projects/${project_id}/cases/${case_id}/reject`);
+const { load: loadGrounds } = makeStore(() => 'case-grounds/');
 
-const Action = ({ setTableProps }) => {
+const Action = ({ setTableProps, rowId, setRowId }) => {
   const { project_id } = useParams();
+  const [grounds, setGrounds] = useState([]);
   const [data, setData] = useState({
     ground: '',
     comments: '',
@@ -17,7 +22,15 @@ const Action = ({ setTableProps }) => {
   const [submitClicked, setSubmitClicked] = useState(false);
 
   useEffect(() => {
-    loadCases({ project_id }, (data) =>
+    if (isMOTCUser()) {
+      loadGrounds('', (data) => setGrounds(data));
+    }
+
+    loadCases({ project_id }, (data) => {
+      if (data.length && data[0].id) {
+        setRowId(data[0].id);
+      }
+
       setTableProps({
         rows: data,
         renderCol: (colIndex, col) => {
@@ -48,7 +61,7 @@ const Action = ({ setTableProps }) => {
           return false;
         },
       })
-    );
+    });
   }, []);
 
   const errorLabels = {
@@ -122,71 +135,77 @@ const Action = ({ setTableProps }) => {
                 placeholder="Agency comments"
                 name="agency comment"
                 value="Two-factor authentication to make private is complicated hence, please provide exception for this case"
-                disabled
+                disabled={isMOTCUser() || isJAWDAUser()}
               />
             </div>
           </div>
         </div>
         <div className="flex_col_sm_6">
-          <AgencyCommentActions>
-            <Button color="success">
-              <CheckIcon />
-              Approve
-            </Button>
-            <Button color="danger">
-              <CrossIcon />
-              Reject
-            </Button>
-          </AgencyCommentActions>
+          {(isMOTCUser() || isJAWDAUser()) && (
+            <AgencyCommentActions>
+              <Button color="success" onClick={() => rowId ? approve({ data: {}, project_id, case_id: rowId }) : undefined}>
+                <CheckIcon />
+                Approve
+              </Button>
+              <Button color="danger" onClick={() => rowId ? reject({ data: {}, project_id, case_id: rowId }) : undefined}>
+                <CrossIcon />
+                Reject
+              </Button>
+            </AgencyCommentActions>
+          )}
         </div>
       </div>
 
-      <div className="flex_row">
-        <div className="flex_col_sm_6">
-          <div className="form_field_wrapper">
-            <label className="form_label">
-              Select Ground <mark>*</mark>
-            </label>
-            <div className="text_field_wrapper">
-              <select name="ground" value={ground} onChange={handleChange}>
-                <option>Test1</option>
-              </select>
-              <div className="error_messg">{errors.ground}</div>
+      {isMOTCUser() && (
+        <>
+          <div className="flex_row">
+            <div className="flex_col_sm_6">
+              <div className="form_field_wrapper">
+                <label className="form_label">
+                  Select Ground <mark>*</mark>
+                </label>
+                <div className="text_field_wrapper">
+                  <select name="ground" value={ground} onChange={handleChange}>
+                    {grounds.map(({ name }) => <option>{name}</option>)}
+                  </select>
+                  <div className="error_messg">{errors.ground}</div>
+                </div>
+              </div>
+            </div>
+            <div className="flex_col_sm_6">
+              <OR>[OR]</OR>
+              <Button color="primary" width="auto">
+                <PlusIcon />
+                Request New Ground
+              </Button>
             </div>
           </div>
-        </div>
-        <div className="flex_col_sm_6">
-          <OR>[OR]</OR>
-          <Button color="primary" width="auto">
-            <PlusIcon />
-            Request New Ground
-          </Button>
-        </div>
-      </div>
-      <div className="flex_row">
-        <div className="flex_col_sm_6">
-          <div className="form_field_wrapper">
-            <label className="form_label">
-              Ground comments <mark>*</mark>
-            </label>
-            <div className="text_field_wrapper">
-              <textarea
-                placeholder="Enter comments"
-                name="comments"
-                value={comments}
-                onChange={handleChange}
-              />
-              <div className="error_messg">{errors.comments}</div>
+          <div className="flex_row">
+            <div className="flex_col_sm_6">
+              <div className="form_field_wrapper">
+                <label className="form_label">
+                  Ground comments <mark>*</mark>
+                </label>
+                <div className="text_field_wrapper">
+                  <textarea
+                    placeholder="Enter comments"
+                    name="comments"
+                    value={comments}
+                    onChange={handleChange}
+                  />
+                  <div className="error_messg">{errors.comments}</div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="flex_col_sm_12 text-right">
-        <button className="add_more" onClick={handleSave}>
-          Submit
-        </button>
-      </div>
+          <div className="flex_col_sm_12 text-right">
+            <button className="add_more" onClick={handleSave}>
+              Submit
+            </button>
+          </div>
+        </>
+      )}
     </>
   );
 };
