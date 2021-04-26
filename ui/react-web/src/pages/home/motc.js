@@ -37,16 +37,16 @@ export default function(props) {
       </header>
 
       <div className='items'>
-        <TotalProjects>
+        <TotalProjects style={{ marginLeft: '-5%', width: '60%', height: '180' }}>
           <header> Total Projects {projectCount}</header>
           <div className='progress-status'>
             <Progress width='113px' value={45} height='5px' max={100} bkcolor='#DCDFE8' width='90%' color='#3FBF11' tagText={`${45}% Completed`} tagBkColor='#DEFCD4' showTag tagColor='#3FBF11' />  
           </div>
           
-          <div className='tags'>
+          <div className='tags' style={{minWidth: '50%'}}>
             <Tag> 
               <div> <Check /></div>
-              <div>{projectCounts.completed} Completed</div>
+              <div style={{ fontSize: 'auto' }}>{projectCounts.completed} Completed</div>
             </Tag>
             <Tag color='#FFBF00'> 
               <div> <Sol /></div>
@@ -60,14 +60,14 @@ export default function(props) {
         </TotalProjects>
 
         <SimpleTable />
-        <div> <SmallCard count={entityCount} /> </div>
+        <div> <SmallCard count={entityCount} style={{ width: '50%', height: '180' }}/> </div>
         
       </div>
     </Box>
 
     <Content>
       <FlexWrapper>
-        <Entities>
+        <Entities style={{ marginLeft: '-5%', width: '33%' }}>
           <header>
             List of Entities
           </header>
@@ -77,14 +77,12 @@ export default function(props) {
           
         </Entities>
         <div>
-          <QuickActions />
-          <Insight hideFilter height='530px' />
+          {/* <QuickActions />
+          <Insight hideFilter height='530px' /> */}
     
         </div>
-      </FlexWrapper>
 
-      <FlexWrapper>
-        <Projects>
+        <Projects style={{ marginLeft: '-5%', width: '33%' }}>
           <header>
             List of Projects
           </header>
@@ -96,6 +94,9 @@ export default function(props) {
         <div>
         <Challenges />
         </div>
+      </FlexWrapper>
+
+      <FlexWrapper>
       </FlexWrapper>
       <FlexWrapper>
         
@@ -172,7 +173,7 @@ const Box = styled.div`
   border-right: none;
   width: 100%;
   height: 320px;
-  background-color: #F7FAFD;
+  background-color: #9ECAD6;
   padding-bottom: 10px;
   > header {
     padding: 26px 100px;
@@ -298,10 +299,11 @@ const Tag = styled.div`
   box-shadow: 0px 1px 2px #00000029;
   border-radius: 20px;
   display: flex;
-  font: normal normal 600 15px/22px Muli;
+  font: normal normal 600 70%/22px Muli;
   color: #FFFFFF;
   height: 30px;
   margin-right: 30px;
+  width: 28%;
 
   > div:first-child {
     padding: 3px 5px 3px 3px; 
@@ -352,7 +354,7 @@ const FlexWrapper = styled.div`
   padding-top: 30px;
   margin-bottom: 30px;
   > div {
-    width: calc(50% - 24px);
+    width: 50%;
     margin-right: 24px;
   }
 
@@ -369,8 +371,8 @@ const Entities = styled.div`
     padding: 8px 16px;
   }
   > div {
-    height: 700px;
-    // height: 100%;
+    // height: 700px;
+    height: 18%;
     overflow: auto;
     padding: 0px 12px;
 
@@ -400,7 +402,7 @@ const Entities = styled.div`
 
 const Projects = styled(Entities)`
   > div {
-    height: 900px;
+    // height: 18%;
 
     /* total width */
     &::-webkit-scrollbar {
