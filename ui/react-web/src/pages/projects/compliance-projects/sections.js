@@ -97,34 +97,36 @@ const Sections = ({ onSubmit, selected, setTableProps, updateStatus }) => {
                 <td>Completed</td>
                 <td>Not Tested</td>
                 <td>
-                  <Switch
-                    leftLabel="Approve all"
-                    rightLabel="Reject all"
-                    checked={allApproved}
-                    onClick={(checked) => {
-                      if (selected[1].id) {
-                        updateStatus({
-                          checked,
-                          req: {
-                            data: {
-                              section_id: sections.map(({ section_id }) => section_id),
-                            },
-                            cb: () => {
-                              setApproveStatus(() => {
-                                const updatedApproveStatus = {};
-                                sections.forEach(({ section_id }) => { 
-                                  updatedApproveStatus[section_id] = checked;
-                                });
+                  {isJAWDAUser() && (
+                    <Switch
+                      leftLabel="Approve all"
+                      rightLabel="Reject all"
+                      checked={allApproved}
+                      onClick={(checked) => {
+                        if (selected[1].id) {
+                          updateStatus({
+                            checked,
+                            req: {
+                              data: {
+                                section_id: sections.map(({ section_id }) => section_id),
+                              },
+                              cb: () => {
+                                setApproveStatus(() => {
+                                  const updatedApproveStatus = {};
+                                  sections.forEach(({ section_id }) => { 
+                                    updatedApproveStatus[section_id] = checked;
+                                  });
 
-                                return updatedApproveStatus;
-                              });
+                                  return updatedApproveStatus;
+                                });
+                              },
+                              compliance_project_id: selected[1].id,
                             },
-                            compliance_project_id: selected[1].id,
-                          },
-                        });
-                      }
-                    }}
-                  />
+                          });
+                        }
+                      }}
+                    />
+                  )}
                 </td>
               </tr>
             </Thead>

@@ -92,32 +92,34 @@ const Projects = ({ onSubmit, setTableProps, updateStatus }) => {
                 <td>Parameters</td>
                 <td>Status</td>
                 <td>
-                  <Switch
-                    leftLabel="Approve all"
-                    rightLabel="Reject all"
-                    checked={allApproved}
-                    onClick={(checked) => {
-                      updateStatus({
-                        checked,
-                        req: {
-                          data: {
-                            compliance_record_id: projects.map(({ id }) => id),
-                          },
-                          cb: () => {
-                            setApproveStatus(() => {
-                              const updatedApproveStatus = {};
-                              projects.forEach(({ id }) => { 
-                                updatedApproveStatus[id] = checked ? 'approved' : 'rejected';
-                              });
+                  {isJAWDAUser() && (
+                    <Switch
+                      leftLabel="Approve all"
+                      rightLabel="Reject all"
+                      checked={allApproved}
+                      onClick={(checked) => {
+                        updateStatus({
+                          checked,
+                          req: {
+                            data: {
+                              compliance_record_id: projects.map(({ id }) => id),
+                            },
+                            cb: () => {
+                              setApproveStatus(() => {
+                                const updatedApproveStatus = {};
+                                projects.forEach(({ id }) => { 
+                                  updatedApproveStatus[id] = checked ? 'approved' : 'rejected';
+                                });
 
-                              return updatedApproveStatus;
-                            });
+                                return updatedApproveStatus;
+                              });
+                            },
+                            compliance_project_id: project_id,
                           },
-                          compliance_project_id: project_id,
-                        },
-                      });
-                    }}
-                  />
+                        });
+                      }}
+                    />
+                  )}
                 </td>
               </tr>
             </Thead>
