@@ -32,7 +32,7 @@ class App::Services::RevComplianceRecords < App::Services::Base
 
 
   def approve_reject_cond
-    valid_flags = %w[attribute_id, section_id, parameter_id, compliance_record_id]
+    valid_flags = %w[attribute_id section_id parameter_id compliance_record_id]
     key = params.keys & valid_flags
 
     if(key && key.length == 1 )
