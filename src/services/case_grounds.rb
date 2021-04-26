@@ -3,6 +3,12 @@ class App::Services::CaseGrounds < App::Services::Base
 
   def model; CaseGround; end
 
+  def list
+    data = App::Models::CaseGround.eager(:cases).all
+
+    return_auccess(data.as_json.merge!({cases: data.cases.length}))
+  end
+
   
   def self.fields
     {

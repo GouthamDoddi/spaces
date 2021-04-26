@@ -1,5 +1,7 @@
 
 class App::Models::CaseGround < Sequel::Model
+
+  one_to_many :cases, class: 'App::Models::RevCase', key: :ground_id
   
   def validate
     super
