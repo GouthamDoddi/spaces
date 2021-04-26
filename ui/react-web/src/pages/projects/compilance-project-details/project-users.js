@@ -135,7 +135,7 @@ const ProjectUsers = ({
             setTableProps((prevData) => {
               const prevUsers = [...prevData.rows];
 
-              const updatedIndex = prevUsers.find(({ id }) => id === userId);
+              const updatedIndex = prevUsers.findIndex(({ id }) => id === userId);
               prevUsers[updatedIndex] = data;
 
               return { ...prevData, rows: [...prevUsers] };

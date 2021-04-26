@@ -145,7 +145,7 @@ const CompilanceProjectDetails = () => {
                   <span className={step === 4 ? 'active' : 'clickable'}>
                     <span className="step_count">4</span>
                     <span className="detail">
-                      <span className="title"> Submit Evidence </span>
+                      <span className="title"> Test Data </span>
                       <span className="sub_title"> Upload test profile and test data </span>
                     </span>
                   </span>
@@ -172,14 +172,12 @@ const CompilanceProjectDetails = () => {
             >
               Previous{' '}
             </button>
-            {step !== 4 && (
-              <button
-                className="btn_solid"
-                onClick={() => setStep((prevValue) => prevValue + 1)}
-              >
-                Next{' '}
-              </button>
-            )}
+            <button
+              className="btn_solid"
+              onClick={() => step === 4 ? history.push(`/projects/${project_id}/compliance-projects`) : setStep((prevValue) => prevValue + 1)}
+            >
+              Next{' '}
+            </button>
           </div>
 
           <div className="table_wrapper">

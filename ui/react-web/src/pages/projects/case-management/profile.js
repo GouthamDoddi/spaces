@@ -196,10 +196,11 @@ const Profile = ({ setTableProps, handleNext, rowId }) => {
           data: reqData,
           cb: (data) => {
             setData(defaultData);
+            handleNext(data.id);
             setTableProps((prevData) => {
               const prevCases = [...prevData.rows];
 
-              const updatedIndex = prevCases.find(({ id }) => id === data.id);
+              const updatedIndex = prevCases.findIndex(({ id }) => id === data.id);
               prevCases[updatedIndex] = data;
 
               return { ...prevData, rows: [...prevCases] };
