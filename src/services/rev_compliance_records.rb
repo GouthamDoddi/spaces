@@ -44,7 +44,6 @@ class App::Services::RevComplianceRecords < App::Services::Base
   end
 
   def approve
-    byebug
     o = model.where(approve_reject_cond).where(status: 2, compliance_project_id: rp[:compliance_project_id]).update(status: 4)
     
     return_success("#{o} records approved")
