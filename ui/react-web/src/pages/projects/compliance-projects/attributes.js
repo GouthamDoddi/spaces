@@ -1,20 +1,48 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import Switch from '../../../components/switch/switch';
 // import Pagination from '@material-ui/lab/Pagination';
 import makeStore from '../../../store/make-store';
-import { caseCategoryTypes, casePriorityTypes } from '../../../store/master-data';
+import {
+  caseCategoryTypes,
+  casePriorityTypes,
+} from '../../../store/master-data';
+import { isJAWDAUser, isMOTCUser } from '../../../store/user';
 
-const { load } = makeStore(({ compliance_project_id, section_id }) => `rev-compl-projects/${compliance_project_id}/section/${section_id}/attribute-report`);
-const { load: loadCases } = makeStore(({ project_id }) => `rev-projects/${project_id}/cases`);
+const { load } = makeStore(
+  ({ compliance_project_id, section_id }) =>
+    `rev-compl-projects/${compliance_project_id}/section/${section_id}/attribute-report`
+);
+const { load: loadCases } = makeStore(
+  ({ project_id }) => `rev-projects/${project_id}/cases`
+);
 
-const Attributes = ({ onSubmit, selected, setTableProps }) => {
+const Attributes = ({ onSubmit, selected, setTableProps, updateStatus }) => {
   const { project_id } = useParams();
   const [attributes, setAttributes] = useState([]);
+  const [approveStatus, setApproveStatus] = useState({});
 
   useEffect(() => {
     if (selected['1']?.id && selected['2']?.id) {
-      load({ compliance_project_id: selected['1'].id, section_id: selected['2'].id }, (data) => setAttributes(data));
+      load(
+        {
+          compliance_project_id: selected['1'].id,
+          section_id: selected['2'].id,
+        },
+        (data) => {
+          setAttributes(data);
+
+          setApproveStatus(() => {
+            const approveStatus = {};
+            data.forEach(({ attribute_id }) => {
+              approveStatus[attribute_id] = false;
+            });
+
+            return approveStatus;
+          });
+        }
+      );
     }
 
     loadCases({ project_id }, (data) =>
@@ -22,7 +50,7 @@ const Attributes = ({ onSubmit, selected, setTableProps }) => {
         rows: data,
         renderCol: (colIndex, col) => {
           if (colIndex === 0) {
-            return <Badge status={col}>{col}</Badge>
+            return <Badge status={col}>{col}</Badge>;
           }
 
           if (colIndex === 3) {
@@ -30,11 +58,19 @@ const Attributes = ({ onSubmit, selected, setTableProps }) => {
           }
 
           if (colIndex === 4) {
-            return <Priority active={col}>{casePriorityTypes[col]?.badge}</Priority>
+            return (
+              <Priority active={col}>{casePriorityTypes[col]?.badge}</Priority>
+            );
           }
 
           if (colIndex === 5) {
-            return col ? col.map((key) => <CatergoryBadge key={key}>{caseCategoryTypes[key]?.label}</CatergoryBadge>) : '';
+            return col
+              ? col.map((key) => (
+                  <CatergoryBadge key={key}>
+                    {caseCategoryTypes[key]?.label}
+                  </CatergoryBadge>
+                ))
+              : '';
           }
 
           if (colIndex === 6) {
@@ -51,6 +87,8 @@ const Attributes = ({ onSubmit, selected, setTableProps }) => {
     );
   }, []);
 
+  const allApproved = Object.values(approveStatus).every((value) => value);
+
   return (
     <>
       <div className="flex_row">
@@ -62,22 +100,88 @@ const Attributes = ({ onSubmit, selected, setTableProps }) => {
                 <td>Parameters</td>
                 <td>Completed</td>
                 <td>Not Tested</td>
-                <td></td>
+                <td>
+                  <Switch
+                    leftLabel="Approve all"
+                    rightLabel="Reject all"
+                    checked={allApproved}
+                    onClick={(checked) => {
+                      if (selected[1].id) {
+                        updateStatus({
+                          checked,
+                          req: {
+                            data: {
+                              attribute_id: attributes.map(({ attribute_id }) => attribute_id),
+                            },
+                            cb: () => {
+                              setApproveStatus(() => {
+                                const updatedApproveStatus = {};
+                                attributes.forEach(({ attribute_id }) => { 
+                                  updatedApproveStatus[attribute_id] = checked;
+                                });
+
+                                return updatedApproveStatus;
+                              });
+                            },
+                            compliance_project_id: selected[1].id,
+                          },
+                        });
+                      }
+                    }}
+                  />
+                </td>
               </tr>
             </Thead>
             <Tbody>
-              {attributes.map(({ attribute_id, attribute_name, parameter_count, completed, not_tested }) => (
-                <tr key={attribute_id} onClick={() => onSubmit({ name: attribute_name, id: attribute_id})}>
-                  <td>{attribute_name}</td>
-                  <td>{parameter_count}</td>
-                  <td>{completed}</td>
-                  <td>{not_tested}</td>
-                  <td>
-                    <NavLink to="">Create Case</NavLink> /{' '}
-                    <NavLink to="">Report Issue</NavLink>
-                  </td>
-                </tr>
-              ))}
+              {attributes.map(
+                ({
+                  attribute_id,
+                  attribute_name,
+                  parameter_count,
+                  completed,
+                  not_tested,
+                }) => (
+                  <tr key={attribute_id}>
+                    <td onClick={() => onSubmit({ name: attribute_name, id: attribute_id })}>{attribute_name}</td>
+                    <td onClick={() => onSubmit({ name: attribute_name, id: attribute_id })}>{parameter_count}</td>
+                    <td onClick={() => onSubmit({ name: attribute_name, id: attribute_id })}>{completed}</td>
+                    <td onClick={() => onSubmit({ name: attribute_name, id: attribute_id })}>{not_tested}</td>
+                    <td>
+                      {isMOTCUser() ? (
+                        <>
+                          <NavLink to="">Create Case</NavLink> /{' '}
+                          <NavLink to="">Report Issue</NavLink>
+                        </>
+                      ) : isJAWDAUser() ? (
+                        <td>
+                          <Switch
+                            leftLabel="Approve"
+                            rightLabel="Reject"
+                            checked={approveStatus[attribute_id]}
+                            onClick={(checked) => {
+                              if (selected[1].id) {
+                                updateStatus({
+                                  checked,
+                                  req: {
+                                    data: { attribute_id: [attribute_id] },
+                                    cb: () => {
+                                      setApproveStatus((prevStatus) => ({
+                                        ...prevStatus,
+                                        [attribute_id]: checked
+                                      }));
+                                    },
+                                    compliance_project_id: selected[1].id
+                                  }
+                                });
+                              }
+                            }}
+                          />
+                        </td>
+                      ) : null}
+                    </td>
+                  </tr>
+                )
+              )}
             </Tbody>
           </Table>
           {/* <PaginationWrapper>
@@ -167,35 +271,52 @@ const colors = {
   approved: '#3FBF11',
   rejected: '#FF6060',
   on_hold: '#999999',
-}
+};
 
-const Badge = styled.span`${({ status }) => css`
-  display: inline-block;
-  height: 20px;
-  width: 80px;
-  color: white;
-  border-radius: 11px;
-  font: normal normal normal 12px/20px Muli;
-  background-color: ${colors[status]};
-  text-transform: capitalize;
-  text-align: center;
-`}`;
+const Badge = styled.span`
+  ${({ status }) => css`
+    display: inline-block;
+    height: 20px;
+    width: 80px;
+    color: white;
+    border-radius: 11px;
+    font: normal normal normal 12px/20px Muli;
+    background-color: ${colors[status]};
+    text-transform: capitalize;
+    text-align: center;
+  `}
+`;
 
 const Priority = styled.span`
-  background-color: ${props => props.active === 1 ? '#FFF1F1' : props.active === 2 ? '#EAF4FF' : '#FFF5DF'};
-  color: ${props => props.active === 1 ? '#FF6060' : props.active === 2 ? '#005CC8' : '#FFB300'};
-  border: ${props => props.active === 1 ? '1px solid #FF6060' : props.active === 2 ? '1px solid #005CC8' : '1px solid #FFB300'};
+  background-color: ${(props) =>
+    props.active === 1
+      ? '#FFF1F1'
+      : props.active === 2
+      ? '#EAF4FF'
+      : '#FFF5DF'};
+  color: ${(props) =>
+    props.active === 1
+      ? '#FF6060'
+      : props.active === 2
+      ? '#005CC8'
+      : '#FFB300'};
+  border: ${(props) =>
+    props.active === 1
+      ? '1px solid #FF6060'
+      : props.active === 2
+      ? '1px solid #005CC8'
+      : '1px solid #FFB300'};
   font-size: 12px;
   padding: 3px;
   border-radius: 3px;
 `;
 
 const CatergoryBadge = styled.span`
-    padding: 5px 10px;
-    background:#F5F5F5;
-    color:#1A6B8F;
-    border-radius:15px;
-    margin: 0px 4px 4px 0px;
+  padding: 5px 10px;
+  background: #f5f5f5;
+  color: #1a6b8f;
+  border-radius: 15px;
+  margin: 0px 4px 4px 0px;
 `;
 
 export default Attributes;

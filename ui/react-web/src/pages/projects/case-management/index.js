@@ -150,7 +150,7 @@ const CaseManagement = () => {
                 {step === 1 ? (
                   <Profile setTableProps={setTableProps} rowId={rowId} handleNext={(id) => { setRowId(id); setStep((prevValue) => prevValue + 1); }} />
                 ) : step === 2 ? (
-                  <Details setTableProps={setTableProps} rowId={rowId} />
+                  <Details setTableProps={setTableProps} rowId={rowId} setRowId={setRowId} />
                 ) : step === 3 ? (
                   <Action setTableProps={setTableProps} rowId={rowId} />
                 ) : null}

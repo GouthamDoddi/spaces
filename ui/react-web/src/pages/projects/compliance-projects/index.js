@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Records from './parameters';
+import Parameters from './parameters';
 import Sections from './sections';
-import Parameters from './projects';
+import Projects from './projects';
 import Attributes from './attributes';
 import BasicTable from '../../../shared/table-material';
 import { useHistory, useParams } from 'react-router';
 import makeStore from '../../../store/make-store';
 
 const { load } = makeStore(({ project_id }) => `rev-projects/${project_id}`);
+const { create: approve } = makeStore(({ compliance_project_id }) => `rev-compl-projects/${compliance_project_id}/approve`);
+const { create: reject } = makeStore(({ compliance_project_id }) => `rev-compl-projects/${compliance_project_id}/reject`);
 
 const tableHeadlines = {
   1: [
@@ -96,6 +98,16 @@ const CompilanceProjectDetails = () => {
       renderCol: () => {},
     })
   }, [step]);
+
+  const updateStatus = ({ checked, req: { cb, ...req } }) => {
+    const caller = checked ? approve : reject;
+
+    caller({ ...req, cb: (data) => {
+      if (parseInt(data.split(' ')[0]) !== 0) {
+        cb && cb();
+      }
+    }});
+  };
 
   return (
     <DetailsElement className="custom_container">
@@ -204,13 +216,13 @@ const CompilanceProjectDetails = () => {
             </div>
             <div className="flex_col_sm_9">
               {step === 1 ? (
-                <Parameters data={data} onSubmit={handleAdd} setTableProps={setTableProps} selected={selected} />
+                <Projects data={data} onSubmit={handleAdd} setTableProps={setTableProps} selected={selected} updateStatus={updateStatus} />
               ) : step === 2 ? (
-                <Sections data={data} onSubmit={handleAdd} setTableProps={setTableProps} selected={selected} />
+                <Sections data={data} onSubmit={handleAdd} setTableProps={setTableProps} selected={selected} updateStatus={updateStatus} />
               ) : step === 3 ? (
-                <Attributes data={data} onSubmit={handleAdd} setTableProps={setTableProps} selected={selected} />
+                <Attributes data={data} onSubmit={handleAdd} setTableProps={setTableProps} selected={selected} updateStatus={updateStatus} />
               ) : (
-                <Records data={data} setTableProps={setTableProps} selected={selected} />
+                <Parameters data={data} setTableProps={setTableProps} selected={selected} updateStatus={updateStatus} />
               )}
             </div>
           </div>
@@ -221,13 +233,11 @@ const CompilanceProjectDetails = () => {
             >
               Previous{' '}
             </button>
-            {step !== 4 && (
-              <button
-                className="btn_solid"
-                onClick={() => setStep((prevValue) => prevValue + 1)}>
-                Next{' '}
-              </button>
-            )}
+            <button
+              className="btn_solid"
+              onClick={() => step === 4 ? history.push(`/projects/${project_id}/case-management`) : setStep((prevValue) => prevValue + 1)}>
+              Next{' '}
+            </button>
           </div>
 
           <div className="table_wrapper">
@@ -235,7 +245,7 @@ const CompilanceProjectDetails = () => {
               tableCells={tableHeadlines[step]}
               rows={tableProps.rows}
               renderCol={tableProps.renderCol}
-              keyField="id"
+              keyField={tableProps.keyField || "id"}
             />
           </div>
         </div>

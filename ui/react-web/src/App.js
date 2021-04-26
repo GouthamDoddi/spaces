@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { loggedIn, role } from './store/user'
+import { isJAWDAUser, isMOTCUser, loggedIn } from './store/user'
 import { masterData } from './store/api'
 import { resetData } from './store/master-data'
 import langStore from './store/lang-store'
@@ -106,7 +106,7 @@ function AllRoutes(props) {
       <Switch>
         <Route path="/timeline"> <Header /> <TP theme={cs.home}> <Timeline /> </TP> </Route>
         <Route path="/kanban"> <Header /> <TP theme={cs.home}> <Kanban /> </TP> </Route>
-        <Route path="/dashboard"> <TP theme={cs.home}> {dbForRole(role(), lang, setLang)} </TP> </Route>
+        <Route path="/dashboard"> <TP theme={cs.home}> {dbForRole(lang, setLang)} </TP> </Route>
         <Route path="/formulation"> <Header /> <TP theme={cs.fs}> <Formulation /> </TP> </Route>
         <Route path="/collaboration"> <Header /> <TP theme={cs.cs}> <Collaboration /> </TP> </Route>
         <Route path="/activation"> <Header /> <TP theme={cs.as}> <Activation /> </TP> </Route>
@@ -130,25 +130,25 @@ function AllRoutes(props) {
         <Route path="/resources/upload" exact> <TP theme={cs.newdesign}> <ResourceUpload /> </TP> </Route>
         <Route path="/a-dashboard">
           <TP theme={cs.cps}>
-            {dbForRole(role(), lang, setLang)}
+            {dbForRole(lang, setLang)}
           </TP>
         </Route>
 
         <Route path="/qg/:entity_id/:project_id"> <TP theme={theme}> <Qg {...options} /> </TP> </Route>
         <Route path="/board"> <TP theme={theme}><Board {...options} /> </TP> </Route>
         <Route path="/agency/:entity_id"> <TP theme={theme}> <Agency {...options} /> </TP> </Route>
-        <Route exact path="/"> <TP theme={cs.home}> {dbForRole(role())} </TP></Route>
+        <Route exact path="/"> <TP theme={cs.home}> {dbForRole(lang, setLang)} </TP></Route>
       </Switch>
     </>)
 }
 
 
 
-function dbForRole(role, lang, setLang) {
-  if (role == 0) {
+function dbForRole(lang, setLang) {
+  if (isMOTCUser()) {
     return <MotcHome lang={lang} setLang={setLang} translate />
     // return <JawdaHome />
-  } else if ([11, 12, 13, 14].includes(role)) {
+  } else if (isJAWDAUser()) {
     return <JawdaHome lang={lang} setLang={setLang} translate />
   } else {
     return <AgencyHome lang={lang} setLang={setLang} translate />
