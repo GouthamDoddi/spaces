@@ -179,9 +179,9 @@ const ProjectList = () => {
                   </ul>
                 </div>
                 <div className="flex_col_sm_4 text-right">
-                  <NavLink to="/projects/new">
+                  {/* <NavLink to="/projects/new">
                     <button className="btn_solid">+ Create Project </button>
-                  </NavLink>
+                  </NavLink> */}
                 </div>
               </div>
             </div>
