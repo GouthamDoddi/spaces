@@ -167,7 +167,7 @@ const Box = styled.div`
   border-right: none;
   width: 100%;
   height: 320px;
-  background-color: #F7FAFD;
+  background-color: #ffb4b4;
   padding-bottom: 10px;
   > header {
     padding: 26px 100px;
