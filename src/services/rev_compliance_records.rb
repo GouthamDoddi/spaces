@@ -37,13 +37,14 @@ class App::Services::RevComplianceRecords < App::Services::Base
 
     if(key && key.length == 1 )
       key = key.first  
-      key == 'compliance_record_id' ? {id: params[key]} : {key => params[key]} 
+      key == 'compliance_record_id' ? {id: params[key]} : {key.to_sym => params[key]} 
     else
       return_errors!("Invlid flag, it should be on e of #{valid_flags}")
     end
   end
 
   def approve
+    byebug
     o = model.where(approve_reject_cond).where(status: 2, compliance_project_id: rp[:compliance_project_id]).update(status: 4)
     
     return_success("#{o} records approved")
