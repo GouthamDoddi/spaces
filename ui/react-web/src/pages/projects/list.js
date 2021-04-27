@@ -99,8 +99,6 @@ const ProjectList = () => {
     pageNo * pageSize - 1
   );
 
-  console.log(dataPaginated)
-
   return (
     <>
       <div className="entity_cards">

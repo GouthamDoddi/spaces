@@ -21,7 +21,7 @@ const ProjectUsers = ({
     first_name: '',
     email: '',
     phone: '',
-    role: entityUserRole['7'].value,
+    role: entityUserRole['8'].value,
     profile_pic: null,
   };
   const [data, setData] = useState(defaultData);
