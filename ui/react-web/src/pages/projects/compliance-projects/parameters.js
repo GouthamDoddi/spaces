@@ -32,7 +32,7 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
   const defaultData = {
     parameter_id: '',
     platform_language: '',
-    result: '',
+    result: 1,
   };
   const [data, setData] = useState(defaultData);
   const [errors, setErrors] = useState({});
@@ -152,7 +152,7 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
       case 'platform_language':
         return isEmpty(name, value + '');
       case 'result':
-        return isEmpty(name, value);
+        return isEmpty(name, value + '');
       default:
         return false;
     }
@@ -176,6 +176,8 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
     updateData(name, value);
   };
 
+  const { parameter_id, platform_language, result } = data;
+
   const handleSave = () => {
     if (!submitClicked) {
       setSubmitClicked(true);
@@ -195,9 +197,13 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
     if (!hasErrors) {
       if (data.id) {
         updateComplianceRecord({
-          data,
+          data: {
+            parameter_id,
+            platform_language,
+            result,
+          },
           cb: (data) => {
-            setData(defaultData);
+            setData({ ...defaultData, parameter_id: parameters[0]?.parameter_id });
             setTableProps((prevData) => {
               const prevUsers = [...prevData.rows];
 
@@ -239,8 +245,6 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
       });
     }
   };
-
-  const { parameter_id, platform_language, result } = data;
 
   return (
     <>
@@ -337,7 +341,7 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
                       checked: true,
                       req: {
                         data: {
-                          parameter_id: [data.id]
+                          compliance_record_id: [data.id]
                         },
                         compliance_project_id: selected[1].id,
                       },
@@ -353,7 +357,7 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
                       checked: false,
                       req: {
                         data: {
-                          parameter_id: [data.id]
+                          compliance_record_id: [data.id]
                         },
                         compliance_project_id: selected[1].id,
                       },
@@ -396,7 +400,7 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
                   }
                 />
               </div>
-              <div className="error_messg">{errors.result}</div>
+              <div className="error_messg">{errors.comment}</div>
             </div>
           </div>
           <Footer className="flex_col_sm_12">
