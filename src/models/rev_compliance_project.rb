@@ -48,12 +48,15 @@ class App::Models::RevComplianceProject < Sequel::Model
     non_compliant = questions.map{_1.non_compliance_parameter_ids}.compact.flatten
     if compliance_records.blank?
       variation_arr = variations
-      data = App::Models::RevParameter.all.reduce([]) do |res, rp|
+      data = App::Models::RevParameter.where(framework_type_id: type_id).all.reduce([]) do |res, rp|
         rec = rp.as_json(only: [:parameter_name, :mandate, :attribute_id, :attribute_name, :section_id, :section_name, :owner_id]).merge!({
           parameter_id: rp.id,
           compliance_project_id: id,
           stage_gates: Sequel.pg_array(rp.stage_gates, Integer)
         })
+
+        rec.exception = true if exceptions.include?(rp.id)
+        rec.result = 3 if non_compliant.include?(rp.id)
         variation_arr.each do |v| 
           rec1 = rec.merge(platform_language: v)
           res << rec1
