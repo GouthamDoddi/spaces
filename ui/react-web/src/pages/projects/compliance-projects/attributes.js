@@ -112,13 +112,17 @@ const Attributes = ({ onSubmit, selected, setTableProps, updateStatus }) => {
                             checked,
                             req: {
                               data: {
-                                attribute_id: attributes.map(({ attribute_id }) => attribute_id),
+                                attribute_id: attributes.map(
+                                  ({ attribute_id }) => attribute_id
+                                ),
                               },
                               cb: () => {
                                 setApproveStatus(() => {
                                   const updatedApproveStatus = {};
-                                  attributes.forEach(({ attribute_id }) => { 
-                                    updatedApproveStatus[attribute_id] = checked;
+                                  attributes.forEach(({ attribute_id }) => {
+                                    updatedApproveStatus[
+                                      attribute_id
+                                    ] = checked;
                                   });
 
                                   return updatedApproveStatus;
@@ -144,15 +148,60 @@ const Attributes = ({ onSubmit, selected, setTableProps, updateStatus }) => {
                   not_tested,
                 }) => (
                   <tr key={attribute_id}>
-                    <td onClick={() => onSubmit({ name: attribute_name, id: attribute_id })}>{attribute_name}</td>
-                    <td onClick={() => onSubmit({ name: attribute_name, id: attribute_id })}>{parameter_count}</td>
-                    <td onClick={() => onSubmit({ name: attribute_name, id: attribute_id })}>{completed}</td>
-                    <td onClick={() => onSubmit({ name: attribute_name, id: attribute_id })}>{not_tested}</td>
+                    <td
+                      onClick={() =>
+                        onSubmit({ name: attribute_name, id: attribute_id })
+                      }
+                    >
+                      {attribute_name}
+                    </td>
+                    <td
+                      onClick={() =>
+                        onSubmit({ name: attribute_name, id: attribute_id })
+                      }
+                    >
+                      {parameter_count}
+                    </td>
+                    <td
+                      onClick={() =>
+                        onSubmit({ name: attribute_name, id: attribute_id })
+                      }
+                    >
+                      {completed}
+                    </td>
+                    <td
+                      onClick={() =>
+                        onSubmit({ name: attribute_name, id: attribute_id })
+                      }
+                    >
+                      {not_tested}
+                    </td>
                     <td>
                       {isMOTCUser() ? (
                         <>
-                          <NavLink to="">Create Case</NavLink> /{' '}
-                          <NavLink to="">Report Issue</NavLink>
+                          <NavLink
+                            to={{
+                              pathname: `/projects/${project_id}/case-management`,
+                              state: {
+                                section_id: selected[2].id,
+                                attribute_id,
+                              },
+                            }}
+                          >
+                            Create Case
+                          </NavLink>{' '}
+                          /{' '}
+                          <NavLink
+                            to={{
+                              pathname: `/projects/${project_id}/case-management`,
+                              state: {
+                                section_id: selected[2].id,
+                                attribute_id,
+                              },
+                            }}
+                          >
+                            Report Issue
+                          </NavLink>
                         </>
                       ) : isJAWDAUser() ? (
                         <td>
@@ -169,11 +218,11 @@ const Attributes = ({ onSubmit, selected, setTableProps, updateStatus }) => {
                                     cb: () => {
                                       setApproveStatus((prevStatus) => ({
                                         ...prevStatus,
-                                        [attribute_id]: checked
+                                        [attribute_id]: checked,
                                       }));
                                     },
-                                    compliance_project_id: selected[1].id
-                                  }
+                                    compliance_project_id: selected[1].id,
+                                  },
                                 });
                               }
                             }}

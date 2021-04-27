@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
 import styled, { css } from 'styled-components';
 import makeStore from '../../../store/make-store';
 import { complianceProjectResults } from '../../../store/master-data';
@@ -28,7 +27,6 @@ const {
 );
 
 const Parameters = ({ selected, setTableProps, updateStatus }) => {
-  const { project_id } = useParams();
   const [parameters, setParameters] = useState([]);
   const [variations, setVariations] = useState([]);
   const defaultData = {

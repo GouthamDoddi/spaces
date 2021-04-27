@@ -88,6 +88,11 @@ export const NewLayout = styled.div`
     display: none;
   }
 
+  .MuiTableRow-root.active {
+    border-left: 3px solid #2680EB;
+    background: #EFF6FF 0% 0% no-repeat padding-box;
+  }
+
   .MuiInputBase-root {
     border: 1px solid #dedede;
     height: 38px;

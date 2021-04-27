@@ -186,6 +186,8 @@ const CompilanceProjectDetails = () => {
               rows={tableProps.rows}
               renderCol={tableProps.renderCol}
               keyField="id"
+              activeKey={tableProps.activeKey}
+              activeClassName={tableProps.activeClassName}
             />
           </div>
         </div>
