@@ -6,50 +6,14 @@ import { NewLayout } from '../entities';
 import ProjectElem from './panel';
 import qgate from '../../assets/images/qgate.png';
 import ProjectList from './list';
+import Nav2 from '../../components/breadcrumNav';
 
 const Projects = () => {
   return (
     <div className="app_wrapper">
       <NewLayout>
         <HeaderBar className="hb" />
-        <FilterBreadcrumb className="custom_container">
-          <div className="filter_breadcrumb">
-            <ul>
-              <li>
-                <NavLink to="/">
-                  <img src={qgate} width="100%" />
-                </NavLink>
-              </li>
-
-              <li>
-                <div className="filter_sele active">
-                  <label>State</label>
-                  <select>
-                    <option>Select State</option>
-                  </select>
-                </div>
-              </li>
-
-              <li>
-                <div className="filter_sele">
-                  <label>Entity</label>
-                  <select>
-                    <option>Select Entity</option>
-                  </select>
-                </div>
-              </li>
-
-              <li>
-                <div className="filter_sele">
-                  <label>Project</label>
-                  <select>
-                    <option>Select Project</option>
-                  </select>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </FilterBreadcrumb>
+        <Nav2 />
         <Switch>
           <Route path={['/projects/:project_id', '/projects/:project_id/compliance-project-details', '/projects/:project_id/compliance-projects', '/projects/:project_id/case-management']} exact>
             <ProjectElem />

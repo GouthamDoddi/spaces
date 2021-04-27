@@ -5,50 +5,14 @@ import { NavLink, Route, Switch } from 'react-router-dom';
 import EntityElem from './panels';
 import qgate from '../../assets/images/qgate.png';
 import EntityList from './list';
+import Nav2 from '../../components/breadcrumNav';
 
 export default function () {
   return (
     <div className="app_wrapper">
       <NewLayout>
         <HeaderBar className="hb" />
-        <FilterBreadcrumb className="custom_container">
-          <div className="filter_breadcrumb">
-            <ul>
-              <li>
-                <NavLink to="/">
-                  <img src={qgate} width="100%" />
-                </NavLink>
-              </li>
-
-              <li>
-                <div className="filter_sele active">
-                  <label>State</label>
-                  <select>
-                    <option>Select State</option>
-                  </select>
-                </div>
-              </li>
-
-              <li>
-                <div className="filter_sele">
-                  <label>Entity</label>
-                  <select>
-                    <option>Select Entity</option>
-                  </select>
-                </div>
-              </li>
-
-              <li>
-                <div className="filter_sele">
-                  <label>Project</label>
-                  <select>
-                    <option>Select Project</option>
-                  </select>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </FilterBreadcrumb>
+        <Nav2 />
         <Switch>
           <Route path={['/entities/:entity_id', '/entities/:entity_id/details', '/entities/:entity_id/details/:user_id']} exact>
             <EntityElem />
@@ -94,6 +58,10 @@ export const NewLayout = styled.div`
   }
 
   .MuiInputBase-root {
+    &.selected{
+        border: none;
+        border-bottom: 2px solid #EB622B ;
+    }
     border: 1px solid #dedede;
     height: 38px;
     border-radius: 3px;
