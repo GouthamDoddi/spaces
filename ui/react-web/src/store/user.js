@@ -77,7 +77,7 @@ export function role() {
 
 export const isMOTCUser = () => role() == 0;
 
-export const isJAWDAUser = () => [11, 12, 13, 14].includes(role());
+export const isJAWDAUser = () => [11, 12, 13, 14, 15].includes(role());
 
 export function hasSpaceAccess(space) {
   const { auth } = store.getState()
