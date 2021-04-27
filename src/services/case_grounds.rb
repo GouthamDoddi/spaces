@@ -6,7 +6,7 @@ class App::Services::CaseGrounds < App::Services::Base
   def list
     data = App::Models::CaseGround.eager(:cases).all
 
-    return_auccess(data.as_json.merge!({cases: data.cases.length}))
+    return_auccess(data.map{|o| o.as_json.merge!({cases: o.cases.length})})
   end
 
   
