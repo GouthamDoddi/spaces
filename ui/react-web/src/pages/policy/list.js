@@ -32,6 +32,8 @@ export default function (props) {
       logo: null
   })
 
+  console.log(`${data} data here `);
+
   const handleChange = (event) => {
       console.log({ check: event.target.checked })
       setChecked(!checked);

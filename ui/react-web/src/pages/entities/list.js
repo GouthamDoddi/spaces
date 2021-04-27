@@ -8,6 +8,7 @@ import makeStore from '../../store/make-store';
 import { Progress } from '.';
 import { entityEnter } from '../routes';
 import { PaginationWrapper } from '../projects/compliance-projects/attributes';
+import { BsClipboardData } from 'react-icons/bs';
 
 const { store, load } = makeStore('entities');
 
@@ -15,10 +16,10 @@ const headlines = [
   { headline: 'Name', key: 'name' },
   { headline: 'Shortname', key: 'short_name' },
   { headline: 'Type', key: 'type_id' },
-  { headline: 'Websites', key: 'websites' },
-  { headline: 'Mobile', key: 'mobile' },
-  { headline: 'E-Services', key: 'e_services' },
-  { headline: 'Completion Percentage', key: 'completion_percentage' },
+  { headline: 'Websites', key: 'portal_count' },
+  { headline: 'Mobile', key: 'mobile_count' },
+  { headline: 'E-Services', key: 'eservices_count' },
+  { headline: 'Completion Percentage', key: 'progress' },
 ];
 
 const EntityList = () => {
@@ -37,6 +38,32 @@ const EntityList = () => {
   }, [search, filters]);
 
   let data = useStore(store).data || [];
+
+  let totalEntities = data.length;
+  let totalProjects = 0;
+  let totalPortals = 0;
+  let totalMobileApps = 0;
+  let totalEservices = 0;
+  let totalCompletetionPercentage = 0;
+
+
+    data.map(data => {
+        console.log(data)
+        totalPortals += data.portal_count
+        ? data.portal_count
+        : 0
+
+        totalMobileApps += data.eservices_count
+        ? data.eservices_count
+        : 0
+
+        totalEservices += data.eservices_count
+        ? data.eservices_count
+        : 0
+
+        totalCompletetionPercentage += data.progress
+    })
+  
 
   if (search || filters.length) {
     data = data.filter(({ name, short_name, type_id }) => {
@@ -68,35 +95,35 @@ const EntityList = () => {
           <li className="entity_boardcard">
             <a className="inner_wrap">
               <span className="title">Total Entities</span>
-              <span className="count">34</span>
+              <span className="count">{ totalEntities }</span>
             </a>
           </li>
 
           <li className="entity_boardcard">
             <a className="inner_wrap">
               <span className="title">Total Projects</span>
-              <span className="count">34</span>
+              <span className="count">{ totalProjects }</span>
             </a>
           </li>
 
           <li className="entity_boardcard">
             <a className="inner_wrap">
-              <span className="title">Total Portas/Websites</span>
-              <span className="count">34</span>
+              <span className="title">Total Portals/Websites</span>
+              <span className="count">{ totalPortals }</span>
             </a>
           </li>
 
           <li className="entity_boardcard">
             <a className="inner_wrap">
               <span className="title">Total Mobile Apps</span>
-              <span className="count">34</span>
+              <span className="count">{ totalMobileApps }</span>
             </a>
           </li>
 
           <li className="entity_boardcard">
             <a className="inner_wrap">
-              <span className="title">Total eServies</span>
-              <span className="count">34</span>
+              <span className="title">Total eServices</span>
+              <span className="count">{ totalEservices }</span>
             </a>
           </li>
 
@@ -104,9 +131,9 @@ const EntityList = () => {
             <a className="inner_wrap">
               <span className="title">Total Completion Percentage</span>
               <div>
-                <span className="count green">74%</span>
+                <span className="count green">{ totalCompletetionPercentage/ totalProjects }</span>
                 <span className="progressbar_wrap">
-                  <Progress className="progress" width="74%" />
+                  <Progress className="progress" width={ totalCompletetionPercentage/ totalProjects }/>
                 </span>
               </div>
             </a>

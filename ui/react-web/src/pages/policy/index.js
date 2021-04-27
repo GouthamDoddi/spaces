@@ -9,6 +9,9 @@ import qgate from '../../assets/images/qgate.png';
 import BasicTable from '../../shared/table-material';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import navbar2 from '../../components/breadcrumNav'
+import Navbar2 from '../../components/breadcrumNav';
+
 
 const ProjectList = (props) => {
   const [checked, setChecked] = React.useState(false);
@@ -16,44 +19,7 @@ const ProjectList = (props) => {
     <div className="app_wrapper">
       <NewLayout>
         <HeaderBar className="hb" />
-        <FilterBreadcrumb className="custom_container">
-          <div className="filter_breadcrumb">
-            <ul>
-              <li>
-                <NavLink to="/">
-                  <img src={qgate} width="100%" />
-                </NavLink>
-              </li>
-
-              <li>
-                <div className="filter_sele active">
-                  <label>State</label>
-                  <select>
-                    <option>Select State</option>
-                  </select>
-                </div>
-              </li>
-
-              <li>
-                <div className="filter_sele">
-                  <label>Entity</label>
-                  <select>
-                    <option>Select Entity</option>
-                  </select>
-                </div>
-              </li>
-
-              <li>
-                <div className="filter_sele">
-                  <label>Project</label>
-                  <select>
-                    <option>Select Project</option>
-                  </select>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </FilterBreadcrumb>
+        <Navbar2 />
         <Switch>
           <Route path={projectPolicy({ expand: false })}>
             <ProjectElem />

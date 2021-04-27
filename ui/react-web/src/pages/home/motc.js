@@ -9,6 +9,7 @@ import SimpleTable from './simple-table'
 import CompliantCard from './compliant-card'
 import Insight, { Challenges } from '../dashboards/shared/insights'
 import Progress from '../dashboards/shared/progress'
+import Nav2 from '../../components/breadcrumNav';
 
 import EntityCard from './entity-card'
 import ProjectsCard from './project-card'
@@ -30,6 +31,7 @@ export default function(props) {
 
   return (
     <Wrapper>
+    <Nav2 borderBottomColor='#3FBF11'/>
     <Box>
       <header> 
         <span>Jawda</span>
@@ -83,6 +85,7 @@ export default function(props) {
         {/* </div> */}
 
         <Projects style={{ marginRight: '20px', width: 'calc(25% - 20px)' }}>
+
           <header>
             List of Projects
           </header>
@@ -173,7 +176,7 @@ const Box = styled.div`
   border-right: none;
   width: 100%;
   height: 320px;
-  background-color: #9ECAD6;
+  background-color: #BFDAD9;
   padding-bottom: 10px;
   > header {
     padding: 26px 100px;
@@ -356,6 +359,10 @@ const FlexWrapper = styled.div`
   margin-bottom: 30px;
   > div {
     width: 50%;
+<<<<<<< HEAD
+    margin-right: 24px;
+=======
+>>>>>>> 35d6554b3ee25c93051e6dc09aea0973f5706388
   }
 
 `
@@ -373,7 +380,11 @@ const Entities = styled.div`
   }
   > div {
     // height: 700px;
+<<<<<<< HEAD
+    height: 18%;
+=======
     // height: 18%;
+>>>>>>> 35d6554b3ee25c93051e6dc09aea0973f5706388
     overflow: auto;
     padding: 0px 12px;
     max-height: calc(100% - 90px);
@@ -406,7 +417,10 @@ const Projects = styled(Entities)`
   height: 985px;
   > div {
     // height: 18%;
+<<<<<<< HEAD
+=======
     max-height: calc(100% - 90px);
+>>>>>>> 35d6554b3ee25c93051e6dc09aea0973f5706388
 
     /* total width */
     &::-webkit-scrollbar {
