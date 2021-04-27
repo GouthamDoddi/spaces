@@ -55,8 +55,8 @@ class App::Models::RevComplianceProject < Sequel::Model
           stage_gates: Sequel.pg_array(rp.stage_gates, Integer)
         })
 
-        rec.exception = true if exceptions.include?(rp.id)
-        rec.result = 3 if non_compliant.include?(rp.id)
+        rec[:exception] = true if exceptions.include?(rp.id)
+        rec[:result] = 3 if non_compliant.include?(rp.id)
         variation_arr.each do |v| 
           rec1 = rec.merge(platform_language: v)
           res << rec1
