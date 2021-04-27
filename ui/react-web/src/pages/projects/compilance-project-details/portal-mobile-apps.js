@@ -15,6 +15,7 @@ const { load, update } = makeStore(({ id, q_id }) => `rev-compliance/${id}/quest
 const PortalMobileApps = ({ setTableProps }) => {
   const { project_id } = useParams();
   const [id, setId] = useState();
+  const [serviceName, setServiceName] = useState('');
   const [data, setData] = useState({});
   const [markAll, setMarkAll] = useState(false);
 
@@ -30,8 +31,9 @@ const PortalMobileApps = ({ setTableProps }) => {
     })
   }, [markAll]);
 
-  const handleEdit = (id) => {
+  const handleEdit = (id, name) => {
     setId(id);
+    setServiceName(name);
     load({ id }, (data) =>
       setData(
         data.reduce((prevVal, { id, question, answer }) => {
@@ -46,11 +48,11 @@ const PortalMobileApps = ({ setTableProps }) => {
 
   useEffect(() => {
     loadComplianceProjects({ project_id }, (data) => {
-      console.log({data},'---')
       data = Object.values(data).filter(({ type_id }) => type_id !== 3);
 
       if (data[0]?.id) {
         setId(data[0]?.id);
+        setServiceName(data[0]?.label);
         load({ id: data[0].id }, (data) =>
           setData(
             data.reduce((prevVal, { id, question, answer }) => {
@@ -65,14 +67,16 @@ const PortalMobileApps = ({ setTableProps }) => {
 
       setTableProps({
         rows: data,
-        renderCol: (colIndex, col) => {
+        activeKey: data[0]?.id,
+        activeClassName: 'active',
+        renderCol: (colIndex, col, rowIndex, row) => {
           if (colIndex === 0) {
             return projectCategoryTypes[col]?.label;
           }
 
           if (colIndex === 2) {
             return (
-              <ButtonLink onClick={() => handleEdit(col)}>
+              <ButtonLink onClick={() => handleEdit(col, row.label)}>
                 Edit Compliance Record
               </ButtonLink>
             );
@@ -83,6 +87,14 @@ const PortalMobileApps = ({ setTableProps }) => {
       });
     });
   }, []);
+
+  useEffect(() => {
+    setTableProps((prevProps) => ({
+      ...prevProps,
+      activeKey: id,
+      activeClassName: 'active',
+    }));
+  }, [id]);
 
   const updateData = (name, value) => {
     setData((prevData) => ({
@@ -108,7 +120,7 @@ const PortalMobileApps = ({ setTableProps }) => {
               </div>
 
               <div className="flex_col_sm_6">
-                <BlueBorder>{'Login & Register'}</BlueBorder>
+                {serviceName && <BlueBorder>{serviceName}</BlueBorder>}
               </div>
             </div>
           </div>
@@ -207,6 +219,7 @@ const BlueBorder = styled.span`
   border: 2px solid #2680eb;
   padding: 5px 15px;
   border-radius: 20px;
+  white-space: nowrap;
 `;
 
 export default PortalMobileApps;

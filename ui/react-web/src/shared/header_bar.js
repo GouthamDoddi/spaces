@@ -147,7 +147,7 @@ export default withRouter(function ({ className, langSwitch, lang, setLang, ...p
               )}
               <li>
                 <NavLink to="/a-dashboard">
-                  <ActiveSpan active={checkActiveLink({ route: ['/dashboard', '/a-dashboard'] })}>
+                  <ActiveSpan active={checkActiveLink({ route: ['/', '/dashboard', '/a-dashboard'] })}>
                     {'Home'}
                   </ActiveSpan>
                 </NavLink>
@@ -161,21 +161,21 @@ export default withRouter(function ({ className, langSwitch, lang, setLang, ...p
               </li>
               <li>
                 <NavLink to="/entities">
-                  <ActiveSpan active={checkActiveLink({ route: '/entities' })}>
+                  <ActiveSpan active={checkActiveLink({ route: ['/entities'] })}>
                     {'Entity Management'}
                   </ActiveSpan>
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/projects">
-                  <ActiveSpan active={checkActiveLink({ route: '/projects' })}>
+                  <ActiveSpan active={checkActiveLink({ route: ['/projects'] })}>
                     {'Project Management'}
                   </ActiveSpan>
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/policy">
-                  <ActiveSpan active={checkActiveLink({ route: '/policy' })}>
+                  <ActiveSpan active={checkActiveLink({ route: ['/policy'] })}>
                     {'Policy Grounds'}
                   </ActiveSpan>
                 </NavLink>

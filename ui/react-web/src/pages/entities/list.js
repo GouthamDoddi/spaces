@@ -32,6 +32,10 @@ const EntityList = () => {
     load();
   }, []);
 
+  useEffect(() => {
+    setPageNo(1);
+  }, [search, filters]);
+
   let data = useStore(store).data || [];
 
   if (search || filters.length) {

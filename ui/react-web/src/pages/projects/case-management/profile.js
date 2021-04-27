@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useLocation } from 'react-router';
 import styled, { css } from 'styled-components';
 import { useStore } from 'effector-react';
 import makeStore from '../../../store/make-store';
@@ -8,12 +8,13 @@ import { caseCategoryTypes, casePriorityTypes } from '../../../store/master-data
 
 const { store: complianceStore, load: loadComplianceProjects } = makeStore(({ project_id }) => `reference-data/rev-projects/${project_id}/compliance-projects`);
 const { store: sectionStore, load: loadSections } = makeStore('reference-data/sections');
-const { store: attributeStore, load: loadAttribute } = makeStore(({ section_id }) => `reference-data/sections/${section_id}/attributes`);
+const { store: attributeStore, load: loadAttributes } = makeStore(({ section_id }) => `reference-data/sections/${section_id}/attributes`);
 const { store: parameterStore, load: loadParameters } = makeStore(({ attribute_id }) => `reference-data/attributes/${attribute_id}/parameters`);
 const { load: loadCases, create, update } = makeStore(({ project_id, case_id }) => `rev-projects/${project_id}/cases${case_id ? `/${case_id}` : ''}`);
 
 const Profile = ({ setTableProps, handleNext, rowId }) => {
   const { project_id } = useParams();
+  const { state = {} } = useLocation();
   const defaultData = {
     compliance_project_id: [],
     section_id: [],
@@ -38,8 +39,22 @@ const Profile = ({ setTableProps, handleNext, rowId }) => {
   attributes = attributes ? Object.values(attributes) : [];
 
   useEffect(() => {
-    loadComplianceProjects({ project_id });
-    loadSections();
+    loadComplianceProjects({ project_id }, () => {
+      if (state?.project_id) {
+        setData((prevData) => ({
+          ...prevData,
+          compliance_project_id: state?.project_id,          
+        }));
+      }
+    });
+    loadSections('', () => {
+      if (state?.section_id) {
+        setData((prevData) => ({
+          ...prevData,
+          section_id: state?.section_id,          
+        }));
+      }
+    });
 
     loadCases({ project_id }, (data) =>
       setTableProps({
@@ -77,7 +92,14 @@ const Profile = ({ setTableProps, handleNext, rowId }) => {
 
   useEffect(() => {
     if (data.section_id) {
-      loadAttribute({ section_id: data.section_id });
+      loadAttributes({ section_id: state?.section_id || data.section_id }, () => {
+        if (state?.attribute_id) {
+          setData((prevData) => ({
+            ...prevData,
+            attribute_id: state?.attribute_id,          
+          }));
+        }
+      });
     }
   }, [data.section_id]);
 

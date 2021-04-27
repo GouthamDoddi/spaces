@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable react/prop-types */
-import React, { Fragment } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
 
@@ -16,7 +14,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function BasicTable ({ tableCells, rows, renderCol, keyField, onRowClick }) {
+export default function BasicTable ({ tableCells, rows, renderCol, keyField, onRowClick, activeKey, activeClassName }) {
   const classes = useStyles();
   renderCol = renderCol || (() => undefined);
 
@@ -32,13 +30,11 @@ export default function BasicTable ({ tableCells, rows, renderCol, keyField, onR
         </TableHead>
         <TableBody>
           {rows.map((row, rowIndex) =>
-            <TableRow className={`${classes.row} ${onRowClick ? classes.clickable : ''}`} key={row[keyField]} onClick={() => onRowClick && onRowClick(row[keyField])}>
+            <TableRow className={`${classes.row} ${onRowClick ? classes.clickable : ''} ${activeKey === row[keyField] ? 'active' : ''}`} key={row[keyField]} onClick={() => onRowClick && onRowClick(row[keyField])}>
               {tableCells.map(({ key }, colIndex) => 
-                <Fragment key={key}>
-                  <TableCell align={colIndex !== 0 ? 'right' : undefined}>
-                    {renderCol(colIndex, row[tableCells[colIndex]?.key], rowIndex, row) || row[tableCells[colIndex]?.key]}
-                  </TableCell>
-                </Fragment>
+                <TableCell key={key} align={colIndex !== 0 ? 'right' : undefined}>
+                  {renderCol(colIndex, row[tableCells[colIndex]?.key], rowIndex, row) || row[tableCells[colIndex]?.key]}
+                </TableCell>
               )}
             </TableRow>
           )}

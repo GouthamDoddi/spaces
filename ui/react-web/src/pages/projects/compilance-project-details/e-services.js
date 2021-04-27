@@ -8,13 +8,14 @@ import { projectCategoryTypes } from '../../../store/master-data';
 
 const { load: loadComplianceProjects } = makeStore(
   ({ project_id }) =>
-    `reference-data/rev-projects/${project_id}/compliance-projects`
+    `reference-data/rev-projects/${project_id}/compliance-projects-eservices`
 );
 const { load, update } = makeStore(({ id, q_id }) => `rev-compliance/${id}/questions${q_id ? `/${q_id}` : ''}`);
 
 const EServices = ({ setTableProps }) => {
   const { project_id } = useParams();
   const [id, setId] = useState();
+  const [serviceName, setServiceName] = useState('');
   const [data, setData] = useState({});
   const [markAll, setMarkAll] = useState(false);
 
@@ -30,8 +31,9 @@ const EServices = ({ setTableProps }) => {
     })
   }, [markAll]);
 
-  const handleEdit = (id) => {
+  const handleEdit = (id, name) => {
     setId(id);
+    setServiceName(name);
     load({ id }, (data) =>
       setData(
         data.reduce((prevVal, { id, question, answer }) => {
@@ -46,10 +48,11 @@ const EServices = ({ setTableProps }) => {
 
   useEffect(() => {
     loadComplianceProjects({ project_id }, (data) => {
-      data = Object.values(data).filter(({ type_id }) => type_id === 3);
+      data = Object.values(data);
 
       if (data[0]?.id) {
-        setId(data[0]?.id);
+        setId(data[0].id);
+        setServiceName(data[0].label);
         load({ id: data[0].id }, (data) =>
           setData(
             data.reduce((prevVal, { id, question, answer }) => {
@@ -64,6 +67,8 @@ const EServices = ({ setTableProps }) => {
 
       setTableProps({
         rows: data,
+        activeKey: data[0]?.id,
+        activeClassName: 'active',
         renderCol: (colIndex, col) => {
           if (colIndex === 0) {
             return projectCategoryTypes[col]?.label;
@@ -82,6 +87,14 @@ const EServices = ({ setTableProps }) => {
       });
     });
   }, []);
+
+  useEffect(() => {
+    setTableProps((prevProps) => ({
+      ...prevProps,
+      activeKey: id,
+      activeClassName: 'active',
+    }))
+  }, [id]);
 
   const updateData = (name, value) => {
     setData((prevData) => ({
@@ -107,7 +120,7 @@ const EServices = ({ setTableProps }) => {
               </div>
 
               <div className="flex_col_sm_6">
-                <BlueBorder>{'Login & Register'}</BlueBorder>
+                {serviceName && <BlueBorder>{serviceName}</BlueBorder>}
               </div>
             </div>
           </div>
@@ -206,6 +219,7 @@ const BlueBorder = styled.span`
   border: 2px solid #2680eb;
   padding: 5px 15px;
   border-radius: 20px;
+  white-space: nowrap;
 `;
 
 export default EServices;

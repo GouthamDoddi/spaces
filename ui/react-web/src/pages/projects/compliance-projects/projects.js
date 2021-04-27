@@ -143,8 +143,23 @@ const Projects = ({ onSubmit, setTableProps, updateStatus }) => {
                     <td>
                       {isMOTCUser() ? (
                         <>
-                          <NavLink to="">Create Case</NavLink> /{' '}
-                          <NavLink to="">Report Issue</NavLink>
+                          <NavLink
+                            to={{
+                              pathname: `/projects/${project_id}/case-management`,
+                              state: { project_id: id },
+                            }}
+                          >
+                            Create Case
+                          </NavLink>{' '}
+                          /{' '}
+                          <NavLink
+                            to={{
+                              pathname: `/projects/${project_id}/case-management`,
+                              state: { project_id: id },
+                            }}
+                          >
+                            Report Issue
+                          </NavLink>
                         </>
                       ) : isJAWDAUser() ? (
                         <td>
