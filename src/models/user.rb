@@ -88,7 +88,7 @@ class App::Models::User < Sequel::Model
   end
 
   def basic_info
-    data = as_json(only: [:id, :email, :first_name, :last_name, :role])
+    data = as_json(only: [:id, :email, :first_name, :last_name, :role, :entity_ids, :project_ids])
     data[:role_name] = role_name
     data
   end
