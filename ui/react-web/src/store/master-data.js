@@ -343,14 +343,14 @@ export const serviceStatusTypes = {
 
 export const entityUserRole = {
   0: { label: 'Admin', value: 0 },
-  7: { label: 'Entity Manager', value: 7 },
-  8: { label: 'Tester', value: 8 },
-  9: { label: 'Consultant', value: 9 },
-  10: { label: 'Jawda Tester', value: 10 },
-  11: { label: 'Jawda Test Manager', value: 11 },
-  12: { label: 'Jawda Board Member', value: 12 },
-  13: { label: 'Jawda Policies Manager', value: 13 },
-  14: { label: 'Jawda Communications Manager', value: 14 }
+  8: { label: 'Entity Manager', value: 8 },
+  9: { label: 'Tester', value: 9 },
+  10: { label: 'Consultant', value: 10 },
+  11: { label: 'Jawda Tester', value: 11 },
+  12: { label: 'Jawda Test Manager', value: 12 },
+  13: { label: 'Jawda Board Member', value: 13 },
+  14: { label: 'Jawda Policies Manager', value: 14 },
+  15: { label: 'Jawda Communications Manager', value: 15 }
 }
 
 
