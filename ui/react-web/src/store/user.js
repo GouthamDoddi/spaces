@@ -90,7 +90,7 @@ export const isAuthorized = (pathname) => {
     case '/projects':
       return [11, 12, 14, 8, 10].includes(userRole);
     case '/resources/upload':
-    case '/project/case/ground':
+    case '/plicies':
       return [14].includes(userRole);
     case '/resources':
       return true;

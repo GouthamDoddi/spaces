@@ -35,10 +35,10 @@ export const entityService = ({entity_id, expand=false}={}) => ((expand ? `/enti
  * Policy Routes
  ***/
 
- export const policyList = () => '/policy'
- export const policyPath = () => `/policy/:policy_id(\\d+|new)`
+ export const policyList = () => '/policies'
+ export const policyPath = () => `/policies/:policy_id(\\d+|new)`
  export const projectPolicy = ({id, expand=false, sub=null}) => {
-   const p = (expand ? `/policy/${id}/profile` : '/policy/:policy_id(\\d+|new)/profile')
+   const p = (expand ? `/policies/${id}/profile` : '/policies/:policy_id(\\d+|new)/profile')
    return sub ? `${p}/${sub}` : p
  }
  
