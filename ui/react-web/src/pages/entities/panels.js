@@ -32,7 +32,7 @@ export default function () {
             <NavLink to={`/entities/${entity_id}`} activeClassName="active" exact>
               <span className="step_count">1</span>
               <span className="detail">
-                <span className="title">Entity Profie</span>
+                <span className="title">Entity Profile</span>
                 <span className="sub_title">Summary of entity</span>
               </span>
             </NavLink>
