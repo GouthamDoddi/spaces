@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import makeStore from '../../../store/make-store';
 import { caseCategoryTypes, casePriorityTypes } from '../../../store/master-data';
@@ -174,10 +175,12 @@ const Action = ({ setTableProps, rowId, setRowId }) => {
             </div>
             <div className="flex_col_sm_6">
               <OR>[OR]</OR>
-              <Button color="primary" width="auto">
-                <PlusIcon />
-                Request New Ground
-              </Button>
+              <NavLink to="/policies/new/profile">
+                <Button color="primary" width="auto">
+                  <PlusIcon />
+                  Request New Ground
+                </Button>
+              </NavLink>
             </div>
           </div>
           <div className="flex_row">

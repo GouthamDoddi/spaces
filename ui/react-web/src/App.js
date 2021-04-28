@@ -132,9 +132,8 @@ function AllRoutes(props) {
         <Route path="/projects"> <TP theme={cs.newdesign}> <Projects /> </TP> </Route>
 
         {/* {'Just Added for Testing'} */}
-        <Route path="/policy"> <TP theme={cs.newdesign}> <Policy /> </TP> </Route>
-        <Route path="/project/case"> <TP theme={cs.newdesign}> <ProjectCase /> </TP> </Route>
-        <Route path="/project/case/ground"> <TP theme={cs.newdesign}> <ProjectCase ground={true} /> </TP> </Route>
+        <Route path="/policies/case/:caseId"> <TP theme={cs.newdesign}> <ProjectCase  /> </TP> </Route>
+        <Route path="/policies"> <TP theme={cs.newdesign}> <Policy /> </TP> </Route>
         <Route path="/selected/policy">  <TP theme={cs.newdesign}> <SelectedPolicy/> </TP>  </Route>
         {/* {'Just Added for Testing'} */}
 
@@ -174,7 +173,7 @@ function App() {
         <Route path='/login'><Login /></Route>
         <Route path="/set-password/:token"> <TP theme={cs.newdesign}> <SetPassword /> </TP> </Route>
         <Route path="/forgot-password"> <TP theme={cs.newdesign}> <ForgotPassword /> </TP> </Route>
-        <Route path={['/dashboard', '/a-dashboard', '/board', '/entities/:entity_id/details', '/entities/:entity_id', '/entities', '/projects/:project_id/compliance-project-details', '/projects/:project_id/compliance-projects', '/projects/:project_id/case-management', '/projects/:project_id', '/projects', '/resources/upload', '/resources', '/project/case/ground', '/']}
+        <Route path={['/dashboard', '/a-dashboard', '/board', '/entities/:entity_id/details', '/entities/:entity_id', '/entities', '/projects/:project_id/compliance-project-details', '/projects/:project_id/compliance-projects', '/projects/:project_id/case-management', '/projects/:project_id', '/projects', '/resources/upload', '/resources', '/policies', '/']}
           render={({ location }) =>
             loggedIn() ? (
               <Routes />

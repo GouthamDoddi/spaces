@@ -136,9 +136,9 @@ export const policyOwnerTypes = {
 }
 
 export const policyStatusTypes = {
-  1: { value: 1, label: 'Active' },
-  2: { value: 2, label: 'Inactive' },
-  3: { value: 3, label: 'Work in progress' }
+  1: { value: 1, label: 'Active', color: 'blue' },
+  2: { value: 2, label: 'Inactive', color: 'green' },
+  3: { value: 3, label: 'Work in progress', color: 'yellow' }
 }
 
 export const policyTriggerTypes = {

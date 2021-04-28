@@ -1,373 +1,239 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import makeStore from '../../store/make-store';
-import leftArrowIcon from '../../assets/images/left-arrow.svg'
-import Checkbox from '@material-ui/core/Checkbox';
-import { withStyles } from '@material-ui/core/styles';
+import { useStore } from 'effector-react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
-  MuiPickersUtilsProvider,
   KeyboardDatePicker,
+  MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
-import DropZone from '../projects/drop-zone';
+import BasicTable from '../../shared/table-material';
+import makeStore from '../../store/make-store';
+import { caseQueueTypes, policyStatusTypes } from '../../store/master-data';
 
-const { store, load } = makeStore('entities/list');
+const { load, store } = makeStore(() => `case-grounds/`);
 
-const CustomCheckbox = withStyles({
-  root: {
-      color: '#DEDEDE',
-      '&$checked': {
-          color: '#EB622B',
-      },
-  },
-  checked: {},
-})((props) => <Checkbox color="default" {...props} />);
+const GroundList = () => {
+  const history = useHistory();
+  const grounds = useStore(store).data || [];
+  const [search, setSearch] = useState('');
+  const [status, setStatus] = useState(0);
+  const [createdDate, setCreatedDate] = useState(null);
+  const [proposedDate, setProposedDate] = useState(null);
+  let stats = Object.keys(caseQueueTypes).reduce(
+    (prevValue, key) => ({ ...prevValue, [key]: 0 }),
+    {}
+  );
+  let casesOnHold = 0;
 
-export default function (props) {
-  const [step, setStep] = useState(1);  
-  const [files, setFiles] = useState([]);
-  const [checked, setChecked] = useState(false);
-  const [update, forceUpdate] = useState({});
-  const [data, setData] = useState({
-      logo: null
-  })
+  useEffect(() => {
+    load('');
+  }, []);
 
-  console.log(`${data} data here `);
+  const filteredGrounds = grounds.filter(
+    ({ name, category_ids, status: s, start_date, created_at }) => {
+      category_ids = category_ids || [];
+      category_ids.map((key) => {
+        stats[key] += stats[key] || 0;
+      });
 
-  const handleChange = (event) => {
-      console.log({ check: event.target.checked })
-      setChecked(!checked);
-  };
+      if (status === 3) {
+        casesOnHold += 1;
+      }
 
-  const fetchFiles = () => {
-      forceUpdate([]);
-  }
-
-  let { logo } = data;
-
+      return (
+        name.includes(search) &&
+        (status ? status === s : true) &&
+        (start_date && proposedDate
+          ? new Date(start_date).setHours(0, 0, 0, 0) ===
+            new Date(proposedDate).setHours(0, 0, 0, 0)
+          : true) &&
+        (createdDate && created_at
+          ? new Date(createdDate).setHours(0, 0, 0, 0) ===
+            new Date(created_at).setHours(0, 0, 0, 0)
+          : true)
+      );
+    }
+  );
 
   return (
     <>
-      <div className="custom_container">
-        <CustomRowContainer className="flex_row">
-          <div className="flex_col_sm_12">
-            {'Creating a Ground'}
-          </div>
-        </CustomRowContainer>
+      <div className="entity_cards">
+        <ul className="entity_boardcard_wrap">
+          {Object.values(caseQueueTypes).map(({ value, label }) => (
+            <li className="entity_boardcard">
+              <a className="inner_wrap">
+                <span className="title">{label}</span>
+                <span className="count">{stats[value]}</span>
+              </a>
+            </li>
+          ))}
 
-        <OuterExtraSpace className="flex_row">
-                <div className="flex_col_sm_6">
+          <li className="entity_boardcard">
+            <a className="inner_wrap">
+              <span className="title">On Hold Cases</span>
+              <span className="count">{casesOnHold}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
 
-                    <div className="flex_row">
-                        <div className="flex_col_sm_6">
-                            <DisplayItemFlex>
-                                <img src={leftArrowIcon} alt="left-arrow" />
-                                <LabelCaseID>
-                                    {'Back to Grounds'}
-                                </LabelCaseID>
-                               
-                            </DisplayItemFlex>
-                        </div>
-                        <div className="flex_col_sm_6">
-
-                            <div className="flex_row">
-                                <div className="flex_col_sm_12">
-                                    <ul className="entity_detail_menu">
-                                        <li onClick={() => setStep(1)}>
-                                            <span className={step === 1 ? 'active' : 'clickable'}>
-                                                <span className="step_count">1</span>
-                                                <span className="detail">
-                                                    <span className="title">Ground Profile</span>
-                                                    <span className="sub_title">
-                                                        {'Provide the context for this ground'}
-                                                    </span>
-                                                </span>
-                                            </span>
-                                        </li>
-
-                                        <li onClick={() => setStep(2)}>
-                                            <span className={step === 2 ? 'active' : 'clickable'}>
-                                                <span className="step_count">2</span>
-                                                <span className="detail">
-                                                    <span className="title">Ground Details</span>
-                                                    <span className="sub_title">
-                                                        {'Explain about the ground'}
-                                                    </span>
-                                                </span>
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div className="custom_container ">
+        <div className="custom_row">
+          <div className="flex_row padding-t-b table-header">
+            <LeftActions>
+              <div className="input_col">
+                <div className="text_field_wrapper">
+                  <select
+                    value={status}
+                    onChange={({ target: { value } }) => setStatus(value)}
+                  >
+                    <option value="">Select Status</option>
+                    {Object.values(policyStatusTypes).map(
+                      ({ value, label }) => (
+                        <option key={value} value={value}>
+                          {label}
+                        </option>
+                      )
+                    )}
+                  </select>
                 </div>
-                {step === 1 ?
-                    <OuterBorder className="flex_col_sm_6">
-                        <div className="flex_row">
-                            <div className="flex_col_sm_6">
-                                <div className="form_field_wrapper">
-                                    <label className="form_label">
-                                        <TextCustom bigFont={true}>
-                                            {` Category `}
-                                        </TextCustom>
-                                        <mark>*</mark>
-                                    </label>
-                                    <TextFieldWrapper className="text_field_wrapper">
-                                        <CustomCheckbox
-                                            checked={checked}
-                                            onChange={handleChange}
-                                            onClick={() => { setChecked(!checked) }}
-                                        />
-                                        <TextCustom fontBold={true}>
-                                            {'Policy Backlog'}
-                                        </TextCustom>
-                                    </TextFieldWrapper>
+              </div>
+              <div className="input_col">
+                <div className="text_field_wrapper">
+                  <input
+                    type="text"
+                    className="srch_input"
+                    placeholder="Search grounds"
+                    value={search}
+                    onChange={({ target: { value } }) => setSearch(value)}
+                  />
+                </div>
+              </div>
+            </LeftActions>
 
-                                    <TextFieldWrapper className="text_field_wrapper">
-                                        <CustomCheckbox
-                                            checked={checked}
-                                            onChange={handleChange}
-                                            onClick={() => { setChecked(!checked) }}
-                                        />
-                                        <TextCustom fontBold={true}>
-                                            {'Knowledge Tasks'}
-                                        </TextCustom>
-                                    </TextFieldWrapper>
+            <div className="action_col">
+              <div className="flex_row">
+                <RightActions className="flex_col_sm_8">
+                  <span>Filter By</span>
+                  <div className="text_field_wrapper">
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        variant="inline"
+                        format="dd-MM-yyyy"
+                        id="date-picker-inline"
+                        placeholder="Created Date"
+                        value={createdDate}
+                        onChange={setCreatedDate}
+                        autoOk={true}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                    </MuiPickersUtilsProvider>
+                  </div>
+                  <div className="text_field_wrapper">
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        disableToolbar
+                        variant="inline"
+                        format="dd-MM-yyyy"
+                        id="date-picker-inline"
+                        placeholder="Proposed Date"
+                        value={proposedDate}
+                        onChange={setProposedDate}
+                        autoOk={true}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                    </MuiPickersUtilsProvider>
+                  </div>
+                </RightActions>
+                <div className="flex_col_sm_4 text-right">
+                  <NavLink to="/policies/new/profile">
+                    <button className="btn_solid">{` + Create Ground `}</button>
+                  </NavLink>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                                    <TextFieldWrapper className="text_field_wrapper">
-                                        <CustomCheckbox
-                                            checked={checked}
-                                            onChange={handleChange}
-                                            onClick={() => { setChecked(!checked) }}
-                                        />
-                                        <TextCustom fontBold={true}>
-                                            {'Exception Grounds'}
-                                        </TextCustom>
-                                    </TextFieldWrapper>
+          <BasicTable
+            keyField="id"
+            tableCells={[
+              {
+                headline: 'Status',
+                key: 'status',
+              },
+              {
+                headline: 'Grounds ID',
+                key: 'id',
+              },
+              {
+                headline: 'Title',
+                key: 'name',
+              },
+              {
+                headline: 'Cases',
+                key: 'cases',
+              },
+              {
+                headline: 'Category',
+                key: 'category',
+              },
+              {
+                headline: 'Created By',
+                key: 'created_at',
+              },
+              {
+                headline: 'Created On',
+                key: 'updated_at',
+              },
+              {
+                headline: 'Proposed Date',
+                key: 'created_at',
+              },
+            ]}
+            rows={filteredGrounds}
+            renderCol={(colIndex, col) => {
+              if (colIndex === 5 || colIndex === 6 || colIndex === 7) {
+                return col ? new Date(col).toLocaleDateString() : null;
+              }
 
-                                    <TextFieldWrapper className="text_field_wrapper">
-                                        <CustomCheckbox
-                                            checked={checked}
-                                            onChange={handleChange}
-                                            onClick={() => { setChecked(!checked) }}
-                                        />
-                                        <TextCustom fontBold={true}>
-                                            {'Initiative Requests'}
-                                        </TextCustom>
-                                    </TextFieldWrapper>
-                                </div>
-                            </div>
-                            <div className="flex_col_sm_6">
-
-                                <div className="flex_row">
-                                    <div className="flex_col_sm_12">
-                                        <div className="form_field_wrapper">
-                                            <label className="form_label">
-                                                <TextCustom bigFont={true}>
-                                                    {` Status `}
-                                                </TextCustom>
-                                                <mark>*</mark>
-                                            </label>
-                                            <TextFieldWrapper borderBlue={true} className="text_field_wrapper">
-                                                <CustomCheckbox
-                                                    checked={checked}
-                                                    onChange={handleChange}
-                                                    onClick={() => { setChecked(!checked) }}
-                                                />
-                                                <TextCustom fontBold={true}>
-                                                    {'Active'}
-                                                </TextCustom>
-                                            </TextFieldWrapper>
-                                            <TextFieldWrapper borderGreen={true} className="text_field_wrapper">
-                                                <CustomCheckbox
-                                                    checked={checked}
-                                                    onChange={handleChange}
-                                                    onClick={() => { setChecked(!checked) }}
-                                                />
-                                                <TextCustom fontBold={true} >
-                                                    {'InActive'}
-                                                </TextCustom>
-                                            </TextFieldWrapper>
-                                            <TextFieldWrapper borderYellow={true} className="text_field_wrapper">
-                                                <CustomCheckbox
-                                                    checked={checked}
-                                                    onChange={handleChange}
-                                                    onClick={() => { setChecked(!checked) }}
-                                                />
-                                                <TextCustom fontBold={true}>
-                                                    {'Work In Progress'}
-                                                </TextCustom>
-                                            </TextFieldWrapper>
-                                        </div>
-
-
-                                        <OuterRowSpace extraSpace={true} className="text-field-wrapper">
-                                            <label className="form_label">
-                                                <TextCustom bigFont={true}>
-                                                    {` Start Date `}
-                                                </TextCustom>
-                                                <mark>*</mark>
-                                            </label>
-                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                <KeyboardDatePicker
-                                                    disableToolbar
-                                                    variant="inline"
-                                                    format="dd-MM-yyyy"
-                                                    id="date-picker-inline"
-                                                    value={new Date()}
-                                                    onChange={(date) => { }}
-                                                    autoOk={true}
-                                                    KeyboardButtonProps={{ 'aria-label': 'change date' }}
-                                                />
-                                            </MuiPickersUtilsProvider>
-                                        </OuterRowSpace>
-
-                                        <OuterRowSpace extraSpace={true}>
-                                            <div className="flex_col_sm_12 text-right">
-                                                <button className="add_more" onClick={() => { }}>
-                                                    {'Save & Exit'}
-                                                </button>
-                                            </div>
-                                        </OuterRowSpace>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </OuterBorder>
-                    :
-                    <OuterBorder className="flex_col_sm_6">
-                        <div className="flex_row">
-                            <div className="flex_col_sm_8">
-                                <div className="form_field_wrapper">
-                                    <label className="form_label">
-                                        <TextCustom>
-                                            {` Ground Name `}
-                                        </TextCustom>
-                                        <mark>*</mark>
-                                    </label>
-                                    <div className="text_field_wrapper">
-                                        <input
-                                            type="text"
-                                            placeholder="For example, Raising a clarification request"
-                                            name="full_name"
-                                            value={''}
-                                            onChange={handleChange}
-                                        />
-                                        {/* <div className="error_messg">{errors.full_name}</div> */}
-                                    </div>
-                                </div>
-
-                                <div className="form_field_wrapper">
-                                    <label className="form_label">
-                                        Description <mark>*</mark>
-                                    </label>
-                                    <div className="text_field_wrapper">
-                                        <textarea name="description" value={''} placeholder="Enter Notes" onChange={handleChange} />
-                                        {/* <span className="error_messg">{errors.notes}</span> */}
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div className="flex_col_sm_4">
-                                <div className="form_field_wrapper">
-                                    <label className="form_label">
-                                        {'Attachments'} <mark>*</mark>
-                                    </label>
-                                    <DropZone
-                                        files={files}
-                                        setFiles={setFiles}
-                                        preview={logo}
-                                        sizeInMb={20}
-                                        maxFilesToUpload={4}
-                                        fetchFiles={fetchFiles}
-                                        formats={['image/png', 'image/jpg', '.pdf', '.docx']}
-                                        label={'Click here or drag and drop attachments'}
-                                        sub_label={'Allowed file formats are PNG, JPG, PDF, DOCX within 20MB'}
-                                    />
-                                    {/* <span className="error_messg">{errors.logo}</span> */}
-                                </div>
-
-                                <OuterRowSpace extraMoreSpace={true}>
-                                    <div className="flex_col_sm_12 text-right">
-                                        <button className="add_more" onClick={() => { }}>
-                                            {'Submit'}
-                                        </button>
-                                    </div>
-                                </OuterRowSpace>
-                            </div>
-                        </div>
-                    </OuterBorder>
-                }
-            </OuterExtraSpace>
+              return false;
+            }}
+            onRowClick={(id) => {
+              history.push(`/policies/${id}/profile`);
+            }}
+          />
+        </div>
       </div>
     </>
   );
-}
+};
 
-const OuterExtraSpace = styled.div`
-  margin-top:40px !important;
-`
+const LeftActions = styled.div`
+  display: flex;
 
-const CustomButton = styled.button`
-  background: #EB622B;
-  padding: 8px 30px;
-  border: none;
-  border-radius: 5px;
-  color: #fff;
-`
+  .input_col {
+    max-width: 200px;
+    margin-right: 20px;
+  }
+`;
 
-const CustomRowContainer = styled.div`
-  padding: 25px;
-  color: #666666;
-  font-weight: bold;
-  border-bottom: 1px solid #ddd;
-`
+const RightActions = styled.div`
+  display: flex;
+  align-items: center;
 
-const TextFieldWrapper = styled.div`
-    border: 1px solid #ddd;
-    padding-right: 20px;
-    border-left:${props => props.borderBlue ? '4px solid blue' : props.borderGreen ? '4px solid green' : props.borderYellow ? '4px solid yellow' : '1px solid #ddd'};
-`
+  > * {
+    &:first-child {
+      margin-left: 32px;
+    }
 
-const OuterRowSpace = styled.div`
-    margin:${props => props.extraSpace ? '40px 0px !important' : props.extraMoreSpace ? '80px 0px !important' : props.noSpace ? '0px 0px !important' : '10px 0px !important'};
-`
+    margin-right: 16px;
+  }
+`;
 
-const DisplayItemFlex = styled.div`
-    display:flex;
-`
-
-const SubmittedIcon = styled.span`
-    background: #0064FE;
-    color: #fff;
-    padding: 8px 20px;
-    border-radius: 15px;
-    font-size: 12px;
-`
-
-const LabelCaseID = styled.span`
-    color:#666666;
-    padding:5px 15px;
-    font-weight:bold;
-`
-const OuterBorder = styled.div`
-    border-left:1px solid #ddd;
-`
-
-const SpanCategory = styled.span`
-    background-color: #F5F5F5;
-    color: #1A6B8F;
-    padding: 5px 15px;
-    border-radius: 15px;
-    margin-right: 10px;
-    font-size: 12px;
-`
-const TextCustom = styled.span`
-    font-weight:${props => props.fontBold ? 'bold' : 'normal'};
-    font-size:${props => props.bigFont ? '20px' : '14px'};
-    color:${props => props.greyColor ? '#999999' : '#000000'};
-    margin:10px 0px;
-`
+export default GroundList;

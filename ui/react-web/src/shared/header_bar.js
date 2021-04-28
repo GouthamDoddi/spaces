@@ -174,8 +174,8 @@ export default withRouter(function ({ className, langSwitch, lang, setLang, ...p
                 </NavLink>
               </li>}
               {[0, 14].includes(role()) && <li>
-                <NavLink to="/policy">
-                  <ActiveSpan active={checkActiveLink({ route: ['/policy'] })}>
+                <NavLink to="/policies">
+                  <ActiveSpan active={checkActiveLink({ route: ['/policies'] })}>
                     {'Policy Grounds'}
                   </ActiveSpan>
                 </NavLink>
