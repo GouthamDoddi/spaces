@@ -55,7 +55,7 @@ export default function () {
         <Route path="/entities/:entity_id" exact>
           <Profile />
         </Route>
-        <Route path={["/entities/:entity_id/details", "/entities/:entity_id/details/:user_id"]} exact>
+        <Route path={["/entities/:entity_id/details"]} exact>
           <Details />
         </Route>
       </Switch>

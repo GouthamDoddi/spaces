@@ -11,6 +11,7 @@ import { ReactComponent as Download } from '../../assets/images/download.svg';
 import { NavLink } from 'react-router-dom';
 
 import { NewLayout } from '../../pages/entities';
+import { role } from '../../store/user';
 
 const data = [
   {
@@ -54,9 +55,9 @@ export default function () {
       <div className="custom_container">
         <TopBar>
           <span>Resources</span>
-          <NavLink to="/resources/upload">
+          {role() === 14 && <NavLink to="/resources/upload">
             <button className="btn_solid">Upload Resource</button>
-          </NavLink>
+          </NavLink>}
         </TopBar>
       </div>
       <div className="custom_container">
