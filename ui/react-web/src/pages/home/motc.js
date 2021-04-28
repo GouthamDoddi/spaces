@@ -359,10 +359,6 @@ const FlexWrapper = styled.div`
   margin-bottom: 30px;
   > div {
     width: 50%;
-<<<<<<< HEAD
-    margin-right: 24px;
-=======
->>>>>>> 35d6554b3ee25c93051e6dc09aea0973f5706388
   }
 
 `
@@ -380,11 +376,7 @@ const Entities = styled.div`
   }
   > div {
     // height: 700px;
-<<<<<<< HEAD
-    height: 18%;
-=======
     // height: 18%;
->>>>>>> 35d6554b3ee25c93051e6dc09aea0973f5706388
     overflow: auto;
     padding: 0px 12px;
     max-height: calc(100% - 90px);
@@ -417,10 +409,7 @@ const Projects = styled(Entities)`
   height: 985px;
   > div {
     // height: 18%;
-<<<<<<< HEAD
-=======
     max-height: calc(100% - 90px);
->>>>>>> 35d6554b3ee25c93051e6dc09aea0973f5706388
 
     /* total width */
     &::-webkit-scrollbar {

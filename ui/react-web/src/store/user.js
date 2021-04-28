@@ -70,14 +70,50 @@ export function loggedIn() {
   return token && (token.length > 0)
 }
 
+export const isAuthorized = (pathname) => {
+  const userRole = role();
+
+  if (userRole === 0) {
+    return true;
+  }
+
+  switch (pathname) {
+    case '/entities/:entity_id/details':
+      return [12, 14, 15].includes(userRole);
+    case '/entities/:entity_id':
+    case '/entities':
+      return [8, 12, 14, 15].includes(userRole);
+    case '/projects/:project_id':
+    case '/projects/:project_id/compliance-project-details':
+    case '/projects/:project_id/compliance-projects':
+    case '/projects/:project_id/case-management':
+    case '/projects':
+      return [11, 12, 14, 8, 10].includes(userRole);
+    case '/resources/upload':
+    case '/project/case/ground':
+      return [14].includes(userRole);
+    case '/resources':
+      return true;
+    default:
+      return true;
+  }
+};
+
 export function role() {
   const { info } = store.getState() || {}
   return info.role
 }
 
-export const isMOTCUser = () => role() == 0;
+export const userEntities = () => {
+  const { info: { entities } } = store.getState();
+  return entities || [];
+}
 
-export const isJAWDAUser = () => [11, 12, 13, 14, 15].includes(role());
+export const isMOTCUser = () => [0, 13, 15, 14];
+
+export const isJAWDAUser = () => [0, 11, 12].includes(role());
+
+export const isEntityUser = () => [0, 8, 10].includes(role());
 
 export function hasSpaceAccess(space) {
   const { auth } = store.getState()

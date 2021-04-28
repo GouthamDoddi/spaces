@@ -7,6 +7,7 @@ import Action from './action';
 import GroundComponent from './ground-profile'
 import BasicTable from '../../../shared/table-material';
 import makeStore from '../../../store/make-store';
+import { role } from '../../../store/user';
 
 const { load } = makeStore(({ project_id }) => `rev-projects/${project_id}`);
 
@@ -109,7 +110,7 @@ const CaseManagement = () => {
             <div className="flex_row">
               <div className="flex_col_sm_3">
                 <ul className="entity_detail_menu">
-                  <li onClick={() => setStep(1)}>
+                  <li onClick={role() === 14 ? undefined : () => setStep(1)}>
                     <span className={step === 1 ? 'active' : 'clickable'}>
                       <span className="step_count">1</span>
                       <span className="detail">
@@ -121,7 +122,7 @@ const CaseManagement = () => {
                     </span>
                   </li>
 
-                  <li onClick={() => setStep(2)}>
+                  <li onClick={role() === 14 ? undefined : () => setStep(2)}>
                     <span className={step === 2 ? 'active' : 'clickable'}>
                       <span className="step_count">2</span>
                       <span className="detail">
@@ -133,7 +134,7 @@ const CaseManagement = () => {
                     </span>
                   </li>
 
-                  <li onClick={() => setStep(3)}>
+                  <li onClick={[14, 0].includes(role()) ? () => setStep(3) : undefined}>
                     <span className={step === 3 ? 'active' : 'clickable'}>
                       <span className="step_count">3</span>
                       <span className="detail">

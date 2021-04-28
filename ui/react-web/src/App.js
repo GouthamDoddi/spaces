@@ -3,11 +3,14 @@ import {
   HashRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
+  useLocation,
+  useHistory,
+  useRouteMatch
 } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { isJAWDAUser, isMOTCUser, loggedIn } from './store/user'
+import { isAuthorized, isJAWDAUser, isMOTCUser, loggedIn } from './store/user'
 import { masterData } from './store/api'
 import { resetData } from './store/master-data'
 import langStore from './store/lang-store'
@@ -62,7 +65,8 @@ import JawdaHome from './components/dashboards/jawda-home';
 // import { Task, Note, Survey, Meeting, Space } from './components/menu-actions'
 
 function Routes() {
-  // const location = useLocation();
+  const { isExact, path } = useRouteMatch();
+  const history = useHistory();
   // const background = location.state && location.state.background
   // console.log(background)
 
@@ -73,6 +77,14 @@ function Routes() {
       // resetData()
     })
   }, [])
+
+  useEffect(() => {
+    console.log(path);
+
+    if (!isAuthorized(path, isExact)) {
+      history.push('/');
+    }
+  }, [path]);
 
   return loaded ? <AllRoutes /> : null
 }
@@ -162,7 +174,7 @@ function App() {
         <Route path='/login'><Login /></Route>
         <Route path="/set-password/:token"> <TP theme={cs.newdesign}> <SetPassword /> </TP> </Route>
         <Route path="/forgot-password"> <TP theme={cs.newdesign}> <ForgotPassword /> </TP> </Route>
-        <Route path='/'
+        <Route path={['/dashboard', '/a-dashboard', '/board', '/entities/:entity_id/details', '/entities/:entity_id', '/entities', '/projects/:project_id/compliance-project-details', '/projects/:project_id/compliance-projects', '/projects/:project_id/case-management', '/projects/:project_id', '/projects', '/resources/upload', '/resources', '/project/case/ground', '/']}
           render={({ location }) =>
             loggedIn() ? (
               <Routes />

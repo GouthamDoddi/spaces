@@ -14,7 +14,7 @@ export default function () {
         <HeaderBar className="hb" />
         <Nav2 />
         <Switch>
-          <Route path={['/entities/:entity_id', '/entities/:entity_id/details', '/entities/:entity_id/details/:user_id']} exact>
+          <Route path={['/entities/:entity_id', '/entities/:entity_id/details']} exact>
             <EntityElem />
           </Route>
           <Route path={'/entities'} exact>

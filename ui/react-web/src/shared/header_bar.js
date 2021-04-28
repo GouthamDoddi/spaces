@@ -3,7 +3,7 @@ import { NavLink, withRouter } from 'react-router-dom';
 import { useStore } from 'effector-react';
 import styled from 'styled-components';
 import cs from '../utils/colors.js';
-import { logout, hasSpaceAccess, menuItemsByRole } from '../store/user';
+import { logout, hasSpaceAccess, menuItemsByRole, role } from '../store/user';
 import userStore from '../store/user';
 import Notifications from '../components/header/Notifications';
 import ProfileMenu from '../components/header/ProfileMenu';
@@ -159,27 +159,27 @@ export default withRouter(function ({ className, langSwitch, lang, setLang, ...p
                   </ActiveSpan>
                 </NavLink>
               </li>
-              <li>
+              {[0, 15, 12, 14].includes(role()) && <li>
                 <NavLink to="/entities">
                   <ActiveSpan active={checkActiveLink({ route: ['/entities'] })}>
                     {'Entity Management'}
                   </ActiveSpan>
                 </NavLink>
-              </li>
-              <li>
+              </li>}
+              {![13, 15].includes(role()) && <li>
                 <NavLink to="/projects">
                   <ActiveSpan active={checkActiveLink({ route: ['/projects'] })}>
                     {'Project Management'}
                   </ActiveSpan>
                 </NavLink>
-              </li>
-              <li>
+              </li>}
+              {[0, 14].includes(role()) && <li>
                 <NavLink to="/policy">
                   <ActiveSpan active={checkActiveLink({ route: ['/policy'] })}>
                     {'Policy Grounds'}
                   </ActiveSpan>
                 </NavLink>
-              </li>
+              </li>}
               <li>
                 <NavLink to="/resources"> 
                   <ActiveSpan active={checkActiveLink({ route: ['/resources', '/resources/upload'] })}>

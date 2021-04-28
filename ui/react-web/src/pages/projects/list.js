@@ -24,7 +24,7 @@ const headlines = [
   { headline: 'Challenges', key: 'challenges_count' },
 ];
 
-const ProjectList = () => {
+const ProjectList = ({ selectedEntity, selectedProject }) => {
   const history = useHistory();
   const [entities, setEntities] = useState([]);
   const [search, setSearch] = useState('');
@@ -45,37 +45,34 @@ const ProjectList = () => {
 
   let data = useStore(store).data || [];
 
-  let complianceProjectCompleted = 0
-  let complianceProjectInProgress = 0
-  let complianceProjectNotStarted = 0
-  let complianceIssues = 0
-  let challenges = 0
+  let complianceProjectCompleted = 0;
+  let complianceProjectInProgress = 0;
+  let complianceProjectNotStarted = 0;
+  let complianceIssues = 0;
+  let challenges = 0;
 
-    data.map(data => {
-        if (data.progress === 100)
-        complianceProjectCompleted += 1
-        else if(!data.progress)
-        complianceProjectNotStarted += 1
-        else 
-        complianceProjectInProgress += 1
-    
-        complianceIssues += data.issues_count
-        ? data.issues_count
-        : 0
-    
-        challenges += data.challenges_count
-        ? data.challenges_count
-        : 0
-    })
+  data.map((data) => {
+    if (data.progress === 100) complianceProjectCompleted += 1;
+    else if (!data.progress) complianceProjectNotStarted += 1;
+    else complianceProjectInProgress += 1;
 
-  if (search || filters.length) {
-    data = data.filter(({ project_name, owner_id, project_type_id }) => {
+    complianceIssues += data.issues_count ? data.issues_count : 0;
+
+    challenges += data.challenges_count ? data.challenges_count : 0;
+  });
+
+  if (search || filters.length || selectedEntity || selectedProject) {
+    data = data.filter(({ id, project_name, owner_id, project_type_id }) => {
       const caseInsesitiveSearch = search.toLowerCase();
       const entityName = entities.find(({ id }) => id === owner_id)?.name;
 
       return (
+        (selectedProject ? parseInt(id) === parseInt(selectedProject) : true) &&
         (project_name.toLowerCase().includes(caseInsesitiveSearch) ||
           entityName.toLowerCase().includes(caseInsesitiveSearch)) &&
+        (selectedEntity
+          ? parseInt(selectedEntity) === parseInt(owner_id)
+          : true) &&
         // apply filters only if any
         (filters.length
           ? filters.includes(
@@ -107,35 +104,35 @@ const ProjectList = () => {
             <a className="inner_wrap">
               <span className="title">Compliance Project - Completed</span>
 
-              <span className="count">{ complianceProjectCompleted }</span>
+              <span className="count">{complianceProjectCompleted}</span>
             </a>
           </li>
 
           <li className="entity_boardcard">
             <a className="inner_wrap">
               <span className="title">Compliance Project - In Progress</span>
-              <span className="count">{ complianceProjectInProgress }</span>
+              <span className="count">{complianceProjectInProgress}</span>
             </a>
           </li>
 
           <li className="entity_boardcard">
             <a className="inner_wrap">
               <span className="title">Compliance Project - Not Started</span>
-              <span className="count">{ complianceProjectNotStarted }</span>
+              <span className="count">{complianceProjectNotStarted}</span>
             </a>
           </li>
 
           <li className="entity_boardcard">
             <a className="inner_wrap">
               <span className="title">Total Compliance Issues</span>
-              <span className="count">{ complianceIssues }</span>
+              <span className="count">{complianceIssues}</span>
             </a>
           </li>
 
           <li className="entity_boardcard">
             <a className="inner_wrap">
               <span className="title">Total Challenges Issues</span>
-              <span className="count">{ challenges }</span>
+              <span className="count">{challenges}</span>
             </a>
           </li>
         </ul>
