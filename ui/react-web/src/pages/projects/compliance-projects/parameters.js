@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import makeStore from '../../../store/make-store';
 import { complianceProjectResults } from '../../../store/master-data';
-import { isJAWDAUser, isMOTCUser } from '../../../store/user';
+import { role } from '../../../store/user';
 import { ButtonLink } from '../../entities/details';
 import { CrossIcon } from '../case-management/action';
 
@@ -261,7 +261,7 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
                   placeholder="Select parameter"
                   value={parameter_id}
                   onChange={handleChange}
-                  disabled={isJAWDAUser()}
+                  disabled={[14].includes(role())}
                 >
                   {parameters.map(({ parameter_id, parameter_name }) => (
                     <option value={parameter_id}>{parameter_name}</option>
@@ -281,7 +281,7 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
                   key={id}
                   selected={platform_language === id || platform_language === key}
                   onClick={
-                    isJAWDAUser()
+                    [14].includes(role())
                       ? undefined
                       : () => updateData('platform_language', id)
                   }
@@ -314,7 +314,7 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
                   name="result"
                   value={result}
                   onChange={handleChange}
-                  disabled={isJAWDAUser()}
+                  disabled={[14].includes(role())}
                 >
                   {Object.values(complianceProjectResults).map(
                     ({ value, label }) => (
@@ -329,11 +329,11 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
             </div>
           </div>
           <div className="flex_col_sm_12 text-right">
-            {isMOTCUser() ? (
+            {[8, 10, 11, 12].includes(role()) ? (
               <button className="add_more" onClick={handleSave}>
                 Save
               </button>
-            ) : isJAWDAUser() ? (
+            ) : [0, 14].includes(role()) ? (
               <JawdaActions>
                 <Button color="success" onClick={() => {
                   if (selected[1].id && data.id) {

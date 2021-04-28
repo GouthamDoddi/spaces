@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import styled, { css } from 'styled-components';
 import makeStore from '../../../store/make-store';
 import { caseCategoryTypes, casePriorityTypes } from '../../../store/master-data';
-import { isJAWDAUser, isMOTCUser, role } from '../../../store/user';
+import { role } from '../../../store/user';
 import { CheckIcon } from '../compliance-projects/parameters';
 
 const { load: loadCases } = makeStore(({ project_id, case_id }) => `rev-projects/${project_id}/cases${case_id ? `/${case_id}` : ''}`);
@@ -22,7 +22,7 @@ const Action = ({ setTableProps, rowId, setRowId }) => {
   const [submitClicked, setSubmitClicked] = useState(false);
 
   useEffect(() => {
-    if (isMOTCUser()) {
+    if ([0].includes(role())) {
       loadGrounds('', (data) => setGrounds(data));
     }
 
@@ -135,13 +135,13 @@ const Action = ({ setTableProps, rowId, setRowId }) => {
                 placeholder="Agency comments"
                 name="agency comment"
                 value="Two-factor authentication to make private is complicated hence, please provide exception for this case"
-                disabled={isMOTCUser() || isJAWDAUser()}
+                disabled={![0, 14].includes(role())}
               />
             </div>
           </div>
         </div>
         <div className="flex_col_sm_6">
-          {(isMOTCUser() || isJAWDAUser()) && (
+          {[0, 14].includes(role()) && (
             <AgencyCommentActions>
               <Button color="success" onClick={() => rowId ? approve({ data: {}, project_id, case_id: rowId }) : undefined}>
                 <CheckIcon />
@@ -156,7 +156,7 @@ const Action = ({ setTableProps, rowId, setRowId }) => {
         </div>
       </div>
 
-      {isMOTCUser() && (
+      {[0, 14].includes(role()) && (
         <>
           <div className="flex_row">
             <div className="flex_col_sm_6">

@@ -91,10 +91,11 @@ const EntityCommunication = ({ setTableProps }) => {
 
   const isInvalid = (name, value) => {
     switch (name) {
-      // case 'user_ids':
-      // case 'subject':
-      // case 'purpose':
-      //   return isEmpty(name, value);
+      case 'user_ids':
+      case 'subject':
+      case 'purpose':
+      case 'details':
+        return isEmpty(name, value);
       default:
         return false;
     }
@@ -194,7 +195,7 @@ const EntityCommunication = ({ setTableProps }) => {
     <>
       <div className="flex_col_sm_12">
         <div className="form_field_wrapper">
-          <label className="form_label">User Groups</label>
+          <label className="form_label">User Groups <span>*</span></label>
           <div className="text_field_wrapper">
             <AutoComplete
               placeholder="Search and select user group"
@@ -211,7 +212,7 @@ const EntityCommunication = ({ setTableProps }) => {
       <div className="flex_row">
         <div className="flex_col_sm_6">
           <div className="form_field_wrapper">
-            <label className="form_label">Subject</label>
+            <label className="form_label">Subject <span>*</span></label>
             <div className="text_field_wrapper">
               <input
                 type="text"
@@ -227,8 +228,12 @@ const EntityCommunication = ({ setTableProps }) => {
 
         <div className="flex_col_sm_6">
           <div className="form_field_wrapper">
-            <label className="form_label">Purpose</label>
+            <label className="form_label">Purpose <span>*</span></label>
             <div className="text_field_wrapper">
+              <select name="purpose">
+                <option value="">Select</option>
+                {['Phone call', 'Email', 'Meeting', 'In Person'].map((value) => <option value={value}>{value}</option>)}
+              </select>
               <input
                 type="text"
                 placeholder="Enter purpose"
@@ -244,7 +249,7 @@ const EntityCommunication = ({ setTableProps }) => {
 
       <div className="flex_col_sm_12">
         <div className="form_field_wrapper">
-          <label className="form_label">Details</label>
+          <label className="form_label">Details <span>*</span></label>
           <div className="text_field_wrapper">
             <textarea
               placeholder="Enter communication details"
