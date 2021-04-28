@@ -101,6 +101,7 @@ export const NewLayout = styled.div`
   .entity_boardcard {
     flex: 1 0 0;
     padding: 0 10px;
+    margin-top: 5%;
   }
 
   .entity_boardcard .inner_wrap {

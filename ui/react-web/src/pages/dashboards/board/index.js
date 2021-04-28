@@ -30,6 +30,7 @@ export default function ({ lang, setLang, ...props }) {
   const [entityFilter, setEntiryFilter] = useState("");
   const [entitiesForSelect, setEntitiesForSelect] = useState([]);
   const [selectedEntity, setSelectedEntity] = useState(defaultSelectedEntity);
+  const [ item, setItem ] = useState('')
 
 
   const [report, setReport] = useState({})
@@ -91,6 +92,7 @@ export default function ({ lang, setLang, ...props }) {
           {
             (cardsData).map((k, i) => {
               if (entityFilter.trim().length > 0 && !k.name.toLowerCase().includes(entityFilter.toLowerCase())) {
+                console.log('filter called');
                 return null
               }
               return (
@@ -194,7 +196,10 @@ export default function ({ lang, setLang, ...props }) {
             let isMatched = item.toLowerCase() === pagination.toLowerCase();
             let isValid = (report.entities || []).find(a => a.name.toLowerCase().startsWith(item.toLowerCase()));
             return (
-              <PaginationElement style={{ cursor: isValid ? 'pointer' : 'default' }} onClick={() => isValid && setPagination(item.toLowerCase())}>
+              <PaginationElement style={{ cursor: isValid ? 'pointer' : 'default' }} onClick={() =>{
+                console.log(item);
+                isValid && setPagination(item.toLowerCase())
+                }}>
                 <span style={{ color: isValid ? 'white' : 'grey' }}>{item}</span>
                 {
                   isMatched &&
@@ -255,7 +260,10 @@ export default function ({ lang, setLang, ...props }) {
               </ProgressStatus>
               <div className='search'>
                 <div className='showing'> <T k='showing' /> {numberToArabic(entitiesCount, lang)} <T k={entitiesCount > 0 ? 'entities' : 'entity'} /></div>
-                <Search placeholder={t('search_in_entities')} value={entityFilter} onChange={e => setEntiryFilter(e.target.value)} type={"text"} />
+                <Search placeholder={t('search_in_entities')} value={entityFilter} onChange={e =>{
+                     setEntiryFilter(e.target.value);
+                     console.log(e.target.value);
+                }} type={"text"} />
                 <Sort value={entityFilter} onChange={e => setEntiryFilter(e.target.value)} type={"text"} className="sort"
                   placeholder={t('sort_entities')} />
                 <div className='spacer'></div>

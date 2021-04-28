@@ -6,31 +6,32 @@ import BasicTable from '../../shared/table-material';
 import makeStore from '../../store/make-store';
 import { cleanedEntities, projectCategoryTypes } from '../../store/master-data';
 import { Progress } from '../entities';
-import { PaginationWrapper } from './compliance-projects/attributes';
+import { PaginationWrapper } from '../projects/compliance-projects/attributes'
 
 const { store, load } = makeStore('rev-projects');
 const { load: loadEntities } = makeStore('entities');
 
 const headlines = [
-  { headline: 'Master Project Name', key: 'project_name' },
-  { headline: 'Category', key: 'project_type_id' },
-  { headline: 'Owner', key: 'owner_id' },
-  { headline: 'Sponsor', key: '' },
-  { headline: 'Start Date', key: 'start_date' },
-  { headline: 'End Date', key: 'end_date' },
-  { headline: 'Progress', key: 'progress' },
-  { headline: 'Compliance Records', key: 'compliance_records_count' },
-  { headline: 'Issues', key: 'issues_count' },
-  { headline: 'Challenges', key: 'challenges_count' },
+    { headline: 'Entity', key: 'entity' },
+    { headline: 'Project', key: 'project' },
+    { headline: 'Compliance Project', key: 'compliance_project' },
+    { headline: 'Case Id', key: 'case_id'},
+    { headline: 'Case Description', key: 'Case Description' },
+    { headline: 'Category', key: 'category_ids' },
+    { headline: 'SLA', key: 'id'},
+    { headline: 'Priority', key: 'priority' },
+    { headline: 'Status', key: 'status' }
 ];
 
-const ProjectList = ({ selectedEntity, selectedProject }) => {
+const CasesList = () => {
   const history = useHistory();
   const [entities, setEntities] = useState([]);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const pageSize = 10;
+  const [rowId, setRowId] = useState(null);
+  const [profileData, setProfileData] = useState({});
 
   useEffect(() => {
     loadEntities('', (data) => {
@@ -39,42 +40,39 @@ const ProjectList = ({ selectedEntity, selectedProject }) => {
     });
   }, []);
 
-  useEffect(() => {
-    setPageNo(1);
-  }, [search, filters]);
-
   let data = useStore(store).data || [];
 
+  let complianceProjectCompleted = 0
+  let complianceProjectInProgress = 0
+  let complianceProjectNotStarted = 0
+  let complianceIssues = 0
+  let challenges = 0
 
-  let complianceProjectCompleted = 0;
-  let complianceProjectInProgress = 0;
-  let complianceProjectNotStarted = 0;
-  let complianceIssues = 0;
-  let challenges = 0;
+    data.map(data => {
+        if (data.progress === 100)
+        complianceProjectCompleted += 1
+        else if(!data.progress)
+        complianceProjectNotStarted += 1
+        else 
+        complianceProjectInProgress += 1
+    
+        complianceIssues += data.issues_count
+        ? data.issues_count
+        : 0
+    
+        challenges += data.challenges_count
+        ? data.challenges_count
+        : 0
+    })
 
-  data.map((data) => {
-    if (data.progress === 100) complianceProjectCompleted += 1;
-    else if (!data.progress) complianceProjectNotStarted += 1;
-    else complianceProjectInProgress += 1;
-
-    complianceIssues += data.issues_count ? data.issues_count : 0;
-
-    challenges += data.challenges_count ? data.challenges_count : 0;
-  });
-
-  if (search || filters.length || selectedEntity || selectedProject) {
-    data = data.filter(({ id, project_name, owner_id, project_type_id }) => {
-
+  if (search || filters.length) {
+    data = data.filter(({ project_name, owner_id, project_type_id }) => {
       const caseInsesitiveSearch = search.toLowerCase();
       const entityName = entities.find(({ id }) => id === owner_id)?.name;
 
       return (
-        (selectedProject ? parseInt(id) === parseInt(selectedProject) : true) &&
         (project_name.toLowerCase().includes(caseInsesitiveSearch) ||
           entityName.toLowerCase().includes(caseInsesitiveSearch)) &&
-        (selectedEntity
-          ? parseInt(selectedEntity) === parseInt(owner_id)
-          : true) &&
         // apply filters only if any
         (filters.length
           ? filters.includes(
@@ -100,48 +98,48 @@ const ProjectList = ({ selectedEntity, selectedProject }) => {
 
   console.log(dataPaginated)
 
+  const [tableProps, setTableProps] = useState({
+    rows: [],
+    renderCol: () => { },
+  });
+
   return (
     <>
       <div className="entity_cards">
         <ul className="entity_boardcard_wrap">
           <li className="entity_boardcard">
             <a className="inner_wrap">
-              <span className="title">Compliance Project - Completed</span>
+              <span className="title">Cases - Resolved</span>
 
-
-              <span className="count">{complianceProjectCompleted}</span>
+              <span className="count">{ complianceProjectCompleted }</span>
             </a>
           </li>
 
           <li className="entity_boardcard">
             <a className="inner_wrap">
-              <span className="title">Compliance Project - In Progress</span>
-
-              <span className="count">{complianceProjectInProgress}</span>
+              <span className="title">Case - Catogories</span>
+              <span className="count">{ complianceProjectInProgress }</span>
             </a>
           </li>
 
           <li className="entity_boardcard">
             <a className="inner_wrap">
-              <span className="title">Compliance Project - Not Started</span>
-
-              <span className="count">{complianceProjectNotStarted}</span>
+              <span className="title">Cases - Pending</span>
+              <span className="count">{ complianceProjectNotStarted }</span>
             </a>
           </li>
 
           <li className="entity_boardcard">
             <a className="inner_wrap">
-              <span className="title">Total Compliance Issues</span>
-
-              <span className="count">{complianceIssues}</span>
+              <span className="title">Total Cases</span>
+              <span className="count">{ complianceIssues }</span>
             </a>
           </li>
 
           <li className="entity_boardcard">
             <a className="inner_wrap">
               <span className="title">Total Challenges Issues</span>
-
-              <span className="count">{challenges}</span>
+              <span className="count">{ challenges }</span>
             </a>
           </li>
         </ul>
@@ -221,40 +219,14 @@ const ProjectList = ({ selectedEntity, selectedProject }) => {
           </div>
 
           <div className="table_wrapper">
-            <BasicTable
-              tableCells={headlines}
-              rows={dataPaginated}
-              renderCol={(colIndex, col) => {
-                if (colIndex === 1) {
-                  return projectCategoryTypes[col]?.label;
-                }
-
-                if (colIndex === 2) {
-                  return entities.find(({ id }) => id === col)?.name;
-                }
-
-                if (colIndex === 6) {
-                  return (
-                    <>
-                      <span className="count green bg_green">{`${
-                        col || '0'
-                      }%`}</span>
-                      <span className="progressbar_wrap">
-                        <Progress
-                          className="progress"
-                          width={`${col || '0'}%`}
-                        />
-                      </span>
-                    </>
-                  );
-                }
-
-                return false;
-              }}
-              keyField="id"
-              onRowClick={(id) => history.push(`/projects/${id}`)}
-            />
-          </div>
+              <BasicTable
+                tableCells={headlines}
+                rows={tableProps.rows}
+                renderCol={tableProps.renderCol}
+                keyField="id"
+                onRowClick={(rowId) => setRowId(rowId)}
+              />
+            </div>
 
           <PaginationWrapper>
             <Pagination
@@ -270,4 +242,4 @@ const ProjectList = ({ selectedEntity, selectedProject }) => {
   );
 };
 
-export default ProjectList;
+export default CasesList;
