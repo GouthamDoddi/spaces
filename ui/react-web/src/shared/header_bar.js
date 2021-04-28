@@ -3,13 +3,14 @@ import { NavLink, withRouter } from 'react-router-dom';
 import { useStore } from 'effector-react';
 import styled from 'styled-components';
 import cs from '../utils/colors.js';
-import { logout, hasSpaceAccess, menuItemsByRole, role } from '../store/user';
+import { logout, hasSpaceAccess, menuItemsByRole } from '../store/user';
 import userStore from '../store/user';
 import Notifications from '../components/header/Notifications';
 import ProfileMenu from '../components/header/ProfileMenu';
 import Alerts from '../components/header/Alerts';
 import headerlogo from '../assets/images/logo-jawda.jpg';
 import { LangSwitch } from '../pages/dashboards/shared/header';
+import { t } from '../utils/translate';
 
 function NormalLink(props) {
   const { to, className, children, space } = props;
@@ -147,43 +148,58 @@ export default withRouter(function ({ className, langSwitch, lang, setLang, ...p
               )}
               <li>
                 <NavLink to="/a-dashboard">
-                  <ActiveSpan active={checkActiveLink({ route: ['/', '/dashboard', '/a-dashboard'] })}>
-                    {'Home'}
+                  <ActiveSpan active={checkActiveLink({ route: ['/dashboard', '/a-dashboard'] })}>
+                    { t('home') }
                   </ActiveSpan>
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/board">
                   <ActiveSpan active={checkActiveLink({ route: ['/board'] })}>
-                    {'Dashboard'}
+                    { t('dashboard') }
                   </ActiveSpan>
                 </NavLink>
               </li>
-              {[0, 15, 12, 14].includes(role()) && <li>
+              <li>
                 <NavLink to="/entities">
-                  <ActiveSpan active={checkActiveLink({ route: ['/entities'] })}>
-                    {'Entity Management'}
+                  <ActiveSpan active={checkActiveLink({ route: '/entities' })}>
+                    { t('entity_management') }
                   </ActiveSpan>
                 </NavLink>
-              </li>}
-              {![13, 15].includes(role()) && <li>
+              </li>
+              <li>
                 <NavLink to="/projects">
-                  <ActiveSpan active={checkActiveLink({ route: ['/projects'] })}>
-                    {'Project Management'}
+                  <ActiveSpan active={checkActiveLink({ route: '/projects' })}>
+                    { t('project_management') }
                   </ActiveSpan>
                 </NavLink>
-              </li>}
-              {[0, 14].includes(role()) && <li>
-                <NavLink to="/policies">
-                  <ActiveSpan active={checkActiveLink({ route: ['/policies'] })}>
-                    {'Policy Grounds'}
+              </li>
+              <li>
+                <NavLink to="/policy">
+                  <ActiveSpan active={checkActiveLink({ route: '/policy' })}>
+                    { t('policy_grounds') }
                   </ActiveSpan>
                 </NavLink>
-              </li>}
+              </li>
+              <li>
+                <NavLink to="/cases">
+                  <ActiveSpan active={checkActiveLink({ route: '/cases' })}>
+                    { t('case_management') }
+
+                  </ActiveSpan>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/grounds">
+                  <ActiveSpan active={checkActiveLink({ route: '/grounds' })}>
+                    { t('ground_management') }
+                  </ActiveSpan>
+                </NavLink>
+              </li>
               <li>
                 <NavLink to="/resources"> 
                   <ActiveSpan active={checkActiveLink({ route: ['/resources', '/resources/upload'] })}>
-                    {'Resources'}
+                    { t('resources')}
                   </ActiveSpan>
                 </NavLink>
               </li>

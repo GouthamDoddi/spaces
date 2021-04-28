@@ -25,6 +25,8 @@ export default function(props) {
   const listStore = useStore(store)
   const metadata = listStore.data || []
 
+  console.log(metadata)
+
   useEffect(() => { 
     console.log(load())
   }, [])
@@ -377,6 +379,7 @@ const Entities = styled.div`
   > div {
     // height: 700px;
     // height: 18%;
+
     overflow: auto;
     padding: 0px 12px;
     max-height: calc(100% - 90px);
@@ -409,7 +412,9 @@ const Projects = styled(Entities)`
   height: 985px;
   > div {
     // height: 18%;
+
     max-height: calc(100% - 90px);
+
 
     /* total width */
     &::-webkit-scrollbar {

@@ -5,7 +5,7 @@ import HeaderBar from '../../shared/header_bar';
 import { NewLayout } from '../entities';
 // import CaseElem from './panel';
 // import qgate from '../../assets/images/qgate.png';
-import CasesList from './list';
+import GroundsList from './list';
 
 const Cases = () => {
   return (
@@ -16,8 +16,8 @@ const Cases = () => {
           {/* <Route path={['/cases/:case_id', '/cases/:case_id/compliance-project-details', '/cases/:case_id/compliance-projects', '/cases/:case_id/case-management']} exact>
             <CaseElem />
           </Route> */}
-          <Route path="/cases" exact>
-            <CasesList />
+          <Route path="/grounds" exact>
+            <GroundsList />
           </Route>
         </Switch>
       </NewLayout>

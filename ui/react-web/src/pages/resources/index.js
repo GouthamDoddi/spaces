@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from '@material-ui/core/Button'
+
+import FolderButton from '../../components/folderButton';
 import HeaderBar from '../../shared/header_bar';
 
 import { ReactComponent as Docs } from '../../assets/images/doc.svg';
@@ -11,6 +14,7 @@ import { ReactComponent as Download } from '../../assets/images/download.svg';
 import { NavLink } from 'react-router-dom';
 
 import { NewLayout } from '../../pages/entities';
+
 import { role } from '../../store/user';
 
 const data = [
@@ -48,7 +52,10 @@ const types = {
   zip: <Zip />,
 };
 
+
+
 export default function () {
+
   return (
     <NewLayout>
       <HeaderBar className="hb" />
@@ -63,34 +70,10 @@ export default function () {
       <div className="custom_container">
         <div className="flex_row">
           <div className="flex_col_sm_4">
-            <FolderCard>
-              <div>
-                <FolderIcon />
-                <span>Portal / Mobile App Framework</span>
-              </div>
-              <RightArrow />
-            </FolderCard>
-            <FolderCard active>
-              <div>
-                <FolderIcon />
-                <span>eService Framework</span>
-              </div>
-              <RightArrow />
-            </FolderCard>
-            <FolderCard>
-              <div>
-                <FolderIcon />
-                <span>Access Guidelines</span>
-              </div>
-              <RightArrow />
-            </FolderCard>
-            <FolderCard>
-              <div>
-                <FolderIcon />
-                <span>Miscellaneous</span>
-              </div>
-              <RightArrow />
-            </FolderCard>
+            <FolderButton active={false} text={'Portal / Mobile App Framework'}/>
+            <FolderButton active={false} text={'eService Framework'}/>
+            <FolderButton active={false} text={'Access Guidelines'}/>
+            <FolderButton active={false} text={'Miscellaneous'} />
           </div>
           <Files className="flex_col_sm_8">
             <Heading>eService Framework</Heading>

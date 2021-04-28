@@ -344,6 +344,34 @@ const data = {
     "en": "Dashboards",
     "ar": "لوحات القيادة"
   },
+  "dashboard": {
+    "en": "Dashboard",
+    "ar": "لوحة القيادة"
+  },
+  "entity_management": {
+    "en": "Entity Management",
+    "ar": " إدارة الكيانات",
+  },
+  "project_management": {
+    "en": "Project Management",
+    "ar": "ادارة مشروع",
+  },
+  "case_management": {
+    "en": "Case Management",
+    "ar": "إدارة حالة"
+  },
+  "ground_management": {
+    "en": "Ground Management",
+    "ar": "إدارة الأرض"
+  },
+  "policy_grounds": {
+    "en": "Policy Grounds",
+    "ar": "أسس السياسة",
+  },
+  "resources": {
+    "en": "Resources",
+    "ar": "موارد"
+  },
   "compliance": {
     "en": "Compliance",
     "ar": "الالتزام"
