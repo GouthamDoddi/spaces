@@ -1,22 +1,21 @@
 import Pagination from '@material-ui/lab/Pagination';
 import { useStore } from 'effector-react';
 import React, { useEffect, useState } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 import BasicTable from '../../shared/table-material';
 import makeStore from '../../store/make-store';
-import { cleanedEntities, projectCategoryTypes } from '../../store/master-data';
-import { Progress } from '../entities';
+import { caseCategoryTypes, casePriorityTypes, projectCategoryTypes } from '../../store/master-data';
 import { PaginationWrapper } from '../projects/compliance-projects/attributes'
 
-const { store, load } = makeStore('rev-projects');
-const { load: loadEntities } = makeStore('entities');
+const { store, load } = makeStore('rev-projects/cases');
 
 const headlines = [
-    { headline: 'Entity', key: 'entity' },
-    { headline: 'Project', key: 'project' },
-    { headline: 'Compliance Project', key: 'compliance_project' },
-    { headline: 'Case Id', key: 'case_id'},
-    { headline: 'Case Description', key: 'Case Description' },
+    { headline: 'Name', key: 'name' },
+    { headline: 'Entity', key: 'entity_name' },
+    { headline: 'Project', key: 'project_name' },
+    { headline: 'Compliance Project', key: 'compliance_project_id' },
+    { headline: 'Case ID', key: 'id'},
+    { headline: 'Case Description', key: 'description' },
     { headline: 'Category', key: 'category_ids' },
     { headline: 'SLA', key: 'id'},
     { headline: 'Priority', key: 'priority' },
@@ -24,20 +23,13 @@ const headlines = [
 ];
 
 const CasesList = () => {
-  const history = useHistory();
-  const [entities, setEntities] = useState([]);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const pageSize = 10;
-  const [rowId, setRowId] = useState(null);
-  const [profileData, setProfileData] = useState({});
 
   useEffect(() => {
-    loadEntities('', (data) => {
-      setEntities(data);
-      load();
-    });
+    load();
   }, []);
 
   let data = useStore(store).data || [];
@@ -49,9 +41,9 @@ const CasesList = () => {
   let challenges = 0
 
     data.map(data => {
-        if (data.progress === 100)
+        if (data.status === 'approved')
         complianceProjectCompleted += 1
-        else if(!data.progress)
+        else if(data.status === 'created')
         complianceProjectNotStarted += 1
         else 
         complianceProjectInProgress += 1
@@ -66,28 +58,25 @@ const CasesList = () => {
     })
 
   if (search || filters.length) {
-    data = data.filter(({ project_name, owner_id, project_type_id }) => {
+    data = data.filter(({ name, entity_name, category_ids }) => {
       const caseInsesitiveSearch = search.toLowerCase();
-      const entityName = entities.find(({ id }) => id === owner_id)?.name;
 
       return (
-        (project_name.toLowerCase().includes(caseInsesitiveSearch) ||
-          entityName.toLowerCase().includes(caseInsesitiveSearch)) &&
+        (name?.toLowerCase().includes(caseInsesitiveSearch) ||
+          entity_name?.toLowerCase().includes(caseInsesitiveSearch)) &&
         // apply filters only if any
         (filters.length
-          ? filters.includes(
-              projectCategoryTypes[project_type_id]?.label?.toLowerCase()
-            )
+          ? category_ids.some((id) => filters.includes(id))
           : true)
       );
     });
   }
 
   const handleFiltersChange = ({ target: { value } }) => {
-    if (filters.includes(value)) {
-      setFilters((prevVal) => prevVal.filter((val) => val !== value));
+    if (filters.includes(parseInt(value))) {
+      setFilters((prevVal) => prevVal.filter((val) => val !== parseInt(value)));
     } else {
-      setFilters((prevVal) => prevVal.concat([value]));
+      setFilters((prevVal) => prevVal.concat([parseInt(value)]));
     }
   };
 
@@ -95,13 +84,6 @@ const CasesList = () => {
     (pageNo - 1) * pageSize,
     pageNo * pageSize - 1
   );
-
-  console.log(dataPaginated)
-
-  const [tableProps, setTableProps] = useState({
-    rows: [],
-    renderCol: () => { },
-  });
 
   return (
     <>
@@ -117,7 +99,7 @@ const CasesList = () => {
 
           <li className="entity_boardcard">
             <a className="inner_wrap">
-              <span className="title">Case - Catogories</span>
+              <span className="title">Case - In Progress</span>
               <span className="count">{ complianceProjectInProgress }</span>
             </a>
           </li>
@@ -132,7 +114,7 @@ const CasesList = () => {
           <li className="entity_boardcard">
             <a className="inner_wrap">
               <span className="title">Total Cases</span>
-              <span className="count">{ complianceIssues }</span>
+              <span className="count">{data.length}</span>
             </a>
           </li>
 
@@ -153,7 +135,7 @@ const CasesList = () => {
                 <input
                   type="text"
                   className="srch_input"
-                  placeholder="Search projects by Name/Owner"
+                  placeholder="Search cases by Owner"
                   value={search}
                   onChange={({ target: { value } }) => setSearch(value)}
                 />
@@ -162,58 +144,33 @@ const CasesList = () => {
 
             <div className="action_col">
               <div className="flex_row">
-                <div className="flex_col_sm_8">
+                <div className="flex_col_sm_3" />
+                <div className="flex_col_sm_9">
                   <ul className="filter_check">
                     <li>Show only </li>
 
-                    <li>
-                      <div className="checkbox_wrap agree_check">
-                        <input
-                          className="filter-type filled-in"
-                          type="checkbox"
-                          name="filter"
-                          id="ministry"
-                          value="website / portals"
-                          onChange={handleFiltersChange}
-                        />
-                        <label htmlFor="ministry">Website/Portals </label>
-                      </div>
-                    </li>
-
-                    <li>
-                      <div className="checkbox_wrap agree_check">
-                        <input
-                          className="filter-type filled-in"
-                          type="checkbox"
-                          name="filter"
-                          id="Authority"
-                          value="mobile app"
-                          onChange={handleFiltersChange}
-                        />
-                        <label htmlFor="Authority">Mobile </label>
-                      </div>
-                    </li>
-
-                    <li>
-                      <div className="checkbox_wrap agree_check">
-                        <input
-                          className="filter-type filled-in"
-                          type="checkbox"
-                          name="filter"
-                          id="Agency"
-                          value="e-service"
-                          onChange={handleFiltersChange}
-                        />
-                        <label htmlFor="Agency">E-Services </label>
-                      </div>
-                    </li>
+                    {Object.values(caseCategoryTypes).map(({ label, value }) => (
+                      <li key={value}>
+                        <div className="checkbox_wrap agree_check">
+                          <input
+                            className="filter-type filled-in"
+                            type="checkbox"
+                            name="filter"
+                            id={value}
+                            value={value}
+                            onChange={handleFiltersChange}
+                          />
+                          <label htmlFor={value}>{label}</label>
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 </div>
-                <div className="flex_col_sm_4 text-right">
+                {/* <div className="flex_col_sm_4 text-right"> */}
                   {/* <NavLink to="/projects/new">
                     <button className="btn_solid">+ Create Project </button>
                   </NavLink> */}
-                </div>
+                {/* </div> */}
               </div>
             </div>
           </div>
@@ -221,10 +178,27 @@ const CasesList = () => {
           <div className="table_wrapper">
               <BasicTable
                 tableCells={headlines}
-                rows={tableProps.rows}
-                renderCol={tableProps.renderCol}
+                rows={dataPaginated}
+                renderCol={(colIndex, col) => {
+                  if (colIndex === 6) {
+                    return col ? col.map((key) => <CatergoryBadge key={key}>{caseCategoryTypes[key]?.label}</CatergoryBadge>) : '';
+                  }
+
+                  if (colIndex === 7 || colIndex === 3) {
+                    return ' ';
+                  }
+
+                  if (colIndex === 8) {
+                    return <Priority active={col}>{casePriorityTypes[col]?.badge}</Priority>;
+                  }
+
+                  if (colIndex === 9) {
+                    return <Badge status={col}>{col}</Badge>;
+                  }
+
+                  return false;
+                }}
                 keyField="id"
-                onRowClick={(rowId) => setRowId(rowId)}
               />
             </div>
 
@@ -241,5 +215,35 @@ const CasesList = () => {
     </>
   );
 };
+
+const Priority = styled.span`
+  background-color: ${props => props.active === 1 ? '#FFF1F1' : props.active === 2 ? '#EAF4FF' : '#FFF5DF'};
+  color: ${props => props.active === 1 ? '#FF6060' : props.active === 2 ? '#005CC8' : '#FFB300'};
+  border: ${props => props.active === 1 ? '1px solid #FF6060' : props.active === 2 ? '1px solid #005CC8' : '1px solid #FFB300'};
+  font-size: 12px;
+  padding: 3px;
+  border-radius: 3px;
+`;
+
+const CatergoryBadge = styled.span`
+    padding: 5px 10px;
+    background:#F5F5F5;
+    color:#1A6B8F;
+    border-radius:15px;
+    margin: 0px 4px 4px 0px;
+`;
+
+const Badge = styled.span`
+  padding:5px 10px;
+  background:${({ status }) => status === 'review' ? '#EB622B' :
+    status === 'approve' ? '#3FBF11' :
+      status === 'rejected' ? '#FF6060' :
+        status === 'draft' ? '#FFBF00' :
+          status === 'on-hold' ? '#999999' :
+            status === 'submitted' ? '#0064FE' : '#EB622B'};         
+    color: #fff;
+    border-radius: 15px;
+    text-transform: capitalize;
+`;
 
 export default CasesList;

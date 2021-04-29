@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 import QuickActions from './quick_actions'
-import Grid from '../cases/grid'
 import SmallCard from './small-card'
 import SimpleTable from './simple-table'
 import CompliantCard from './compliant-card'

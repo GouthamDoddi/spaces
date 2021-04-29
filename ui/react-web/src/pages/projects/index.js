@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import HeaderBar from '../../shared/header_bar';
-import entities, { NewLayout } from '../entities';
+import { NewLayout } from '../entities';
 import ProjectElem from './panel';
 import qgate from '../../assets/images/qgate.png';
 import ProjectList from './list';
@@ -10,7 +10,7 @@ import makeStore from '../../store/make-store';
 import { useStore } from 'effector-react';
 import { isJAWDAUser, isMOTCUser, userEntities } from '../../store/user';
 
-const { store: entityStore, load: loadEntities } = makeStore(() => 'entities');
+const { load: loadEntities } = makeStore(() => 'entities');
 const { store: projectStore, load: loadProjects } = makeStore(({ entity_id }) => `${entity_id}/rev-projects`);
 
 const Projects = () => {
@@ -66,7 +66,7 @@ const Projects = () => {
                 <div className="filter_sele">
                   <label>Entity</label>
                   <select name="entity" value={selectedEntity} onChange={handleChange}>
-                    <option>Select Entity</option>
+                    <option value="">Select Entity</option>
                     {entities.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
                   </select>
                 </div>
@@ -76,7 +76,7 @@ const Projects = () => {
                 <div className="filter_sele">
                   <label>Project</label>
                   <select name="project" value={selectedProject} onChange={handleChange} disabled={!selectedEntity}>
-                    <option>Select Project</option>
+                    <option value="">Select Project</option>
                     {projects.map(({ id, project_name }) => <option key={id} value={id}>{project_name}</option>)}
                   </select>
                 </div>
