@@ -150,7 +150,7 @@ class App::Routes < Roda
           do_crud(RevQuestions, r, 'CRUDL', opts)
         end
 
-        r.on Integer, 'cases' do |project_id|
+        r.on [Integer, true], 'cases' do |project_id|
           opts = { project_id: project_id }
           r.post(Integer, 'approve') do |id|
             RevCases[r, {id: id}].approve
