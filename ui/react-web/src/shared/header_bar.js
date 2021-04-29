@@ -175,13 +175,6 @@ export default withRouter(function ({ className, langSwitch, lang, setLang, ...p
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/policy">
-                  <ActiveSpan active={checkActiveLink({ route: '/policy' })}>
-                    { t('policy_grounds') }
-                  </ActiveSpan>
-                </NavLink>
-              </li>
-              <li>
                 <NavLink to="/cases">
                   <ActiveSpan active={checkActiveLink({ route: '/cases' })}>
                     { t('case_management') }
@@ -190,8 +183,8 @@ export default withRouter(function ({ className, langSwitch, lang, setLang, ...p
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/grounds">
-                  <ActiveSpan active={checkActiveLink({ route: '/grounds' })}>
+                <NavLink to="/policies">
+                  <ActiveSpan active={checkActiveLink({ route: '/policies' })}>
                     { t('ground_management') }
                   </ActiveSpan>
                 </NavLink>

@@ -38,7 +38,7 @@ const Panel = () => {
               <span className="step_count">1</span>
               <span className="detail">
                 <span className="title">Master Project Profile</span>
-                <span className="sub_title"> Summary of roject </span>
+                <span className="sub_title"> Summary of Project </span>
               </span>
             </NavLink>
           </li>

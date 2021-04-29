@@ -228,19 +228,12 @@ const EntityCommunication = ({ setTableProps }) => {
 
         <div className="flex_col_sm_6">
           <div className="form_field_wrapper">
-            <label className="form_label">Purpose <span>*</span></label>
+            <label className="form_label">Type <span>*</span></label>
             <div className="text_field_wrapper">
               <select name="purpose">
                 <option value="">Select</option>
                 {['Phone call', 'Email', 'Meeting', 'In Person'].map((value) => <option value={value}>{value}</option>)}
               </select>
-              <input
-                type="text"
-                placeholder="Enter purpose"
-                name="purpose"
-                value={purpose}
-                onChange={handleChange}
-              />
               <div className="error_messg">{errors.purpose}</div>
             </div>
           </div>
