@@ -5,8 +5,11 @@ class App::Services::RevCases < App::Services::Base
 
   def list
     cond = { project_id: rp[:project_id]}.compact
-    data = model.order(Sequel.desc(:created_at)).where(cond).map do |o|
+    data = model.eager(:compliance_project, :entity).order(Sequel.desc(:created_at)).where(cond).map do |o|
       hash = o.as_json
+      hash[:project_name] = o.compliance_project&.project_name
+      hash[:entity_name] = o.entity&.name
+      hash
     end
     return_success(data)
   end

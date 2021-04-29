@@ -1,6 +1,8 @@
 
 class App::Models::RevCase < Sequel::Model
 
+  many_to_one :compliance_project, class: 'App::Models::RevComplianceProject', key: :compliance_project_id
+  many_to_one :entity, class: 'App::Models::Entity'
 
   def validate
     super
