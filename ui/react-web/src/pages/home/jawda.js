@@ -32,7 +32,7 @@ export default function(props) {
     <Box>
       <header> 
         <span>Jawda</span> 
-        <span>Policy Count {metadata.length}</span>
+        <span>Policy Count {3 || metadata.length}</span>
       </header>
 
       <div className='items'>

@@ -80,9 +80,9 @@ export default function ({ lang, setLang, ...props }) {
         cardsData = cardsData.filter(a => a.name.toLowerCase().startsWith(pagination.toLowerCase()));
       } else {
         cardsData = cardsData.sort(dynamicSort("name"));
-        let alphabet = cardsData[0].name.charAt(0).toLowerCase();
-        setPagination(alphabet);
-        cardsData = cardsData.filter(a => a.name.toLowerCase().startsWith(alphabet));
+        // let alphabet = cardsData[0].name.charAt(0).toLowerCase();
+        // setPagination(alphabet);
+        // cardsData = cardsData.filter(a => a.name.toLowerCase().startsWith(alphabet));
       }
       if (!showAll && cardsData.length > 6) {
         cardsData.length = 6;
@@ -198,7 +198,12 @@ export default function ({ lang, setLang, ...props }) {
             return (
               <PaginationElement style={{ cursor: isValid ? 'pointer' : 'default' }} onClick={() =>{
                 console.log(item);
-                isValid && setPagination(item.toLowerCase())
+                if (isValid)
+                  if (pagination !== item.toLowerCase()) {
+                    setPagination(item.toLowerCase())
+                  } else {
+                    setPagination('');
+                  }
                 }}>
                 <span style={{ color: isValid ? 'white' : 'grey' }}>{item}</span>
                 {

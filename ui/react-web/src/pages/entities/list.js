@@ -34,7 +34,7 @@ const EntityList = ({ selectedEntity }) => {
 
   useEffect(() => {
     setPageNo(1);
-  }, [search, filters]);
+  }, [search, filters, selectedEntity]);
 
   let data = useStore(store).data || [];
 
@@ -50,8 +50,8 @@ const EntityList = ({ selectedEntity }) => {
         ? data.portal_count
         : 0
 
-        totalMobileApps += data.eservices_count
-        ? data.eservices_count
+        totalMobileApps += data.mobile_count
+        ? data.mobile_count
         : 0
 
         totalEservices += data.eservices_count
