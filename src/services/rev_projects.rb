@@ -3,6 +3,19 @@ class App::Services::RevProjects < App::Services::Base
 
   def model; RevProject; end
 
+  def report
+    cond = {owner_id: rp[:entity_id]}.compact
+    resp = {compliance_projects_completed: 0, compliance_projects_in_progress: 0, issues_count: 0, challenges_count: 0, total_projects: 0}
+    model.eager(:compliance_projects => :compliance_records).where(cond).all.each do |p|
+      completed = p.compliance_projects.sum{|o| o.completed? ? 1 : 0}
+      in_progress = p.compliance_projects.length - completed
+      resp[:compliance_projects_completed] += completed
+      resp[:compliance_projects_in_progress] += in_progress
+    end
+
+    resp
+  end
+
   def list
     cond = { owner_id: rp[:entity_id]}
     data = model.eager(:compliance_projects).order(Sequel.desc(:created_at)).where(cond.compact).map do |o|

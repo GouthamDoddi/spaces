@@ -35,7 +35,9 @@ class App::Models::RevComplianceProject < Sequel::Model
     as_json(options)
   end
 
-
+  def completed?
+    compliance_records.length > 0 && !compliance_records.any?{|o| o.status != 4}
+  end
 
   def variations
     types = rev_projects_dataset.select_map(:project_type_id) << type_id
