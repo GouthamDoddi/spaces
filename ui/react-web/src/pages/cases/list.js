@@ -82,7 +82,7 @@ const CasesList = () => {
 
   const dataPaginated = data.slice(
     (pageNo - 1) * pageSize,
-    pageNo * pageSize - 1
+    pageNo * pageSize
   );
 
   return (

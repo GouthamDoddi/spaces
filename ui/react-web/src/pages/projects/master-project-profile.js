@@ -69,7 +69,7 @@ const MasterProjectProfile = () => {
       case 'project_name_ar':
       case 'project_description':
       case 'project_description_ar':
-      case 'short_name':
+      // case 'short_name':
       case 'project_type_id':
         // case 'logo':
         return isEmpty(name, value);
@@ -180,7 +180,7 @@ const MasterProjectProfile = () => {
 
                 <div className="flex_col_sm_6">
                   <label className="form_label">
-                    Project Short Name <mark>*</mark>
+                    Project Short Name
                   </label>
                   <div className="text_field_wrapper">
                     <input

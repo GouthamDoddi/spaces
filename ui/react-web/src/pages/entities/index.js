@@ -1,24 +1,104 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import HeaderBar from '../../shared/header_bar';
-import { NavLink, Route, Switch } from 'react-router-dom';
+import { NavLink, Route, Switch, useHistory } from 'react-router-dom';
 import EntityElem from './panels';
 import qgate from '../../assets/images/qgate.png';
+// import Nav2 from '../../components/breadcrumNav';
 import EntityList from './list';
-import Nav2 from '../../components/breadcrumNav';
+import { isJAWDAUser, isMOTCUser, userEntities } from '../../store/user';
+import { useStore } from 'effector-react';
+import makeStore from '../../store/make-store';
+
+const { load: loadEntities } = makeStore(() => 'entities');
+const { store: projectStore, load: loadProjects } = makeStore(({ entity_id }) => `${entity_id}/rev-projects`);
 
 export default function () {
+  const history = useHistory();
+
+  const [entities, setEntities] = useState([]);
+  const [selectedEntity, setSelectedEntity] = useState(null);
+  const projects = useStore(projectStore).data || [];
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  useEffect(() => {
+    loadEntities('', (data) => {
+      setEntities(isMOTCUser() ? data : data.filter(({ id }) => userEntities().includes(id)));
+    });
+  }, []);
+
+  const handleChange = ({ target: { value, name }}) => {
+    if (name === 'entity') {
+      setSelectedEntity(value);
+    } else {
+      setSelectedProject(value);
+    }
+  };
+
+  useEffect(() => {
+    setSelectedProject(null);
+    if (selectedEntity) {
+      loadProjects({ entity_id: selectedEntity });
+    }
+  }, [selectedEntity]);
+
+  useEffect(() => {
+    if (selectedProject) {
+      history.push(`/projects/${selectedProject}`);
+    }
+  }, [selectedProject]);
+
   return (
     <div className="app_wrapper">
       <NewLayout>
         <HeaderBar className="hb" />
-        <Nav2 />
+        {/* <Nav2 /> */}
+        <FilterBreadcrumb className="custom_container">
+          <div className="filter_breadcrumb">
+            <ul>
+              <li>
+                <NavLink to="/">
+                  <img src={qgate} width="100%" />
+                </NavLink>
+              </li>
+
+              {isJAWDAUser() && (
+                <li>
+                  <div className="filter_sele active">
+                    <label>State</label>
+                    <label>QDG</label>
+                  </div>
+                </li>
+              )}
+
+              <li>
+                <div className="filter_sele">
+                  <label>Entity</label>
+                  <select name="entity" value={selectedEntity} onChange={handleChange}>
+                    <option value="">Select Entity</option>
+                    {entities.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
+                  </select>
+                </div>
+              </li>
+
+              <li>
+                <div className="filter_sele">
+                  <label>Project</label>
+                  <select name="project" value={selectedProject} onChange={handleChange} disabled={!selectedEntity}>
+                    <option value="">Select Project</option>
+                    {projects.map(({ id, project_name }) => <option key={id} value={id}>{project_name}</option>)}
+                  </select>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </FilterBreadcrumb>
         <Switch>
           <Route path={['/entities/:entity_id', '/entities/:entity_id/details']} exact>
             <EntityElem />
           </Route>
           <Route path={'/entities'} exact>
-            <EntityList />
+            <EntityList selectedEntity={selectedEntity} />
           </Route>
         </Switch>
       </NewLayout>

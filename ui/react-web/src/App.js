@@ -62,6 +62,7 @@ import Home1 from './pages/home';
 import MotcHome from './components/dashboards/motc-home';
 import AgencyHome from './components/dashboards/agency-home';
 import JawdaHome from './components/dashboards/jawda-home';
+import jawdaHome from './components/dashboards/jawda-home';
 
 
 // import { Task, Note, Survey, Meeting, Space } from './components/menu-actions'
@@ -162,12 +163,12 @@ function AllRoutes(props) {
 
 function dbForRole(lang, setLang) {
   if (isMOTCUser()) {
-    return <MotcHome lang={lang} setLang={setLang} translate />
+    return <MotcHome />
     // return <JawdaHome />
   } else if (isJAWDAUser()) {
-    return <JawdaHome lang={lang} setLang={setLang} translate />
+    return <jawdaHome />
   } else {
-    return <AgencyHome lang={lang} setLang={setLang} translate />
+    return <AgencyHome />
   }
 }
 function App() {

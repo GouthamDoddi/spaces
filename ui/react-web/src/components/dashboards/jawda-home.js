@@ -1,4 +1,4 @@
-import React from 'react'
+ import React from 'react'
 import styled from 'styled-components'
 
 import Status from './status'
@@ -12,11 +12,11 @@ const columns1 = '1.5fr .5fr .5fr .5fr .4fr .4fr'
 const columns2 = '1.5fr .5fr'
 const columns3 = '1fr .7fr .3fr'
 const columns4 = '2fr 2fr 1fr'
-export default function(props) {
+export default function() {
   return(
     <div>
       <Content>
-        <HeaderBar className="hb" langSwitch {...props} />
+        <HeaderBar className="hb" />
         <Jawda />
       </Content>  
     </div>
