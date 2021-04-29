@@ -1,15 +1,16 @@
 import Pagination from '@material-ui/lab/Pagination';
 import { useStore } from 'effector-react';
 import React, { useEffect, useState } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import BasicTable from '../../shared/table-material';
 import makeStore from '../../store/make-store';
-import { cleanedEntities, projectCategoryTypes } from '../../store/master-data';
+import { projectCategoryTypes } from '../../store/master-data';
 import { Progress } from '../entities';
 import { PaginationWrapper } from './compliance-projects/attributes';
 
 const { store, load } = makeStore('rev-projects');
 const { load: loadEntities } = makeStore('entities');
+const { store: reportStore, load: loadReport } = makeStore(({ entity_id }) => `${entity_id ? `${entity_id}/` : ''}rev-projects/report`);
 
 const headlines = [
   { headline: 'Master Project Name', key: 'project_name' },
@@ -31,8 +32,10 @@ const ProjectList = ({ selectedEntity, selectedProject }) => {
   const [filters, setFilters] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const pageSize = 10;
+  const { challenges_count, compliance_projects_completed, compliance_projects_in_progress, issues_count, total_projects } = useStore(reportStore).data || {};
 
   useEffect(() => {
+    loadReport({});
     loadEntities('', (data) => {
       setEntities(data);
       load();
@@ -41,26 +44,9 @@ const ProjectList = ({ selectedEntity, selectedProject }) => {
 
   useEffect(() => {
     setPageNo(1);
-  }, [search, filters]);
+  }, [search, filters, selectedEntity, selectedProject]);
 
   let data = useStore(store).data || [];
-
-
-  let complianceProjectCompleted = 0;
-  let complianceProjectInProgress = 0;
-  let complianceProjectNotStarted = 0;
-  let complianceIssues = 0;
-  let challenges = 0;
-
-  data.map((data) => {
-    if (data.progress === 100) complianceProjectCompleted += 1;
-    else if (!data.progress) complianceProjectNotStarted += 1;
-    else complianceProjectInProgress += 1;
-
-    complianceIssues += data.issues_count ? data.issues_count : 0;
-
-    challenges += data.challenges_count ? data.challenges_count : 0;
-  });
 
   if (search || filters.length || selectedEntity || selectedProject) {
     data = data.filter(({ id, project_name, owner_id, project_type_id }) => {
@@ -107,7 +93,7 @@ const ProjectList = ({ selectedEntity, selectedProject }) => {
               <span className="title">Compliance Project - Completed</span>
 
 
-              <span className="count">{complianceProjectCompleted}</span>
+              <span className="count">{`${compliance_projects_completed || 0}`}</span>
             </a>
           </li>
 
@@ -115,15 +101,15 @@ const ProjectList = ({ selectedEntity, selectedProject }) => {
             <a className="inner_wrap">
               <span className="title">Compliance Project - In Progress</span>
 
-              <span className="count">{complianceProjectInProgress}</span>
+              <span className="count">{`${compliance_projects_in_progress || 0}`}</span>
             </a>
           </li>
 
           <li className="entity_boardcard">
             <a className="inner_wrap">
-              <span className="title">Compliance Project - Not Started</span>
+              <span className="title">Total Projects</span>
 
-              <span className="count">{complianceProjectNotStarted}</span>
+              <span className="count">{`${data.length || 0}`}</span>
             </a>
           </li>
 
@@ -131,7 +117,7 @@ const ProjectList = ({ selectedEntity, selectedProject }) => {
             <a className="inner_wrap">
               <span className="title">Total Compliance Issues</span>
 
-              <span className="count">{complianceIssues}</span>
+              <span className="count">{`${issues_count || 0}`}</span>
             </a>
           </li>
 
@@ -139,7 +125,7 @@ const ProjectList = ({ selectedEntity, selectedProject }) => {
             <a className="inner_wrap">
               <span className="title">Total Challenges Issues</span>
 
-              <span className="count">{challenges}</span>
+              <span className="count">{`${challenges_count || 0}`}</span>
             </a>
           </li>
         </ul>
@@ -245,6 +231,10 @@ const ProjectList = ({ selectedEntity, selectedProject }) => {
                       </span>
                     </>
                   );
+                }
+
+                if (colIndex === 7) {
+                  return col || '0';
                 }
 
                 return false;
