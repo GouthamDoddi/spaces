@@ -91,10 +91,8 @@ const GroundsList = () => {
 
   const dataPaginated = data.slice(
     (pageNo - 1) * pageSize,
-    pageNo * pageSize - 1
+    pageNo * pageSize
   );
-
-  console.log(dataPaginated)
 
   const [tableProps, setTableProps] = useState({
     rows: [],

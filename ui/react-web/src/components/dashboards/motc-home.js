@@ -8,11 +8,11 @@ const columns1 = '1.5fr .5fr .5fr .5fr .4fr .4fr'
 const columns2 = '1.5fr .5fr'
 const columns3 = '1fr .7fr .3fr'
 const columns4 = '2fr 2fr 1fr'
-export default function({ lang, setLang, translate }) {
+export default function() {
   return(
     <div>
       <Content>
-        <HeaderBar className='hb' lang={lang} setLang={setLang} translate={translate} langSwitch />
+        <HeaderBar className='hb' />
         <Motc />
       </Content>  
     </div>
