@@ -15,7 +15,7 @@ class App::Services::Entities < App::Services::Base
       h[:mobile_count] = grp[2]&.length || 0
       h[:portal_count] = grp[1]&.length || 0
       h[:eservices_count] = grp[3]&.length || 0
-      h[:progress] = ((completed / total_records.to_f) * 100).round(2)
+      h[:progress] = ((completed.length / total_records.length.to_f) * 100).round(2)
       h
     end
     return_success( data )
