@@ -5,7 +5,7 @@ class App::Services::Entities < App::Services::Base
   def list
     cond = App.cu.role == 0 ? {} : { id: App.cu.user_obj.entity_ids.to_a}
 
-    entities = model.eager(:rev_compliance_projects).where(cond).order(Sequel.desc(:created_at)).all
+    entities = model.eager(:rev_compliance_projects, :rev_compliance_records).where(cond).order(Sequel.desc(:created_at)).all
 
     data = entities.map do |e|
       total_records = e.rev_compliance_records
