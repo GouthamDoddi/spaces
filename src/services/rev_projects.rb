@@ -13,7 +13,7 @@ class App::Services::RevProjects < App::Services::Base
       resp[:compliance_projects_in_progress] += in_progress
     end
 
-    resp
+    return_success(resp)
   end
 
   def list
