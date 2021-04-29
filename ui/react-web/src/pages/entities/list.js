@@ -8,7 +8,6 @@ import makeStore from '../../store/make-store';
 import { Progress } from '.';
 import { entityEnter } from '../routes';
 import { PaginationWrapper } from '../projects/compliance-projects/attributes';
-import { BsClipboardData } from 'react-icons/bs';
 
 const { store, load } = makeStore('entities');
 
@@ -22,7 +21,7 @@ const headlines = [
   { headline: 'Completion Percentage', key: 'progress' },
 ];
 
-const EntityList = () => {
+const EntityList = ({ selectedEntity }) => {
   const history = useHistory();
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState([]);
@@ -40,7 +39,6 @@ const EntityList = () => {
   let data = useStore(store).data || [];
 
   let totalEntities = data.length;
-  let totalProjects = 0;
   let totalPortals = 0;
   let totalMobileApps = 0;
   let totalEservices = 0;
@@ -48,7 +46,6 @@ const EntityList = () => {
 
 
     data.map(data => {
-        console.log(data)
         totalPortals += data.portal_count
         ? data.portal_count
         : 0
@@ -61,32 +58,34 @@ const EntityList = () => {
         ? data.eservices_count
         : 0
 
-        totalCompletetionPercentage += data.progress
+        totalCompletetionPercentage += (data.progress || 0)
     })
   
+    let totalProjects = totalPortals + totalMobileApps + totalEservices;
 
-  if (search || filters.length) {
-    data = data.filter(({ name, short_name, type_id }) => {
+  if (search || filters.length || selectedEntity) {
+    data = data.filter(({ id, name, short_name, type_id }) => {
       const caseInsesitiveSearch = search.toLowerCase();
 
       return (
+        (selectedEntity ? parseInt(selectedEntity) === id : true) &&
         (name.toLowerCase().includes(caseInsesitiveSearch) ||
           short_name.toLowerCase().includes(caseInsesitiveSearch)) &&
           // apply filters only if any
-          (filters.length ? filters.includes(entityTypes[type_id]?.label?.toLowerCase()) : true)
+          (filters.length ? filters.includes(type_id) : true)
       );
     });
   }
 
   const handleFiltersChange = ({ target: { value } }) => {
-    if (filters.includes(value)) {
-      setFilters((prevVal) => prevVal.filter((val) => val !== value));
+    if (filters.includes(parseInt(value))) {
+      setFilters((prevVal) => prevVal.filter((val) => val !== parseInt(value)));
     } else {
-      setFilters((prevVal) => prevVal.concat([value]));
+      setFilters((prevVal) => prevVal.concat([parseInt(value)]));
     }
   };
 
-  const dataPaginated = data.slice((pageNo - 1) * pageSize, pageNo * pageSize - 1);
+  const dataPaginated = data.slice((pageNo - 1) * pageSize, pageNo * pageSize);
 
   return (
     <>
@@ -131,7 +130,7 @@ const EntityList = () => {
             <a className="inner_wrap">
               <span className="title">Total Completion Percentage</span>
               <div>
-                <span className="count green">{ totalCompletetionPercentage/ totalProjects }</span>
+                <span className="count green">{ isNaN(totalCompletetionPercentage/ totalProjects) ? totalCompletetionPercentage/ totalProjects : 0 }</span>
                 <span className="progressbar_wrap">
                   <Progress className="progress" width={ totalCompletetionPercentage/ totalProjects }/>
                 </span>
@@ -162,47 +161,21 @@ const EntityList = () => {
                   <ul className="filter_check">
                     <li>Show only </li>
 
-                    <li>
-                      <div className="checkbox_wrap agree_check">
-                        <input
-                          className="filter-type filled-in"
-                          type="checkbox"
-                          name="filter"
-                          id="ministry"
-                          value="ministry"
-                          onChange={handleFiltersChange}
-                        />
-                        <label htmlFor="ministry">Ministry </label>
-                      </div>
-                    </li>
-
-                    <li>
-                      <div className="checkbox_wrap agree_check">
-                        <input
-                          className="filter-type filled-in"
-                          type="checkbox"
-                          name="filter"
-                          id="authority"
-                          value="authority"
-                          onChange={handleFiltersChange}
-                        />
-                        <label htmlFor="authority">Authority </label>
-                      </div>
-                    </li>
-
-                    <li>
-                      <div className="checkbox_wrap agree_check">
-                        <input
-                          className="filter-type filled-in"
-                          type="checkbox"
-                          name="filter"
-                          id="agency"
-                          value="agency"
-                          onChange={handleFiltersChange}
-                        />
-                        <label htmlFor="agency">Agency </label>
-                      </div>
-                    </li>
+                    {Object.values(entityTypes).slice(0, 3).map(({ label, value }) => (
+                      <li key={label}>
+                        <div className="checkbox_wrap agree_check">
+                          <input
+                            className="filter-type filled-in"
+                            type="checkbox"
+                            name="filter"
+                            id={value}
+                            value={value}
+                            onChange={handleFiltersChange}
+                          />
+                          <label htmlFor={value}>{label}</label>
+                        </div>
+                      </li>
+                    ))}
                   </ul>
                 </div>
                 <div className="flex_col_sm_4 text-right">
@@ -223,7 +196,7 @@ const EntityList = () => {
                   return entityTypes[col]?.label;
                 }
 
-                if (colIndex === 6 && col) {
+                if (colIndex === 6) {
                   return (
                     <>
                       <span className="count green bg_green">{`${

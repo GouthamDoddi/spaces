@@ -95,10 +95,8 @@ const ProjectList = ({ selectedEntity, selectedProject }) => {
 
   const dataPaginated = data.slice(
     (pageNo - 1) * pageSize,
-    pageNo * pageSize - 1
+    pageNo * pageSize
   );
-
-  console.log(dataPaginated)
 
   return (
     <>
