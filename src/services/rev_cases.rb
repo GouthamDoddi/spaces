@@ -4,7 +4,7 @@ class App::Services::RevCases < App::Services::Base
   def model; RevCase; end
 
   def list
-    cond = { project_id: rp[:project_id]}
+    cond = { project_id: rp[:project_id]}.compact
     data = model.order(Sequel.desc(:created_at)).where(cond).map do |o|
       hash = o.as_json
     end

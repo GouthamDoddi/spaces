@@ -4,11 +4,12 @@ class App::Models::Entity < Sequel::Model
   one_to_many :projects_for_db, class: 'App::Models::DbProject'
 
   one_to_many :rev_compliance_projects, class: 'App::Models::RevComplianceProject', key: :owner_id
+  one_to_many :rev_compliance_records, class: 'App::Models::RevComplianceRecord', key: :owner_id
 
   def validate
     super
     validates_presence [:name, :description, :short_name, :type_id]
-    # validates_unique :email
+    validates_unique :name
     # validates_includes ROLES, :role
   end
 
