@@ -15,6 +15,7 @@ gem 'bcrypt'
 gem 'json_schemer'
 gem 'aws-sdk-s3'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'mail'
 
 group :development do
   gem 'listen'
