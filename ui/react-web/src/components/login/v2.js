@@ -14,7 +14,7 @@ async function submitted(data) {
 export default function() {
     const store = useStore(userStore)
     if(store.token) {
-      window.location.hash = '/dashboard'
+      window.location.hash = '/board'
     } else if(store.error) {
       console.log(store.error)
     }

@@ -6,7 +6,7 @@ export default function (props) {
   return (
     <ProfileMenu>
       <div className="actionMenuSub">
-        <div className="menuText">System Logs</div>
+        {/* <div className="menuText">System Logs</div> */}
         <div
           className="menuText"
           onClick={(e) => {

@@ -81,7 +81,7 @@ const EntityCommunication = ({ setTableProps }) => {
 
   const errorLabels = {
     user_ids: 'User groups',
-    purpose: 'Purpose',
+    purpose: 'Type',
     subject: 'Subject',
     details: 'Details',
   };
@@ -195,7 +195,7 @@ const EntityCommunication = ({ setTableProps }) => {
     <>
       <div className="flex_col_sm_12">
         <div className="form_field_wrapper">
-          <label className="form_label">User Groups <span>*</span></label>
+          <label className="form_label">Entity Groups <span>*</span></label>
           <div className="text_field_wrapper">
             <AutoComplete
               placeholder="Search and select user group"
@@ -230,7 +230,7 @@ const EntityCommunication = ({ setTableProps }) => {
           <div className="form_field_wrapper">
             <label className="form_label">Type <span>*</span></label>
             <div className="text_field_wrapper">
-              <select name="purpose">
+              <select name="purpose" onChange={handleChange}>
                 <option value="">Select</option>
                 {['Phone call', 'Email', 'Meeting', 'In Person'].map((value) => <option value={value}>{value}</option>)}
               </select>

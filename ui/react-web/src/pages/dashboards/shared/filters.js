@@ -92,8 +92,8 @@ export default function({entities=[], projects=[], lang,  ...props}) {
           /></div>
       </div>
       <div className='actions'>
-        <div onClick={reset}> {t('reset')} </div> 
-        <div onClick={viewDashboard}> {t('view_dashboard')} </div>
+        <button onClick={reset}> {t('reset')} </button> 
+        <button onClick={viewDashboard}> {t('update_dashboard')} </button>
       </div>
     </Filters>
   )
@@ -130,17 +130,29 @@ const Filters = styled.div`
       margin-right: 100px;
     `}
     
-    > div:first-child {
+    > button:first-child {
+      border: none;
+      background: none;
       padding: 10px;
+      border-radius: 4px;
       ${rtl`
         margin-right: 25px;
       `}
+
+      &:hover {
+        background: #f0f0f0;
+      }
     }
-    > div:last-child {
+    > button:last-child {
       padding: 10px;
       background-color: #EB622B;
       color: #fff;
       border-radius: 4px;
+      border: none;
+
+      &:hover {
+        background-color: #e24f14;
+      }
     }
   }
 `

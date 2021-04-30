@@ -62,7 +62,7 @@ export default function () {
       <div className="custom_container">
         <TopBar>
           <span>Resources</span>
-          {role() === 14 && <NavLink to="/resources/upload">
+          {[0, 14].includes(role()) && <NavLink to="/resources/upload">
             <button className="btn_solid">Upload Resource</button>
           </NavLink>}
         </TopBar>

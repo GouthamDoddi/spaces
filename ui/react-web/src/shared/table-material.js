@@ -24,7 +24,7 @@ export default function BasicTable ({ tableCells, rows, renderCol, keyField, onR
         <TableHead>
           <TableRow className={classes.row}>
             { tableCells.map(({ headline }, index) => (
-              <TableCell key={index} align={index !== 0 ? tableCells[index]?.align || 'right' : 'center'}>{headline} {headline && <SortIcon />} </TableCell>
+              <TableCell key={index} align="left">{headline} {headline && <SortIcon />} </TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -32,7 +32,7 @@ export default function BasicTable ({ tableCells, rows, renderCol, keyField, onR
           {rows.map((row, rowIndex) =>
             <TableRow className={`${classes.row} ${onRowClick ? classes.clickable : ''} ${activeKey === row[keyField] ? 'active' : ''}`} key={row[keyField]} onClick={() => onRowClick && onRowClick(row[keyField])}>
               {tableCells.map(({ key }, colIndex) => 
-                <TableCell key={key} align={colIndex !== 0 ? tableCells[colIndex]?.align || 'right' : undefined}>
+                <TableCell key={key} align="left">
                   {renderCol(colIndex, row[tableCells[colIndex]?.key], rowIndex, row) || row[tableCells[colIndex]?.key]}
                 </TableCell>
               )}

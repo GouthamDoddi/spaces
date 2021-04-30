@@ -245,6 +245,7 @@ const ProjectList = ({ selectedEntity, selectedProject }) => {
           </div>
 
           <PaginationWrapper>
+            <span className="table-info">Showing {dataPaginated.length < 10 ? dataPaginated.length : 10} out of {data.length}</span>
             <Pagination
               page={pageNo}
               count={Math.ceil(data.length / pageSize)}

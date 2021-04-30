@@ -31,6 +31,7 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
   const [variations, setVariations] = useState([]);
   const defaultData = {
     parameter_id: '',
+    description: '',
     platform_language: '',
     result: 1,
   };
@@ -139,6 +140,7 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
 
   const errorLabels = {
     parameter_id: 'Parameter',
+    description: 'Description',
     platform_language: 'Platform and language',
     result: 'Result',
   };
@@ -149,6 +151,7 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
   const isInvalid = (name, value) => {
     switch (name) {
       case 'parameter_id':
+      case 'description':
       case 'platform_language':
         return isEmpty(name, value + '');
       case 'result':
@@ -176,7 +179,7 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
     updateData(name, value);
   };
 
-  const { parameter_id, platform_language, result } = data;
+  const { parameter_id, description, platform_language, result } = data;
 
   const handleSave = () => {
     if (!submitClicked) {
@@ -263,11 +266,29 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
                   onChange={handleChange}
                   disabled={[14].includes(role())}
                 >
-                  {parameters.map(({ parameter_id, parameter_name }) => (
-                    <option value={parameter_id}>{parameter_name}</option>
+                  {parameters.map(({ parameter_id, parameter_name }, index) => (
+                    <option value={parameter_id}>{index+1}. {parameter_name}</option>
                   ))}
                 </select>
                 <div className="error_messg">{errors.parameter_id}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex_col_sm_12">
+            <div className="form_field_wrapper">
+              <label className="form_label">
+                Description <mark>*</mark>
+              </label>
+              <div className="text_field_wrapper">
+                <textarea
+                  name="description"
+                  placeholder="Enter description"
+                  value={description}
+                  onChange={handleChange}
+                  disabled={[14].includes(role())}
+                />
+                <div className="error_messg">{errors.description}</div>
               </div>
             </div>
           </div>
@@ -329,11 +350,14 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
             </div>
           </div>
           <div className="flex_col_sm_12 text-right">
-            {[8, 10, 11, 12].includes(role()) ? (
+            {[0, 8, 10, 11, 12].includes(role()) && (
               <button className="add_more" onClick={handleSave}>
                 Save
               </button>
-            ) : [0, 14].includes(role()) ? (
+            )}
+            <hr />
+            <div className="text-left">Parameter Approval: </div>
+            {[0, 14].includes(role()) ? (
               <JawdaActions>
                 <Button color="success" onClick={() => {
                   if (selected[1].id && data.id) {

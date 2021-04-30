@@ -141,27 +141,7 @@ const Projects = ({ onSubmit, setTableProps, updateStatus }) => {
                       <Badge status={approveStatus[id]}>{approveStatus[id]}</Badge>
                     </td>
                     <td>
-                      {isMOTCUser() ? (
-                        <>
-                          <NavLink
-                            to={{
-                              pathname: `/projects/${project_id}/case-management`,
-                              state: { project_id: id },
-                            }}
-                          >
-                            Create Case
-                          </NavLink>{' '}
-                          /{' '}
-                          <NavLink
-                            to={{
-                              pathname: `/projects/${project_id}/case-management`,
-                              state: { project_id: id },
-                            }}
-                          >
-                            Report Issue
-                          </NavLink>
-                        </>
-                      ) : isJAWDAUser() ? (
+                      {isJAWDAUser() ? (
                         <td>
                           <Switch
                             leftLabel="Approve"
@@ -184,6 +164,26 @@ const Projects = ({ onSubmit, setTableProps, updateStatus }) => {
                             }}
                           />
                         </td>
+                      ) : isMOTCUser() ? (
+                        <>
+                          <NavLink
+                            to={{
+                              pathname: `/projects/${project_id}/case-management`,
+                              state: { project_id: id },
+                            }}
+                          >
+                            Create Case
+                          </NavLink>{' '}
+                          /{' '}
+                          <NavLink
+                            to={{
+                              pathname: `/projects/${project_id}/case-management`,
+                              state: { project_id: id },
+                            }}
+                          >
+                            Report Issue
+                          </NavLink>
+                        </>
                       ) : null}
                     </td>
                   </tr>
