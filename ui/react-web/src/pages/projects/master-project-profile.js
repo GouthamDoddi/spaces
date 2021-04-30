@@ -242,7 +242,7 @@ const MasterProjectProfile = () => {
                 <div className="form_field_wrapper">
                   <label className="form_label">Owner</label>
                   <div className="text_field_wrapper">
-                    <select
+                    {/* <select
                       name="owner_id"
                       value={owner_id}
                       onChange={handleChange}
@@ -252,7 +252,8 @@ const MasterProjectProfile = () => {
                           {name}
                         </option>
                       ))}
-                    </select>
+                    </select> */}
+                    <span className="placeholder">{entities.find(({ id }) => id === owner_id)?.name}</span>
                     <span className="error_messg">{errors.owner_id}</span>
                   </div>
                 </div>
@@ -264,7 +265,7 @@ const MasterProjectProfile = () => {
                     Project Type <mark>*</mark>
                   </label>
                   <div className="text_field_wrapper">
-                    <select
+                    {/* <select
                       name="project_type_id"
                       value={project_type_id}
                       onChange={handleChange}
@@ -276,7 +277,8 @@ const MasterProjectProfile = () => {
                           </option>
                         )
                       )}
-                    </select>
+                    </select> */}
+                    <span className="placeholder">{projectCategoryTypes[project_type_id].label}</span>
                     <span className="error_messg">
                       {errors.project_type_id}
                     </span>
@@ -287,7 +289,7 @@ const MasterProjectProfile = () => {
 
             <div className="form_field_wrapper">
               <label className="form_label">
-                Upload Entity Logo <mark>*</mark>
+                Upload Project Logo
               </label>
               <DropZone
                 files={files}

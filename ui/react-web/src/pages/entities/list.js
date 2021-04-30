@@ -221,6 +221,7 @@ const EntityList = ({ selectedEntity }) => {
             />
           </div>
           <PaginationWrapper>
+            <span className="table-info">Showing {dataPaginated.length < 10 ? dataPaginated.length : 10} out of {data.length}</span>
             <Pagination page={pageNo} count={Math.ceil(data.length / pageSize)} onChange={(_, pageNo) => setPageNo(pageNo)} size="small" />
           </PaginationWrapper>
         </div>

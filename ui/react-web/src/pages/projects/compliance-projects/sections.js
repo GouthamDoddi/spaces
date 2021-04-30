@@ -147,27 +147,7 @@ const Sections = ({ onSubmit, selected, setTableProps, updateStatus }) => {
                     <td onClick={() => onSubmit({ name: section_name, id: section_id })}>{completed}</td>
                     <td onClick={() => onSubmit({ name: section_name, id: section_id })}>{not_tested}</td>
                     <td>
-                      {isMOTCUser() ? (
-                        <>
-                          <NavLink
-                            to={{
-                              pathname: `/projects/${project_id}/case-management`,
-                              state: { section_id },
-                            }}
-                          >
-                            Create Case
-                          </NavLink>{' '}
-                          /{' '}
-                          <NavLink
-                            to={{
-                              pathname: `/projects/${project_id}/case-management`,
-                              state: { section_id },
-                            }}
-                          >
-                            Report Issue
-                          </NavLink>
-                        </>
-                      ) : isJAWDAUser() ? (
+                      {isJAWDAUser() ? (
                         <td>
                           <Switch
                             leftLabel="Approve"
@@ -193,6 +173,26 @@ const Sections = ({ onSubmit, selected, setTableProps, updateStatus }) => {
                             }}
                           />
                         </td>
+                      ) : isMOTCUser() ? (
+                        <>
+                          <NavLink
+                            to={{
+                              pathname: `/projects/${project_id}/case-management`,
+                              state: { section_id },
+                            }}
+                          >
+                            Create Case
+                          </NavLink>{' '}
+                          /{' '}
+                          <NavLink
+                            to={{
+                              pathname: `/projects/${project_id}/case-management`,
+                              state: { section_id },
+                            }}
+                          >
+                            Report Issue
+                          </NavLink>
+                        </>
                       ) : null}
                     </td>
                   </tr>

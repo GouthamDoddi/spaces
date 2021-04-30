@@ -163,7 +163,7 @@ export default function ({ lang, setLang, ...props }) {
   const renderShowAllBtn = () => {
     return (
       <ShowAllBtn onClick={() => setShowAll(showAll => !showAll)}>
-        <span>{showAll ? "View Less" : "View All"}</span>
+        <span>{showAll ? t("View Less") : t("View All")}</span>
         <i />
       </ShowAllBtn>
     );

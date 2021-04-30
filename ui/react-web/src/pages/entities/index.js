@@ -128,6 +128,11 @@ export const Progress = styled.span`
 export const NewLayout = styled.div`
   padding-bottom: 20px;
 
+  hr {
+    border-color: transparent;
+    border-bottom-color: #D6D5D5;
+  }
+
   .MuiInput-underline:before, MuiInput-underline:after {
     display: none;
   }
@@ -135,6 +140,14 @@ export const NewLayout = styled.div`
   .MuiTableRow-root.active {
     border-left: 3px solid #2680EB;
     background: #EFF6FF 0% 0% no-repeat padding-box;
+  }
+
+  .Mui-checked + .MuiSwitch-track {
+    background-color: #008d42;
+  }
+
+  .MuiSwitch-track {
+    background-color: #e6612a;
   }
 
   .MuiInputBase-root {
@@ -329,6 +342,17 @@ export const NewLayout = styled.div`
     border: none;
     font-size: 14px;
     color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: #e24f14;
+    }
+
+    &:disabled {
+      background-color: #f68152;
+      cursor: not-allowed;
+    }
   }
 
   .padding-t-b {
@@ -571,6 +595,11 @@ export const NewLayout = styled.div`
   }
   .text_field_wrapper {
     position: relative;
+
+    > .placeholder {
+      color: #333;
+      line-height: 30px;
+    }
   }
   .form_label {
     margin-bottom: 4px;
@@ -654,8 +683,8 @@ export const NewLayout = styled.div`
     color: #666666;
   }
 
-  .text-right {
-    text-align: right;
+  .text-left {
+    text-align: left;
   }
 
   .entity_detail_menu li {

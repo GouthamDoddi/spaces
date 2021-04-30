@@ -8,9 +8,9 @@ export default function SmallCard({title='Entities', count=7, ...props}) {
     <Box>
       <tr>
         <td> </td>
-        <td> <Tag>Mandate 1</Tag> </td>
-        <td> <Tag>Mandate 2</Tag></td>
-        <td> <Tag>Mandate 3</Tag></td>
+        <td> <Tag>M1</Tag> </td>
+        <td> <Tag>M2</Tag></td>
+        <td> <Tag>M3</Tag></td>
       </tr>
       <tr>
         <td> 
@@ -120,6 +120,6 @@ const Tag = styled.div`
   height: 25px;
   background: #D3DDE5 0% 0% no-repeat padding-box;
   border-radius: 13px;
-  min-width: 101px;
+  min-width: auto;
   opacity: 1;
 `

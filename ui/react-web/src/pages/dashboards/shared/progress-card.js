@@ -20,7 +20,7 @@ export function CircularProgressCard({ level=1, full=30, par=20, non=40, total=6
     { name: 'Non Compliant', value: non }]
   return (
     <Box>
-      <Banner color='#EB622B'> {t('mandate_level')} {numberToArabic(level, lang)} </Banner>
+      <Banner color='#EB622B'> {t('M')}{numberToArabic(level, lang)} </Banner>
       <Info>
         <div className='chart'>
           <PieChart width={200} height={200}>

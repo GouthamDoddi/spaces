@@ -146,13 +146,13 @@ export default withRouter(function ({ className, langSwitch, lang, setLang, ...p
                   <LangSwitch lang={lang} setLang={setLang} alignItems="center" />
                 </li>
               )}
-              <li>
+              {/* <li>
                 <NavLink to="/a-dashboard">
                   <ActiveSpan active={checkActiveLink({ route: ['/dashboard', '/a-dashboard'] })}>
                     { t('home') }
                   </ActiveSpan>
                 </NavLink>
-              </li>
+              </li> */}
               <li>
                 <NavLink to="/board">
                   <ActiveSpan active={checkActiveLink({ route: ['/board'] })}>

@@ -177,7 +177,32 @@ const Attributes = ({ onSubmit, selected, setTableProps, updateStatus }) => {
                       {not_tested}
                     </td>
                     <td>
-                      {isMOTCUser() ? (
+                      {isJAWDAUser() ? (
+                        <td>
+                          <Switch
+                            leftLabel="Approve"
+                            rightLabel="Reject"
+                            checked={approveStatus[attribute_id]}
+                            onClick={(checked) => {
+                              if (selected[1].id) {
+                                updateStatus({
+                                  checked,
+                                  req: {
+                                    data: { attribute_id: [attribute_id] },
+                                    cb: () => {
+                                      setApproveStatus((prevStatus) => ({
+                                        ...prevStatus,
+                                        [attribute_id]: checked,
+                                      }));
+                                    },
+                                    compliance_project_id: selected[1].id,
+                                  },
+                                });
+                              }
+                            }}
+                          />
+                        </td>
+                      ) : isMOTCUser() ? (
                         <>
                           <NavLink
                             to={{
@@ -203,31 +228,6 @@ const Attributes = ({ onSubmit, selected, setTableProps, updateStatus }) => {
                             Report Issue
                           </NavLink>
                         </>
-                      ) : isJAWDAUser() ? (
-                        <td>
-                          <Switch
-                            leftLabel="Approve"
-                            rightLabel="Reject"
-                            checked={approveStatus[attribute_id]}
-                            onClick={(checked) => {
-                              if (selected[1].id) {
-                                updateStatus({
-                                  checked,
-                                  req: {
-                                    data: { attribute_id: [attribute_id] },
-                                    cb: () => {
-                                      setApproveStatus((prevStatus) => ({
-                                        ...prevStatus,
-                                        [attribute_id]: checked,
-                                      }));
-                                    },
-                                    compliance_project_id: selected[1].id,
-                                  },
-                                });
-                              }
-                            }}
-                          />
-                        </td>
                       ) : null}
                     </td>
                   </tr>
@@ -297,6 +297,12 @@ export const PaginationWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 28px;
+  align-items: center;
+
+  .table-info {
+    margin-right: 24px;
+    color: #333;
+  }
 
   .MuiPaginationItem {
     &-page {

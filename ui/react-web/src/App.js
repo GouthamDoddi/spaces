@@ -81,10 +81,12 @@ function Routes() {
   }, [])
 
   useEffect(() => {
-    console.log(path);
+    if (path === '/') {
+      history.push('/board');
+    }
 
     if (!isAuthorized(path, isExact)) {
-      history.push('/');
+      history.push('/board');
     }
   }, [path]);
 

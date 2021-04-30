@@ -166,9 +166,9 @@ const data = {
     en: 'Home',
     ar: 'الصفحة الرئيسية'
   },
-  view_dashboard: {
-    en: 'View Dashboard',
-    ar: 'عرض لوحة المراقبة'
+  update_dashboard: {
+    en: 'Update Dashboard',
+    ar: 'تحديث لوحة القيادة'
   },
   reset: {
     en: 'Reset',
@@ -528,5 +528,13 @@ const data = {
   'date desc': {
     en: 'Date Desc',
     ar: 'تنازلي تاريخ',
+  },
+  'view all': {
+    en: 'View All',
+    ar: 'عرض الكل',
+  },
+  'view less': {
+    en: 'View Less',
+    ar: 'عرض أقل',
   }
 }
