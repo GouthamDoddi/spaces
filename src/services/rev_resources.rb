@@ -10,7 +10,6 @@ class App::Services::RevResources < App::Services::Base
 
   def create
     obj = model.new(data_for(:save))
-    byebug
     obj.project_id = rp[:project_id]
     save(obj)
   end
