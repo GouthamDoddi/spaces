@@ -16,7 +16,7 @@ class App::Services::RevResources < App::Services::Base
 
   def self.fields
     {
-      save: [:attachements, :compliance_project_id]
+      save: [:attachments, :compliance_project_id]
     }
   end
 end
