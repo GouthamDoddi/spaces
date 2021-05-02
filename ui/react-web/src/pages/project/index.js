@@ -13,6 +13,8 @@ import makeStore from '../../store/make-store'
 import { useStore } from 'effector-react'
 import Banner from '../../shared/hmc-banner'
 import CaseList from './cases/list'
+import Footer from '../../components/footer';
+
 
 const { store, load } =  makeStore (({project_id}) => `compliance/projects/${project_id}`)
 export default function(props) {
@@ -51,6 +53,7 @@ export default function(props) {
           </Switch>
         </Content>
       </Wrapper>
+      <Footer />
     </>
   )
 }

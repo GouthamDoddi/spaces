@@ -7,6 +7,7 @@ import EServices from './e-services';
 import EntityCommunication from './entity-communication';
 import EntityUsers from './entity-users';
 import PortalApps from './portal_apps';
+import defaultLogo from '../../assets/images/default-logo.png'
 
 const { load } = makeStore(({ entity_id }) => entity_id ? `entities/${entity_id}` : 'entities');
 
@@ -79,6 +80,10 @@ const Details = () => {
     })
   }, [step]);
 
+  const logo = () => entityLogo 
+  ? entityLogo
+  : defaultLogo
+
   return (
     <DetailsElement className="custom_container">
       <div className="flex_row">
@@ -86,7 +91,7 @@ const Details = () => {
           <div className="moci_block">
             <div className="logo_moci">
               <figure className="logo_mci">
-                <img src={entityLogo} alt="logo" />
+                <img src={logo()} alt="logo" style={{ height: '70px', width: '70px' }} />
               </figure>
               <div className="moci">
                 <span className="moci_text">{entityShortName}</span>

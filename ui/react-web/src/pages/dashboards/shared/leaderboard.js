@@ -14,8 +14,8 @@ export default function ({ leaderBoardData, type = 'Entities', lang, ...props })
           {t('leaderboard')}
         </span>
         <Select
-          options={[{ label: 'All', value: 'all' }, { label: 'Overall'}, { label: 'eService' }, { label: 'Portals/Websites' }, { label: 'Mobile Apps' }]}
-          value={{ label: 'All', value: 'all' }}
+          options={[{ label: t('all'), value: 'all' }, { label: t('overall')}, { label: t('eService') }, { label: t('portals/websites') }, { label: t('mobile_apps') }]}
+          value={{ label: t('all'), value: 'all' }}
         />
       </div>
       <div className='info'>

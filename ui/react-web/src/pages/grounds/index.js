@@ -1,38 +1,37 @@
 import React from 'react';
-import { NavLink, Route, Switch, withRouter } from 'react-router-dom';
+import { NavLink, Route, Switch } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import HeaderBar from '../../shared/header_bar';
 import { NewLayout } from '../entities';
-import { projectPolicy, policyList } from '../routes';
-import GroundElem from './panel';
-import qgate from '../../assets/images/qgate.png';
-import GroundList from './list';
-import Navbar2 from '../../components/breadcrumNav';
+// import CaseElem from './panel';
+// import qgate from '../../assets/images/qgate.png';
+import GroundsList from './list';
 import Footer from '../../components/footer';
 
 
-const ProjectList = () => {
+const Cases = () => {
   return (
     <div className="app_wrapper">
       <NewLayout>
         <HeaderBar className="hb" />
-        <Navbar2 />
         <Switch>
-          <Route path={projectPolicy({ expand: false })}>
-            <GroundElem />
-          </Route>
-          <Route path={policyList()}>
-            <GroundList />
+          {/* <Route path={['/cases/:case_id', '/cases/:case_id/compliance-project-details', '/cases/:case_id/compliance-projects', '/cases/:case_id/case-management']} exact>
+            <CaseElem />
+          </Route> */}
+          <Route path="/grounds" exact>
+            <GroundsList />
           </Route>
         </Switch>
+
         <Footer />
+
       </NewLayout>
     </div>
   );
 };
 
 const FilterBreadcrumb = styled.div`
-  background-color: #f7fafd !important;
+  background-color: #F7FAFD !important;
   margin-top: 75px;
 
   ul {
@@ -50,4 +49,4 @@ export const Progress = styled.span`
   `}
 `;
 
-export default withRouter(ProjectList);
+export default Cases;

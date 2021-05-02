@@ -35,6 +35,7 @@ import Bcp from './components/dashboards/bcp'
 import Entity from './pages/entities'
 import Resources from './pages/resources'
 import Cases from './pages/cases'
+import Issues from './pages/issues'
 import ResourceUpload from './pages/resources/upload'
 // import Projects from './pages/project/list'
 // import Projects from './pages/projects/index'
@@ -135,6 +136,7 @@ function AllRoutes(props) {
         <Route path="/entities"> <TP theme={cs.newdesign}> <Entity /> </TP> </Route>
         <Route path="/projects"> <TP theme={cs.newdesign}> <Projects /> </TP> </Route>
         <Route path="/cases"> <TP theme={cs.newdesign}> <Cases /> </TP> </Route>
+        <Route path="/issues"> <TP theme={cs.newdesign}> <Issues /> </TP> </Route>
 
 
         {/* {'Just Added for Testing'} */}
