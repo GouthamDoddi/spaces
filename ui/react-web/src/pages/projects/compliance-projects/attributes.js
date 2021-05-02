@@ -218,7 +218,7 @@ const Attributes = ({ onSubmit, selected, setTableProps, updateStatus }) => {
                           /{' '}
                           <NavLink
                             to={{
-                              pathname: `/projects/${project_id}/case-management`,
+                              pathname: `/issues`,
                               state: {
                                 section_id: selected[2].id,
                                 attribute_id,

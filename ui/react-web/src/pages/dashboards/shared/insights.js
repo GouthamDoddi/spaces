@@ -5,8 +5,10 @@ import { issuesByGroup } from '../../../store/master-data'
 import { useParams } from 'react-router-dom'
 import rtl from 'styled-components-rtl'
 import { get } from '../../../store/api'
+import Pagination from '@material-ui/lab/Pagination';
 
 import { Select } from '../../../components/form';
+
 import { t, to } from '../../../utils/translate';
 
 export default function Insight({ hideFilter, height, lang, ...props }) {
@@ -15,6 +17,14 @@ export default function Insight({ hideFilter, height, lang, ...props }) {
   const [data, setData] = useState([])
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState({ label: t('Sort'), value: undefined });
+
+  const [ pageNo, setPageNo ] = useState(1);
+  const pageSize = 20;
+
+  const dataPaginated = data.slice(
+    (pageNo - 1) * pageSize,
+    pageNo * pageSize
+  );
 
   const [selectedType, setSelectedType] = useState({});
 
@@ -46,6 +56,7 @@ export default function Insight({ hideFilter, height, lang, ...props }) {
       setData((prevValue) => prevValue.sort((a, b) => new Date(a.date) - new Date(b.date)));
     }
   };
+
 
   const COLORS = { NC: '#EB622B', PC: '#005CC8' }
 
@@ -81,7 +92,7 @@ export default function Insight({ hideFilter, height, lang, ...props }) {
             data.length > 0 ?
               <Cards height={height}>
                 {
-                  data.map((o, i) => (o.project_name + ' ' + o.section_name).toLowerCase().includes(search.toLowerCase()) ? (
+                  dataPaginated.map((o, i) => (o.project_name + ' ' + o.section_name).toLowerCase().includes(search.toLowerCase()) ? (
                     <Card color={COLORS[o.compl]} key={i}>
                       {/* <div className='bc'> {to(o, 'project_name')} <span> </span> {t(o.section_name)} </div> */}
                       <div className='bc'> {t(o.project_name.toLowerCase())} <span> </span> {t(o.section_name.toLowerCase())} </div>
@@ -96,6 +107,14 @@ export default function Insight({ hideFilter, height, lang, ...props }) {
               </Cards> :
               <Cards><div className='no-data'> {t('NO ISSUES')} </div></Cards>
           }
+
+        <Pagination
+        page={pageNo}
+        count={Math.ceil(data.length / pageSize)}
+        onChange={(_, pageNo) => setPageNo(pageNo)}
+        size="small"
+        />
+
 
         </InnerBox> : <Challenges hideHeader />
 
@@ -118,6 +137,14 @@ export function Challenges({ hideHeader, height, ...props }) {
     })
   }, [entity_id, project_id])
 
+  const [ pageNo, setPageNo ] = useState(1);
+  const pageSize = 20;
+
+  const dataPaginated = data.slice(
+    (pageNo - 1) * pageSize,
+    pageNo * pageSize
+  );
+
   const handleSort = (e) => {
     setSort(e);
     if (e.value === 'desc') {
@@ -126,6 +153,7 @@ export function Challenges({ hideHeader, height, ...props }) {
       setData((prevValue) => prevValue.sort((a, b) => new Date(a.date) - new Date(b.date)));
     }
   };
+
 
   const COLORS = { NC: '#EB622B', PC: '#005CC8' }
 
@@ -149,7 +177,7 @@ export function Challenges({ hideHeader, height, ...props }) {
           data.length > 0 ?
             <Cards height={height}>
               {
-                data.map((o, i) => (o.project.name + ' ' + o.section.name).toLowerCase().includes(search.toLowerCase()) ? (
+                dataPaginated.map((o, i) => (o.project.name + ' ' + o.section.name).toLowerCase().includes(search.toLowerCase()) ? (
                   <Card2 color={COLORS[o.compl]} key={i}>
                     <div className='bc'> {o.project.name} <span> </span> {o.section.name} </div>
                     <div className='title'>{o.description}</div>
@@ -163,6 +191,13 @@ export function Challenges({ hideHeader, height, ...props }) {
             </Cards> :
             <Cards><div className='no-data'> {t('NO ISSUES')} </div></Cards>
         }
+
+        <Pagination
+        page={pageNo}
+        count={Math.ceil(data.length / pageSize)}
+        onChange={(_, pageNo) => setPageNo(pageNo)}
+        size="small"
+        />
 
       </InnerBox>
     </Box>

@@ -6,12 +6,15 @@ import EntityElem from './panels';
 import qgate from '../../assets/images/qgate.png';
 // import Nav2 from '../../components/breadcrumNav';
 import EntityList from './list';
+import Footer from '../../components/footer';
+
 import { isJAWDAUser, isMOTCUser, userEntities } from '../../store/user';
 import { useStore } from 'effector-react';
 import makeStore from '../../store/make-store';
 
 const { load: loadEntities } = makeStore(() => 'entities');
 const { store: projectStore, load: loadProjects } = makeStore(({ entity_id }) => `${entity_id}/rev-projects`);
+
 
 export default function () {
   const history = useHistory();
@@ -101,6 +104,7 @@ export default function () {
             <EntityList selectedEntity={selectedEntity} />
           </Route>
         </Switch>
+        <Footer />
       </NewLayout>
     </div>
   );
@@ -136,6 +140,12 @@ export const NewLayout = styled.div`
   .MuiInput-underline:before, MuiInput-underline:after {
     display: none;
   }
+  .MuiTabs-scroller {
+    flex: 1 1 auto;
+    display: inline-block;
+    position: inherit;
+    white-space: nowrap;
+}
 
   .MuiTableRow-root.active {
     border-left: 3px solid #2680EB;

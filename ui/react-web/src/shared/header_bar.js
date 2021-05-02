@@ -175,6 +175,7 @@ export default withRouter(function ({ className, langSwitch, lang, setLang, ...p
                 </NavLink>
               </li>
               <li>
+
                 <NavLink to="/cases">
                   <ActiveSpan active={checkActiveLink({ route: '/cases' })}>
                     { t('case_management') }

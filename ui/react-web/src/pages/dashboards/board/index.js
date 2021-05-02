@@ -18,6 +18,8 @@ import { BarProgressCard, CircularProgressCard } from '../shared/progress-card'
 import rtl from 'styled-components-rtl'
 import { t, T, To, numberToArabic, translateObjectKeys } from '../../../utils/translate';
 import HeaderBar from '../../../shared/header_bar';
+import Footer from '../../../components/footer';
+
 // import Card from '../shared/card'
 
 const defaultSelectedEntity = { label: 'All', value: 0 }
@@ -251,7 +253,7 @@ export default function ({ lang, setLang, ...props }) {
             </div>
           </div>
           <div className='progress'>
-            <div className='round'>{numberToArabic(Math.ceil(report.overall_score), lang)}</div>
+            <div  style={{ display: 'table' }} className='round'>{`${Math.ceil(report.overall_score)}/100`}</div>
             <div> <T k='compliance_score' /></div>
           </div>
           <Spacer />
@@ -269,8 +271,8 @@ export default function ({ lang, setLang, ...props }) {
                      setEntiryFilter(e.target.value);
                      console.log(e.target.value);
                 }} type={"text"} />
-                <Sort value={entityFilter} onChange={e => setEntiryFilter(e.target.value)} type={"text"} className="sort"
-                  placeholder={t('sort_entities')} />
+                {/* <Sort value={entityFilter} onChange={e => setEntiryFilter(e.target.value)} type={"text"} className="sort"
+                  placeholder={t('sort_entities')} /> */}
                 <div className='spacer'></div>
               </div>
             </div>
@@ -285,13 +287,13 @@ export default function ({ lang, setLang, ...props }) {
             <div className='header'>
               {t('swcta')}
               <Select
-                options={[{ label: 'All', value: 'all' }, { label: 'This Week' }, { label: 'This Month' }, { label: 'This Quarter' }, { label: 'This Year' }]}
-                value={{ label: 'All', value: 'all' }}
+                options={[{ label: t("all"), value: 'all' }, { label: t('this_week') }, { label: t('this_month') }, { label: t('this_quater') }, { label: t('this_year') }]}
+                value={{ label: t('all'), value: 'all' }}
               />
             </div>
             <div className='info'>
               <div className='sections'>
-                <div className='title'>{t('sections')}</div>
+                <div className='title'>{t('domains')}</div>
                 <ol>
                   {report.section_wise_status?.map((o, i) => {
                     // const t1 = t 
@@ -363,6 +365,7 @@ export default function ({ lang, setLang, ...props }) {
 
         </FlexWrapper>
       </Content>
+      <Footer />
     </Layout>
   )
 }

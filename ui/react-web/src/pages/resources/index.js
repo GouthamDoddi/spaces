@@ -4,6 +4,8 @@ import Button from '@material-ui/core/Button'
 
 import FolderButton from '../../components/folderButton';
 import HeaderBar from '../../shared/header_bar';
+import VerticalTabs from '../../components/verticleTab';
+import Footer from '../../components/footer';
 
 import { ReactComponent as Docs } from '../../assets/images/doc.svg';
 import { ReactComponent as XLS } from '../../assets/images/xls.svg';
@@ -53,8 +55,90 @@ const types = {
 };
 
 
-
 export default function () {
+
+  const buttons = [
+    <FolderButton active={false} text={'Portal / Mobile App Framework'}/>,
+    <FolderButton active={false} text={'eService Framework'}/>,
+    <FolderButton active={false} text={'Access Guidelines'}/>,
+    <FolderButton active={false} text={'Miscellaneous'} />,
+  ]
+
+  const frameworks = <Files className="flex_col_sm_8">
+    <Heading>eService Framework</Heading>
+    <div className="flex_row">
+    {data.map(({ name, type }) => (
+        <div className="flex_col_sm_6">
+        <FileCard>
+            <div>
+            {types[type]}
+            <span>{name}</span>
+            </div>
+            <Download />
+        </FileCard>
+        </div>
+    ))}
+    </div>
+    </Files>
+
+const portals = <Files className="flex_col_sm_8">
+<Heading>Portals/Mobile Apps</Heading>
+<div className="flex_row">
+{data.map(({ name, type }) => (
+    <div className="flex_col_sm_6">
+    <FileCard>
+        <div>
+        {types[type]}
+        <span>{name}</span>
+        </div>
+        <Download />
+    </FileCard>
+    </div>
+))}
+</div>
+</Files>
+
+const guidlines = <Files className="flex_col_sm_8">
+<Heading>Guidlines</Heading>
+<div className="flex_row">
+{data.map(({ name, type }) => (
+    <div className="flex_col_sm_6">
+    <FileCard>
+        <div>
+        {types[type]}
+        <span>{name}</span>
+        </div>
+        <Download />
+    </FileCard>
+    </div>
+))}
+</div>
+</Files>
+
+const miscellaneous = <Files className="flex_col_sm_8">
+<Heading>Others</Heading>
+<div className="flex_row">
+{data.map(({ name, type }) => (
+    <div className="flex_col_sm_6">
+    <FileCard>
+        <div>
+        {types[type]}
+        <span>{name}</span>
+        </div>
+        <Download />
+    </FileCard>
+    </div>
+))}
+</div>
+</Files>
+
+
+  const pages = [
+      portals,
+      frameworks,
+      guidlines,
+      miscellaneous,
+  ]
 
   return (
     <NewLayout>
@@ -68,31 +152,11 @@ export default function () {
         </TopBar>
       </div>
       <div className="custom_container">
-        <div className="flex_row">
-          <div className="flex_col_sm_4">
-            <FolderButton active={false} text={'Portal / Mobile App Framework'}/>
-            <FolderButton active={false} text={'eService Framework'}/>
-            <FolderButton active={false} text={'Access Guidelines'}/>
-            <FolderButton active={false} text={'Miscellaneous'} />
-          </div>
-          <Files className="flex_col_sm_8">
-            <Heading>eService Framework</Heading>
-            <div className="flex_row">
-              {data.map(({ name, type }) => (
-                <div className="flex_col_sm_6">
-                  <FileCard>
-                    <div>
-                      {types[type]}
-                      <span>{name}</span>
-                    </div>
-                    <Download />
-                  </FileCard>
-                </div>
-              ))}
-            </div>
-          </Files>
-        </div>
+        <VerticalTabs noOfTabs={4} buttons={buttons} pages={pages} />
+
+
       </div>
+      <Footer />
     </NewLayout>
   );
 }

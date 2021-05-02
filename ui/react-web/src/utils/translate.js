@@ -113,6 +113,22 @@ const data = {
     en: 'Jawda',
     ar: 'جودة'
   },
+  overall: {
+    en: 'Overall',
+    ar: 'شاملة',
+  },
+  eService:{
+    en: 'eService',
+    ar: 'الخدمات الإلكترونية'
+  },
+  'portals/websites': {
+    en: 'Portals/Websites',
+    ar: 'بوابات / مواقع'
+  },
+  mobile_apps: {
+      en: 'Mobile Apps',
+      ar: 'تطبيقات الموبايل'
+  },
   adoption_rate: {
     en: 'Adoption Rate',
     ar: 'نسبة الاعتماد'
@@ -384,9 +400,37 @@ const data = {
     "en": "Entity",
     "ar": "كيان"
   },
+  "sections": {
+    "en": "Sections",
+    "ar": "الأقسام"
+  },
+  "domains": {
+    "en": "Domains",
+    "ar": "المجالات"
+  },
   "search_in_entities": {
     "en": "Search in entities",
     "ar": "البحث في الكيانات"
+  },
+  "this_week": {
+    "en": "This Week",
+    "ar": "هذا الاسبوع"
+  },
+  "this_quater": {
+    "en": "This Quater",
+    "ar": "هذا الربع"
+  },
+  "this_month": {
+    "en": "This Month",
+    "ar": "هذا الشهر"
+  },
+  "this_year": {
+    "en": "This Year",
+    "ar": "هذه السنة"
+  },
+  "all": {
+    "en": "All",
+    "ar": "الكل"
   },
   "sort_entities": {
     "en": "Sort entities",
@@ -477,7 +521,7 @@ const data = {
     "en": "Clarity",
     "ar": "وضوح"
   },
-  section_name: {
+  "section_name": {
     en: 'Section Name',
     ar: 'اسم القسم',
   },
