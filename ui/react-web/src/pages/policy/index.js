@@ -7,16 +7,38 @@ import { projectPolicy, policyList } from '../routes';
 import GroundElem from './panel';
 import qgate from '../../assets/images/qgate.png';
 import GroundList from './list';
-import Navbar2 from '../../components/breadcrumNav';
+// import Navbar2 from '../../components/breadcrumNav';
 import Footer from '../../components/footer';
 
+import { isJAWDAUser } from '../../store/user';
 
 const ProjectList = () => {
+
   return (
     <div className="app_wrapper">
       <NewLayout>
         <HeaderBar className="hb" />
-        <Navbar2 />
+        {isJAWDAUser() && (
+          <FilterBreadcrumb className="custom_container">
+            <div className="filter_breadcrumb">
+              <ul>
+                <li>
+                  <NavLink to="/">
+                    <img src={qgate} width="100%" />
+                  </NavLink>
+                </li>
+
+                <li>
+                  <div className="filter_sele active">
+                    <label>State</label>
+                    <label>QDG</label>
+                  </div>
+                </li>
+
+              </ul>
+            </div>
+          </FilterBreadcrumb>
+        )}
         <Switch>
           <Route path={projectPolicy({ expand: false })}>
             <GroundElem />

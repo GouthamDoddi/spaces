@@ -71,7 +71,7 @@ const CasesList = () => {
           entity_name?.toLowerCase().includes(caseInsesitiveSearch)) &&
         // apply filters only if any
         (filters.length
-          ? category_ids.some((id) => filters.includes(id))
+          ? category_ids?.some((id) => filters.includes(id))
           : true)
       );
     });
