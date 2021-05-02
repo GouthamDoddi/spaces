@@ -91,6 +91,11 @@ const Profile = ({ setTableProps, handleNext, rowId }) => {
   }, []);
 
   useEffect(() => {
+    setErrors({});
+    setSubmitClicked(false);
+  }, [data.id]);
+
+  useEffect(() => {
     if (data.section_id) {
       loadAttributes({ section_id: state?.section_id || data.section_id }, () => {
         if (state?.attribute_id) {
@@ -393,8 +398,13 @@ const Profile = ({ setTableProps, handleNext, rowId }) => {
       </div>
 
       <div className="flex_col_sm_12 text-right">
+        {data?.id && (
+          <button className="cancel" onClick={() => setData(defaultData)}>
+            Cancel
+          </button>
+        )}
         <button className="add_more" onClick={handleSave}>
-          Save &amp; Next
+          {data?.id ? 'Update' : 'Submit & Add more'}
         </button>
       </div>
     </>

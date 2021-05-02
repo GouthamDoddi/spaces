@@ -89,8 +89,8 @@ export const isAuthorized = (pathname) => {
     case '/projects/:project_id/case-management':
     case '/projects':
       return [11, 12, 14, 8, 10].includes(userRole);
-    case '/resources/upload':
     case '/plicies':
+    case '/cases':
       return [14].includes(userRole);
     case '/resources':
       return true;
