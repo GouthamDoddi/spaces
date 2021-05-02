@@ -168,6 +168,7 @@ const MasterProjectProfile = () => {
                       name="project_name"
                       value={project_name}
                       onChange={handleChange}
+                      maxLength={100}
                     />
                     <div className="text-right">
                       <span className="limit">
@@ -188,12 +189,8 @@ const MasterProjectProfile = () => {
                       name="short_name"
                       value={short_name}
                       onChange={handleChange}
+                      maxLength={16}
                     />
-                    <div className="text-right">
-                      <span className="limit">
-                        {100 - (short_name?.length || 0)} C{'haracters left'}
-                      </span>
-                    </div>
                   </div>
                   <span className="error_messg">{errors.short_name}</span>
                 </div>
@@ -321,6 +318,7 @@ const MasterProjectProfile = () => {
                   value={project_name_ar}
                   onChange={handleChange}
                   type="text"
+                  maxLength={100}
                 />
                 <div className="text-right">
                   <span className="limit">
@@ -351,7 +349,7 @@ const MasterProjectProfile = () => {
         </div>
         <div className="flex_col_sm_12 text-right">
           <button className="btn_solid" onClick={handleSubmit}>
-            Save &amp; Next
+            {data?.id ? 'Update' : 'Save'} &amp; Next
           </button>
         </div>
       </div>

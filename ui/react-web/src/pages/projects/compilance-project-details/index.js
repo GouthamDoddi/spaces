@@ -30,7 +30,7 @@ const tableHeadlines = {
   ],
   4: [
     { headline: 'Type', key: 'type_id' },
-    { headline: 'Name', key: 'label' },
+    { headline: 'Name', key: 'project_name' },
     { headline: '', key: 'id' },
   ],
 };

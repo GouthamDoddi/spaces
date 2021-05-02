@@ -1,16 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import upload from '../../assets/images/upload.svg';
 
-const DropZone = ({ files, setFiles, preview }) => {
+const DropZone = ({ files, setFiles, preview, accept, maxFiles, maxSize, text1, text2 }) => {
   const onDrop = useCallback((acceptedFiles) => {
-    setFiles(
-      acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        })
-      )
-    );
+    if (setFiles) {
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
+      );
+    }
   }, []);
 
   useEffect(
@@ -23,9 +25,9 @@ const DropZone = ({ files, setFiles, preview }) => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: 'image/jpeg, image/png',
-    maxFiles: 1,
-    maxSize: 10000000,
+    accept: accept || 'image/jpeg, image/png',
+    maxFiles: maxFiles || 1,
+    maxSize: maxSize || 10000000,
   });
 
   return (
@@ -38,11 +40,10 @@ const DropZone = ({ files, setFiles, preview }) => {
           <>
             <img src={upload} alt="upload icon" />
             <span className="click_label">
-              Click here or drag and drop logo image
+              {text1 || 'Click here or drag and drop logo image'}
             </span>
             <span className="extension">
-              Allowed file formats are PNG, JPG within 10MB, Suggested
-              dimensions are W-300px &amp; H-300px
+              {text2 || 'Allowed file formats are PNG, JPG within 10MB, Suggested dimensions are W-300px &amp; H-300px'}
             </span>
           </>
         )}

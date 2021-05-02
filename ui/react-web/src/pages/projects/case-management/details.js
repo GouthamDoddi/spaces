@@ -62,6 +62,11 @@ const Details = ({ setTableProps, rowId, setRowId }) => {
     }
   }, [rowId]);
 
+  useEffect(() => {
+    setErrors({});
+    setSubmitClicked(false);
+  }, [data.id]);
+
   const errorLabels = {
     name: 'Case Name',
     description: 'Description',
@@ -165,6 +170,7 @@ const Details = ({ setTableProps, rowId, setRowId }) => {
                 name="name"
                 value={name}
                 onChange={handleChange}
+                maxLength={100}
               />
               <div className="error_messg">{errors.name}</div>
             </div>
@@ -204,8 +210,13 @@ const Details = ({ setTableProps, rowId, setRowId }) => {
       </div>
 
       <div className="flex_col_sm_12 text-right">
+        {data?.id && (
+          <button className="cancel" onClick={() => setData(defaultData)}>
+            Cancel
+          </button>
+        )}
         <button className="add_more" onClick={handleSubmit}>
-          Submit
+          {data?.id ? 'Update' : 'Submit & Add more'}
         </button>
       </div>
     </>

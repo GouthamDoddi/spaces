@@ -41,14 +41,12 @@ const useStyles = makeStyles({
 
 const FolderButton = props => {
     const classes = useStyles(props);
-    return <Button className={ classes.root } onClick={ e => console.log(e.target) } >
-
-        <div style={{ display: 'contents' }}>
+    return <Button className={ classes.root } onClick={ props.onClick } >
+        <div>
             <FolderIcon />
             <span>{props.text}</span>
         </div>
-            <RightArrow style={{ color: 'grey' }}/>
-
+            {props.active && <RightArrow />}
     </Button>
 }
 
