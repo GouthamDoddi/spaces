@@ -85,7 +85,7 @@ const EntityCommunication = ({ setTableProps }) => {
   }, [users]);
 
   const errorLabels = {
-    user_ids: 'User groups',
+    user_ids: 'Entity user',
     purpose: 'Type',
     subject: 'Subject',
     details: 'Details',
@@ -200,10 +200,10 @@ const EntityCommunication = ({ setTableProps }) => {
     <>
       <div className="flex_col_sm_12">
         <div className="form_field_wrapper">
-          <label className="form_label">Entity Groups <mark>*</mark></label>
+          <label className="form_label">Entity Users <mark>*</mark></label>
           <div className="text_field_wrapper">
             <AutoComplete
-              placeholder="Search and select user group"
+              placeholder="Search and select entity user"
               name="user_ids"
               values={user_ids}
               onChange={handleChange}
