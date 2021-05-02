@@ -10,16 +10,14 @@ import Footer from '../../components/footer';
 const { store, load } = makeStore('rev-projects/cases');
 
 const headlines = [
-    { headline: 'Name', key: 'name' },
-    { headline: 'Entity', key: 'entity_name' },
-    { headline: 'Project', key: 'project_name' },
-    { headline: 'Compliance Project', key: 'compliance_project_id' },
+    { headline: 'Status', key: 'status' },
     { headline: 'Case ID', key: 'id'},
-    { headline: 'Case Description', key: 'description' },
-    { headline: 'Category', key: 'category_ids' },
-    { headline: 'SLA', key: 'id'},
+    { headline: 'Title', key: 'title' },
+    { headline: 'Refrence', key: 'refrence' },
     { headline: 'Priority', key: 'priority' },
-    { headline: 'Status', key: 'status' }
+    { headline: 'Categories', key: 'category_ids' },
+    { headline: 'SLA', key: 'id'},
+    { headline: 'Raised On', key: 'raised_on' },
 ];
 
 const CasesList = () => {
@@ -93,97 +91,6 @@ const CasesList = () => {
 
   return (
     <>
-      <div className="entity_cards">
-        <ul className="entity_boardcard_wrap">
-          <li className="entity_boardcard">
-            <a className="inner_wrap">
-              <span className="title">Cases - Resolved</span>
-
-              <span className="count">{ complianceProjectCompleted }</span>
-            </a>
-          </li>
-
-          <li className="entity_boardcard">
-            <a className="inner_wrap">
-
-              <span className="title">Case - In Progress</span>
-
-              <span className="count">{ complianceProjectInProgress }</span>
-            </a>
-          </li>
-
-          <li className="entity_boardcard">
-            <a className="inner_wrap">
-              <span className="title">Cases - Pending</span>
-              <span className="count">{ complianceProjectNotStarted }</span>
-            </a>
-          </li>
-
-          <li className="entity_boardcard">
-            <a className="inner_wrap">
-              <span className="title">Total Cases</span>
-
-              <span className="count">{data.length}</span>
-
-            </a>
-          </li>
-
-          <li className="entity_boardcard">
-            <a className="inner_wrap">
-              <span className="title">Total Challenges Issues</span>
-              <span className="count">{ challenges }</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <div className="custom_container ">
-        <div className="custom_row">
-          <div className="flex_row padding-t-b table-header">
-            <div className="input_col">
-              <div className="text_field_wrapper">
-                <input
-                  type="text"
-                  className="srch_input"
-                  placeholder="Search cases by Owner"
-                  value={search}
-                  onChange={({ target: { value } }) => setSearch(value)}
-                />
-              </div>
-            </div>
-
-            <div className="action_col">
-              <div className="flex_row">
-                <div className="flex_col_sm_3" />
-                <div className="flex_col_sm_9">
-                  <ul className="filter_check">
-                    <li>Show only </li>
-
-                    {Object.values(caseCategoryTypes).map(({ label, value }) => (
-                      <li key={value}>
-                        <div className="checkbox_wrap agree_check">
-                          <input
-                            className="filter-type filled-in"
-                            type="checkbox"
-                            name="filter"
-                            id={value}
-                            value={value}
-                            onChange={handleFiltersChange}
-                          />
-                          <label htmlFor={value}>{label}</label>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                {/* <div className="flex_col_sm_4 text-right"> */}
-                  {/* <NavLink to="/projects/new">
-                    <button className="btn_solid">+ Create Project </button>
-                  </NavLink> */}
-                {/* </div> */}
-              </div>
-            </div>
-          </div>
 
           <div className="table_wrapper">
               <BasicTable
@@ -191,9 +98,9 @@ const CasesList = () => {
 
                 rows={dataPaginated}
                 renderCol={(colIndex, col) => {
-                  if (colIndex === 6) {
-                    return col ? col.map((key) => <CatergoryBadge key={key}>{caseCategoryTypes[key]?.label}</CatergoryBadge>) : '';
-                  }
+                //   if (colIndex === 6) {
+                //     return col ? col.map((key) => <CatergoryBadge key={key}>{caseCategoryTypes[key]?.label}</CatergoryBadge>) : '';
+                //   }
 
                   if (colIndex === 7 || colIndex === 3) {
                     return ' ';
@@ -214,7 +121,6 @@ const CasesList = () => {
             </div>
 
           <PaginationWrapper>
-            <span className="table-info">Showing {dataPaginated.length < 10 ? dataPaginated.length : 10} out of {data.length}</span>
             <Pagination
               page={pageNo}
               count={Math.ceil(data.length / pageSize)}
@@ -222,8 +128,6 @@ const CasesList = () => {
               size="small"
             />
           </PaginationWrapper>
-        </div>
-      </div>
       <Footer />
 
     </>

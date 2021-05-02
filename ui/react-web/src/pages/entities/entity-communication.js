@@ -31,6 +31,11 @@ const EntityCommunication = ({ setTableProps }) => {
     load({ entity_id, user_id: id }, (data) => setData(data));
   };
 
+  useEffect(() => {
+    setErrors({});
+    setSubmitClicked(false);
+  }, [data.id]);
+
   const handleRemove = (user_id) => {
     remove({ entity_id, user_id });
     setTableProps((prevValue) => ({
@@ -195,7 +200,7 @@ const EntityCommunication = ({ setTableProps }) => {
     <>
       <div className="flex_col_sm_12">
         <div className="form_field_wrapper">
-          <label className="form_label">Entity Groups <span>*</span></label>
+          <label className="form_label">Entity Groups <mark>*</mark></label>
           <div className="text_field_wrapper">
             <AutoComplete
               placeholder="Search and select user group"
@@ -212,7 +217,7 @@ const EntityCommunication = ({ setTableProps }) => {
       <div className="flex_row">
         <div className="flex_col_sm_6">
           <div className="form_field_wrapper">
-            <label className="form_label">Subject <span>*</span></label>
+            <label className="form_label">Subject <mark>*</mark></label>
             <div className="text_field_wrapper">
               <input
                 type="text"
@@ -220,6 +225,7 @@ const EntityCommunication = ({ setTableProps }) => {
                 name="subject"
                 value={subject}
                 onChange={handleChange}
+                maxLength={100}
               />
               <div className="error_messg">{errors.subject}</div>
             </div>
@@ -228,9 +234,9 @@ const EntityCommunication = ({ setTableProps }) => {
 
         <div className="flex_col_sm_6">
           <div className="form_field_wrapper">
-            <label className="form_label">Type <span>*</span></label>
+            <label className="form_label">Type <mark>*</mark></label>
             <div className="text_field_wrapper">
-              <select name="purpose" onChange={handleChange}>
+              <select name="purpose" value={purpose} onChange={handleChange}>
                 <option value="">Select</option>
                 {['Phone call', 'Email', 'Meeting', 'In Person'].map((value) => <option value={value}>{value}</option>)}
               </select>
@@ -242,7 +248,7 @@ const EntityCommunication = ({ setTableProps }) => {
 
       <div className="flex_col_sm_12">
         <div className="form_field_wrapper">
-          <label className="form_label">Details <span>*</span></label>
+          <label className="form_label">Details <mark>*</mark></label>
           <div className="text_field_wrapper">
             <textarea
               placeholder="Enter communication details"
@@ -256,8 +262,13 @@ const EntityCommunication = ({ setTableProps }) => {
       </div>
 
       <div className="flex_col_sm_12 text-right">
+        {data?.id && (
+          <button className="cancel" onClick={() => setData(defaultData)}>
+            Cancel
+          </button>
+        )}
         <button className="add_more" onClick={handleSubmit}>
-          Submit &amp; Add more
+          {data?.id ? 'Update' : 'Submit & Add more'}
         </button>
       </div>
     </>

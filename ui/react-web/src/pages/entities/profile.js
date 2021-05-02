@@ -177,7 +177,8 @@ const Profile = () => {
                       value={short_name}
                       onChange={handleChange}
                       type="text"
-                    />
+                      maxLength={16}
+                  />
                     <span className="error_messg">{errors.short_name}</span>
                   </div>
                 </div>
@@ -253,7 +254,7 @@ const Profile = () => {
         </div>
         <div className="flex_col_sm_12 text-right">
           <button className="btn_solid" onClick={handleSubmit}>
-            Next{' '}
+            {data?.id ? 'Update' : 'Save'} &amp; Next{' '}
           </button>
         </div>
       </div>

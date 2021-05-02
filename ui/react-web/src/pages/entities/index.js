@@ -6,12 +6,15 @@ import EntityElem from './panels';
 import qgate from '../../assets/images/qgate.png';
 // import Nav2 from '../../components/breadcrumNav';
 import EntityList from './list';
+import Footer from '../../components/footer';
+
 import { isJAWDAUser, isMOTCUser, userEntities } from '../../store/user';
 import { useStore } from 'effector-react';
 import makeStore from '../../store/make-store';
 
 const { load: loadEntities } = makeStore(() => 'entities');
 const { store: projectStore, load: loadProjects } = makeStore(({ entity_id }) => `${entity_id}/rev-projects`);
+
 
 export default function () {
   const history = useHistory();
@@ -101,6 +104,7 @@ export default function () {
             <EntityList selectedEntity={selectedEntity} />
           </Route>
         </Switch>
+        <Footer />
       </NewLayout>
     </div>
   );
@@ -136,6 +140,12 @@ export const NewLayout = styled.div`
   .MuiInput-underline:before, MuiInput-underline:after {
     display: none;
   }
+  .MuiTabs-scroller {
+    flex: 1 1 auto;
+    display: inline-block;
+    position: inherit;
+    white-space: nowrap;
+}
 
   .MuiTableRow-root.active {
     border-left: 3px solid #2680EB;
@@ -143,11 +153,11 @@ export const NewLayout = styled.div`
   }
 
   .Mui-checked + .MuiSwitch-track {
-    background-color: #008d42;
+    background-color: #e6612a;
   }
 
   .MuiSwitch-track {
-    background-color: #e6612a;
+    background-color: #008d42;
   }
 
   .MuiInputBase-root {
@@ -642,6 +652,15 @@ export const NewLayout = styled.div`
     font: normal normal 600 14px/20px Muli;
   }
 
+  .cancel {
+    width: 186px;
+    height: 36px;
+    background: #fff 0% 0% no-repeat padding-box;
+    color: #000;
+    border: none;
+    font: normal normal 600 14px/20px Muli;
+  }
+
   .upload-icon img {
     width: 39px;
     height: 39px;
@@ -758,15 +777,6 @@ export const NewLayout = styled.div`
   .flex_col_sm_9 {
     width: 75%;
     padding: 0 10px;
-  }
-
-  .add_more {
-    width: 186px;
-    height: 36px;
-    background: #043555 0% 0% no-repeat padding-box;
-    color: #fff;
-    border: none;
-    font: normal normal 600 14px/20px Muli;
   }
 
   .moci_block {

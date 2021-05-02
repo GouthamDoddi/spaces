@@ -8,6 +8,8 @@ import qgate from '../../assets/images/qgate.png';
 import ProjectList from './list';
 import makeStore from '../../store/make-store';
 import { useStore } from 'effector-react';
+import Footer from '../../components/footer';
+
 import { isJAWDAUser, isMOTCUser, userEntities } from '../../store/user';
 
 const { load: loadEntities } = makeStore(() => 'entities');
@@ -100,6 +102,7 @@ const Projects = () => {
             <ProjectList selectedEntity={selectedEntity} selectedProject={selectedProject} />
           </Route>
         </Switch>
+        <Footer />
       </NewLayout>
     </div>
   );

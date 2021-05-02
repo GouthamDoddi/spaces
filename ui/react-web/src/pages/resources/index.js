@@ -1,49 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Button from '@material-ui/core/Button'
 
 import FolderButton from '../../components/folderButton';
 import HeaderBar from '../../shared/header_bar';
+import VerticalTabs from '../../components/verticleTab';
+import Footer from '../../components/footer';
 
 import { ReactComponent as Docs } from '../../assets/images/doc.svg';
 import { ReactComponent as XLS } from '../../assets/images/xls.svg';
 import { ReactComponent as PDF } from '../../assets/images/pdf.svg';
 import { ReactComponent as Zip } from '../../assets/images/zip.svg';
 import { ReactComponent as Download } from '../../assets/images/download.svg';
+import { ReactComponent as LeftArrow } from '../../assets/images/left-arrow.svg';
 
 import { NavLink } from 'react-router-dom';
 
 import { NewLayout } from '../../pages/entities';
 
+import makeStore from '../../store/make-store';
+import { useStore } from 'effector-react';
+import qgate from '../../assets/images/qgate.png';
+import { isJAWDAUser } from '../../store/user';
+import DropZone from '../entities/drop-zone';
+import { CrossIcon } from '../projects/case-management/action';
 import { role } from '../../store/user';
+import { readFile, uploadFile } from '../../utils/azure_blob_storage';
 
-const data = [
-  {
-    name: 'Government Mobile Applications Framework [AR] v1.1.4.pdf',
-    url: '/resources/file1.pdf',
-    type: 'docs',
-  },
-  {
-    name: 'Government Mobile Applications Framework [EN] v1.1.4.pdf',
-    url: '/resources/file2.pdf',
-    type: 'xls',
-  },
-  {
-    name: 'Government Websites Framework [AR] v1.1.4.pdf',
-    url: '/resources/file3.pdf',
-    type: 'pdf',
-  },
-  {
-    name: 'Government Websites Framework [EN] v1.1.4.pdf',
-    url: '/resources/file4.pdf',
-    type: 'docs',
-  },
-  {
-    name: 'Government eServices Framework [AR] v1.1.4.pdf',
-    url: '/resources/file5.pdf',
-    type: 'zip',
-  },
-];
+const { load: loadEntities } = makeStore(() => 'entities');
+const { store: projectStore, load: loadProjects } = makeStore(
+  ({ entity_id }) => `${entity_id}/rev-projects`
+);
+const { load: loadComplianceProjects } = makeStore(
+  ({ project_id, id }) =>
+    `${project_id}/rev-compl-projects${id ? `/${id}` : ''}`
+);
+const { load, create, remove } = makeStore(
+  ({ project_id, type_id }) =>
+    `rev-projects/${project_id}/resources${
+      type_id ? `?type_id=${type_id}` : ''
+    }`
+);
 
 const types = {
   docs: <Docs />,
@@ -52,64 +48,510 @@ const types = {
   zip: <Zip />,
 };
 
-
-
 export default function () {
+  const [framework, setFramework] = useState('Portal Framework');
+  const [uploadMode, setUploadMode] = useState(false);
+  const [entities, setEntities] = useState([]);
+  const [selectedEntity, setSelectedEntity] = useState(null);
+  const projects = useStore(projectStore).data || [];
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [complianceProjects, setComplianceProjects] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [resources, setResources] = useState([]);
+  const defaultData = {
+    name: '',
+    version: '',
+    compliance_project_id: '',
+    attachments: [],
+  };
+  const [data, setData] = useState(defaultData);
+  const [errors, setErrors] = useState({});
+  const [submitClicked, setSubmitClicked] = useState(false);
+  const type_id =
+    framework === 'Portal Framework'
+      ? 1
+      : framework === 'Mobile Framework'
+      ? 2
+      : 3;
+
+  const errorLabels = {
+    name: 'File name',
+    version: 'File version',
+    compliance_project_id: 'Group/Framework',
+    attachments: 'File',
+  };
+
+  const isEmpty = (name, value) =>
+    value ? '' : errorLabels[name] + ' is a required field';
+
+  const isInvalid = (name, value) => {
+    switch (name) {
+      case 'name':
+      case 'version':
+      case 'compliance_project_id':
+      case 'attachments':
+        return isEmpty(name, value);
+      default:
+        return false;
+    }
+  };
+
+  const updateData = (name, value) => {
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    if (submitClicked) {
+      setErrors((prevValue) => ({
+        ...prevValue,
+        [name]: isInvalid(name, value),
+      }));
+    }
+  };
+
+  const handleOnChange = ({ target: { value, name } }) => {
+    updateData(name, value);
+  };
+
+  const setFile = (value) => {
+    updateData('attachments', value || []);
+  };
+
+  const { name, version, attachments, compliance_project_id } = data;
+
+  const handleSubmit = () => {
+    if (!submitClicked) {
+      setSubmitClicked(true);
+    }
+
+    const hasErrors = Object.keys(data).reduce((prevValue, name) => {
+      const hasError = isInvalid(name, data[name]);
+
+      setErrors((prevValue) => ({
+        ...prevValue,
+        [name]: hasError,
+      }));
+
+      return prevValue || hasError;
+    }, false);
+
+    if (!hasErrors) {
+      if (selectedProject) {
+        const type_id = complianceProjects.find(
+          ({ id }) => id === parseInt(compliance_project_id)
+        )?.type_id;
+
+        setLoading(true);
+        const fileName = `${name} ${version}.${attachments[0].name
+          .split('.')
+          .pop()}`;
+
+        uploadFile(`resources-${type_id}`, attachments[0], fileName)
+          .then((response) => {
+            create({
+              data: {
+                compliance_project_id: parseInt(compliance_project_id),
+                attachments: [
+                  {
+                    name: fileName,
+                    code: response.requestId,
+                  },
+                ],
+              },
+              cb: () => {
+                setUploadMode(false);
+                setData(defaultData);
+                setLoading(false);
+                setFramework(
+                  type_id === 1
+                    ? 'Portal Framework'
+                    : type_id === 2
+                    ? 'Mobile Framework'
+                    : 'eService Framework'
+                );
+                load({ project_id: selectedProject, type_id }, (data) =>
+                  setResources(data)
+                );
+              },
+              project_id: selectedProject,
+            });
+          })
+          .catch((e) => {
+            console.log(e);
+            setLoading(false);
+          });
+      }
+    }
+  };
+
+  useEffect(() => {
+    loadEntities('', (data) => {
+      setEntities(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (selectedProject) {
+      load({ project_id: selectedProject, type_id }, (data) =>
+        setResources(data)
+      );
+    }
+  }, [selectedProject, framework]);
+
+  useEffect(() => {
+    if (uploadMode) {
+      if (selectedProject) {
+        loadComplianceProjects({ project_id: selectedProject }, (data) =>
+          setComplianceProjects(data)
+        );
+      } else {
+        setComplianceProjects([]);
+      }
+    }
+  }, [uploadMode, selectedProject]);
+
+  useEffect(() => {
+    setData(defaultData);
+    setErrors({});
+    setSubmitClicked(false);
+  }, [uploadMode]);
+
+  const handleChange = ({ target: { value, name } }) => {
+    if (name === 'entity') {
+      setSelectedEntity(value);
+    } else {
+      setSelectedProject(value);
+    }
+  };
+
+  useEffect(() => {
+    setSelectedProject(null);
+    if (selectedEntity) {
+      loadProjects({ entity_id: selectedEntity });
+    }
+  }, [selectedEntity]);
+
+  const handleDownload = async (name) => {
+    setDownloading(name);
+
+    try {
+      await readFile(`resources-${type_id}`, name);
+    } catch (e) {
+      console.log(e);
+    }
+
+    setDownloading(null);
+  };
 
   return (
     <NewLayout>
       <HeaderBar className="hb" />
-      <div className="custom_container">
-        <TopBar>
-          <span>Resources</span>
-          {[0, 14].includes(role()) && <NavLink to="/resources/upload">
-            <button className="btn_solid">Upload Resource</button>
-          </NavLink>}
-        </TopBar>
-      </div>
-      <div className="custom_container">
-        <div className="flex_row">
-          <div className="flex_col_sm_4">
-            <FolderButton active={false} text={'Portal / Mobile App Framework'}/>
-            <FolderButton active={false} text={'eService Framework'}/>
-            <FolderButton active={false} text={'Access Guidelines'}/>
-            <FolderButton active={false} text={'Miscellaneous'} />
-          </div>
-          <Files className="flex_col_sm_8">
-            <Heading>eService Framework</Heading>
-            <div className="flex_row">
-              {data.map(({ name, type }) => (
-                <div className="flex_col_sm_6">
-                  <FileCard>
-                    <div>
-                      {types[type]}
-                      <span>{name}</span>
-                    </div>
-                    <Download />
-                  </FileCard>
+      <FilterBreadcrumb className="custom_container">
+        <div className="filter_breadcrumb">
+          <ul>
+            <li>
+              <NavLink to="/">
+                <img src={qgate} width="100%" />
+              </NavLink>
+            </li>
+
+            {isJAWDAUser() && (
+              <li>
+                <div className="filter_sele active">
+                  <label>State</label>
+                  <label>QDG</label>
                 </div>
-              ))}
-            </div>
-          </Files>
+              </li>
+            )}
+
+            <li>
+              <div className="filter_sele">
+                <label>Entity</label>
+                <select
+                  name="entity"
+                  value={selectedEntity}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Entity</option>
+                  {entities.map(({ id, name }) => (
+                    <option key={id} value={id}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </li>
+
+            <li>
+              <div className="filter_sele">
+                <label>Project</label>
+                <select
+                  name="project"
+                  value={selectedProject}
+                  onChange={handleChange}
+                  disabled={!selectedEntity}
+                >
+                  <option value="">Select Project</option>
+                  {projects.map(({ id, project_name }) => (
+                    <option key={id} value={id}>
+                      {project_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </li>
+          </ul>
         </div>
+      </FilterBreadcrumb>
+      <div className="custom_container">
+        {uploadMode ? (
+          <TopBar>
+            <span onClick={() => setUploadMode(false)}>
+              <LeftArrow />
+              <span>Upload a Resource</span>
+            </span>
+          </TopBar>
+        ) : (
+          <TopBar>
+            <span>Resources</span>
+            {[0, 14].includes(role()) && (
+              <button className="btn_solid" onClick={() => setUploadMode(true)}>
+                Upload Resource
+              </button>
+            )}
+          </TopBar>
+        )}
       </div>
+      {uploadMode ? (
+        <div className="custom_container">
+          <div className="flex_row">
+            <div className="flex_col_6">
+              <div className="flex_col_12">
+                <div className="form_field_wrapper">
+                  <label className="form_label">
+                    Filename <mark>*</mark>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="File name"
+                    name="name"
+                    value={name}
+                    onChange={handleOnChange}
+                  />
+                  <span className="error_messg">{errors.name}</span>
+                </div>
+              </div>
+              <div className="flex_col_12">
+                <div className="form_field_wrapper">
+                  <label className="form_label">
+                    Version <mark>*</mark>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Version"
+                    name="version"
+                    value={version}
+                    onChange={handleOnChange}
+                  />
+                  <span className="error_messg">{errors.version}</span>
+                </div>
+              </div>
+              <div className="flex_col_12">
+                <div className="form_field_wrapper">
+                  <label className="form_label">
+                    Select Group/Framework <mark>*</mark>
+                  </label>
+                  <select
+                    name="compliance_project_id"
+                    value={compliance_project_id}
+                    onChange={handleOnChange}
+                  >
+                    <option value="">Select</option>
+                    {complianceProjects.map(({ id, project_name }) => (
+                      <option key={id} value={id}>
+                        {project_name}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="error_messg">
+                    {errors.compliance_project_id}
+                  </span>
+                </div>
+              </div>
+              <div className="flex_col_12">
+                <div className="form_field_wrapper">
+                  <label className="form_label">
+                    Upload Resource File <mark>*</mark>
+                  </label>
+                  <DropZone
+                    files={[]}
+                    setFiles={setFile}
+                    maxSize={52428800}
+                    accept=".xls, .zip, .pdf, .docx"
+                    text1="Click here or drag and drop a file"
+                    text2="Allowed file formats are PDF, DOC, XLS, ZIP within 50MB of size"
+                  />
+                </div>
+              </div>
+              <div className="flex_col_sm_12 text-right">
+                <button
+                  className="btn_solid"
+                  onClick={handleSubmit}
+                  disabled={loading}
+                >
+                  {loading ? 'Saving...' : 'Submit'}
+                </button>
+              </div>
+            </div>
+            <div className="flex_col_6">
+              <RightSection>
+                <Heading>Uploaded File</Heading>
+                {attachments.map(({ name }) => (
+                  <div className="flex_col_sm_12">
+                    <FileCard>
+                      <div>
+                        {types[name.split('.').pop()]}
+                        <span>{name}</span>
+                      </div>
+                      <button onClick={() => updateData('attachments', [])}>
+                        <CrossIcon />
+                      </button>
+                    </FileCard>
+                  </div>
+                ))}
+              </RightSection>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="custom_container">
+          <div className="flex_row">
+            <div className="flex_col_sm_4">
+              <FolderButton
+                active={type_id === 1}
+                text={'Portal Framework'}
+                onClick={() => setFramework('Portal Framework')}
+              />
+              <FolderButton
+                active={type_id === 2}
+                text={'Mobile Framework'}
+                onClick={() => setFramework('Mobile Framework')}
+              />
+              <FolderButton
+                active={type_id === 3}
+                text={'eService Framework'}
+                onClick={() => setFramework('eService Framework')}
+              />
+            </div>
+            <Files className="flex_col_sm_8">
+              <Heading>{framework}</Heading>
+              <div className="flex_row">
+                {resources.map(({ attachments }) => {
+                  if (!attachments.length) {
+                    return null;
+                  }
+
+                  return (
+                    <div className="flex_col_sm_6">
+                      <FileCard>
+                        <div>
+                          {types[attachments[0].name.split('.').pop()]}
+                          <span>{attachments[0].name}</span>
+                        </div>
+                        <button
+                          onClick={() => handleDownload(attachments[0].name)}
+                          disabled={downloading}
+                        >
+                          {downloading === attachments[0].name ? '...' : <Download />}
+                        </button>
+                      </FileCard>
+                    </div>
+                  );
+                })}
+              </div>
+            </Files>
+          </div>
+        </div>
+      )}
     </NewLayout>
   );
 }
 
-export const TopBar = styled.div`
+const FilterBreadcrumb = styled.div`
+  background-color: #f7fafd !important;
   margin-top: 75px;
+
+  ul {
+    padding-left: 0px;
+  }
+`;
+
+export const FileCard = styled.div`
+  padding: 0px 22px 0px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 70px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 1px 2px #00000029;
+  margin-bottom: 46px;
+  overflow: hidden;
+
+  button {
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+  }
+
+  > div {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    width: calc(100% - 60px);
+
+    > svg {
+      margin-right: 12px;
+    }
+
+    > span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+`;
+
+const RightSection = styled.div`
+  padding: 0px 40px;
+
+  ${FileCard} {
+    svg:last-child {
+      height: 30px;
+      width: 30px;
+
+      line {
+        stroke: #666;
+      }
+    }
+  }
+`;
+
+export const TopBar = styled.div`
   height: 100px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 60px;
-  border-bottom: 1px solid #DDDDDD;
+  border-bottom: 1px solid #dddddd;
   margin-left: -100px;
   margin-right: -100px;
   padding: 0px 100px;
 
-  > a {
+  > span {
     > svg {
       margin-right: 16px;
     }
@@ -134,36 +576,6 @@ const Heading = styled.div`
   color: #666666;
   font: normal normal bold 25px/36px Muli;
   margin-bottom: 24px;
-`;
-
-export const FileCard = styled.div`
-  padding: 0px 22px 0px 14px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 70px;
-  background: #ffffff 0% 0% no-repeat padding-box;
-  box-shadow: 0px 1px 2px #00000029;
-  margin-bottom: 46px;
-  overflow: hidden;
-
-  > div {
-    display: flex;
-    align-items: center;
-    margin-right: 20px;
-    width: calc(100% - 60px);
-
-    > svg {
-      margin-right: 12px;
-    }
-
-    > span {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
 `;
 
 const FolderCard = styled.div`

@@ -244,6 +244,7 @@ const CompilanceProjectDetails = () => {
             <BasicTable
               tableCells={tableHeadlines[step]}
               rows={tableProps.rows}
+              activeKey={tableProps.activeKey}
               renderCol={tableProps.renderCol}
               keyField={tableProps.keyField || "id"}
             />

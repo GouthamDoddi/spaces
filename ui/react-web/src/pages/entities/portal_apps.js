@@ -35,6 +35,11 @@ const PortalApps = ({ setTableProps }) => {
     load({ entity_id, user_id: id }, (data) => setData(data));
   };
 
+  useEffect(() => {
+    setErrors({});
+    setSubmitClicked(false);
+  }, [data.id]);
+
   const handleRemove = (user_id) => {
     remove({ entity_id, user_id });
     setTableProps((prevValue) => ({
@@ -274,6 +279,7 @@ const PortalApps = ({ setTableProps }) => {
                 name="project_name"
                 value={project_name}
                 onChange={handleChange}
+                maxLength={100}
               />
               <div className="error_messg">{errors.project_name}</div>
             </div>
@@ -292,6 +298,7 @@ const PortalApps = ({ setTableProps }) => {
                 name="project_name_ar"
                 value={project_name_ar}
                 onChange={handleChange}
+                maxLength={100}
               />
               <div className="error_messg">{errors.project_name_ar}</div>
             </div>
@@ -354,8 +361,13 @@ const PortalApps = ({ setTableProps }) => {
       </div>
 
       <div className="flex_col_sm_12 text-right">
+        {data?.id && (
+          <button className="cancel" onClick={() => setData(defaultData)}>
+            Cancel
+          </button>
+        )}
         <button className="add_more" onClick={handleSubmit}>
-          Submit &amp; Add more
+          {data?.id ? 'Update' : 'Submit & Add more'}
         </button>
       </div>
     </>

@@ -35,7 +35,6 @@ import Bcp from './components/dashboards/bcp'
 import Entity from './pages/entities'
 import Resources from './pages/resources'
 import Cases from './pages/cases'
-import ResourceUpload from './pages/resources/upload'
 // import Projects from './pages/project/list'
 // import Projects from './pages/projects/index'
 import Policy from './pages/policy'
@@ -48,6 +47,7 @@ import ForgotPassword from './pages/forgot-password'
 import Qg from './pages/dashboards/qg'
 import Board from './pages/dashboards/board'
 import Agency from './pages/dashboards/agency'
+import Issues from './pages/issues'
 
 import Header from './components/header'
 
@@ -135,6 +135,7 @@ function AllRoutes(props) {
         <Route path="/entities"> <TP theme={cs.newdesign}> <Entity /> </TP> </Route>
         <Route path="/projects"> <TP theme={cs.newdesign}> <Projects /> </TP> </Route>
         <Route path="/cases"> <TP theme={cs.newdesign}> <Cases /> </TP> </Route>
+        <Route path="/issues"> <TP theme={cs.newdesign}> <Issues /> </TP> </Route>
 
 
         {/* {'Just Added for Testing'} */}
@@ -144,7 +145,6 @@ function AllRoutes(props) {
         {/* {'Just Added for Testing'} */}
 
         <Route path="/resources" exact> <TP theme={cs.newdesign}> <Resources /> </TP> </Route>
-        <Route path="/resources/upload" exact> <TP theme={cs.newdesign}> <ResourceUpload /> </TP> </Route>
         <Route path="/a-dashboard">
           <TP theme={cs.cps}>
             {dbForRole(lang, setLang)}
@@ -175,11 +175,11 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path='/home'> <Home1 /></Route>
+        {/* <Route path='/home'> <Home1 /></Route> */}
         <Route path='/login'><Login /></Route>
         <Route path="/set-password/:token"> <TP theme={cs.newdesign}> <SetPassword /> </TP> </Route>
         <Route path="/forgot-password"> <TP theme={cs.newdesign}> <ForgotPassword /> </TP> </Route>
-        <Route path={['/dashboard', '/a-dashboard', '/board', '/entities/:entity_id/details', '/entities/:entity_id', '/entities', '/projects/:project_id/compliance-project-details', '/projects/:project_id/compliance-projects', '/projects/:project_id/case-management', '/projects/:project_id', '/projects', '/resources/upload', '/resources', '/policies', '/']}
+        <Route path={['/dashboard', '/a-dashboard', '/board', '/qg/:entity_id/:project_id', '/agency/:entity_id', '/entities/:entity_id/details', '/entities/:entity_id', '/entities', '/projects/:project_id/compliance-project-details', '/projects/:project_id/compliance-projects', '/projects/:project_id/case-management', '/projects/:project_id', '/projects', '/resources', '/policies', '/cases', '/']}
           render={({ location }) =>
             loggedIn() ? (
               <Routes />

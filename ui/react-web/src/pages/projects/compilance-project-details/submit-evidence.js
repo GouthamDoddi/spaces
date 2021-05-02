@@ -26,18 +26,19 @@ const { load: loadUsers } = makeStore(
 const SubmitEvidence = ({ setTableProps }) => {
   const { project_id } = useParams();
   const [id, setId] = useState();
+  const [serviceName, setServiceName] = useState('');
   const [users, setUsers] = useState([]);
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState({});
   const [submitClicked, setSubmitClicked] = useState(false);
-  const [start_date, setStartDate] = React.useState();
-  const [end_date, setEndDate] = React.useState(new Date());
-  const [update, forceUpdate] = React.useState({});
+  const [update, forceUpdate] = useState({});
 
   const defaultData = {
     spoc_ids: [],
     notes: '',
     logo: null,
+    start_date: null,
+    end_date: null,
   };
   const [data, setData] = useState(defaultData);
 
@@ -45,6 +46,8 @@ const SubmitEvidence = ({ setTableProps }) => {
     spoc_ids: 'Full Name',
     notes: 'Notes',
     logo: 'Upload',
+    start_date: 'Start date',
+    end_date: 'End date',
   };
 
   const isEmpty = (name, value) =>
@@ -53,11 +56,12 @@ const SubmitEvidence = ({ setTableProps }) => {
   const isInvalid = (name, value) => {
     switch (name) {
       case 'spoc_ids':
-        return isEmpty(name, value);
       case 'notes':
-        return isEmpty(name, value);
       case 'logo':
-        return isEmpty(name, files);
+        return isEmpty(name, value);
+      case 'start_date':
+      case 'end_date':
+        return isEmpty(name, value?.toString());
       default:
         return false;
     }
@@ -67,18 +71,12 @@ const SubmitEvidence = ({ setTableProps }) => {
     forceUpdate([]);
   };
 
-  const handleEdit = (id) => {
+  const handleEdit = (id, name) => {
     setId(id);
-    load({ project_id, id }, (data) =>
-      setData(
-        data.reduce((prevVal, { id, question, answer }) => {
-          return {
-            ...prevVal,
-            [id]: { question, answer: answer === 'yes' },
-          };
-        }, {})
-      )
-    );
+    setServiceName(name);
+    load({ project_id, id }, (data) => {
+      setData(data.find(({ id: i }) => i === id));
+    });
   };
 
   useEffect(() => {
@@ -87,17 +85,20 @@ const SubmitEvidence = ({ setTableProps }) => {
 
       load({ project_id }, (data) => {
         setId(data[0]?.id);
+        setServiceName(data[0]?.project_name);
         load({ project_id, id: data[0]?.id }, (data) => setData(data[0]));
 
         setTableProps({
           rows: data,
-          renderCol: (colIndex, col) => {
+          activeKey: data[0]?.id,
+          renderCol: (colIndex, col, rowIndex, row) => {
             if (colIndex === 0) {
               return projectCategoryTypes[col]?.label;
             }
+
             if (colIndex === 2) {
               return (
-                <ButtonLink onClick={() => handleEdit(col)}>
+                <ButtonLink onClick={() => handleEdit(col, row.project_name)}>
                   Edit Compliance Record
                 </ButtonLink>
               );
@@ -108,6 +109,19 @@ const SubmitEvidence = ({ setTableProps }) => {
       });
     });
   }, []);
+
+  useEffect(() => {
+    setErrors({});
+    setSubmitClicked(false);
+  }, [data.id]);
+
+  useEffect(() => {
+    setTableProps((prevProps) => ({
+      ...prevProps,
+      activeKey: id,
+      activeClassName: 'active',
+    }));
+  }, [id]);
 
   const updateData = (name, value) => {
     setData((prevData) => ({
@@ -158,11 +172,20 @@ const SubmitEvidence = ({ setTableProps }) => {
     }, false);
 
     if (!hasErrors) {
-      updateProject({ data: { spoc_ids, notes }, id, cb: () => setData(defaultData) });
+      updateProject({
+        data: { spoc_ids, notes, start_date, end_date },
+        id,
+        cb: () => {
+          setId(null);
+          setData(defaultData);
+        },
+      });
     }
   };
 
-  const { spoc_ids, notes, logo } = data;
+  const { spoc_ids, notes, logo, start_date, end_date } = data;
+
+  console.log(data);
 
   return (
     <>
@@ -175,7 +198,7 @@ const SubmitEvidence = ({ setTableProps }) => {
               </div>
 
               <div className="flex_col_sm_6">
-                <BlueBorder>{'Login & Register'}</BlueBorder>
+                {serviceName && <BlueBorder>{serviceName}</BlueBorder>}
               </div>
             </div>
           </div>
@@ -195,56 +218,65 @@ const SubmitEvidence = ({ setTableProps }) => {
                 values={spoc_ids}
                 onChange={handleChange}
                 error={errors.spoc_ids}
-                options={users.map(({ id, first_name }) => ({ value: id, label: first_name })) || []}
+                options={
+                  users.map(({ id, first_name }) => ({
+                    value: id,
+                    label: first_name,
+                  })) || []
+                }
               />
             </div>
           </div>
 
           <div className="flex_row">
             <div className="flex_col_sm_6">
-              <label className="form_label">
-                Start Date <mark>*</mark>
-              </label>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  disableToolbar
-                  variant="inline"
-                  format="dd-MM-yyyy"
-                  id="date-picker-inline"
-                  value={start_date}
-                  onChange={(date) => {
-                    setStartDate(date);
-                  }}
-                  autoOk={true}
-                  KeyboardButtonProps={{ 'aria-label': 'change date' }}
-                />
-              </MuiPickersUtilsProvider>
+              <div className="form_field_wrapper">
+                <label className="form_label">
+                  Start Date <mark>*</mark>
+                </label>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="dd-MM-yyyy"
+                    id="date-picker-inline"
+                    value={start_date}
+                    onChange={(date) => {
+                      updateData('start_date', date);
+                    }}
+                    autoOk={true}
+                    KeyboardButtonProps={{ 'aria-label': 'change date' }}
+                  />
+                </MuiPickersUtilsProvider>
+                <span className="error_messg">{errors.start_date}</span>
+              </div>
             </div>
             <div className="flex_col_sm_6">
-              <label className="form_label">
-                End Date <mark>*</mark>
-              </label>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  disableToolbar
-                  variant="inline"
-                  format="dd-MM-yyyy"
-                  id="date-picker-inline"
-                  value={end_date}
-                  onChange={(date) => {
-                    setEndDate(date);
-                  }}
-                  autoOk={true}
-                  KeyboardButtonProps={{ 'aria-label': 'change date' }}
-                />
-              </MuiPickersUtilsProvider>
+              <div className="form_field_wrapper">
+                <label className="form_label">
+                  End Date <mark>*</mark>
+                </label>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="dd-MM-yyyy"
+                    id="date-picker-inline"
+                    value={end_date}
+                    onChange={(date) => {
+                      updateData('end_date', date);
+                    }}
+                    autoOk={true}
+                    KeyboardButtonProps={{ 'aria-label': 'change date' }}
+                  />
+                </MuiPickersUtilsProvider>
+                <span className="error_messg">{errors.end_date}</span>
+              </div>
             </div>
           </div>
 
           <div className="form_field_wrapper">
-            <label className="form_label">
-              Notes <mark>*</mark>
-            </label>
+            <label className="form_label">Notes</label>
             <div className="text_field_wrapper">
               <textarea
                 name="notes"
@@ -279,9 +311,16 @@ const SubmitEvidence = ({ setTableProps }) => {
       </div>
 
       <div className="flex_col_sm_12 text-right">
-        <button className="add_more" onClick={handleSubmit}>
-          Submit
-        </button>
+        {data?.id && (
+          <>
+            <button className="cancel" onClick={() => setData(defaultData)}>
+              Cancel
+            </button>
+            <button className="add_more" onClick={handleSubmit}>
+              Update
+            </button>
+          </>
+        )}
       </div>
     </>
   );

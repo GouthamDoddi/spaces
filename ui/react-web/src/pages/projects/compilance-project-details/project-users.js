@@ -32,6 +32,11 @@ const ProjectUsers = ({
     load({ project_id, user_id: id }, (data) => setData(data));
   };
 
+  useEffect(() => {
+    setErrors({});
+    setSubmitClicked(false);
+  }, [data.id]);
+
   const handleRemove = (user_id) => {
     remove({ project_id, user_id });
     setTableProps((prevValue) => ({
@@ -79,12 +84,25 @@ const ProjectUsers = ({
   const isEmpty = (name, value) =>
     value ? '' : errorLabels[name] + ' is a required field';
 
+  const isInvalidEmail = (name, value) => {
+    const regEx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+    return !regEx.test(value) ? errorLabels[name] + ' is invalid.' : '';
+  }
+
+  const isInvalidPhone = (name, value) => {
+    const regEx = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
+    return !regEx.test(value) ? errorLabels[name] + ' is invalid.' : '';
+  }
+
   const isInvalid = (name, value) => {
     switch (name) {
-      case 'first_name':
       case 'email':
+        return isEmpty(name, value) || isInvalidEmail(name, value);
+      case 'first_name':
       case 'role':
         return isEmpty(name, value);
+      case 'phone':
+        return isInvalidPhone(name, value);
       default:
         return false;
     }
@@ -182,6 +200,7 @@ const ProjectUsers = ({
                 name="first_name"
                 value={first_name}
                 onChange={handleChange}
+                maxLength={50}
               />
               <div className="error_messg">{errors.first_name}</div>
             </div>
@@ -200,6 +219,7 @@ const ProjectUsers = ({
                 name="email"
                 value={email}
                 onChange={handleChange}
+                maxLength={100}
               />
               <div className="error_messg">{errors.email}</div>
             </div>
@@ -218,6 +238,7 @@ const ProjectUsers = ({
                 name="phone"
                 value={phone}
                 onChange={handleChange}
+                maxLength={20}
               />
               <div className="error_messg">{errors.phone}</div>
             </div>
@@ -255,8 +276,13 @@ const ProjectUsers = ({
       </div>
 
       <div className="flex_col_sm_12 text-right">
+        {data?.id && (
+          <button className="cancel" onClick={() => setData(defaultData)}>
+            Cancel
+          </button>
+        )}
         <button className="add_more" onClick={handleSubmit}>
-          Submit &amp; Add more
+          {data?.id ? 'Update' : 'Submit & Add more'}
         </button>
       </div>
     </>

@@ -69,14 +69,14 @@ const EServices = ({ setTableProps }) => {
         rows: data,
         activeKey: data[0]?.id,
         activeClassName: 'active',
-        renderCol: (colIndex, col) => {
+        renderCol: (colIndex, col, rowIndex, row) => {
           if (colIndex === 0) {
             return projectCategoryTypes[col]?.label;
           }
 
           if (colIndex === 2) {
             return (
-              <ButtonLink onClick={() => handleEdit(col)}>
+              <ButtonLink onClick={() => handleEdit(col, row.label)}>
                 Edit Compliance Record
               </ButtonLink>
             );

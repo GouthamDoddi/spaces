@@ -21,7 +21,7 @@ const AutoComplete = ({
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
 
-  options = options.filter(({ label }) => label.includes(search));
+  const filteredOptions = options.filter(({ label }) => label?.toLowerCase().includes(search.toLocaleLowerCase()));
 
   return (
     <div className="text_field_wrapper">
@@ -38,7 +38,7 @@ const AutoComplete = ({
                     target: {
                       name,
                       type: 'checkbox',
-                      value: values.filter(({ id }) => value !== id),
+                      value,
                     },
                   });
                 }}
@@ -59,16 +59,17 @@ const AutoComplete = ({
           onClick={() => {
             if (!open) setTimeout(() => setOpen(true), 200);
           }}
+          maxLength={30}
         />
         <SuggestionBox open={open}>
-          {options.map(({ value, label }) => (
+          {filteredOptions.map(({ value, label }) => (
             <div key={value} className="checkbox_wrap agree_check">
               <input
                 className="filter-type filled-in"
                 type="checkbox"
                 name={name}
                 value={value}
-                onChange={onChange}
+                onChange={(e) => { onChange(e); setSearch(''); }}
                 checked={values.includes(value)}
                 id={label}
               />

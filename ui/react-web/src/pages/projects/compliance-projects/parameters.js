@@ -76,6 +76,7 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
 
           setTableProps({
             rows: data,
+            activeKey: data[0]?.parameter_id,
             keyField: 'parameter_id',
             renderCol: (colIndex, col) => {
               if (colIndex === 1) {
@@ -132,6 +133,11 @@ const Parameters = ({ selected, setTableProps, updateStatus }) => {
 
   useEffect(() => {
     if (data.parameter_id && selected[1].id) {
+      setTableProps((prevProps) => ({
+        ...prevProps,
+        activeKey: data.parameter_id,
+        activeClassName: 'active',
+      }));
       loadVariations({ parameter_id: data.parameter_id, compliance_project_id: selected[1].id }, (data) =>
         setVariations(data)
       );

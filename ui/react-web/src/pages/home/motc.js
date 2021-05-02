@@ -8,6 +8,8 @@ import CompliantCard from './compliant-card'
 import Insight, { Challenges } from '../dashboards/shared/insights'
 import Progress from '../dashboards/shared/progress'
 import Nav2 from '../../components/breadcrumNav';
+import Footer from '../../components/footer';
+
 
 import EntityCard from './entity-card'
 import ProjectsCard from './project-card'
@@ -139,7 +141,7 @@ export default function(props) {
       </table> */}
 
     
-      
+      <Footer />
     </Wrapper>
   )
 }

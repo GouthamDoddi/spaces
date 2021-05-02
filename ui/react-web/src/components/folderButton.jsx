@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button'
 const useStyles = makeStyles({
     root: props =>  ({
         height: 63,
-        width: 387,
+        width: 300,
         background: props.active ? '#E8EEF3' : '#ffffff ',
         boxShadow: '0px 1px 2px #00000029',
         display: 'flex',
@@ -24,6 +24,7 @@ const useStyles = makeStyles({
             marginRight: 20,
             path: {
                 fill: props.active ? '#666' : '',
+
               },
             
           }
@@ -40,12 +41,12 @@ const useStyles = makeStyles({
 
 const FolderButton = props => {
     const classes = useStyles(props);
-    return <Button className={ classes.root } onClick={ e => console.log(e.target) } >
+    return <Button className={ classes.root } onClick={ props.onClick } >
         <div>
             <FolderIcon />
             <span>{props.text}</span>
         </div>
-            <RightArrow />
+            {props.active && <RightArrow />}
     </Button>
 }
 
